@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Environment / Secrets - NEVER commit these!
+.env
+.env.local
+.env.*.local
+*.token
+*.secret
+shopify-token/
+secrets/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Netlify
+.netlify/
+
+# Build
+dist/
+build/
