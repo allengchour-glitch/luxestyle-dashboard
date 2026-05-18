@@ -3,104 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LuxeStyle Dashboard</title>
+<title>LuxeStyle Dashboard v5</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
 body{background:#070711;color:#eee;min-height:100vh}
 .app{display:flex;min-height:100vh}
-.sidebar{width:230px;background:#0a0a16;border-right:1px solid #1a1a2e;padding:18px 12px;position:fixed;height:100vh;overflow-y:auto;z-index:50}
-.logo{font-size:17px;font-weight:800;background:linear-gradient(135deg,#7c5cfc,#fe2c55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.sidebar{width:240px;background:#0a0a16;border-right:1px solid #1a1a2e;padding:18px 12px;position:fixed;height:100vh;overflow-y:auto;z-index:50}
+.logo{font-size:18px;font-weight:800;background:linear-gradient(135deg,#7c5cfc,#fe2c55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:2px}
 .tagline{font-size:9px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
 .statusline{font-size:10px;color:#888;margin-bottom:14px;padding:8px 10px;background:#0d0d1a;border-radius:6px;line-height:1.8}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:#555;transition:.3s}
 .dot.on{background:#4ade80;box-shadow:0 0 8px #4ade80}
 .dot.off{background:#f87171}
 .dot.pending{background:#fbbf24;animation:pulse 1.5s infinite}
-.nav{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;color:#888;padding:9px 11px;border-radius:6px;cursor:pointer;text-align:left;font-size:13px;margin-bottom:2px}
+.nav{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;color:#888;padding:10px 12px;border-radius:6px;cursor:pointer;text-align:left;font-size:13px;margin-bottom:2px;transition:.2s}
 .nav:hover{background:#16162a;color:#fff}
 .nav.active{background:linear-gradient(135deg,rgba(124,92,252,.2),rgba(254,44,85,.2));color:#fff;border-left:3px solid #7c5cfc}
 .nav.master{background:#1a1330;color:#fff;font-weight:700;border:1px solid #2a2a4a;margin-bottom:10px}
 .nav.master.active{background:linear-gradient(135deg,#7c5cfc40,#fe2c5540);border-color:#7c5cfc}
-.main{margin-left:230px;padding:22px;width:calc(100% - 230px)}
+.main{margin-left:240px;padding:22px;width:calc(100% - 240px)}
 .section{display:none}
 .section.active{display:block}
-h1{font-size:23px;margin-bottom:5px;color:#fff}
+h1{font-size:22px;margin-bottom:4px}
 .subtitle{color:#888;margin-bottom:18px;font-size:12px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px}
-.kpi{background:#0e0e1c;border:1px solid #1a1a2e;border-radius:9px;padding:14px;position:relative;overflow:hidden}
-.kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7c5cfc,#fe2c55)}
-.kpi.err::before{background:linear-gradient(90deg,#f87171,#fe2c55)}
-.kpi.ok::before{background:linear-gradient(90deg,#4ade80,#7c5cfc)}
-.kpi-l{color:#888;font-size:10px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
-.kpi-v{font-size:22px;font-weight:700;color:#fff}
-.card{background:#0e0e1c;border:1px solid #1a1a2e;border-radius:9px;padding:18px;margin-bottom:14px}
-.card h2{font-size:15px;margin-bottom:11px;color:#fff}
-.btn{background:linear-gradient(135deg,#7c5cfc,#fe2c55);border:none;color:#fff;padding:8px 16px;border-radius:5px;cursor:pointer;font-weight:600;font-size:12px;text-decoration:none;display:inline-block}
-.btn:hover{opacity:.9}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.btn-2{background:#16162a;border:1px solid #2a2a4a}
-.btn-d{background:#3a1a1a;border:1px solid #5a2a2a}
-.btn-sm{padding:4px 9px;font-size:10px}
-input,textarea,select{background:#1a1a2e;border:1px solid #2a2a4a;color:#fff;padding:8px 11px;border-radius:4px;width:100%;font-size:12px;font-family:inherit}
-input:focus,textarea:focus,select:focus{outline:none;border-color:#7c5cfc}
-label{display:block;color:#888;font-size:10px;margin-bottom:3px;text-transform:uppercase}
-.grid{display:grid;gap:12px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.g3{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
-.g4{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{text-align:left;padding:9px;background:#16162a;color:#888;text-transform:uppercase;font-size:10px}
-td{padding:9px;border-bottom:1px solid #1a1a2e}
-.pcard{background:#0e0e1c;border:1px solid #1a1a2e;border-radius:9px;padding:11px;cursor:pointer;transition:.15s}
-.pcard:hover{border-color:#7c5cfc;transform:translateY(-2px)}
-.pcard img{width:100%;height:135px;object-fit:cover;border-radius:6px;background:#1a1a2e;margin-bottom:8px}
-.noimg{width:100%;height:135px;background:linear-gradient(135deg,#2e0f0f,#3a1a1a);border:1px dashed #5a2a2a;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:#f87171;font-size:11px;flex-direction:column;font-weight:600;text-align:center;padding:8px}
-.ptitle{font-size:12px;font-weight:600;margin-bottom:4px;color:#fff;line-height:1.4;height:32px;overflow:hidden}
-.pprice{color:#7c5cfc;font-weight:700;font-size:13px}
-.pcomp{color:#666;text-decoration:line-through;font-size:11px;margin-left:5px}
-.pmeta{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;min-height:24px}
-.tag{background:#16162a;border:1px solid #2a2a4a;color:#aaa;padding:2px 6px;border-radius:3px;font-size:9px}
-.tag.w{background:#3a2a1a;color:#fbbf24}
-.tag.e{background:#3a1a1a;color:#f87171}
-.tag.o{background:#1a3a2a;color:#4ade80}
-.tag.s{background:#2a1a4a;color:#a78bfa}
-.alert{padding:11px 14px;border-radius:6px;margin-bottom:12px;font-size:12px}
-.a-i{background:#0f1a2e;color:#60a5fa;border:1px solid #1a2a4a}
-.a-o{background:#0f2e1a;color:#4ade80;border:1px solid #1a4a2a}
-.a-w{background:#2e2a0f;color:#fbbf24;border:1px solid #4a4a1a}
-.a-e{background:#2e0f0f;color:#f87171;border:1px solid #4a1a1a}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:flex-start;justify-content:center;z-index:100;padding:20px;overflow-y:auto}
-.modal-bg.open{display:flex}
-.modal{background:#0e0e1c;border:1px solid #2a2a4a;border-radius:10px;max-width:820px;width:100%;padding:22px;max-height:92vh;overflow-y:auto;margin:auto;position:relative}
-.close-x{position:absolute;top:12px;right:16px;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}
-.drop{border:2px dashed #2a2a4a;border-radius:8px;padding:24px;text-align:center;color:#888;cursor:pointer;transition:.15s;margin-bottom:10px}
-.drop:hover,.drop.dragover{border-color:#7c5cfc;background:#1a1a2e;color:#fff}
-.ql{background:#16162a;border:1px solid #2a2a4a;padding:11px;border-radius:6px;text-decoration:none;color:#fff;display:block}
-.ql:hover{border-color:#7c5cfc;background:#1c1c36}
-.ql-t{font-weight:600;font-size:12px;margin-bottom:2px}
-.ql-d{color:#888;font-size:10px}
-.qls{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
-.spin{display:inline-block;width:12px;height:12px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+.kpi{background:#0d0d1a;border:1px solid #1a1a2e;padding:14px;border-radius:8px}
+.kpi-l{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.kpi-v{font-size:22px;font-weight:700;background:linear-gradient(135deg,#7c5cfc,#fe2c55);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi-s{font-size:11px;color:#4ade80;margin-top:4px}
+.card{background:#0d0d1a;border:1px solid #1a1a2e;padding:18px;border-radius:10px;margin-bottom:16px}
+.card h2{font-size:15px;margin-bottom:12px;color:#fff;display:flex;align-items:center;gap:8px}
+.btn{background:linear-gradient(135deg,#7c5cfc,#fe2c55);color:#fff;border:none;padding:9px 16px;border-radius:6px;font-weight:600;cursor:pointer;font-size:13px;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px #7c5cfc40}
+.btn-2{background:#1a1a2e;border:1px solid #2a2a4a}
+.btn-sm{padding:6px 10px;font-size:11px}
+.btn-danger{background:linear-gradient(135deg,#dc2626,#7c2d12)}
+.input{width:100%;background:#0a0a16;border:1px solid #1a1a2e;color:#eee;padding:9px 12px;border-radius:6px;font-size:13px}
+.input:focus{outline:none;border-color:#7c5cfc}
+textarea.input{font-family:inherit;resize:vertical;min-height:60px}
+.label{display:block;font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.grid-products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.prod{background:#0d0d1a;border:1px solid #1a1a2e;border-radius:10px;overflow:hidden;cursor:pointer;transition:.2s;position:relative}
+.prod:hover{transform:translateY(-3px);border-color:#7c5cfc}
+.prod-img{width:100%;aspect-ratio:1/1;background:#1a1a2e;display:flex;align-items:center;justify-content:center;color:#444;font-size:30px;overflow:hidden}
+.prod-img img{width:100%;height:100%;object-fit:cover}
+.prod-body{padding:10px 12px}
+.prod-title{font-size:13px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prod-price{font-size:14px;color:#7c5cfc;font-weight:700}
+.prod-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:10px;color:#888}
+.margin-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.margin-hi{background:#16401d;color:#4ade80}
+.margin-mid{background:#3a2f10;color:#fbbf24}
+.margin-lo{background:#3a1010;color:#f87171}
+.stock-pill{padding:2px 6px;border-radius:8px;font-size:9px;font-weight:600;background:#1a1a2e}
+.stock-pill.zero{background:#3a1010;color:#f87171}
+.stock-pill.low{background:#3a2f10;color:#fbbf24}
+.stock-pill.ok{background:#16401d;color:#4ade80}
+.detail-panel{position:fixed;top:0;right:-460px;width:440px;height:100vh;background:#0a0a16;border-left:1px solid #1a1a2e;padding:18px;overflow-y:auto;transition:.3s;z-index:100;box-shadow:-10px 0 40px #000a}
+.detail-panel.open{right:0}
+.detail-close{position:absolute;top:10px;right:14px;background:none;border:none;color:#888;font-size:22px;cursor:pointer}
+.detail-img-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+.detail-img-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:4px;background:#1a1a2e}
+.orders-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.order-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#0d0d1a;border-radius:6px;font-size:12px}
+.status-pill{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.status-pill.paid{background:#16401d;color:#4ade80}
+.status-pill.pending{background:#3a2f10;color:#fbbf24}
+.status-pill.unfulfilled{background:#3a1010;color:#f87171}
+.banner{padding:12px 14px;border-radius:8px;margin-bottom:14px;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.banner.warn{background:#3a2f10;border:1px solid #fbbf24}
+.banner.ok{background:#16401d;border:1px solid #4ade80}
+.banner.err{background:#3a1010;border:1px solid #f87171}
+.banner.info{background:#1a1a3a;border:1px solid #7c5cfc}
+.burger{display:none;position:fixed;top:10px;left:10px;z-index:60;background:#1a1a2e;border:none;color:#fff;padding:8px 12px;border-radius:6px;font-size:18px;cursor:pointer}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.chart{position:relative;height:250px;margin-top:12px}
-.vcard{background:#0e0e1c;border:1px solid #1a1a2e;border-radius:8px;padding:13px;margin-bottom:9px}
-.bdg{padding:2px 7px;border-radius:3px;font-size:10px;font-weight:600;display:inline-block}
-.bdg.d{background:#0f2e1a;color:#4ade80}
-.bdg.p{background:#0f1a2e;color:#60a5fa;animation:pulse 2s infinite}
-.bdg.f{background:#3a1a1a;color:#f87171}
-.chat{height:280px;overflow-y:auto;background:#0d0d1a;border-radius:6px;padding:12px;margin-bottom:8px}
-.msg{margin-bottom:8px;padding:9px;border-radius:5px;font-size:12px;line-height:1.5}
-.msg.u{background:#1a1a2e;text-align:right}
-.msg.a{background:#0f1a2e;color:#bbb;white-space:pre-wrap}
-.note{background:#16162a;border:1px solid #2a2a4a;padding:10px;border-radius:6px;margin-bottom:7px}
-.note .m{font-size:9px;color:#666;margin-bottom:3px}
-.diag{font-family:monospace;font-size:11px;background:#0d0d1a;padding:12px;border-radius:5px;white-space:pre-wrap;line-height:1.6;max-height:300px;overflow-y:auto}
-.fbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.fbar input,.fbar select{flex:1;min-width:140px}
-.burger{display:none;position:fixed;top:12px;right:12px;background:#16162a;border:1px solid #2a2a4a;padding:5px 9px;border-radius:4px;cursor:pointer;color:#fff;font-size:16px;z-index:101}
-@media(max-width:768px){.sidebar{transform:translateX(-100%);transition:.3s}.sidebar.open{transform:translateX(0)}.main{margin-left:0;width:100%;padding:12px}.burger{display:block}}
+@media (max-width:768px){.sidebar{transform:translateX(-100%);transition:.3s}.sidebar.open{transform:translateX(0)}.main{margin-left:0;width:100%;padding:60px 12px 12px}.burger{display:block}.detail-panel{width:100%;right:-100%}.detail-panel.open{right:0}}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid #1a1a2e;border-top-color:#7c5cfc;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:40px 20px;color:#666;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #1a1a2e}
+th{color:#888;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+.tabs{display:flex;gap:4px;margin-bottom:12px;border-bottom:1px solid #1a1a2e}
+.tab{padding:8px 14px;background:none;border:none;color:#888;cursor:pointer;font-size:12px;border-bottom:2px solid transparent}
+.tab.active{color:#fff;border-bottom-color:#7c5cfc}
 </style>
 </head>
 <body>
@@ -108,655 +95,479 @@ td{padding:9px;border-bottom:1px solid #1a1a2e}
 <div class="app">
 <aside class="sidebar">
   <div class="logo">LuxeStyle CH</div>
-  <div class="tagline">Command Center</div>
-  <div class="statusline">
-    <div><span class="dot" id="d-shopify"></span>Shopify <span id="s-shopify">offline</span></div>
-    <div><span class="dot" id="d-gemini"></span>Gemini <span id="s-gemini">offline</span></div>
-    <div><span class="dot" id="d-heygen"></span>HeyGen <span id="s-heygen">offline</span></div>
+  <div class="tagline">Command Center v5</div>
+  <div class="statusline" id="statusline">
+    <span class="dot pending" id="d-shopify"></span><span id="t-shopify">Shopify prüfen…</span><br>
+    <span class="dot off" id="d-gemini"></span><span id="t-gemini">Gemini offline</span><br>
+    <span class="dot off" id="d-heygen"></span><span id="t-heygen">HeyGen offline</span>
   </div>
   <button class="nav master active" data-s="shop">🏪 SHOP</button>
   <button class="nav" data-s="cockpit">🏠 Cockpit</button>
   <button class="nav" data-s="orders">📋 Bestellungen</button>
+  <button class="nav" data-s="suppliers">🚚 Lieferanten</button>
   <button class="nav" data-s="ki">🤖 KI-Berater</button>
   <button class="nav" data-s="content">🎬 Content Studio</button>
-  <button class="nav" data-s="tiktok">📈 TikTok</button>
-  <button class="nav" data-s="marketing">🚀 Marketing</button>
+  <button class="nav" data-s="tiktok">📱 TikTok</button>
+  <button class="nav" data-s="marketing">📈 Marketing</button>
   <button class="nav" data-s="theme">🎨 Theme</button>
   <button class="nav" data-s="notes">📝 Notizen</button>
   <button class="nav" data-s="settings">⚙️ Settings</button>
 </aside>
+
 <main class="main">
 
 <section id="sec-shop" class="section active">
   <h1>🏪 Shop Command Center</h1>
-  <p class="subtitle">Alle Produkte · Lieferanten · Bilder Drag&amp;Drop</p>
-  <div id="shop-c"><div class="alert a-w">⚠️ Token in Settings eingeben → <button class="btn btn-sm" onclick="go('settings')">Settings öffnen</button></div></div>
+  <p class="subtitle">Alle Produkte · Live aus Shopify · Klick für Details</p>
+  <div id="shop-banner"></div>
+  <div class="kpis" id="shop-kpis">
+    <div class="kpi"><div class="kpi-l">Produkte</div><div class="kpi-v" id="kpi-products">–</div></div>
+    <div class="kpi"><div class="kpi-l">Bestand gesamt</div><div class="kpi-v" id="kpi-stock">–</div></div>
+    <div class="kpi"><div class="kpi-l">Lagerwert (Preis)</div><div class="kpi-v" id="kpi-value">–</div></div>
+    <div class="kpi"><div class="kpi-l">Out of Stock</div><div class="kpi-v" id="kpi-oos">–</div></div>
+  </div>
+  <div class="card">
+    <h2>📦 Produkte <button class="btn btn-2 btn-sm" onclick="loadShop()" style="margin-left:auto">🔄 Aktualisieren</button></h2>
+    <div id="prod-grid" class="grid-products"><div class="empty"><span class="spinner"></span> Lade Produkte…</div></div>
+  </div>
 </section>
 
 <section id="sec-cockpit" class="section">
   <h1>🏠 Cockpit</h1>
-  <p class="subtitle">KPIs · <span id="upd">—</span></p>
-  <div id="cp-c"><div class="alert a-i">⏳</div></div>
+  <p class="subtitle">Live KPIs · Letzte 30 Tage</p>
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-l">Umsatz 30T</div><div class="kpi-v" id="ck-rev">–</div></div>
+    <div class="kpi"><div class="kpi-l">Bestellungen 30T</div><div class="kpi-v" id="ck-ord">–</div></div>
+    <div class="kpi"><div class="kpi-l">Ø Bestellwert</div><div class="kpi-v" id="ck-aov">–</div></div>
+    <div class="kpi"><div class="kpi-l">Kunden</div><div class="kpi-v" id="ck-cust">–</div></div>
+  </div>
+  <div class="card"><h2>📈 Umsatz Trend</h2><canvas id="ck-chart" height="80"></canvas></div>
+  <div class="card"><h2>🏆 Top Produkte</h2><div id="ck-top"><div class="empty"><span class="spinner"></span> Lade…</div></div></div>
 </section>
 
 <section id="sec-orders" class="section">
   <h1>📋 Bestellungen</h1>
-  <div id="ord-c"><div class="alert a-i">⏳</div></div>
+  <p class="subtitle">Live aus Shopify</p>
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" data-of="any">Alle</button>
+      <button class="tab" data-of="paid">Bezahlt</button>
+      <button class="tab" data-of="pending">Offen</button>
+      <button class="tab" data-of="unfulfilled">Unversendet</button>
+    </div>
+    <div id="orders-list"><div class="empty"><span class="spinner"></span> Lade Bestellungen…</div></div>
+  </div>
+</section>
+
+<section id="sec-suppliers" class="section">
+  <h1>🚚 Lieferanten</h1>
+  <p class="subtitle">Verwalte deine Dropshipping-Quellen</p>
+  <div class="card">
+    <h2>➕ Neuer Lieferant</h2>
+    <label class="label">Name</label><input class="input" id="sup-name" placeholder="z.B. AliExpress XY">
+    <label class="label" style="margin-top:8px">URL / Shop-Link</label><input class="input" id="sup-url" placeholder="https://...">
+    <label class="label" style="margin-top:8px">Bild (Logo) URL</label><input class="input" id="sup-img" placeholder="https://...">
+    <label class="label" style="margin-top:8px">Notizen</label><textarea class="input" id="sup-notes" placeholder="Lieferzeit, MOQ, Kontakt…"></textarea>
+    <button class="btn" style="margin-top:10px" onclick="supAdd()">💾 Speichern</button>
+  </div>
+  <div class="card"><h2>📋 Gespeicherte Lieferanten</h2><div id="sup-list" class="grid-products"></div></div>
 </section>
 
 <section id="sec-ki" class="section">
-  <h1>🤖 KI-Berater (Gemini gratis)</h1>
+  <h1>🤖 KI-Berater</h1>
+  <p class="subtitle">Gemini gratis · Produktvorschläge & Optimierung</p>
   <div class="card">
-    <h2>💡 Auto-Scan</h2>
     <button class="btn" onclick="kiScan()">🧠 Shop scannen → Vorschläge</button>
-    <div id="ki-i" style="margin-top:12px"></div>
+    <div id="ki-i" style="margin-top:14px;line-height:1.6;font-size:13px"></div>
   </div>
   <div class="card">
-    <h2>💬 Chat</h2>
-    <div class="chat" id="ki-chat"></div>
-    <div style="display:flex;gap:6px"><input id="ki-in" placeholder="Frage..." onkeypress="if(event.key==='Enter')kiChat()"><button class="btn" onclick="kiChat()">→</button></div>
+    <h2>💬 Frag die KI</h2>
+    <div style="display:flex;gap:6px"><input class="input" id="ki-q" placeholder="z.B. Welche Marge bei Produkt X?" onkeydown="if(event.key==='Enter')kiChat()"><button class="btn" onclick="kiChat()">→</button></div>
+    <div id="ki-a" style="margin-top:12px;font-size:13px;line-height:1.6"></div>
   </div>
 </section>
 
 <section id="sec-content" class="section">
   <h1>🎬 Content Studio</h1>
-  <div id="hg-st"><div class="alert a-w">⚠️ HeyGen Key in Settings</div></div>
-  <div id="hg-c"></div>
+  <p class="subtitle">Erstelle Bilder & Texte für Social Media</p>
+  <div class="card">
+    <label class="label">Produkt / Thema</label><input class="input" id="ct-topic" placeholder="z.B. Sommerkleid">
+    <label class="label" style="margin-top:8px">Ton</label>
+    <select class="input" id="ct-tone"><option>Verkaufsstark</option><option>Lifestyle</option><option>Premium</option><option>Witzig</option></select>
+    <button class="btn" style="margin-top:10px" onclick="ctGen()">✨ Text generieren</button>
+    <div id="ct-out" style="margin-top:14px;font-size:13px;line-height:1.7"></div>
+  </div>
 </section>
 
 <section id="sec-tiktok" class="section">
-  <h1>📈 TikTok Tracker</h1>
+  <h1>📱 TikTok Studio</h1>
+  <p class="subtitle">Video-Pipeline & Posts</p>
   <div class="card">
-    <h2>+ Neues Video</h2>
-    <div class="grid g2">
-      <input id="tk-n" placeholder="Name">
-      <input id="tk-u" placeholder="URL">
-      <input id="tk-v" type="number" placeholder="Views">
-      <input id="tk-l" type="number" placeholder="Likes">
-      <input id="tk-d" type="date">
-      <button class="btn" onclick="tkAdd()">💾 Speichern</button>
-    </div>
+    <h2>➕ Neues Video</h2>
+    <label class="label">Titel</label><input class="input" id="tk-title">
+    <label class="label" style="margin-top:8px">Caption</label><textarea class="input" id="tk-caption"></textarea>
+    <label class="label" style="margin-top:8px">Hashtags</label><input class="input" id="tk-tags" placeholder="#mode #ootd">
+    <button class="btn" style="margin-top:10px" onclick="tkAdd()">💾 Speichern</button>
   </div>
-  <div class="card"><h2>📊 Performance</h2><div id="tk-sum"></div><div class="chart"><canvas id="tk-ch"></canvas></div></div>
-  <div class="card"><h2>🎯 Alle</h2><div id="tk-l"></div></div>
+  <div class="card"><h2>📋 Geplante Videos</h2><div id="tk-list"></div></div>
 </section>
 
 <section id="sec-marketing" class="section">
-  <h1>🚀 Marketing Hub</h1>
-  <div class="card"><h2>📱 Social Media</h2><div class="qls">
-    <a class="ql" href="https://business.tiktok.com" target="_blank"><div class="ql-t">📱 TikTok Business</div><div class="ql-d">Pixel + Ads</div></a>
-    <a class="ql" href="https://ads.tiktok.com" target="_blank"><div class="ql-t">🎯 TikTok Ads</div></a>
-    <a class="ql" href="https://business.facebook.com" target="_blank"><div class="ql-t">📘 Meta Business</div><div class="ql-d">FB + Insta</div></a>
-    <a class="ql" href="https://adsmanager.facebook.com" target="_blank"><div class="ql-t">📊 Meta Ads</div></a>
-    <a class="ql" href="https://www.pinterest.com/business" target="_blank"><div class="ql-t">📌 Pinterest</div><div class="ql-d">DACH untergenutzt</div></a>
-    <a class="ql" href="https://ads.google.com" target="_blank"><div class="ql-t">🔍 Google Ads</div></a>
-  </div></div>
-  <div class="card"><h2>📧 Email + Reviews</h2><div class="qls">
-    <a class="ql" href="https://www.klaviyo.com/dashboard" target="_blank"><div class="ql-t">📧 Klaviyo</div></a>
-    <a class="ql" href="https://loox.app" target="_blank"><div class="ql-t">⭐ Loox</div></a>
-  </div></div>
+  <h1>📈 Marketing</h1>
+  <p class="subtitle">Rabatte & Kampagnen</p>
+  <div class="card"><h2>🎟️ Aktive Rabattcodes</h2><div id="mk-discounts"><div class="empty"><span class="spinner"></span> Lade…</div></div></div>
 </section>
 
 <section id="sec-theme" class="section">
-  <h1>🎨 Theme &amp; Banner</h1>
-  <div class="card"><h2>🚀 Direkt-Links</h2>
-    <a class="btn" href="https://admin.shopify.com/store/aban-192/themes/186798080385/editor" target="_blank">🎨 Theme Editor</a>
-    <a class="btn btn-2" href="https://aban-192.myshopify.com" target="_blank">👁 Live ansehen</a>
-  </div>
-  <div class="card"><h2>✅ Checkliste</h2><div id="th-l"></div></div>
+  <h1>🎨 Theme & Branding</h1>
+  <p class="subtitle">Shop-Optik anpassen</p>
+  <div class="card"><h2>🎨 Live-Vorschau</h2><p style="font-size:12px;color:#888">Theme-API kommt in Phase 5 — Shopify CLI Push.</p></div>
 </section>
 
 <section id="sec-notes" class="section">
   <h1>📝 Notizen</h1>
   <div class="card">
-    <h2>+ Neue Notiz</h2>
-    <textarea id="nt-t" placeholder="Idee..." style="min-height:70px;margin-bottom:8px"></textarea>
-    <button class="btn" onclick="addNote()">💾 Speichern (KI-Feedback wenn Gemini on)</button>
+    <textarea class="input" id="notes-area" style="min-height:300px" placeholder="Deine Ideen, Todos…"></textarea>
+    <button class="btn" style="margin-top:10px" onclick="notesSave()">💾 Speichern</button>
+    <span id="notes-status" style="margin-left:10px;font-size:11px;color:#888"></span>
   </div>
-  <div class="card"><h2>📚 Alle</h2><div id="nt-l"></div></div>
 </section>
 
 <section id="sec-settings" class="section">
   <h1>⚙️ Settings</h1>
-  <p class="subtitle">Keys nur lokal · Auto-Connect beim Speichern</p>
+  <p class="subtitle">Verbindungen & Schlüssel</p>
   <div class="card">
-    <h2>🔧 Diagnose</h2>
-    <button class="btn" onclick="diagnose()">🔍 Verbindung testen</button>
-    <div id="diag-r" class="diag" style="display:none;margin-top:10px"></div>
-  </div>
-  <div class="card">
-    <h2>🛒 Shopify <span class="dot" id="d-shopify-2"></span></h2>
-    <input id="cfg-shopify" type="password" placeholder="shpat_..." style="margin-bottom:8px">
-    <a href="https://admin.shopify.com/store/aban-192/settings/apps/development" target="_blank" style="color:#7c5cfc;font-size:11px">→ Token holen</a>
+    <h2>🛒 Shopify Verbindung</h2>
+    <div id="shop-conn-status" style="font-size:13px;margin-bottom:10px">Prüfe…</div>
+    <button class="btn" id="btn-connect" onclick="connectShopify()">🔗 Mit Shopify verbinden (OAuth)</button>
+    <button class="btn btn-2 btn-sm" onclick="testConnection()" style="margin-left:8px">🩺 Diagnose</button>
+    <div id="diag-out" style="margin-top:10px;font-size:11px;font-family:monospace;color:#888;white-space:pre-wrap;max-height:200px;overflow:auto"></div>
   </div>
   <div class="card">
-    <h2>🤖 Gemini (gratis!) <span class="dot" id="d-gemini-2"></span></h2>
-    <input id="cfg-gemini" type="password" placeholder="AIza..." style="margin-bottom:8px">
-    <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#7c5cfc;font-size:11px">→ Gratis Key</a>
+    <h2>🧠 Gemini (gratis)</h2>
+    <label class="label">API Key</label><input class="input" id="cfg-gemini" type="password" placeholder="AIza...">
   </div>
   <div class="card">
-    <h2>🎬 HeyGen <span class="dot" id="d-heygen-2"></span></h2>
-    <input id="cfg-heygen" type="password" placeholder="sk_V2_hgu_..." style="margin-bottom:8px">
-    <a href="https://app.heygen.com/settings/api" target="_blank" style="color:#7c5cfc;font-size:11px">→ HeyGen Key</a>
-  </div>
-  <div style="text-align:center;margin:18px 0">
-    <button class="btn" onclick="saveCfg()" style="padding:13px 36px;font-size:13px">💾 Speichern &amp; Verbinden</button>
+    <h2>🎥 HeyGen (optional)</h2>
+    <label class="label">API Key</label><input class="input" id="cfg-heygen" type="password">
   </div>
   <div class="card">
-    <h2>🆘 Falls Verbindung hängt</h2>
-    <p style="color:#888;font-size:12px;margin-bottom:10px">CORS-Extension installieren:</p>
-    <a class="btn btn-2 btn-sm" href="https://chromewebstore.google.com/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino" target="_blank">📥 Chrome/Edge/Brave</a>
-    <a class="btn btn-2 btn-sm" href="https://addons.mozilla.org/firefox/addon/access-control-allow-origin/" target="_blank" style="margin-left:6px">📥 Firefox</a>
+    <h2>📱 TikTok (manuell)</h2>
+    <label class="label">Username</label><input class="input" id="cfg-tiktok" placeholder="@deinaccount">
   </div>
-  <div class="card">
-    <h2>🔄 Reset</h2>
-    <button class="btn btn-d" onclick="if(confirm('Alles löschen?')){localStorage.clear();location.reload()}">Alles zurücksetzen</button>
-  </div>
+  <button class="btn" onclick="saveCfg()">💾 Alle Settings speichern</button>
 </section>
 
 </main>
 </div>
 
-<div class="modal-bg" id="modal" onclick="if(event.target.id==='modal')closeModal()">
-  <div class="modal">
-    <button class="close-x" onclick="closeModal()">×</button>
-    <h2 id="mod-t">Produkt</h2>
-    <div id="mod-b"></div>
-  </div>
+<div class="detail-panel" id="detail-panel">
+  <button class="detail-close" onclick="closeDetail()">×</button>
+  <div id="detail-content"></div>
 </div>
 
 <script>
-"use strict";
-const SHOP="aban-192.myshopify.com";
-const PROXIES=["https://corsproxy.io/?","https://api.allorigins.win/raw?url=","https://api.codetabs.com/v1/proxy?quest=","https://proxy.cors.sh/"];
-let CORS=localStorage.getItem("luxe_cors")||PROXIES[0];
+// ============================================================
+// LuxeStyle Dashboard v5 — Voll-OAuth, Proxy-only, Card-View
+// ============================================================
+const API='/api/shopify';
+const STATE={shop:null,products:[],orders:[],connected:false};
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+const fmtCHF=n=>'CHF '+Number(n||0).toFixed(2);
+const fmtNum=n=>Number(n||0).toLocaleString('de-CH');
 
-const CFG="luxe_cfg",TK="luxe_tk",HG="luxe_hg",NT="luxe_nt";
+// ---------- Settings ----------
+const CFG_KEY='luxestyle_cfg_v5';
+function loadCfg(){try{return JSON.parse(localStorage.getItem(CFG_KEY))||{}}catch(e){return{}}}
+function saveCfg(){
+  const c={gemini:$('#cfg-gemini').value,heygen:$('#cfg-heygen').value,tiktok:$('#cfg-tiktok').value};
+  localStorage.setItem(CFG_KEY,JSON.stringify(c));
+  updateStatusDots();
+  toast('✅ Gespeichert');
+}
+function fillCfg(){const c=loadCfg();$('#cfg-gemini').value=c.gemini||'';$('#cfg-heygen').value=c.heygen||'';$('#cfg-tiktok').value=c.tiktok||'';}
+function toast(m){const b=document.createElement('div');b.style.cssText='position:fixed;bottom:20px;right:20px;background:#16401d;color:#4ade80;padding:10px 16px;border-radius:6px;font-size:13px;z-index:200;border:1px solid #4ade80';b.textContent=m;document.body.appendChild(b);setTimeout(()=>b.remove(),3000);}
 
-const SCRIPTS=[
-{id:"bands",e:"🏋️",t:"Resistance Bands",txt:"Ich hab 1'200 Stutz für ein Gym-Abo verbrannt. Fünf Mal war ich dort. Bis ich das hier für 24.90 entdeckt hab. Link in der Bio."},
-{id:"silk",e:"💆",t:"Silk Pillowcase",txt:"Mein Dermatologe sagt: wenn du nur ein Beauty-Produkt kaufst — dann das hier. Weniger Falten, weniger Haarbruch. Link in der Bio."},
-{id:"solar",e:"🔋",t:"Solar Powerbank",txt:"Wandern, Handy auf 4%. Genau dann brauchst du das. 20'000 mAh. Solar. 49.90. Link in der Bio."},
-{id:"diffuser",e:"🌿",t:"Aroma Diffuser",txt:"Alle Gäste fragen warum's so gut riecht. Bambus, 7 LED-Farben, 8h. 44.90. Link in der Bio."},
-{id:"wallet",e:"💳",t:"Slim Wallet",txt:"Mein altes Portemonnaie sah aus wie ein Sandwich. Mein neues — Slim, RFID, Echtleder. 49.90. Link in der Bio."},
-{id:"jade",e:"💎",t:"Jade Roller",txt:"5 Min am Morgen. Strafft, weniger Schwellungen, TikTok-Glow. 24.90. Link in der Bio."},
-{id:"dogled",e:"🐾",t:"LED Halsband",txt:"Hund einmal im Dunkeln fast verloren. Seitdem LED Halsband — 200m sichtbar. 19.90. Link in der Bio."},
-{id:"star",e:"🌟",t:"Sternenhimmel",txt:"Tochter 2h Einschlafen. Bis ich das aufgestellt hab. Jetzt 10 Min. 39.90. Link in der Bio."},
-{id:"blue",e:"👓",t:"Blue Light Brille",txt:"8h Bildschirm, Kopfschmerzen weg seit ich die trag. 34.90. Link in der Bio."},
-{id:"slicer",e:"🍳",t:"Gemüsehobel",txt:"Zucchini Julienne in 10 Sek. 5 Klingen, Edelstahl, Fingerschutz. 29.90. Link in der Bio."}
-];
-
-const THCHECK=[
-{t:"Hero-Banner mit CTA",p:"Homepage → Image banner"},
-{t:"Free-Shipping-Bar",p:"Header → Announcement bar"},
-{t:"Logo / Shop-Name",p:"Header → Logo image"},
-{t:"Cookie-Banner aktiv",p:"Theme settings → Privacy"},
-{t:"5 Produkte pro Seite",p:"Collection → Products per page = 5"},
-{t:"Top 5 Luxury als Featured",p:"Homepage → Featured collection"},
-{t:"Mobile-Preview OK",p:"📱 Icon im Editor"},
-{t:"Footer komplett",p:"AGB, Datenschutz, Impressum"}
-];
-
-let products=[];
-
-function getCfg(){try{return JSON.parse(localStorage.getItem(CFG)||"{}")}catch{return{}}}
-function setCfg(c){localStorage.setItem(CFG,JSON.stringify(c))}
-function getTK(){try{return JSON.parse(localStorage.getItem(TK)||"[]")}catch{return[]}}
-function setTK(v){localStorage.setItem(TK,JSON.stringify(v))}
-function getHG(){try{return JSON.parse(localStorage.getItem(HG)||"{}")}catch{return{}}}
-function setHG(v){localStorage.setItem(HG,JSON.stringify(v))}
-function getNT(){try{return JSON.parse(localStorage.getItem(NT)||"[]")}catch{return[]}}
-function setNT(v){localStorage.setItem(NT,JSON.stringify(v))}
-
+// ---------- Navigation ----------
 function go(s){
-  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
-  const b=document.querySelector(`[data-s="${s}"]`);
-  if(b)b.classList.add("active");
-  const sec=document.getElementById("sec-"+s);
-  if(sec)sec.classList.add("active");
-  if(s==="tiktok")renderTK();
-  if(s==="content")renderHG();
-  if(s==="notes")renderNotes();
-  if(s==="theme")renderTheme();
+  $$('.section').forEach(x=>x.classList.remove('active'));
+  $$('.nav').forEach(x=>x.classList.remove('active'));
+  $('#sec-'+s)?.classList.add('active');
+  document.querySelector('[data-s="'+s+'"]')?.classList.add('active');
+  if(window.innerWidth<769)document.querySelector('.sidebar').classList.remove('open');
+  if(s==='cockpit')loadCockpit();
+  if(s==='orders')loadOrders('any');
+  if(s==='suppliers')supRender();
+  if(s==='marketing')loadDiscounts();
+  if(s==='tiktok')tkRender();
+  if(s==='notes')notesLoad();
+}
+$$('.nav').forEach(b=>b.onclick=()=>go(b.dataset.s));
+
+// ---------- Status Dots ----------
+function updateStatusDots(){
+  const c=loadCfg();
+  $('#d-gemini').className='dot '+(c.gemini?'on':'off');
+  $('#t-gemini').textContent='Gemini '+(c.gemini?'verbunden':'offline');
+  $('#d-heygen').className='dot '+(c.heygen?'on':'off');
+  $('#t-heygen').textContent='HeyGen '+(c.heygen?'verbunden':'offline');
 }
 
-document.querySelectorAll(".nav").forEach(b=>{
-  b.addEventListener("click",()=>go(b.dataset.s));
-});
-
-function setDot(id,state){
-  ["","-2"].forEach(suf=>{
-    const d=document.getElementById("d-"+id+suf);
-    if(d)d.className="dot "+state;
-  });
-  const s=document.getElementById("s-"+id);
-  if(s)s.textContent=state==="on"?"online":state==="pending"?"prüfe...":"offline";
+// ---------- Shopify Proxy Call ----------
+async function shopFetch(endpoint){
+  const url=API+'/'+endpoint;
+  const r=await fetch(url);
+  const t=await r.text();
+  let j;try{j=JSON.parse(t)}catch(e){throw new Error('Kein JSON: '+t.substring(0,100))}
+  if(j.error){
+    if(j.install_url){STATE.connected=false;updateShopifyDot(false);throw new Error('NOT_CONNECTED')}
+    throw new Error(j.error);
+  }
+  return j;
+}
+function updateShopifyDot(ok,label){
+  $('#d-shopify').className='dot '+(ok?'on':'off');
+  $('#t-shopify').textContent='Shopify '+(label||(ok?'verbunden':'nicht verbunden'));
 }
 
-async function shopifyGQL(q,vars={},att=0){
-  const cfg=getCfg();
-  if(!cfg.shopify)throw new Error("Kein Shopify Token");
-  if(!cfg.shopify.startsWith("shpat_"))throw new Error("Token muss mit 'shpat_' anfangen");
-  const url=CORS+encodeURIComponent(`https://${SHOP}/admin/api/2024-10/graphql.json`);
+// ---------- Connect / Settings ----------
+async function checkConnection(){
   try{
-    const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json","X-Shopify-Access-Token":cfg.shopify},body:JSON.stringify({query:q,variables:vars})});
-    if(r.status===401)throw new Error("Token ungültig — neu generieren");
-    if(r.status===403)throw new Error("Token-Berechtigungen fehlen");
-    if(r.status===404)throw new Error("Shop nicht gefunden");
-    if(!r.ok){
-      const i=PROXIES.indexOf(CORS);
-      if(i<PROXIES.length-1&&att<PROXIES.length){
-        CORS=PROXIES[i+1];localStorage.setItem("luxe_cors",CORS);
-        return shopifyGQL(q,vars,att+1);
-      }
-      throw new Error(`HTTP ${r.status} — CORS-Extension installieren!`);
-    }
-    const j=await r.json();
-    if(j.errors)throw new Error(j.errors[0].message);
-    return j.data;
+    const j=await shopFetch('shop.json');
+    STATE.connected=true;STATE.shop=j.shop;
+    updateShopifyDot(true,j.shop?.name||'verbunden');
+    $('#shop-conn-status').innerHTML='✅ Verbunden mit <b>'+(j.shop?.name||'?')+'</b> · '+(j.shop?.domain||'');
+    $('#btn-connect').textContent='🔄 Neu verbinden';
+    return true;
   }catch(e){
-    if((e.message.includes("Failed to fetch")||e.message.includes("NetworkError"))&&att<PROXIES.length){
-      const i=PROXIES.indexOf(CORS);
-      if(i<PROXIES.length-1){
-        CORS=PROXIES[i+1];localStorage.setItem("luxe_cors",CORS);
-        return shopifyGQL(q,vars,att+1);
-      }
-      throw new Error("Alle Proxies tot — CORS-Extension installieren!");
-    }
-    throw e;
+    STATE.connected=false;
+    updateShopifyDot(false);
+    $('#shop-conn-status').innerHTML='❌ Nicht verbunden — klicke unten auf "Mit Shopify verbinden"';
+    $('#btn-connect').textContent='🔗 Mit Shopify verbinden (OAuth)';
+    return false;
   }
 }
-
-async function gemini(prompt){
-  const cfg=getCfg();
-  if(!cfg.gemini)throw new Error("Kein Gemini Key");
-  const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cfg.gemini}`;
-  const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
-  if(!r.ok){const t=await r.text();throw new Error(t.slice(0,100))}
-  const j=await r.json();
-  return j.candidates?.[0]?.content?.parts?.[0]?.text||"";
+function connectShopify(){window.location.href='/auth/shopify/install';}
+async function testConnection(){
+  const out=$('#diag-out');out.textContent='Teste…\n';
+  try{out.textContent+='GET '+API+'/shop.json …\n';const j=await shopFetch('shop.json');out.textContent+='✅ '+JSON.stringify(j.shop,null,2);}
+  catch(e){out.textContent+='❌ '+e.message;}
 }
 
-async function heygenAPI(p,o={}){
-  const cfg=getCfg();
-  if(!cfg.heygen)throw new Error("Kein HeyGen Key");
-  const url=CORS+encodeURIComponent("https://api.heygen.com"+p);
-  const r=await fetch(url,{...o,headers:{"X-Api-Key":cfg.heygen,"Content-Type":"application/json",...(o.headers||{})}});
-  if(!r.ok)throw new Error("HTTP "+r.status);
-  return r.json();
-}
-
-async function pingAll(){
-  const cfg=getCfg();
-  if(cfg.shopify){setDot("shopify","pending");try{await shopifyGQL("{shop{name}}");setDot("shopify","on")}catch{setDot("shopify","off")}}else setDot("shopify","off");
-  if(cfg.gemini){setDot("gemini","pending");try{await gemini("Hi");setDot("gemini","on")}catch{setDot("gemini","off")}}else setDot("gemini","off");
-  if(cfg.heygen){setDot("heygen","pending");try{await heygenAPI("/v2/avatars");setDot("heygen","on")}catch{setDot("heygen","off")}}else setDot("heygen","off");
-}
-
-async function diagnose(){
-  const r=document.getElementById("diag-r");
-  r.style.display="block";r.textContent="🔄 Starte Diagnose...\n\n";
-  const cfg=getCfg();
-  if(!cfg.shopify){r.textContent+="❌ Token fehlt — oben eingeben + speichern";return}
-  if(!cfg.shopify.startsWith("shpat_")){r.textContent+="❌ Token muss mit 'shpat_' anfangen\nDeiner: "+cfg.shopify.substring(0,8);return}
-  r.textContent+="✅ Token-Format OK\n\n🌐 Teste "+PROXIES.length+" Proxies:\n\n";
-  let ok=null;
-  for(const p of PROXIES){
-    r.textContent+="  "+p.substring(8,40)+"...\n    ";
-    try{
-      const res=await fetch(p+encodeURIComponent(`https://${SHOP}/admin/api/2024-10/graphql.json`),{method:"POST",headers:{"Content-Type":"application/json","X-Shopify-Access-Token":cfg.shopify},body:JSON.stringify({query:"{shop{name}}"})});
-      if(res.ok){
-        const j=await res.json();
-        if(j.data?.shop?.name){r.textContent+="✅ "+j.data.shop.name+"\n\n";if(!ok){ok=p;CORS=p;localStorage.setItem("luxe_cors",p)}}
-        else if(j.errors)r.textContent+="⚠️ "+j.errors[0].message.substring(0,40)+"\n\n";
-      }else r.textContent+="❌ HTTP "+res.status+"\n\n";
-    }catch(e){r.textContent+="❌ "+e.message.substring(0,40)+"\n\n"}
-  }
-  if(ok){r.textContent+="✅ VERBUNDEN! Lade Daten...";setDot("shopify","on");setTimeout(loadAll,500)}
-  else r.textContent+="🔴 Alle Proxies tot!\n\n1. CORS Unblock Extension installieren\n2. F5 → nochmal testen";
-}
-
+// ---------- SHOP: Produkte ----------
 async function loadShop(){
-  const cfg=getCfg();
-  const el=document.getElementById("shop-c");
-  if(!cfg.shopify){el.innerHTML='<div class="alert a-w">⚠️ Token fehlt → <button class="btn btn-sm" onclick="go(\'settings\')">Settings</button></div>';return}
-  el.innerHTML='<div class="alert a-i"><span class="spin"></span> Lade...</div>';
+  $('#prod-grid').innerHTML='<div class="empty"><span class="spinner"></span> Lade Produkte…</div>';
+  $('#shop-banner').innerHTML='';
   try{
-    const d=await shopifyGQL(`{
-      shop{name primaryDomain{url} currencyCode}
-      products(first:50,query:"status:active"){edges{node{
-        id title handle
-        priceRangeV2{minVariantPrice{amount}}
-        compareAtPriceRange{minVariantCompareAtPrice{amount}}
-        media(first:3){edges{node{... on MediaImage{image{url}}}}}
-        tags
-        metafields(first:10,namespace:"supplier"){edges{node{key value}}}
-        brandM:metafield(namespace:"brand",key:"name"){value}
-      }}}
-      orders(first:10,sortKey:CREATED_AT,reverse:true){edges{node{name createdAt totalPriceSet{shopMoney{amount}} displayFinancialStatus customer{firstName lastName}}}}
-      codeDiscountNodes(first:20){edges{node{codeDiscount{... on DiscountCodeBasic{title status codes(first:1){edges{node{code}}}}}}}}
-      collections(first:15){edges{node{id title productsCount{count}}}}
-    }`);
-    products=d.products.edges.map(e=>e.node);
-    const orders=d.orders.edges.map(e=>e.node);
-    const rev=orders.reduce((s,o)=>s+parseFloat(o.totalPriceSet.shopMoney.amount),0);
-    const noImg=products.filter(p=>!p.media.edges[0]?.node?.image?.url);
-    const noSup=products.filter(p=>!p.metafields.edges.find(m=>m.node.key==="name"));
-    const discs=d.codeDiscountNodes.edges.map(e=>e.node.codeDiscount).filter(c=>c?.status==="ACTIVE");
-    
-    el.innerHTML=`
-      <div class="card" style="background:linear-gradient(135deg,#0d1a2e,#1a0d2e)">
-        <h2>🏪 ${d.shop.name}</h2>
-        <a href="${d.shop.primaryDomain.url}" target="_blank" style="color:#7c5cfc;font-size:13px">${d.shop.primaryDomain.url.replace('https://','')} ↗</a>
-        <div style="color:#888;font-size:11px;margin-top:4px">💰 ${d.shop.currencyCode}</div>
-        <div style="margin-top:10px">
-          <a class="btn btn-sm" href="https://admin.shopify.com/store/aban-192" target="_blank">⚙️ Admin</a>
-          <a class="btn btn-sm btn-2" href="${d.shop.primaryDomain.url}" target="_blank">👁 Live</a>
-        </div>
-      </div>
-      <div class="kpis">
-        <div class="kpi ok"><div class="kpi-l">Produkte</div><div class="kpi-v">${products.length}</div></div>
-        <div class="kpi"><div class="kpi-l">Bestellungen</div><div class="kpi-v">${orders.length}</div></div>
-        <div class="kpi"><div class="kpi-l">Umsatz</div><div class="kpi-v">CHF ${rev.toFixed(0)}</div></div>
-        <div class="kpi"><div class="kpi-l">Aktive Rabatte</div><div class="kpi-v">${discs.length}</div></div>
-        <div class="kpi ${noImg.length>0?'err':'ok'}"><div class="kpi-l">⚠️ Ohne Bild</div><div class="kpi-v" style="color:${noImg.length>0?'#f87171':'#4ade80'}">${noImg.length}</div></div>
-        <div class="kpi"><div class="kpi-l">🏭 Ohne Lieferant</div><div class="kpi-v" style="color:${noSup.length>0?'#fbbf24':'#4ade80'}">${noSup.length}</div></div>
-      </div>
-      ${noImg.length>0?`<div class="card" style="border-color:#5a2a2a"><h2>🔴 ${noImg.length} Produkte ohne Bild</h2><p style="color:#888;font-size:11px;margin-bottom:10px">Klick → Drag&Drop:</p><div class="grid g4">${noImg.map(p=>`<div class="pcard" onclick="openProd('${p.id}')"><div class="noimg">📷 KEIN BILD<br>Klick → Upload</div><div class="ptitle">${p.title}</div><div class="pprice">CHF ${parseFloat(p.priceRangeV2.minVariantPrice.amount).toFixed(2)}</div></div>`).join('')}</div></div>`:''}
-      <div class="card">
-        <h2>📦 Alle ${products.length} Produkte</h2>
-        <div class="fbar">
-          <input id="sh-q" placeholder="🔍 Suchen..." oninput="filterShop()">
-          <select id="sh-f" onchange="filterShop()">
-            <option value="all">Alle</option>
-            <option value="noimg">⚠️ Ohne Bild</option>
-            <option value="nosup">🏭 Ohne Lieferant</option>
-            <option value="hasimg">✅ Hat Bild</option>
-          </select>
-        </div>
-        <div id="sh-p"></div>
-      </div>
-      <div class="card">
-        <h2>📋 Letzte Bestellungen</h2>
-        ${orders.length===0?'<p style="color:#888">Noch keine Bestellungen.</p>':'<table><tr><th>#</th><th>Datum</th><th>Kunde</th><th>Status</th><th>Betrag</th></tr>'+orders.map(o=>`<tr><td>${o.name}</td><td>${new Date(o.createdAt).toLocaleDateString('de-CH')}</td><td>${o.customer?((o.customer.firstName||'')+' '+(o.customer.lastName||'')).trim()||'-':'-'}</td><td>${o.displayFinancialStatus||'-'}</td><td>CHF ${parseFloat(o.totalPriceSet.shopMoney.amount).toFixed(2)}</td></tr>`).join('')+'</table>'}
-      </div>
-      <div class="grid g2">
-        <div class="card"><h2>📁 Kategorien</h2>${d.collections.edges.map(c=>`<a href="https://admin.shopify.com/store/aban-192/collections/${c.node.id.split('/').pop()}" target="_blank" class="ql"><div class="ql-t">📁 ${c.node.title}</div><div class="ql-d">${c.node.productsCount?.count||0} Produkte</div></a>`).join('')}</div>
-        <div class="card"><h2>🎟️ Aktive Codes</h2>${discs.map(c=>`<div style="padding:7px;background:#16162a;border-radius:5px;margin-bottom:5px"><strong style="color:#7c5cfc">${c.codes?.edges?.[0]?.node?.code||'?'}</strong></div>`).join('')}<a href="https://admin.shopify.com/store/aban-192/discounts" target="_blank" class="btn btn-sm" style="margin-top:8px;width:100%;text-align:center">+ Neu</a></div>
-      </div>
-    `;
-    filterShop();
-  }catch(e){el.innerHTML='<div class="alert a-e">❌ '+e.message+'<br><br>👉 <a onclick="go(\'settings\')" style="color:#7c5cfc;cursor:pointer">Settings → Diagnose starten</a></div>'}
+    const j=await shopFetch('products.json?limit=50');
+    STATE.products=j.products||[];
+    renderProducts();
+    updateShopKpis();
+  }catch(e){
+    if(e.message==='NOT_CONNECTED'){
+      $('#prod-grid').innerHTML='';
+      $('#shop-banner').innerHTML='<div class="banner warn">⚠️ Shop nicht verbunden. <button class="btn btn-sm" onclick="connectShopify()">🔗 Jetzt verbinden</button></div>';
+    }else{
+      $('#prod-grid').innerHTML='<div class="empty">❌ '+e.message+'</div>';
+    }
+  }
 }
-
-function filterShop(){
-  const q=(document.getElementById("sh-q")?.value||"").toLowerCase();
-  const f=document.getElementById("sh-f")?.value||"all";
-  let list=products.filter(p=>p.title.toLowerCase().includes(q)||p.tags.join(' ').toLowerCase().includes(q));
-  if(f==="noimg")list=list.filter(p=>!p.media.edges[0]?.node?.image?.url);
-  else if(f==="nosup")list=list.filter(p=>!p.metafields.edges.find(m=>m.node.key==="name"));
-  else if(f==="hasimg")list=list.filter(p=>!!p.media.edges[0]?.node?.image?.url);
-  const el=document.getElementById("sh-p");
-  if(!el)return;
-  el.innerHTML='<div class="grid g3">'+list.map(p=>{
-    const img=p.media.edges[0]?.node?.image?.url;
-    const price=parseFloat(p.priceRangeV2.minVariantPrice.amount).toFixed(2);
-    const comp=p.compareAtPriceRange?.minVariantCompareAtPrice?.amount;
-    const sup=p.metafields.edges.find(m=>m.node.key==="name")?.node.value;
-    const cost=p.metafields.edges.find(m=>m.node.key==="cost")?.node.value;
-    const brand=p.brandM?.value;
-    const margin=cost?((parseFloat(price)-parseFloat(cost))/parseFloat(price)*100).toFixed(0):null;
-    return `<div class="pcard" onclick="openProd('${p.id}')">${img?`<img src="${img}" alt="">`:'<div class="noimg">📷 KEIN BILD<br>Klick → Upload</div>'}<div class="ptitle">${p.title}</div><div><span class="pprice">CHF ${price}</span>${comp?`<span class="pcomp">CHF ${parseFloat(comp).toFixed(2)}</span>`:''}</div><div class="pmeta">${!img?'<span class="tag e">⚠ Bild</span>':'<span class="tag o">✓</span>'}${sup?`<span class="tag s">🏭 ${sup.slice(0,12)}</span>`:'<span class="tag w">🏭 Kein</span>'}${margin?`<span class="tag o">💰 ${margin}%</span>`:''}</div></div>`;
-  }).join('')+'</div>';
+function renderProducts(){
+  const g=$('#prod-grid');
+  if(!STATE.products.length){g.innerHTML='<div class="empty">Keine Produkte</div>';return;}
+  g.innerHTML=STATE.products.map((p,i)=>{
+    const v=p.variants?.[0]||{};
+    const img=p.image?.src||p.images?.[0]?.src||'';
+    const price=parseFloat(v.price)||0;
+    const cost=parseFloat(v.compare_at_price||0)||(price*0.4);
+    const margin=price>0?Math.round(((price-cost)/price)*100):0;
+    const stock=p.variants?.reduce((s,x)=>s+(x.inventory_quantity||0),0)||0;
+    const mc=margin>=50?'margin-hi':margin>=25?'margin-mid':'margin-lo';
+    const sc=stock===0?'zero':stock<5?'low':'ok';
+    return '<div class="prod" onclick="openDetail('+i+')">'+
+      '<div class="prod-img">'+(img?'<img src="'+img+'" loading="lazy">':'📦')+'</div>'+
+      '<div class="prod-body">'+
+        '<div class="prod-title">'+escapeHtml(p.title)+'</div>'+
+        '<div class="prod-price">'+fmtCHF(price)+'</div>'+
+        '<div class="prod-row"><span class="margin-badge '+mc+'">Marge '+margin+'%</span><span class="stock-pill '+sc+'">'+stock+' auf Lager</span></div>'+
+      '</div></div>';
+  }).join('');
 }
-
-function openProd(id){
-  const p=products.find(x=>x.id===id);
-  if(!p)return;
-  const sup={};
-  p.metafields.edges.forEach(m=>sup[m.node.key]=m.node.value);
-  document.getElementById("mod-t").textContent=p.title;
-  document.getElementById("mod-b").innerHTML=`
-    <div class="alert a-i">💡 Bild reinziehen ODER URL einfügen · Lieferant ausfüllen · Speichern</div>
-    <div class="grid g2">
-      <div>
-        <h3 style="margin-bottom:8px;color:#fff;font-size:13px">📷 Bilder (${p.media.edges.length})</h3>
-        ${p.media.edges.map(m=>m.node.image?`<img src="${m.node.image.url}" style="width:100%;border-radius:5px;margin-bottom:6px">`:'').join('')||'<div class="noimg" style="height:80px">Kein Bild</div>'}
-        <div class="drop" id="dz-${id}" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="hDrop(event,'${id}')">📤 Bild reinziehen<input type="file" accept="image/*" style="display:none" id="fi-${id}" onchange="hFile(this.files[0],'${id}')"></div>
-        <button class="btn btn-2 btn-sm" onclick="document.getElementById('fi-${id}').click()" style="width:100%;margin-bottom:8px">📁 Datei wählen</button>
-        <label>🔗 Bild-URL (z.B. AliExpress)</label>
-        <input id="url-${id}" placeholder="https://...jpg" style="margin-bottom:6px">
-        <button class="btn btn-sm" onclick="uplUrl('${id}')" style="width:100%">📥 URL hochladen</button>
-        <hr style="border-color:#2a2a4a;margin:14px 0">
-        <a href="https://${SHOP}/products/${p.handle}" target="_blank" class="btn btn-2 btn-sm" style="width:100%;text-align:center;display:block">👁 Im Shop ↗</a>
-      </div>
-      <div>
-        <h3 style="margin-bottom:8px;color:#fff;font-size:13px">🏭 Lieferant</h3>
-        <label>Name</label><input id="sn-${id}" value="${sup.name||''}" placeholder="AliExpress XYZ">
-        <label style="margin-top:6px">🔗 URL</label><input id="su-${id}" value="${sup.product_url||''}">
-        <label style="margin-top:6px">💰 Einkauf CHF</label><input id="sc-${id}" type="number" step="0.01" value="${sup.cost||''}">
-        <label style="margin-top:6px">⏱️ Lieferzeit</label><input id="sl-${id}" value="${sup.lead_time||''}" placeholder="12-18 Tage">
-        <label style="margin-top:6px">📝 Notizen</label><textarea id="sno-${id}" style="min-height:50px">${sup.notes||''}</textarea>
-        <h3 style="margin:14px 0 6px;color:#fff;font-size:13px">🏪 Multi-Shop</h3>
-        <label>Marke</label><input id="br-${id}" value="${p.brandM?.value||'LuxeStyle CH'}">
-        <button class="btn" onclick="saveProd('${id}')" style="width:100%;margin-top:12px">💾 Speichern</button>
-      </div>
-    </div>`;
-  document.getElementById("modal").classList.add("open");
+function updateShopKpis(){
+  const p=STATE.products;
+  $('#kpi-products').textContent=p.length;
+  const stock=p.reduce((s,x)=>s+(x.variants?.reduce((a,v)=>a+(v.inventory_quantity||0),0)||0),0);
+  $('#kpi-stock').textContent=fmtNum(stock);
+  const value=p.reduce((s,x)=>s+(x.variants?.reduce((a,v)=>a+((v.inventory_quantity||0)*parseFloat(v.price||0)),0)||0),0);
+  $('#kpi-value').textContent=fmtCHF(value);
+  const oos=p.filter(x=>!x.variants?.some(v=>(v.inventory_quantity||0)>0)).length;
+  $('#kpi-oos').textContent=oos;
 }
-function closeModal(){document.getElementById("modal").classList.remove("open");loadShop()}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);}
 
-async function hDrop(e,id){e.preventDefault();document.getElementById("dz-"+id).classList.remove("dragover");if(e.dataTransfer.files[0])hFile(e.dataTransfer.files[0],id)}
-async function hFile(f,id){
-  if(!f||!f.type.startsWith("image/")){alert("Bild-Datei wählen");return}
-  const dz=document.getElementById("dz-"+id);
-  dz.innerHTML='<span class="spin"></span> Lade hoch...';
+// ---------- Detail Panel (Live-Sync Klick) ----------
+async function openDetail(i){
+  const p=STATE.products[i];
+  const d=$('#detail-content');
+  const imgs=(p.images||[]).slice(0,9).map(im=>'<img src="'+im.src+'" loading="lazy">').join('')||'<div class="empty">Keine Bilder</div>';
+  d.innerHTML='<h2 style="font-size:16px;margin-bottom:6px">'+escapeHtml(p.title)+'</h2>'+
+    '<div style="font-size:11px;color:#888;margin-bottom:8px">Handle: '+p.handle+' · ID: '+p.id+'</div>'+
+    '<a class="btn btn-sm btn-2" href="https://'+(STATE.shop?.domain||'')+'/products/'+p.handle+'" target="_blank">🌐 Im Shop ansehen</a>'+
+    '<a class="btn btn-sm" style="margin-left:6px" href="https://admin.shopify.com/store/'+(STATE.shop?.myshopify_domain||'').replace('.myshopify.com','')+'/products/'+p.id+'" target="_blank">⚙️ Admin</a>'+
+    '<h2 style="margin-top:14px">🖼️ Bilder ('+(p.images?.length||0)+')</h2>'+
+    '<div class="detail-img-grid">'+imgs+'</div>'+
+    '<h2 style="margin-top:14px">📦 Varianten</h2>'+
+    '<table><thead><tr><th>Titel</th><th>Preis</th><th>Bestand</th><th>SKU</th></tr></thead><tbody>'+
+    (p.variants||[]).map(v=>'<tr><td>'+escapeHtml(v.title)+'</td><td>'+fmtCHF(v.price)+'</td><td>'+(v.inventory_quantity??'–')+'</td><td>'+(v.sku||'–')+'</td></tr>').join('')+'</tbody></table>'+
+    '<h2 style="margin-top:14px">📋 Letzte Bestellungen</h2>'+
+    '<div id="detail-orders"><div class="empty"><span class="spinner"></span> Suche…</div></div>'+
+    '<h2 style="margin-top:14px">🚚 Lieferant</h2>'+
+    '<select class="input" id="detail-sup-select" onchange="supLinkProduct('+p.id+',this.value)"><option value="">Keiner</option>'+supOptions(p.id)+'</select>';
+  $('#detail-panel').classList.add('open');
+  // Lade Orders für dieses Produkt
   try{
-    const s=await shopifyGQL(`mutation($i:[StagedUploadInput!]!){stagedUploadsCreate(input:$i){stagedTargets{url resourceUrl parameters{name value}}}}`,{i:[{filename:f.name,mimeType:f.type,fileSize:f.size.toString(),httpMethod:"POST",resource:"FILE"}]});
-    const t=s.stagedUploadsCreate.stagedTargets[0];
-    const fd=new FormData();
-    t.parameters.forEach(p=>fd.append(p.name,p.value));
-    fd.append("file",f);
-    await fetch(t.url,{method:"POST",body:fd});
-    await shopifyGQL(`mutation($p:ID!,$m:[CreateMediaInput!]!){productCreateMedia(productId:$p,media:$m){media{id}}}`,{p:id,m:[{alt:f.name.replace(/\.[^/.]+$/,""),mediaContentType:"IMAGE",originalSource:t.resourceUrl}]});
-    dz.innerHTML='✅ Hochgeladen!';
-    setTimeout(closeModal,1500);
-  }catch(e){dz.innerHTML='❌ '+e.message}
+    const j=await shopFetch('orders.json?status=any&limit=20');
+    const matches=(j.orders||[]).filter(o=>(o.line_items||[]).some(li=>li.product_id===p.id));
+    if(matches.length){
+      $('#detail-orders').innerHTML='<div class="orders-list">'+matches.slice(0,8).map(o=>orderRow(o)).join('')+'</div>';
+    }else{
+      $('#detail-orders').innerHTML='<div class="empty">Noch keine Bestellungen für dieses Produkt</div>';
+    }
+  }catch(e){$('#detail-orders').innerHTML='<div class="empty">❌ '+e.message+'</div>';}
 }
-async function uplUrl(id){
-  const u=document.getElementById("url-"+id).value.trim();
-  if(!u)return;
-  try{
-    await shopifyGQL(`mutation($p:ID!,$m:[CreateMediaInput!]!){productCreateMedia(productId:$p,media:$m){media{id}}}`,{p:id,m:[{alt:"Produktbild",mediaContentType:"IMAGE",originalSource:u}]});
-    alert("✅ Hochgeladen!");closeModal();
-  }catch(e){alert("❌ "+e.message)}
-}
-async function saveProd(id){
-  const v=k=>document.getElementById(k+id)?.value;
-  const m=[];
-  const fields=[["sn-","supplier","name","single_line_text_field"],["su-","supplier","product_url","url"],["sc-","supplier","cost","number_decimal"],["sl-","supplier","lead_time","single_line_text_field"],["sno-","supplier","notes","multi_line_text_field"],["br-","brand","name","single_line_text_field"]];
-  fields.forEach(([k,ns,key,type])=>{const x=v(k);if(x)m.push({namespace:ns,key,type,value:x,ownerId:id})});
-  if(m.length===0){alert("Nichts ausgefüllt");return}
-  try{await shopifyGQL(`mutation($m:[MetafieldsSetInput!]!){metafieldsSet(metafields:$m){metafields{id}}}`,{m});alert("✅ Gespeichert!");closeModal();}catch(e){alert("❌ "+e.message)}
+function closeDetail(){$('#detail-panel').classList.remove('open');}
+function orderRow(o){
+  const fs=o.financial_status||'pending';
+  const cls=fs==='paid'?'paid':fs==='pending'?'pending':'unfulfilled';
+  return '<div class="order-row"><span><b>#'+o.order_number+'</b> '+escapeHtml(o.customer?.first_name||'')+'</span><span>'+fmtCHF(o.total_price)+'</span><span class="status-pill '+cls+'">'+fs+'</span></div>';
 }
 
+// ---------- Cockpit ----------
+let ckChart;
 async function loadCockpit(){
-  const cfg=getCfg();
-  const el=document.getElementById("cp-c");
-  if(!cfg.shopify){el.innerHTML='<div class="alert a-w">⚠️ Token fehlt</div>';return}
   try{
-    const d=await shopifyGQL(`{products(first:50,query:"status:active"){edges{node{id media(first:1){edges{node{... on MediaImage{image{url}}}}}}}}orders(first:50,sortKey:CREATED_AT,reverse:true){edges{node{name createdAt totalPriceSet{shopMoney{amount}}}}}customers(first:50){edges{node{id}}}}`);
-    const orders=d.orders.edges.map(e=>e.node);
-    const rev=orders.reduce((s,o)=>s+parseFloat(o.totalPriceSet.shopMoney.amount),0);
-    const noImg=d.products.edges.filter(p=>!p.node.media.edges[0]?.node?.image?.url).length;
-    el.innerHTML=`<div class="kpis"><div class="kpi"><div class="kpi-l">Umsatz</div><div class="kpi-v">CHF ${rev.toFixed(2)}</div></div><div class="kpi"><div class="kpi-l">Bestellungen</div><div class="kpi-v">${orders.length}</div></div><div class="kpi"><div class="kpi-l">Produkte</div><div class="kpi-v">${d.products.edges.length}</div></div><div class="kpi ${noImg>0?'err':'ok'}"><div class="kpi-l">⚠️ Ohne Bild</div><div class="kpi-v">${noImg}</div></div><div class="kpi"><div class="kpi-l">Kunden</div><div class="kpi-v">${d.customers.edges.length}+</div></div></div>`;
-    document.getElementById("upd").textContent=new Date().toLocaleTimeString('de-CH');
-  }catch(e){el.innerHTML='<div class="alert a-e">❌ '+e.message+'</div>'}
+    const since=new Date(Date.now()-30*864e5).toISOString();
+    const j=await shopFetch('orders.json?status=any&created_at_min='+encodeURIComponent(since)+'&limit=250');
+    const orders=j.orders||[];
+    const rev=orders.reduce((s,o)=>s+parseFloat(o.total_price||0),0);
+    $('#ck-rev').textContent=fmtCHF(rev);
+    $('#ck-ord').textContent=orders.length;
+    $('#ck-aov').textContent=fmtCHF(orders.length?rev/orders.length:0);
+    const cust=new Set(orders.map(o=>o.customer?.id).filter(Boolean)).size;
+    $('#ck-cust').textContent=cust;
+    // Trend Chart
+    const byDay={};orders.forEach(o=>{const d=o.created_at.substring(0,10);byDay[d]=(byDay[d]||0)+parseFloat(o.total_price||0);});
+    const days=Object.keys(byDay).sort();
+    if(ckChart)ckChart.destroy();
+    const ctx=$('#ck-chart').getContext('2d');
+    ckChart=new Chart(ctx,{type:'line',data:{labels:days,datasets:[{label:'CHF',data:days.map(d=>byDay[d]),borderColor:'#7c5cfc',backgroundColor:'#7c5cfc20',fill:true,tension:.3}]},options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#666'}},y:{ticks:{color:'#666'}}}}});
+    // Top Produkte
+    const tally={};orders.forEach(o=>(o.line_items||[]).forEach(li=>{tally[li.title]=(tally[li.title]||0)+li.quantity;}));
+    const top=Object.entries(tally).sort((a,b)=>b[1]-a[1]).slice(0,10);
+    $('#ck-top').innerHTML=top.length?'<table><thead><tr><th>Produkt</th><th>Verkauft</th></tr></thead><tbody>'+top.map(([t,q])=>'<tr><td>'+escapeHtml(t)+'</td><td>'+q+'</td></tr>').join('')+'</tbody></table>':'<div class="empty">Keine Verkäufe in 30T</div>';
+  }catch(e){
+    if(e.message==='NOT_CONNECTED'){$('#ck-rev').textContent='–';return;}
+    $('#ck-top').innerHTML='<div class="empty">❌ '+e.message+'</div>';
+  }
 }
 
-async function loadOrders(){
-  const cfg=getCfg();
-  const el=document.getElementById("ord-c");
-  if(!cfg.shopify){el.innerHTML='<div class="alert a-w">⚠️ Token fehlt</div>';return}
+// ---------- Orders ----------
+async function loadOrders(filter){
+  $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.of===filter));
+  const out=$('#orders-list');out.innerHTML='<div class="empty"><span class="spinner"></span> Lade…</div>';
   try{
-    const d=await shopifyGQL(`{orders(first:50,sortKey:CREATED_AT,reverse:true){edges{node{name createdAt customer{firstName lastName email} displayFinancialStatus displayFulfillmentStatus totalPriceSet{shopMoney{amount}} lineItems(first:3){edges{node{title}}}}}}}`);
-    const o=d.orders.edges.map(e=>e.node);
-    if(o.length===0){el.innerHTML='<div class="card"><h2>📭 Noch keine Bestellungen</h2></div>';return}
-    el.innerHTML='<div class="card"><table><tr><th>#</th><th>Datum</th><th>Kunde</th><th>Produkte</th><th>Status</th><th>Betrag</th></tr>'+o.map(x=>`<tr><td>${x.name}</td><td>${new Date(x.createdAt).toLocaleDateString('de-CH')}</td><td>${x.customer?((x.customer.firstName||'')+' '+(x.customer.lastName||'')).trim()||x.customer.email:'-'}</td><td>${x.lineItems.edges.map(e=>e.node.title).slice(0,2).join(', ')}</td><td>${x.displayFinancialStatus||'-'}</td><td>CHF ${parseFloat(x.totalPriceSet.shopMoney.amount).toFixed(2)}</td></tr>`).join('')+'</table></div>';
-  }catch(e){el.innerHTML='<div class="alert a-e">❌ '+e.message+'</div>'}
+    const params=filter==='unfulfilled'?'fulfillment_status=unfulfilled&status=any':filter==='paid'?'financial_status=paid&status=any':filter==='pending'?'financial_status=pending&status=any':'status=any';
+    const j=await shopFetch('orders.json?'+params+'&limit=50');
+    const orders=j.orders||[];
+    if(!orders.length){out.innerHTML='<div class="empty">Keine Bestellungen</div>';return;}
+    out.innerHTML='<div class="orders-list">'+orders.map(o=>orderRow(o)).join('')+'</div>';
+  }catch(e){
+    if(e.message==='NOT_CONNECTED'){out.innerHTML='<div class="banner warn">⚠️ Nicht verbunden. <button class="btn btn-sm" onclick="connectShopify()">Verbinden</button></div>';return;}
+    out.innerHTML='<div class="empty">❌ '+e.message+'</div>';
+  }
+}
+document.addEventListener('click',e=>{if(e.target.classList.contains('tab')&&e.target.dataset.of)loadOrders(e.target.dataset.of);});
+
+// ---------- Lieferanten (localStorage) ----------
+function supLoad(){try{return JSON.parse(localStorage.getItem('luxestyle_suppliers'))||[]}catch(e){return[]}}
+function supSave(arr){localStorage.setItem('luxestyle_suppliers',JSON.stringify(arr));}
+function supAdd(){
+  const s={id:Date.now(),name:$('#sup-name').value.trim(),url:$('#sup-url').value.trim(),img:$('#sup-img').value.trim(),notes:$('#sup-notes').value.trim()};
+  if(!s.name){toast('Name fehlt');return;}
+  const arr=supLoad();arr.push(s);supSave(arr);
+  $('#sup-name').value='';$('#sup-url').value='';$('#sup-img').value='';$('#sup-notes').value='';
+  supRender();toast('✅ Lieferant gespeichert');
+}
+function supRender(){
+  const arr=supLoad();
+  $('#sup-list').innerHTML=arr.length?arr.map(s=>'<div class="prod"><div class="prod-img">'+(s.img?'<img src="'+s.img+'">':'🚚')+'</div><div class="prod-body"><div class="prod-title">'+escapeHtml(s.name)+'</div><div style="font-size:11px;color:#888;margin:4px 0">'+escapeHtml(s.notes||'').substring(0,80)+'</div>'+(s.url?'<a class="btn btn-sm btn-2" href="'+s.url+'" target="_blank">🌐 Öffnen</a>':'')+' <button class="btn btn-sm btn-danger" onclick="supDel('+s.id+')">🗑️</button></div></div>').join(''):'<div class="empty">Noch keine Lieferanten</div>';
+}
+function supDel(id){const arr=supLoad().filter(x=>x.id!==id);supSave(arr);supRender();}
+function supOptions(pid){return supLoad().map(s=>'<option value="'+s.id+'">'+escapeHtml(s.name)+'</option>').join('');}
+function supLinkProduct(pid,sid){const links=JSON.parse(localStorage.getItem('luxestyle_prod_sup')||'{}');links[pid]=sid;localStorage.setItem('luxestyle_prod_sup',JSON.stringify(links));toast('✅ Lieferant verknüpft');}
+
+// ---------- Marketing / Discounts ----------
+async function loadDiscounts(){
+  const out=$('#mk-discounts');
+  try{const j=await shopFetch('price_rules.json?limit=20');const rules=j.price_rules||[];
+    out.innerHTML=rules.length?'<table><thead><tr><th>Titel</th><th>Wert</th><th>Verwendung</th></tr></thead><tbody>'+rules.map(r=>'<tr><td>'+escapeHtml(r.title)+'</td><td>'+r.value+'</td><td>'+(r.usage_limit||'∞')+'</td></tr>').join('')+'</tbody></table>':'<div class="empty">Keine Rabattregeln</div>';
+  }catch(e){if(e.message==='NOT_CONNECTED'){out.innerHTML='<div class="banner warn">⚠️ Nicht verbunden.</div>';return;}out.innerHTML='<div class="empty">❌ '+e.message+'</div>';}
 }
 
+// ---------- KI (Gemini) ----------
+async function gemini(prompt){
+  const c=loadCfg();if(!c.gemini)throw new Error('Gemini Key fehlt (Settings)');
+  const url='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+c.gemini;
+  const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
+  const j=await r.json();return j.candidates?.[0]?.content?.parts?.[0]?.text||'(leer)';
+}
 async function kiScan(){
-  const cfg=getCfg();
-  const el=document.getElementById("ki-i");
-  if(!cfg.gemini){el.innerHTML='<div class="alert a-w">⚠️ Gemini Key in Settings</div>';return}
-  el.innerHTML='<div class="alert a-i"><span class="spin"></span> Analysiere...</div>';
+  $('#ki-i').innerHTML='<span class="spinner"></span> Analysiere…';
   try{
-    if(products.length===0)await loadShop();
-    const sum=products.map(p=>{const i=p.media.edges[0]?.node?.image?.url?'✓':'✗';return `${p.title} | CHF ${p.priceRangeV2.minVariantPrice.amount} | Bild ${i}`}).join('\n');
-    const a=await gemini(`Du bist aggressiver E-Commerce-Berater für LuxeStyle CH. Gib KONKRETE Vorschläge zum Verkauf-Boost. Max 7 Bullet Points. Deutsch.\n\n${sum}`);
-    el.innerHTML='<div class="card" style="background:#0d1a0f"><h2>🤖 KI-Insights</h2><div style="white-space:pre-wrap;color:#bbb;line-height:1.7">'+a+'</div></div>';
-  }catch(e){el.innerHTML='<div class="alert a-e">❌ '+e.message+'</div>'}
+    const summary=STATE.products.slice(0,20).map(p=>p.title+' ('+fmtCHF(p.variants?.[0]?.price||0)+')').join(', ');
+    const text=await gemini('Du bist E-Commerce Berater für einen Schweizer Dropshipping Shop. Hier sind die ersten Produkte: '+summary+'. Gib 3 konkrete Optimierungsvorschläge auf Deutsch.');
+    $('#ki-i').innerHTML=text.replace(/\n/g,'<br>');
+  }catch(e){$('#ki-i').textContent='❌ '+e.message;}
 }
 async function kiChat(){
-  const inp=document.getElementById("ki-in");
-  const q=inp.value.trim();if(!q)return;
-  const c=document.getElementById("ki-chat");
-  c.innerHTML+=`<div class="msg u">${q}</div>`;
-  inp.value="";
-  c.innerHTML+=`<div class="msg a" id="ki-load"><span class="spin"></span></div>`;
-  c.scrollTop=c.scrollHeight;
-  try{
-    if(!getCfg().gemini)throw new Error("Gemini Key in Settings");
-    const a=await gemini(`E-Commerce-Berater für LuxeStyle CH. Kurz, konkret, deutsch.\n\nFrage: ${q}`);
-    document.getElementById("ki-load").remove();
-    c.innerHTML+=`<div class="msg a">${a}</div>`;c.scrollTop=c.scrollHeight;
-  }catch(e){document.getElementById("ki-load").innerHTML="❌ "+e.message}
+  const q=$('#ki-q').value.trim();if(!q)return;$('#ki-q').value='';
+  $('#ki-a').innerHTML='<span class="spinner"></span>';
+  try{const t=await gemini('Frage von Shop-Betreiber: '+q+'\n\nKontext Produkte: '+STATE.products.slice(0,10).map(p=>p.title).join(', '));$('#ki-a').innerHTML=t.replace(/\n/g,'<br>');}
+  catch(e){$('#ki-a').textContent='❌ '+e.message;}
+}
+async function ctGen(){
+  const topic=$('#ct-topic').value.trim();const tone=$('#ct-tone').value;
+  if(!topic){toast('Thema fehlt');return;}
+  $('#ct-out').innerHTML='<span class="spinner"></span>';
+  try{const t=await gemini('Schreibe für TikTok/Instagram einen '+tone.toLowerCase()+' Produkttext über: '+topic+'. 3-5 Zeilen auf Deutsch + 5 Hashtags.');$('#ct-out').innerHTML=t.replace(/\n/g,'<br>');}
+  catch(e){$('#ct-out').textContent='❌ '+e.message;}
 }
 
-let HGA=[],HGV=[];
-async function loadHG(){
-  const cfg=getCfg();
-  const s=document.getElementById("hg-st");
-  if(!cfg.heygen){s.innerHTML='<div class="alert a-w">⚠️ HeyGen Key in Settings</div>';return}
-  s.innerHTML='<div class="alert a-i"><span class="spin"></span> Lade...</div>';
-  try{
-    const a=await heygenAPI("/v2/avatars");HGA=(a.data?.avatars||[]).slice(0,40);
-    const v=await heygenAPI("/v2/voices");const all=v.data?.voices||[];
-    HGV=all.filter(x=>(x.language||"").toLowerCase().includes("german")).slice(0,20);
-    if(HGV.length===0)HGV=all.slice(0,20);
-    s.innerHTML=`<div class="alert a-o">✅ ${HGA.length} Avatare · ${HGV.length} Stimmen</div>`;
-    renderHG();
-  }catch(e){s.innerHTML='<div class="alert a-e">❌ '+e.message+'</div>'}
-}
-function renderHG(){
-  const el=document.getElementById("hg-c");
-  const vids=getHG();
-  el.innerHTML=SCRIPTS.map(s=>{
-    const v=vids[s.id]||{};
-    const aO=HGA.map(a=>`<option value="${a.avatar_id}">${a.avatar_name||a.avatar_id}</option>`).join("");
-    const vO=HGV.map(x=>`<option value="${x.voice_id}">${x.name||x.voice_id}</option>`).join("");
-    let bdg="",res="",btn="🎬 Generieren";
-    if(v.status==="processing"){bdg='<span class="bdg p">⏳</span>';btn="⏳ läuft..."}
-    else if(v.status==="completed"&&v.url){bdg='<span class="bdg d">✅</span>';res=`<video controls src="${v.url}" style="width:100%;border-radius:5px;margin-top:6px;background:#000"></video><a href="${v.url}" download="${s.id}.mp4" class="btn btn-2 btn-sm" style="margin-top:5px;width:100%;text-align:center;display:block">⬇️ Download</a>`;btn="🔁 Neu"}
-    return `<div class="vcard"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><strong>${s.e} ${s.t}</strong>${bdg}</div><textarea id="ht-${s.id}" style="height:60px;font-size:11px">${s.txt}</textarea><select id="ha-${s.id}" style="margin-top:5px"><option value="">Avatar...</option>${aO}</select><select id="hv-${s.id}" style="margin-top:5px"><option value="">Stimme...</option>${vO}</select><button class="btn btn-sm" onclick="hgGen('${s.id}')" ${v.status==="processing"?"disabled":""} style="width:100%;margin-top:6px">${btn}</button>${res}</div>`;
-  }).join("");
-}
-async function hgGen(id){
-  const text=document.getElementById("ht-"+id).value.trim();
-  const a=document.getElementById("ha-"+id).value;
-  const v=document.getElementById("hv-"+id).value;
-  if(!a||!v){alert("Avatar + Stimme wählen");return}
-  const vids=getHG();vids[id]={status:"processing"};setHG(vids);renderHG();
-  try{
-    const r=await heygenAPI("/v2/video/generate",{method:"POST",body:JSON.stringify({video_inputs:[{character:{type:"avatar",avatar_id:a,avatar_style:"normal"},voice:{type:"text",input_text:text,voice_id:v},background:{type:"color",value:"#1a1a2e"}}],dimension:{width:720,height:1280},aspect_ratio:"9:16",test:false})});
-    const vid=r.data?.video_id;if(!vid)throw new Error("Keine video_id");
-    vids[id]={status:"processing",videoId:vid};setHG(vids);hgPoll(id,vid);
-  }catch(e){const v=getHG();v[id]={status:"failed"};setHG(v);renderHG()}
-}
-async function hgPoll(id,vid){
-  try{
-    const r=await heygenAPI(`/v1/video_status.get?video_id=${vid}`);
-    const st=r.data?.status,url=r.data?.video_url;
-    const vids=getHG();
-    if(st==="completed"&&url){vids[id]={status:"completed",url,videoId:vid};setHG(vids);renderHG()}
-    else if(st==="failed"){vids[id]={status:"failed",videoId:vid};setHG(vids);renderHG()}
-    else setTimeout(()=>hgPoll(id,vid),30000);
-  }catch(e){setTimeout(()=>hgPoll(id,vid),30000)}
-}
+// ---------- TikTok (lokal) ----------
+function tkLoad(){try{return JSON.parse(localStorage.getItem('luxestyle_tk'))||[]}catch(e){return[]}}
+function tkAdd(){const arr=tkLoad();arr.push({id:Date.now(),title:$('#tk-title').value,caption:$('#tk-caption').value,tags:$('#tk-tags').value,date:new Date().toISOString()});localStorage.setItem('luxestyle_tk',JSON.stringify(arr));$('#tk-title').value='';$('#tk-caption').value='';$('#tk-tags').value='';tkRender();toast('✅ Gespeichert');}
+function tkRender(){const arr=tkLoad();$('#tk-list').innerHTML=arr.length?arr.map(v=>'<div class="card" style="margin-bottom:8px"><b>'+escapeHtml(v.title)+'</b><div style="font-size:12px;color:#888;margin:4px 0">'+escapeHtml(v.caption||'')+'</div><div style="font-size:11px;color:#7c5cfc">'+escapeHtml(v.tags||'')+'</div></div>').join(''):'<div class="empty">Noch nichts geplant</div>';}
 
-function tkAdd(){
-  const v={name:document.getElementById("tk-n").value.trim(),url:document.getElementById("tk-u").value.trim(),views:parseInt(document.getElementById("tk-v").value)||0,likes:parseInt(document.getElementById("tk-l").value)||0,date:document.getElementById("tk-d").value||new Date().toISOString().split("T")[0],id:Date.now()};
-  if(!v.name){alert("Name eingeben");return}
-  const list=getTK();list.push(v);setTK(list);
-  ["tk-n","tk-u","tk-v","tk-l"].forEach(i=>document.getElementById(i).value="");
-  renderTK();
-}
-function tkDel(id){if(!confirm("Löschen?"))return;setTK(getTK().filter(v=>v.id!==id));renderTK()}
-function renderTK(){
-  const list=getTK();
-  const tv=list.reduce((s,v)=>s+v.views,0);
-  const tl=list.reduce((s,v)=>s+v.likes,0);
-  const w=list.filter(v=>v.views>=5000).length;
-  document.getElementById("tk-sum").innerHTML=`<div class="kpis"><div class="kpi"><div class="kpi-l">Videos</div><div class="kpi-v">${list.length}</div></div><div class="kpi"><div class="kpi-l">Views</div><div class="kpi-v">${tv.toLocaleString('de-CH')}</div></div><div class="kpi"><div class="kpi-l">Likes</div><div class="kpi-v">${tl.toLocaleString('de-CH')}</div></div><div class="kpi"><div class="kpi-l">🔥 5k+</div><div class="kpi-v">${w}</div></div></div>`;
-  const cn=document.getElementById("tk-ch");
-  if(window._chart)window._chart.destroy();
-  if(list.length>0){
-    const s=[...list].sort((a,b)=>a.date.localeCompare(b.date));
-    window._chart=new Chart(cn,{type:"bar",data:{labels:s.map(v=>v.name),datasets:[{label:"Views",data:s.map(v=>v.views),backgroundColor:"#7c5cfc"},{label:"Likes",data:s.map(v=>v.likes),backgroundColor:"#fe2c55"}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:"#888"}}},scales:{x:{ticks:{color:"#888"}},y:{ticks:{color:"#888"}}}}});
+// ---------- Notes ----------
+function notesLoad(){$('#notes-area').value=localStorage.getItem('luxestyle_notes')||'';}
+function notesSave(){localStorage.setItem('luxestyle_notes',$('#notes-area').value);$('#notes-status').textContent='✅ Gespeichert '+new Date().toLocaleTimeString();}
+
+// ---------- Boot ----------
+(async function boot(){
+  fillCfg();
+  updateStatusDots();
+  notesLoad();
+  // OAuth Callback Cleanup
+  const u=new URL(location.href);
+  if(u.searchParams.get('installed')){
+    history.replaceState({},'',u.pathname);
+    toast('✅ Shopify verbunden');
   }
-  document.getElementById("tk-l").innerHTML=list.length===0?'<p style="color:#888">Noch keine.</p>':'<table><tr><th>Datum</th><th>Name</th><th>Views</th><th>Likes</th><th>Status</th><th></th></tr>'+list.sort((a,b)=>b.date.localeCompare(a.date)).map(v=>`<tr><td>${v.date}</td><td>${v.url?`<a href="${v.url}" target="_blank" style="color:#7c5cfc">${v.name}</a>`:v.name}</td><td>${v.views.toLocaleString('de-CH')}</td><td>${v.likes.toLocaleString('de-CH')}</td><td>${v.views>=5000?'🔥 BOOST!':v.views>=1000?'📈 OK':'⏳'}</td><td><button onclick="tkDel(${v.id})" style="background:none;border:none;color:#f87171;cursor:pointer">🗑️</button></td></tr>`).join('')+'</table>';
-}
-
-async function addNote(){
-  const t=document.getElementById("nt-t").value.trim();if(!t)return;
-  const n={id:Date.now(),text:t,date:new Date().toISOString(),feedback:""};
-  const l=getNT();l.unshift(n);setNT(l);
-  document.getElementById("nt-t").value="";
-  renderNotes();
-  if(getCfg().gemini){
-    try{const fb=await gemini(`Bewerte diese Idee in 2-3 Sätzen auf Deutsch für einen Schweizer Dropshipping-Shop: "${t}"`);n.feedback=fb;const lst=getNT();const i=lst.findIndex(x=>x.id===n.id);if(i>=0){lst[i]=n;setNT(lst);renderNotes()}}catch(e){}
-  }
-}
-function delNote(id){if(!confirm("Löschen?"))return;setNT(getNT().filter(n=>n.id!==id));renderNotes()}
-function renderNotes(){
-  const l=getNT();
-  document.getElementById("nt-l").innerHTML=l.length===0?'<p style="color:#888">Noch keine.</p>':l.map(n=>`<div class="note"><div class="m">${new Date(n.date).toLocaleString('de-CH')}</div><div style="margin-bottom:6px">${n.text}</div>${n.feedback?`<div style="background:#0f1a2e;padding:7px;border-radius:4px;font-size:11px;color:#60a5fa">🤖 ${n.feedback}</div>`:''}<button onclick="delNote(${n.id})" style="background:none;border:none;color:#f87171;cursor:pointer;font-size:10px;margin-top:5px">🗑️</button></div>`).join('');
-}
-
-function renderTheme(){
-  document.getElementById("th-l").innerHTML=THCHECK.map((c,i)=>`<div style="padding:9px;border-bottom:1px solid #1a1a2e;display:flex;align-items:start;gap:8px"><input type="checkbox" id="th-${i}" onchange="saveTh(${i})" style="width:auto;margin-top:3px"><div><strong>${c.t}</strong><br><small style="color:#888;font-size:11px">${c.p}</small></div></div>`).join('');
-  THCHECK.forEach((c,i)=>{if(localStorage.getItem("th-"+i)==="1")document.getElementById("th-"+i).checked=true});
-}
-function saveTh(i){localStorage.setItem("th-"+i,document.getElementById("th-"+i).checked?"1":"0")}
-
-function saveCfg(){
-  const t=document.getElementById("cfg-shopify").value.trim();
-  const g=document.getElementById("cfg-gemini").value.trim();
-  const h=document.getElementById("cfg-heygen").value.trim();
-  if(t&&!t.startsWith("shpat_")){if(!confirm("⚠️ Token sollte mit 'shpat_' anfangen. Trotzdem speichern?"))return}
-  setCfg({shopify:t,gemini:g,heygen:h});
-  alert("✅ Gespeichert!");
-  loadAll();
-}
-
-async function loadAll(){
-  const cfg=getCfg();
-  if(cfg.shopify)document.getElementById("cfg-shopify").value=cfg.shopify;
-  if(cfg.gemini)document.getElementById("cfg-gemini").value=cfg.gemini;
-  if(cfg.heygen)document.getElementById("cfg-heygen").value=cfg.heygen;
-  await pingAll();
-  if(cfg.shopify){loadShop();loadCockpit();loadOrders()}
-  if(cfg.heygen)loadHG();
-  renderTK();renderNotes();
-  const hgv=getHG();
-  Object.entries(hgv).forEach(([id,v])=>{if(v.status==="processing"&&v.videoId)hgPoll(id,v.videoId)});
-  if(window._hb)clearInterval(window._hb);
-  window._hb=setInterval(pingAll,60000);
-}
-
-loadAll();
+  const ok=await checkConnection();
+  if(ok)loadShop();
+  else $('#prod-grid').innerHTML='<div class="banner warn">⚠️ Shop noch nicht verbunden. <button class="btn btn-sm" onclick="connectShopify()">🔗 Jetzt verbinden</button></div>';
+})();
 </script>
 </body>
 </html>
