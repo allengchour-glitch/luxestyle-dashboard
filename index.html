@@ -378,9 +378,9 @@ function renderProducts(){
   if(!STATE.products.length){g.innerHTML='<div class="empty">Keine Produkte</div>';return;}
   g.innerHTML=STATE.products.map((p,i)=>{
     const v=p.variants?.[0]||{};
-    const img=p.image?.src||p.images?.[0]?.src||'';
+    const img=p.images?.[0]?.src||p.images?.[0]?.src||p.images?.[0]?.src||p.image?.src||'';
     const price=parseFloat(v.price)||0;
-    const cost=parseFloat(v.compare_at_price||0)||(price*0.4);
+    const cost=(parseFloat(v.compare_at_price)>parseFloat(v.price)?parseFloat(v.compare_at_price)*0.6:parseFloat(v.price)*0.6);
     const margin=price>0?Math.round(((price-cost)/price)*100):0;
     const stock=p.variants?.reduce((s,x)=>s+(x.inventory_quantity||0),0)||0;
     const mc=margin>=50?'margin-hi':margin>=25?'margin-mid':'margin-lo';
