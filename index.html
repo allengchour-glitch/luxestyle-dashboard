@@ -40,19 +40,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 
 <!-- Bottom Navigation -->
 <nav class="fixed bottom-0 left-0 right-0 glass border-t border-slate-200 z-40">
-<div class="grid grid-cols-6 max-w-3xl mx-auto">
-<button onclick="switchTab('cockpit')" data-tab="cockpit" class="tab-btn flex flex-col items-center py-2 text-xs">
-<i data-lucide="home" class="w-5 h-5"></i><span>Cockpit</span></button>
-<button onclick="switchTab('shop')" data-tab="shop" class="tab-btn flex flex-col items-center py-2 text-xs">
-<i data-lucide="store" class="w-5 h-5"></i><span>Shop</span></button>
-<button onclick="switchTab('ki')" data-tab="ki" class="tab-btn flex flex-col items-center py-2 text-xs">
-<i data-lucide="bot" class="w-5 h-5"></i><span>KI</span></button>
-<button onclick="switchTab('marketing')" data-tab="marketing" class="tab-btn flex flex-col items-center py-2 text-xs">
-<i data-lucide="megaphone" class="w-5 h-5"></i><span>Marketing</span></button>
-<button onclick="switchTab('stats')" data-tab="stats" class="tab-btn flex flex-col items-center py-2 text-xs">
-<i data-lucide="bar-chart-3" class="w-5 h-5"></i><span>Stats</span></button>
-<button onclick="switchTab('mehr')" data-tab="mehr" class="tab-btn flex flex-col items-center py-2 text-xs">
-<i data-lucide="menu" class="w-5 h-5"></i><span>Mehr</span></button>
+<div class="grid grid-cols-7 max-w-4xl mx-auto">
+<button onclick="switchTab('cockpit')" data-tab="cockpit" class="tab-btn flex flex-col items-center py-2 text-[10px] sm:text-xs">
+<i data-lucide="home" class="w-4 h-4 sm:w-5 sm:h-5"></i><span>Cockpit</span></button>
+<button onclick="switchTab('shop')" data-tab="shop" class="tab-btn flex flex-col items-center py-2 text-[10px] sm:text-xs">
+<i data-lucide="store" class="w-4 h-4 sm:w-5 sm:h-5"></i><span>Shop</span></button>
+<button onclick="switchTab('ki')" data-tab="ki" class="tab-btn flex flex-col items-center py-2 text-[10px] sm:text-xs">
+<i data-lucide="bot" class="w-4 h-4 sm:w-5 sm:h-5"></i><span>KI</span></button>
+<button onclick="switchTab('marketing')" data-tab="marketing" class="tab-btn flex flex-col items-center py-2 text-[10px] sm:text-xs">
+<i data-lucide="megaphone" class="w-4 h-4 sm:w-5 sm:h-5"></i><span>Marketing</span></button>
+<button onclick="switchTab('ads')" data-tab="ads" class="tab-btn flex flex-col items-center py-2 text-[10px] sm:text-xs">
+<i data-lucide="target" class="w-4 h-4 sm:w-5 sm:h-5"></i><span>Ads</span></button>
+<button onclick="switchTab('pipeline')" data-tab="pipeline" class="tab-btn flex flex-col items-center py-2 text-[10px] sm:text-xs">
+<i data-lucide="git-branch" class="w-4 h-4 sm:w-5 sm:h-5"></i><span>Pipeline</span></button>
+<button onclick="switchTab('stats')" data-tab="stats" class="tab-btn flex flex-col items-center py-2 text-[10px] sm:text-xs">
+<i data-lucide="bar-chart-3" class="w-4 h-4 sm:w-5 sm:h-5"></i><span>Stats</span></button>
 </div>
 </nav>
 
@@ -137,7 +139,7 @@ STATE.products.forEach(p=>{
 });
 save();
 
-function render(){const app=$('app');app.classList.remove('fade-in');void app.offsetWidth;app.classList.add('fade-in');const fn={cockpit:renderCockpit,shop:renderShop,ki:renderKI,marketing:renderMarketing,stats:renderStats,mehr:renderMehr}[STATE.tab];fn();lucide.createIcons()}
+function render(){const app=$('app');app.classList.remove('fade-in');void app.offsetWidth;app.classList.add('fade-in');const fn={cockpit:renderCockpit,shop:renderShop,ki:renderKI,marketing:renderMarketing,ads:renderAds,pipeline:renderPipeline,stats:renderStats,mehr:renderMehr}[STATE.tab];fn();lucide.createIcons()}
 
 // ========== TAB: COCKPIT ==========
 function renderCockpit(){
@@ -177,6 +179,17 @@ $('app').innerHTML=`
 <div class="text-xs text-slate-500">Kosten heute</div>
 <div class="text-2xl font-bold text-orange-600">$${totalCosts.toFixed(2)}</div>
 <div class="text-xs text-slate-400">${live} Videos · 0 Bilder</div>
+</div>
+</div>
+
+<!-- Pipeline Mini -->
+<div class="bg-white rounded-xl shadow-sm p-3">
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-bold text-sm flex items-center gap-2"><i data-lucide="git-branch" class="w-4 h-4 text-purple-600"></i> Pipeline</h3>
+<button onclick="switchTab('pipeline')" class="text-[10px] text-purple-600 font-medium">→ Details</button>
+</div>
+<div class="flex items-center gap-1 overflow-x-auto">
+${[{n:"Idee",c:STATE.products.length},{n:"Bilder",c:STATE.products.filter(p=>(p.shopImgs&&p.shopImgs.length>0)||(p.gallery&&p.gallery.length>0)).length},{n:"Shop",c:STATE.products.filter(p=>p.status!=="draft").length},{n:"Ads",c:STATE.products.filter(p=>p.adsReady).length},{n:"Sale",c:STATE.products.filter(p=>(p.sold||0)>0).length}].map((s,i,a)=>`<div class="flex items-center gap-1 flex-shrink-0"><div class="text-center"><div class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">${s.c}</div><div class="text-[9px] mt-0.5">${s.n}</div></div>${i<a.length-1?'<i data-lucide="chevron-right" class="w-3 h-3 text-slate-300"></i>':''}</div>`).join('')}
 </div>
 </div>
 
@@ -285,7 +298,7 @@ return `
 <div class="p-3 border-b">
 <div class="flex justify-between items-start gap-2">
 <div class="flex-1">
-<h4 class="font-bold text-sm">${p.t}</h4>
+<h4 class="font-bold text-sm flex items-center gap-1.5">${p.t}<button onclick="event.stopPropagation();openShopProduct('${p.id}')" title="Im Shop öffnen" class="text-purple-500"><i data-lucide="external-link" class="w-3 h-3"></i></button></h4>
 <div class="text-xs text-slate-500 mt-1">CHF ${p.p.toFixed(2)} · Marge ${margin}% · ${p.sup}</div>
 </div>
 <span class="${pipeColor} text-xs px-2 py-1 rounded font-medium">${p.pipe}</span>
@@ -925,6 +938,115 @@ function dropImage(ev,pid,targetWhere,targetIdx){
   _dragData=null;
   save();render();
   toast(`✨ ${_dragData?_dragData.where:''} → ${targetWhere}`);
+}
+
+
+// ========== Phase 1.5: Ads + Pipeline + Shop-Link ==========
+function openShopProduct(pid){
+  const p=STATE.products.find(x=>x.id===pid);
+  if(!p) return;
+  const slug=(p.t||"").toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+  const url=(STATE.shop.primaryDomain||"")+"/products/"+slug;
+  window.open(url,"_blank");
+}
+
+function renderAds(){
+  const platforms=[
+    {key:'meta',name:'Meta Ads',icon:'facebook',color:'blue',spent:0,budget:0,clicks:0,impr:0,ctr:0,cpc:0,roas:0,connected:!!STATE.keys.meta,loginUrl:'https://business.facebook.com/adsmanager'},
+    {key:'google',name:'Google Ads',icon:'search',color:'red',spent:0,budget:0,clicks:0,impr:0,ctr:0,cpc:0,roas:0,connected:!!STATE.keys.google,loginUrl:'https://ads.google.com'},
+    {key:'tiktok',name:'TikTok Ads',icon:'music',color:'pink',spent:0,budget:350,clicks:0,impr:0,ctr:0,cpc:0,roas:0,connected:!!STATE.keys.tiktok,loginUrl:'https://ads.tiktok.com'}
+  ];
+  const totalSpent=platforms.reduce((s,p)=>s+p.spent,0);
+  const totalClicks=platforms.reduce((s,p)=>s+p.clicks,0);
+  let html='<div class="space-y-4">';
+  html+='<div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-xl"><h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="target" class="w-5 h-5"></i> Werbung · Alle Plattformen</h2><p class="text-sm opacity-90 mt-1">Demo-Daten bis echte APIs verbunden (Phase 3)</p></div>';
+  html+='<div class="grid grid-cols-3 gap-2">';
+  html+='<div class="bg-white rounded-lg p-3 shadow-sm"><div class="text-xs text-slate-500">Spent heute</div><div class="text-lg font-bold text-orange-600">CHF '+totalSpent.toFixed(2)+'</div></div>';
+  html+='<div class="bg-white rounded-lg p-3 shadow-sm"><div class="text-xs text-slate-500">Klicks</div><div class="text-lg font-bold text-purple-600">'+totalClicks+'</div></div>';
+  html+='<div class="bg-white rounded-lg p-3 shadow-sm"><div class="text-xs text-slate-500">Avg ROAS</div><div class="text-lg font-bold text-green-600">0.0x</div></div>';
+  html+='</div>';
+  for(const pl of platforms){
+    const budgetPct=pl.budget>0?(pl.spent/pl.budget*100):0;
+    html+='<div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-'+pl.color+'-500">';
+    html+='<div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2">';
+    html+='<div class="w-8 h-8 rounded-full bg-'+pl.color+'-100 flex items-center justify-center"><i data-lucide="'+pl.icon+'" class="w-4 h-4 text-'+pl.color+'-600"></i></div>';
+    html+='<div><div class="font-bold text-sm">'+pl.name+'</div><div class="text-[10px] text-slate-500">'+(pl.connected?'✅ Verbunden':'⚠️ Nicht verbunden')+'</div></div></div>';
+    html+='<button onclick="window.open(\''+pl.loginUrl+'\',\'_blank\')" class="text-[10px] bg-slate-100 px-2 py-1 rounded">↗ Öffnen</button></div>';
+    html+='<div class="grid grid-cols-3 gap-2 text-center text-xs mb-3">';
+    html+='<div><div class="text-slate-500">Klicks</div><div class="font-bold text-base">'+pl.clicks+'</div></div>';
+    html+='<div><div class="text-slate-500">Impressions</div><div class="font-bold text-base">'+pl.impr.toLocaleString()+'</div></div>';
+    html+='<div><div class="text-slate-500">CTR</div><div class="font-bold text-base">'+pl.ctr+'%</div></div>';
+    html+='<div><div class="text-slate-500">CPC</div><div class="font-bold">CHF '+pl.cpc.toFixed(2)+'</div></div>';
+    html+='<div><div class="text-slate-500">Spent</div><div class="font-bold text-orange-600">CHF '+pl.spent.toFixed(2)+'</div></div>';
+    html+='<div><div class="text-slate-500">ROAS</div><div class="font-bold text-green-600">'+pl.roas.toFixed(1)+'x</div></div></div>';
+    html+='<div class="bg-slate-50 rounded-lg p-2 mb-2 text-xs"><div class="flex justify-between mb-1"><span class="text-slate-500">Budget</span><span class="font-bold">CHF '+(pl.budget-pl.spent).toFixed(2)+' / '+pl.budget.toFixed(2)+'</span></div>';
+    html+='<div class="h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-'+pl.color+'-500" style="width:'+budgetPct+'%"></div></div></div>';
+    html+='<div class="grid grid-cols-3 gap-1.5">';
+    html+='<button onclick="previewAd(\''+pl.key+'\')" class="bg-slate-700 text-white py-2 rounded text-xs font-medium">👁️ Vorschau</button>';
+    html+='<button onclick="regenAd(\''+pl.key+'\')" class="bg-purple-600 text-white py-2 rounded text-xs font-medium">🔄 Neu Gen.</button>';
+    html+='<button onclick="topupBudget(\''+pl.key+'\')" class="bg-green-600 text-white py-2 rounded text-xs font-medium">💰 Aufladen</button></div>';
+    html+='</div>';
+  }
+  html+='<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-xs text-yellow-900"><b>⚠️ Phase 3 noch nicht aktiv:</b> Zahlen sind Demo. Für echte Daten Meta/Google/TikTok APIs anbinden.</div>';
+  html+='</div>';
+  $('app').innerHTML=html;
+}
+
+function previewAd(p){toast('👁️ Vorschau — Phase 3 zeigt echte Creatives');}
+function regenAd(p){if(!confirm('Neue Ad-Variante generieren für '+p+'?\n(Phase 3 nutzt KI für Text+Bild)'))return; toast('🔄 Wird in Phase 3 aktiv'); logActivity('Ad-Regen: '+p,'sparkles');}
+function topupBudget(p){
+  const urls={meta:'https://business.facebook.com/billing_hub',google:'https://ads.google.com/aw/billing',tiktok:'https://ads.tiktok.com/i18n/account/payment'};
+  if(confirm('Öffnet '+p+' Billing in neuem Tab.\nGeld einzahlen musst du selbst tun.')){window.open(urls[p],'_blank');}
+}
+
+function renderPipeline(){
+  const products=STATE.products||[];
+  const stages=[
+    {key:'idea',name:'Idee',icon:'lightbulb',test:p=>true},
+    {key:'images',name:'Bilder',icon:'image',test:p=>(p.shopImgs&&p.shopImgs.length>0)||(p.gallery&&p.gallery.length>0)},
+    {key:'shop',name:'Im Shop',icon:'store',test:p=>p.status!=='draft'&&p.shopImgs&&p.shopImgs.length>0},
+    {key:'ads',name:'Ads Live',icon:'target',test:p=>p.adsReady||p.adsLive},
+    {key:'sales',name:'Verkauf',icon:'shopping-cart',test:p=>(p.sold||0)>0}
+  ];
+  const counts=stages.map(s=>products.filter(s.test).length);
+  let html='<div class="space-y-4">';
+  html+='<div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-xl"><h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="git-branch" class="w-5 h-5"></i> Pipeline</h2><p class="text-sm opacity-90 mt-1">Produkt-Workflow: Idee → Verkauf</p></div>';
+  html+='<div class="bg-white rounded-xl shadow-sm p-4 overflow-x-auto"><div class="flex items-center gap-1 min-w-max">';
+  for(let i=0;i<stages.length;i++){
+    const s=stages[i];
+    html+='<div class="flex flex-col items-center text-center min-w-[80px]">';
+    html+='<div class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mb-2 relative">';
+    html+='<i data-lucide="'+s.icon+'" class="w-6 h-6 text-purple-600"></i>';
+    html+='<div class="absolute -top-1 -right-1 bg-purple-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">'+counts[i]+'</div></div>';
+    html+='<div class="text-xs font-medium">'+s.name+'</div></div>';
+    if(i<stages.length-1) html+='<div class="flex-1 min-w-[20px] h-0.5 bg-gradient-to-r from-purple-300 to-pink-300 mt-[-20px]"></div>';
+  }
+  html+='</div></div>';
+  for(let i=0;i<stages.length;i++){
+    const s=stages[i];
+    const prods=products.filter(s.test);
+    html+='<div class="bg-white rounded-xl shadow-sm p-3"><h3 class="font-bold text-sm mb-2 flex items-center gap-2"><i data-lucide="'+s.icon+'" class="w-4 h-4 text-purple-600"></i> '+s.name+' ('+prods.length+')</h3>';
+    if(prods.length===0){html+='<div class="text-xs text-slate-400">Keine Produkte hier</div>';}
+    else{
+      html+='<div class="space-y-1">';
+      for(let j=0;j<Math.min(prods.length,5);j++){
+        const p=prods[j];
+        html+='<div class="flex justify-between items-center text-xs p-2 bg-slate-50 rounded"><div class="flex items-center gap-2 truncate"><span class="font-medium truncate">'+p.t+'</span><span class="text-slate-400 text-[10px]">CHF '+p.p+'</span></div>';
+        html+='<button onclick="openShopProduct(\''+p.id+'\')" class="text-purple-600 text-[10px]"><i data-lucide="external-link" class="w-3 h-3 inline"></i></button></div>';
+      }
+      if(prods.length>5) html+='<div class="text-[10px] text-slate-400 text-center">+ '+(prods.length-5)+' weitere</div>';
+      html+='</div>';
+    }
+    html+='</div>';
+  }
+  let hint='';
+  if(counts[1]===0) hint='KI-Bilder generieren — kein Produkt hat Bilder!';
+  else if(counts[2]<counts[1]) hint='Produkte in Shop publizieren ('+(counts[1]-counts[2])+' bereit).';
+  else if(counts[3]<counts[2]) hint='Ads für '+(counts[2]-counts[3])+' Shop-Produkte starten.';
+  else hint='✅ Alle Produkte in der Verkaufsphase!';
+  html+='<div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-900"><b>💡 Nächster Schritt:</b> '+hint+'</div>';
+  html+='</div>';
+  $('app').innerHTML=html;
 }
 
 function bulkGenerate(){
