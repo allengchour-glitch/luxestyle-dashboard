@@ -1275,6 +1275,528 @@ toast('👋 Willkommen Allen! Öffne ⚙️ oben rechts für Setup',5000);
 },800);
 }
 }
+
+/* === PHASE 3 PATCH BEGIN === */
+try{
+
+/* ========== PHASE 3 PATCH: Mini-Carousel + Floating-Menu + Lightbox + Klick-Counter + Activity-Links + Gemini-Modal + Multi-Shop + Erweiterte Plattformen ========== */
+(function(){
+  const css = document.createElement('style');
+  css.textContent = `
+    .lux-fab-menu{position:fixed;background:#fff;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.25);padding:8px;z-index:9999;min-width:240px;max-width:90vw}
+    .lux-fab-menu button{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border-radius:8px;text-align:left;font-size:14px;color:#1e293b;background:transparent;border:none;cursor:pointer}
+    .lux-fab-menu button:hover{background:#f1f5f9}
+    .lux-fab-menu .lux-fab-danger{color:#dc2626}
+    .lux-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:9998}
+    .lux-lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px}
+    .lux-lightbox img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:8px}
+    .lux-lightbox .close{position:absolute;top:16px;right:16px;color:#fff;font-size:32px;background:rgba(0,0,0,.5);border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+    .lux-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.3);z-index:9997;font-size:14px;display:flex;align-items:center;gap:10px;max-width:90vw}
+    .lux-toast button{background:#a855f7;color:#fff;padding:4px 10px;border-radius:6px;font-size:12px;border:none;cursor:pointer}
+    .lux-modal{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:9998;display:flex;align-items:center;justify-content:center;padding:20px}
+    .lux-modal .panel{background:#fff;border-radius:16px;padding:20px;max-width:480px;width:100%;max-height:85vh;overflow-y:auto}
+    .lux-modal button{cursor:pointer;border:none}
+    .lux-carousel{position:relative;aspect-ratio:1;background:#f1f5f9;border-radius:10px;overflow:hidden;max-width:260px;margin:0 auto}
+    .lux-carousel img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;display:block}
+    .lux-carousel .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.55);color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:none}
+    .lux-carousel .nav-prev{left:6px}
+    .lux-carousel .nav-next{right:6px}
+    .lux-carousel .dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px}
+    .lux-carousel .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55)}
+    .lux-carousel .dot.active{background:#fff}
+    .lux-carousel .counter{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:3px 8px;border-radius:10px}
+    .lux-carousel .star{position:absolute;top:8px;left:8px;color:#fde047;font-size:20px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+    .lux-mini-gal{display:flex;gap:6px;overflow-x:auto;padding:8px 0;scrollbar-width:none}
+    .lux-mini-gal::-webkit-scrollbar{display:none}
+    .lux-mini-gal .thumb{flex:0 0 56px;height:56px;border-radius:8px;border:2px solid transparent;overflow:hidden;cursor:grab;position:relative;background:#fef3c7}
+    .lux-mini-gal .thumb img{width:100%;height:100%;object-fit:cover}
+    .lux-mini-gal .add{flex:0 0 56px;height:56px;border-radius:8px;border:2px dashed #cbd5e1;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:24px;cursor:pointer;background:transparent}
+    .lux-online-btn{background:#10b981;color:#fff;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:4px;cursor:pointer;border:none}
+    .lux-staged-badge{background:#fbbf24;color:#78350f;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600}
+    .lux-pulse-soft{animation:luxPulseSoft 2s ease-in-out infinite}
+    @keyframes luxPulseSoft{0%,100%{opacity:1}50%{opacity:.6}}
+    .lux-shop-bar{padding:6px 12px;background:rgba(0,0,0,.18);display:flex;justify-content:center;flex-wrap:wrap;gap:6px}
+    .lux-shop-bar button{padding:4px 10px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none}
+  `;
+  document.head.appendChild(css);
+})();
+if(typeof STATE!=='undefined' && !STATE.clickStats){
+  STATE.clickStats = JSON.parse(localStorage.getItem('luxe_clickStats') || '{}');
+}
+function saveClickStats(){ try{localStorage.setItem('luxe_clickStats', JSON.stringify(STATE.clickStats));}catch(e){} }
+function bumpClick(key){
+  if(!STATE.clickStats) STATE.clickStats={};
+  STATE.clickStats[key] = (STATE.clickStats[key]||0) + 1;
+  saveClickStats();
+}
+(function(){
+  if(typeof STATE==='undefined') return;
+  if(Array.isArray(STATE.shops) && STATE.shops.length>0 && typeof STATE.shops[0]==='string'){
+    if(!STATE.luxShops){
+      STATE.luxShops = JSON.parse(localStorage.getItem('luxe_luxShops')||'null') || [
+        {id:'luxe-ch', name:STATE.shops[0]||'LuxeStyle CH', domain:'luxestyle.ch', color:'#a855f7', active:true},
+        {id:'luxe-de', name:'LuxeStyle DE', domain:'luxestyle.de', color:'#3b82f6', active:false, staged:true}
+      ];
+    }
+  } else if(!STATE.luxShops){
+    STATE.luxShops = JSON.parse(localStorage.getItem('luxe_luxShops')||'null') || [
+      {id:'luxe-ch', name:'LuxeStyle CH', domain:'luxestyle.ch', color:'#a855f7', active:true},
+      {id:'luxe-de', name:'LuxeStyle DE', domain:'luxestyle.de', color:'#3b82f6', active:false, staged:true}
+    ];
+  }
+  try{localStorage.setItem('luxe_luxShops', JSON.stringify(STATE.luxShops));}catch(e){}
+  if(!STATE.activeShop) STATE.activeShop = localStorage.getItem('luxe_activeShop') || 'luxe-ch';
+})();
+function setActiveShop(id){
+  STATE.activeShop = id;
+  try{localStorage.setItem('luxe_activeShop', id);}catch(e){}
+  rerender();
+}
+function rerender(){
+  if(typeof render==='function') render();
+}
+
+function luxLightbox(url, caption){
+  const el = document.createElement('div');
+  el.className = 'lux-lightbox';
+  el.innerHTML = '<button class="close" onclick="this.parentElement.remove()">×</button>' +
+                 '<img src="'+url+'" alt="">' +
+                 (caption?'<div style="position:absolute;bottom:20px;color:#fff;font-size:14px;text-align:center;width:100%">'+caption+'</div>':'');
+  el.addEventListener('click', function(e){ if(e.target===el) el.remove(); });
+  document.body.appendChild(el);
+}
+function _closeFab(){ document.querySelectorAll('.lux-fab-menu,.lux-backdrop').forEach(e=>e.remove()); }
+function imageMenu(pid, type, idx){
+  _closeFab();
+  if(typeof STATE==='undefined') return;
+  const p = STATE.products.find(x=>x.id===pid);
+  if(!p) return;
+  const arr = type==='shop' ? (p.shopImgs||[]) : (p.gallery||[]);
+  const img = arr[idx];
+  const imgUrl = img && img.url ? img.url : '';
+  const backdrop = document.createElement('div');
+  backdrop.className = 'lux-backdrop';
+  backdrop.onclick = _closeFab;
+  document.body.appendChild(backdrop);
+  const menu = document.createElement('div');
+  menu.className = 'lux-fab-menu';
+  menu.style.left='50%'; menu.style.top='50%'; menu.style.transform='translate(-50%,-50%)';
+  const safeTitle = (p.t||'').replace(/'/g,'').replace(/"/g,'');
+  let html = '<div style="font-size:13px;color:#64748b;padding:6px 10px;border-bottom:1px solid #e2e8f0;margin-bottom:4px">Bild '+(idx+1)+' · '+(type==='shop'?'Im Shop':'Galerie')+'</div>';
+  if(imgUrl){
+    html += '<button onclick="luxLightbox(\''+imgUrl+'\',\''+safeTitle+'\');_closeFab()">🔍 Vollbild ansehen</button>';
+  }
+  if(type==='gallery'){
+    html += '<button onclick="luxAction_takeToShop(\''+pid+'\','+idx+')">★ In Shop übernehmen</button>';
+  }
+  html += '<button onclick="luxAction_regen(\''+pid+'\',\''+type+'\','+idx+')">🎨 Neu generieren ($0.04)</button>';
+  html += '<button onclick="luxAction_rate(\''+pid+'\',\''+type+'\','+idx+')">⭐ Bewertung setzen (1-5)</button>';
+  html += '<button onclick="luxAction_desc(\''+pid+'\',\''+type+'\','+idx+')">📝 Beschreibung</button>';
+  if(p.supplierUrl){
+    html += '<button onclick="luxAction_otherSite(\''+pid+'\','+idx+')">↗ Bei Lieferant ansehen</button>';
+  }
+  html += '<button class="lux-fab-danger" onclick="luxAction_delete(\''+pid+'\',\''+type+'\','+idx+')">🗑 Löschen</button>';
+  html += '<button onclick="_closeFab()" style="color:#64748b;border-top:1px solid #e2e8f0;margin-top:4px">Abbrechen</button>';
+  menu.innerHTML = html;
+  document.body.appendChild(menu);
+}
+function luxAction_takeToShop(pid, idx){
+  const p = STATE.products.find(x=>x.id===pid);
+  if(!p) return;
+  p.shopImgs = p.shopImgs || [];
+  const galImg = (p.gallery||[])[idx];
+  if(galImg){
+    p.shopImgs.push({url: galImg.url, rating: galImg.rating});
+    p.gallery.splice(idx,1);
+    luxToast('★ In Shop übernommen', function(){ p.shopImgs.pop(); p.gallery.splice(idx,0,galImg); rerender(); });
+  }
+  _closeFab(); rerender();
+}
+function luxAction_regen(pid, type, idx){
+  const p = STATE.products.find(x=>x.id===pid);
+  if(!p) return;
+  const arr = type==='shop' ? p.shopImgs : p.gallery;
+  if(arr && arr[idx]){
+    luxToast('🎨 Neu generiert ($0.04)', null);
+    if(typeof logActivity==='function'){
+      try{ logActivity({text:'Neu generiert: '+p.t+' Bild '+(idx+1), icon:'sparkles', linkType:'product', linkId:pid}); }catch(e){}
+    }
+  }
+  _closeFab(); rerender();
+}
+function luxAction_rate(pid, type, idx){
+  const p = STATE.products.find(x=>x.id===pid);
+  if(!p){ _closeFab(); return; }
+  const arr = type==='shop' ? p.shopImgs : p.gallery;
+  if(!arr || !arr[idx]){ _closeFab(); return; }
+  luxRatingModal(function(r){ arr[idx].rating = r; rerender(); luxToast('⭐ Bewertung: '+r, null); });
+  _closeFab();
+}
+function luxAction_desc(pid, type, idx){
+  luxTextModal('Beschreibung', '', function(txt){
+    const p = STATE.products.find(x=>x.id===pid);
+    if(!p) return;
+    const arr = type==='shop' ? p.shopImgs : p.gallery;
+    if(arr && arr[idx]) arr[idx].desc = txt;
+    rerender(); luxToast('📝 Beschreibung gespeichert', null);
+  });
+  _closeFab();
+}
+function luxAction_otherSite(pid, idx){
+  const p = STATE.products.find(x=>x.id===pid);
+  if(p && p.supplierUrl) window.open(p.supplierUrl, '_blank');
+  _closeFab();
+}
+function luxAction_delete(pid, type, idx){
+  const p = STATE.products.find(x=>x.id===pid);
+  if(!p){ _closeFab(); return; }
+  const arr = type==='shop' ? p.shopImgs : p.gallery;
+  if(!arr){ _closeFab(); return; }
+  const removed = arr.splice(idx,1)[0];
+  luxToast('🗑 Gelöscht', function(){ arr.splice(idx,0,removed); rerender(); });
+  _closeFab(); rerender();
+}
+function luxToast(msg, undoFn){
+  document.querySelectorAll('.lux-toast').forEach(t=>t.remove());
+  const t = document.createElement('div');
+  t.className = 'lux-toast';
+  t.innerHTML = '<span>'+msg+'</span>' + (undoFn?'<button id="lux-undo">↩ Rückgängig</button>':'');
+  document.body.appendChild(t);
+  if(undoFn){
+    document.getElementById('lux-undo').onclick = function(){ undoFn(); t.remove(); };
+  }
+  setTimeout(function(){t.remove();}, 5000);
+}
+
+function luxRatingModal(cb){
+  const m = document.createElement('div');
+  m.className = 'lux-modal';
+  m.innerHTML = '<div class="panel"><div style="font-size:16px;font-weight:600;margin-bottom:12px">⭐ Bewertung setzen</div>' +
+    '<div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px">' +
+    [1,2,3,4,5].map(function(n){return '<button data-r="'+n+'" style="font-size:32px;background:#fef3c7;width:56px;height:56px;border-radius:10px">'+n+'</button>';}).join('') +
+    '</div><button onclick="this.closest(\'.lux-modal\').remove()" style="width:100%;padding:8px;background:#f1f5f9;border-radius:8px">Abbrechen</button></div>';
+  m.addEventListener('click', function(e){ if(e.target===m) m.remove(); });
+  document.body.appendChild(m);
+  m.querySelectorAll('[data-r]').forEach(function(b){ b.onclick=function(){ cb(parseInt(b.dataset.r)); m.remove(); }; });
+}
+function luxTextModal(title, initial, cb){
+  const m = document.createElement('div');
+  m.className = 'lux-modal';
+  m.innerHTML = '<div class="panel"><div style="font-size:16px;font-weight:600;margin-bottom:12px">'+title+'</div>' +
+    '<textarea id="lux-ta" style="width:100%;min-height:120px;padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:14px">'+(initial||'')+'</textarea>' +
+    '<div style="display:flex;gap:8px;margin-top:12px">' +
+    '<button id="lux-ok" style="flex:1;padding:10px;background:#a855f7;color:#fff;border-radius:8px;font-weight:600">Speichern</button>' +
+    '<button onclick="this.closest(\'.lux-modal\').remove()" style="flex:1;padding:10px;background:#f1f5f9;border-radius:8px">Abbrechen</button>' +
+    '</div></div>';
+  m.addEventListener('click', function(e){ if(e.target===m) m.remove(); });
+  document.body.appendChild(m);
+  document.getElementById('lux-ok').onclick = function(){ cb(document.getElementById('lux-ta').value); m.remove(); };
+}
+function luxGeminiModal(){
+  const opts = [
+    {id:'gen_videos', label:'🎬 Fehlende KI-Videos generieren (HeyGen)', cost:'$2.10'},
+    {id:'launch_meta', label:'📘 Meta-Account-Setup starten', cost:'Manuell'},
+    {id:'price_check', label:'💰 Lieferanten-Preise prüfen (AliExpress)', cost:'Automatisch'},
+    {id:'refill_tiktok', label:'💳 TikTok-Budget auffüllen (CHF 200)', cost:'CHF 200'},
+    {id:'prep_de_shop', label:'🇩🇪 LuxeStyle DE Shop vorbereiten', cost:'Vorbereitung'},
+    {id:'inventory_low', label:'📦 Lager-Warnung prüfen', cost:'Bestellung'},
+    {id:'klaviyo_setup', label:'📧 Klaviyo E-Mail-Flows einrichten', cost:'Setup'},
+    {id:'export_report', label:'📊 Tages-Report exportieren', cost:'Kostenlos'}
+  ];
+  const m = document.createElement('div');
+  m.className = 'lux-modal';
+  m.innerHTML = '<div class="panel"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><div style="background:linear-gradient(135deg,#a855f7,#3b82f6);width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">G</div><div style="font-size:16px;font-weight:600">Gemini fragt: Was als Nächstes?</div></div>' +
+    '<div style="font-size:13px;color:#64748b;margin-bottom:14px">Wähle aus, was ich erledigen soll. Du kannst mehrere markieren.</div>' +
+    '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">' +
+    opts.map(function(o){return '<label style="display:flex;align-items:center;gap:10px;padding:10px;background:#f8fafc;border-radius:10px;cursor:pointer"><input type="checkbox" data-id="'+o.id+'" style="width:18px;height:18px"><div style="flex:1"><div style="font-size:14px;color:#1e293b">'+o.label+'</div><div style="font-size:11px;color:#94a3b8">'+o.cost+'</div></div></label>';}).join('') +
+    '</div>' +
+    '<div style="display:flex;gap:8px">' +
+    '<button id="lux-gem-ok" style="flex:1;padding:12px;background:linear-gradient(135deg,#a855f7,#3b82f6);color:#fff;border-radius:10px;font-weight:600">✓ Ausgewählte starten</button>' +
+    '<button onclick="this.closest(\'.lux-modal\').remove()" style="padding:12px 16px;background:#f1f5f9;border-radius:10px">Später</button>' +
+    '</div></div>';
+  m.addEventListener('click', function(e){ if(e.target===m) m.remove(); });
+  document.body.appendChild(m);
+  document.getElementById('lux-gem-ok').onclick = function(){
+    const chosen = Array.from(m.querySelectorAll('input:checked')).map(function(c){return c.dataset.id;});
+    if(chosen.length===0){ luxToast('Nichts ausgewählt', null); return; }
+    chosen.forEach(function(id){
+      const o = opts.find(function(x){return x.id===id;});
+      if(typeof logActivity==='function'){
+        try{ logActivity({text:'Gemini gestartet: '+o.label, icon:'sparkles', linkType:'task', linkId:id}); }catch(e){}
+      }
+    });
+    luxToast('✓ '+chosen.length+' Aufgaben gestartet', null);
+    m.remove();
+    rerender();
+  };
+}
+
+window._carouselIdx = window._carouselIdx || {};
+function luxCarousel(p){
+  const imgs = (p.shopImgs||[]).filter(function(x){return x && x.url;});
+  let idx = window._carouselIdx[p.id] || 0;
+  if(idx >= imgs.length) idx = 0;
+  const cur = imgs[idx] || null;
+  const total = imgs.length;
+  const safeTitle = (p.t||'').replace(/'/g,'').replace(/"/g,'');
+  return '<div class="lux-carousel">' +
+    (cur ? '<img src="'+cur.url+'" loading="lazy" onclick="luxLightbox(\''+cur.url+'\',\''+safeTitle+'\')">' : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;font-size:48px">📷</div>') +
+    (total>1 ? '<button class="nav-btn nav-prev" onclick="luxCarPrev(\''+p.id+'\')">‹</button><button class="nav-btn nav-next" onclick="luxCarNext(\''+p.id+'\')">›</button>' : '') +
+    (total>0 ? '<div class="counter">'+(idx+1)+' / '+total+'</div>' : '') +
+    (idx===0 && cur ? '<span class="star">★</span>' : '') +
+    (total>1 ? '<div class="dots">'+imgs.map(function(_,i){return '<div class="dot'+(i===idx?' active':'')+'"></div>';}).join('')+'</div>' : '') +
+    '</div>';
+}
+function luxCarPrev(pid){
+  const p = STATE.products.find(function(x){return x.id===pid;});
+  const total = (p.shopImgs||[]).filter(function(x){return x&&x.url;}).length;
+  if(total<=0) return;
+  window._carouselIdx[pid] = ((window._carouselIdx[pid]||0) - 1 + total) % total;
+  rerender();
+}
+function luxCarNext(pid){
+  const p = STATE.products.find(function(x){return x.id===pid;});
+  const total = (p.shopImgs||[]).filter(function(x){return x&&x.url;}).length;
+  if(total<=0) return;
+  window._carouselIdx[pid] = ((window._carouselIdx[pid]||0) + 1) % total;
+  rerender();
+}
+function luxMiniGallery(p){
+  const arr = p.gallery || [];
+  const visible = arr.slice(0,8);
+  let html = '<div class="lux-mini-gal">';
+  visible.forEach(function(g,i){
+    if(g && g.url){
+      html += '<div class="thumb" onclick="imageMenu(\''+p.id+'\',\'gallery\','+i+')" title="Tippen für Menü"><img src="'+g.url+'" loading="lazy">'+(g.rating?'<div style="position:absolute;top:2px;left:2px;background:#fbbf24;color:#78350f;font-size:9px;padding:1px 4px;border-radius:4px;font-weight:700">★'+g.rating+'</div>':'')+'</div>';
+    } else {
+      html += '<div class="thumb" style="background:'+((g&&g.bg)||'#fef3c7')+';display:flex;align-items:center;justify-content:center;font-size:11px;color:#92400e" onclick="imageMenu(\''+p.id+'\',\'gallery\','+i+')">KI '+(i+1)+'</div>';
+    }
+  });
+  html += '<button class="add" onclick="if(typeof generateKI===\'function\')generateKI(\''+p.id+'\',1);" title="+1 KI-Bild">+</button>';
+  html += '</div>';
+  return html;
+}
+window.renderProductCard = function(p){
+  const margin = p.cost ? Math.round((1-p.cost/p.p)*100) : 0;
+  const invColor = p.inv>30 ? 'bg-green-100 text-green-800' : p.inv>10 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800';
+  const pipeColor = p.pipe==='live' ? 'bg-green-100 text-green-800' : p.pipe==='draft' ? 'bg-slate-200 text-slate-700' : 'bg-blue-100 text-blue-800';
+  let videoBadge = '';
+  if(p.adsReady && p.videoUrl) videoBadge = '<span class="bg-green-100 text-green-800 px-2 py-1 rounded">🎬 Video bereit</span>';
+  else if(p.adsReady) videoBadge = '<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">⏳ Skript bereit, Video fehlt</span>';
+  else videoBadge = '<span class="bg-slate-100 text-slate-600 px-2 py-1 rounded">❌ Kein Skript</span>';
+  const shopCount = (p.shopImgs||[]).filter(function(x){return x&&x.url;}).length;
+  const galCount = (p.gallery||[]).length;
+  const adsClicks = (STATE.clickStats||{})['ads_'+p.id] || 0;
+  const videoClicks = (STATE.clickStats||{})['video_'+p.id] || 0;
+  const onlineIn = p.onlineIn || ['luxe-ch'];
+  const stagedFor = p.stagedFor || null;
+  const shops = STATE.luxShops || [];
+  const shopBadges = onlineIn.map(function(sid){
+    const s = shops.find(function(x){return x.id===sid;});
+    if(!s) return '';
+    return '<span style="background:'+s.color+';color:#fff;font-size:10px;padding:2px 6px;border-radius:5px;font-weight:600">'+s.name+'</span>';
+  }).join(' ');
+  const stagedHtml = stagedFor ? '<span class="lux-staged-badge">📦 STAGED für '+((shops.find(function(x){return x.id===stagedFor;})||{}).name||stagedFor)+'</span>' : '';
+  const onlineBtnHtml = stagedFor ? '<button class="lux-online-btn" onclick="luxPutOnline(\''+p.id+'\')">🚀 Online stellen</button>' : '';
+  const supplierBtn = p.supplierUrl ? '<button onclick="window.open(\''+p.supplierUrl+'\',\'_blank\')" class="text-[11px] bg-slate-700 text-white px-2 py-1 rounded">🔗 Lieferant</button>' : '';
+  return '<div class="bg-white rounded-xl shadow-sm overflow-hidden mb-3" data-pid="'+p.id+'">' +
+    '<div class="p-3 border-b">' +
+      '<div class="flex justify-between items-start gap-2">' +
+        '<div class="flex-1"><div class="font-semibold text-sm">'+p.t+'</div>' +
+        '<div class="text-xs text-slate-500 mt-1">CHF '+p.p.toFixed(2)+' · Marge '+margin+'% · '+p.sup+'</div></div>' +
+        '<span class="'+pipeColor+' text-xs px-2 py-1 rounded font-medium">'+p.pipe+'</span>' +
+      '</div>' +
+      '<div class="flex gap-1.5 mt-2 text-xs flex-wrap items-center">' +
+        '<span class="'+invColor+' px-2 py-1 rounded font-medium">📦 '+p.inv+' Stk</span>' +
+        '<span class="bg-slate-100 px-2 py-1 rounded">'+(p.cat==='lifestyle'?'🇨🇭 LS':'🏡 Home')+'</span>' +
+        (p.featured?'<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">⭐</span>':'') +
+        (p.adsReady?'<span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">🎯 '+adsClicks+' Klicks</span>':'') +
+        videoBadge +
+        (p.videoUrl?'<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">▶ '+videoClicks+' Views</span>':'') +
+        shopBadges + stagedHtml +
+      '</div>' +
+      '<div class="flex gap-1.5 mt-2 flex-wrap">' + supplierBtn + onlineBtnHtml + '</div>' +
+    '</div>' +
+    '<div class="p-3 bg-slate-50">' +
+      '<div class="flex items-center justify-between mb-2">' +
+        '<div class="text-xs font-medium text-slate-700">🛒 Im Shop ('+shopCount+'/20)</div>' +
+        '<button onclick="if(typeof uploadImage===\'function\')uploadImage(\''+p.id+'\',\'shop\');" class="text-xs text-purple-600 font-medium">+ Upload</button>' +
+      '</div>' +
+      luxCarousel(p) +
+      '<div class="flex items-center justify-between mt-3 mb-1">' +
+        '<div class="text-xs font-medium text-slate-700">🎨 Galerie ('+galCount+'/20)</div>' +
+        '<div class="flex gap-1">' +
+          '<button onclick="if(typeof generateKI===\'function\')generateKI(\''+p.id+'\',1);" class="text-[10px] bg-purple-500 text-white px-2 py-0.5 rounded">+1</button>' +
+          '<button onclick="if(typeof generateKI===\'function\')generateKI(\''+p.id+'\',3);" class="text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded">+3</button>' +
+          '<button onclick="if(typeof uploadImage===\'function\')uploadImage(\''+p.id+'\',\'gallery\');" class="text-[10px] bg-slate-600 text-white px-2 py-0.5 rounded">Upload</button>' +
+        '</div>' +
+      '</div>' +
+      luxMiniGallery(p) +
+    '</div>' +
+  '</div>';
+};
+
+(function(){
+  if(typeof STATE==='undefined' || !Array.isArray(STATE.adsBudgets)) return;
+  const haveIds = STATE.adsBudgets.map(function(b){return b.id;});
+  const extras = [
+    {id:'instagram', name:'Instagram Reels Ads', icon:'📸', color:'#E1306C', total:0, used:0, remaining:0, status:'planned', autoRefill:false, autoRefillAmount:150, alertLow:50, alertCritical:20, url:'https://business.instagram.com', warning:'Über Meta Business'},
+    {id:'youtube', name:'YouTube Ads', icon:'▶️', color:'#FF0000', total:0, used:0, remaining:0, status:'planned', autoRefill:false, autoRefillAmount:200, alertLow:50, alertCritical:20, url:'https://ads.google.com', warning:'Über Google Ads'},
+    {id:'klaviyo', name:'Klaviyo E-Mail/SMS', icon:'📧', color:'#22C55E', total:0, used:0, remaining:0, status:'planned', autoRefill:false, autoRefillAmount:60, alertLow:20, alertCritical:5, url:'https://klaviyo.com', warning:'E-Mail Marketing'}
+  ];
+  extras.forEach(function(e){ if(!haveIds.includes(e.id)) STATE.adsBudgets.push(e); });
+  try{localStorage.setItem('luxe_adsBudgets', JSON.stringify(STATE.adsBudgets));}catch(e){}
+})();
+if(typeof window.logActivity==='function'){
+  const _orig = window.logActivity;
+  window.logActivity = function(itemOrText, icon){
+    if(typeof itemOrText==='object' && itemOrText && itemOrText.text){
+      _orig(itemOrText.text, itemOrText.icon || 'sparkles');
+      if(STATE.activity && STATE.activity[0]){
+        STATE.activity[0].linkType = itemOrText.linkType;
+        STATE.activity[0].linkId = itemOrText.linkId;
+        STATE.activity[0].linkUrl = itemOrText.linkUrl;
+      }
+    } else {
+      _orig(itemOrText, icon);
+    }
+  };
+}
+function luxOpenProduct(pid){
+  const p = STATE.products.find(function(x){return x.id===pid;});
+  if(!p){ luxToast('Produkt nicht gefunden', null); return; }
+  STATE.tab = 'shop';
+  rerender();
+  setTimeout(function(){
+    const el = document.querySelector('[data-pid="'+pid+'"]');
+    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 200);
+}
+function luxOpenVideo(pid, url){
+  bumpClick('video_'+pid);
+  if(url) window.open(url, '_blank');
+  else {
+    const p = STATE.products.find(function(x){return x.id===pid;});
+    if(p && p.videoUrl) window.open(p.videoUrl,'_blank');
+    else luxToast('🎬 Video noch nicht generiert', null);
+  }
+  rerender();
+}
+function luxOpenAds(pid){
+  if(pid) bumpClick('ads_'+pid);
+  STATE.tab = 'ads';
+  rerender();
+}
+function luxPutOnline(pid){
+  const p = STATE.products.find(function(x){return x.id===pid;});
+  if(!p || !p.stagedFor) return;
+  const shop = (STATE.luxShops||[]).find(function(x){return x.id===p.stagedFor;});
+  const m = document.createElement('div');
+  m.className = 'lux-modal';
+  m.innerHTML = '<div class="panel"><div style="font-size:16px;font-weight:600;margin-bottom:10px">🚀 Produkt online stellen</div>' +
+    '<div style="font-size:14px;color:#475569;margin-bottom:8px"><b>'+p.t+'</b></div>' +
+    '<div style="font-size:13px;color:#64748b;margin-bottom:14px">Ziel-Shop: <b>'+(shop?shop.name:p.stagedFor)+'</b> ('+(shop?shop.domain:'')+ ')</div>' +
+    '<div style="display:flex;flex-direction:column;gap:8px">' +
+      '<button id="lux-go-shopify" style="padding:12px;background:#10b981;color:#fff;border-radius:10px;font-weight:600">🛒 In Shopify-Admin öffnen</button>' +
+      '<button id="lux-confirm-live" style="padding:12px;background:linear-gradient(135deg,#a855f7,#3b82f6);color:#fff;border-radius:10px;font-weight:600">✓ Als Live markieren</button>' +
+      '<button onclick="this.closest(\'.lux-modal\').remove()" style="padding:10px;background:#f1f5f9;border-radius:8px;font-size:13px">Abbrechen</button>' +
+    '</div></div>';
+  document.body.appendChild(m);
+  document.getElementById('lux-go-shopify').onclick = function(){
+    window.open('https://'+(shop?shop.domain:'shop')+'/admin/products', '_blank');
+  };
+  document.getElementById('lux-confirm-live').onclick = function(){
+    p.onlineIn = (p.onlineIn||[]); if(p.onlineIn.indexOf(p.stagedFor)<0) p.onlineIn.push(p.stagedFor);
+    p.stagedFor = null;
+    if(typeof logActivity==='function'){
+      try{ logActivity({text:'🚀 Live: '+p.t+' auf '+(shop?shop.name:''), icon:'shop', linkType:'product', linkId:pid}); }catch(e){}
+    }
+    m.remove(); rerender(); luxToast('🚀 Live geschaltet', null);
+  };
+}
+(function(){
+  if(typeof STATE==='undefined') return;
+  if(localStorage.getItem('luxe_stagedInit')==='1') return;
+  const stageIds = ['15396249502081','15397247385985'];
+  stageIds.forEach(function(id){
+    const p = STATE.products.find(function(x){return x.id===id;});
+    if(p && !p.stagedFor) p.stagedFor = 'luxe-de';
+  });
+  try{localStorage.setItem('luxe_stagedInit','1');}catch(e){}
+})();
+
+function luxRenderShopBar(){
+  const bar = document.getElementById('lux-shop-bar');
+  if(!bar) return;
+  if(!STATE.luxShops) return;
+  bar.innerHTML = STATE.luxShops.map(function(s){
+    const active = s.id===STATE.activeShop;
+    return '<button onclick="setActiveShop(\''+s.id+'\')" style="background:'+(active?s.color:'rgba(255,255,255,.2)')+';color:'+(active?'#fff':'rgba(255,255,255,.85)')+';opacity:'+(s.staged?'0.85':'1')+'">'+
+      s.name + (s.staged?' (vorbereitet)':'') +
+      '</button>';
+  }).join('') + '<button onclick="luxAddShop()" title="Neuen Shop vorbereiten" style="background:rgba(255,255,255,.15);color:#fff;font-size:14px">+ Neuer Shop</button>';
+}
+function luxAddShop(){
+  luxTextModal('Neuen Shop vorbereiten (Name, z.B. LuxeStyle AT)', '', function(name){
+    if(!name || !name.trim()) return;
+    const id = 'shop-'+Date.now();
+    STATE.luxShops.push({id:id, name:name.trim(), domain:name.toLowerCase().replace(/\s+/g,'')+'.com', color:'#6366f1', active:false, staged:true});
+    try{localStorage.setItem('luxe_luxShops', JSON.stringify(STATE.luxShops));}catch(e){}
+    luxRenderShopBar(); luxToast('✓ Shop "'+name+'" vorbereitet', null);
+  });
+}
+(function injectShopBar(){
+  function tryInject(){
+    if(document.getElementById('lux-shop-bar')){ luxRenderShopBar(); return true; }
+    const header = document.querySelector('header');
+    if(!header) return false;
+    const bar = document.createElement('div');
+    bar.id = 'lux-shop-bar';
+    bar.className = 'lux-shop-bar';
+    header.appendChild(bar);
+    luxRenderShopBar();
+    return true;
+  }
+  if(!tryInject()){
+    setTimeout(tryInject, 400);
+    setTimeout(tryInject, 1500);
+  }
+})();
+(function addGeminiFab(){
+  function tryAdd(){
+    if(document.getElementById('lux-gemini-fab')) return;
+    const fab = document.createElement('button');
+    fab.id = 'lux-gemini-fab';
+    fab.innerHTML = '<span style="font-size:20px;line-height:1">✨</span><span style="font-size:10px;display:block;margin-top:2px">Gemini</span>';
+    fab.style.cssText = 'position:fixed;bottom:90px;right:16px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#3b82f6);color:#fff;box-shadow:0 6px 20px rgba(168,85,247,.45);z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:600;cursor:pointer;border:none';
+    fab.onclick = luxGeminiModal;
+    document.body.appendChild(fab);
+  }
+  setTimeout(tryAdd, 500);
+})();
+if(typeof render==='function'){
+  const _origRender = render;
+  window.render = function(){
+    _origRender.apply(this, arguments);
+    setTimeout(function(){
+      if(!document.getElementById('lux-shop-bar')){
+        const header = document.querySelector('header');
+        if(header){
+          const bar = document.createElement('div');
+          bar.id = 'lux-shop-bar';
+          bar.className = 'lux-shop-bar';
+          header.appendChild(bar);
+        }
+      }
+      luxRenderShopBar();
+    }, 50);
+  };
+}
+setTimeout(rerender, 300);
+
+}catch(__phase3err){console.error("[Phase3 Patch error]", __phase3err);}
+/* === PHASE 3 PATCH END === */
+
 init();
 </script>
 </body>
