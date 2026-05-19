@@ -338,8 +338,8 @@ const noImgs = STATE.products.filter(p=>!p.shopImgs||p.shopImgs.length===0);
 if(noImgs.length>0) todos.push({i:"🖼️",t:noImgs.length+" Produkt(e) ohne Shop-Bilder",a:"STATE.tab='shop';render()"});
 const noAds = STATE.products.filter(p=>!p.adsReady);
 if(noAds.length>3) todos.push({i:"📣",t:noAds.length+" Produkte ohne aktive Ads",a:"STATE.tab='ads';render()"});
-if(todos.length===0) return \`<p class="text-xs text-slate-400">Alles erledigt! 🎉</p>\`;
-return todos.slice(0,5).map(t=>\`<button onclick="\${t.a}" class="w-full text-left flex items-center gap-2 p-2 hover:bg-slate-50 rounded"><span>\${t.i}</span><span class="flex-1 text-slate-700">\${t.t}</span><i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i></button>\`).join("");
+if(todos.length===0) return `<p class="text-xs text-slate-400">Alles erledigt! 🎉</p>`;
+return todos.slice(0,5).map(t=>`<button onclick="${t.a}" class="w-full text-left flex items-center gap-2 p-2 hover:bg-slate-50 rounded"><span>${t.i}</span><span class="flex-1 text-slate-700">${t.t}</span><i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i></button>`).join("");
 })()}
 </div>
 </div>
@@ -383,7 +383,7 @@ return todos.slice(0,5).map(t=>\`<button onclick="\${t.a}" class="w-full text-le
 <button onclick="switchTab('pipeline')" class="text-[10px] text-purple-600 font-medium">→ Details</button>
 </div>
 <div class="flex items-center gap-1 overflow-x-auto">
-${[{n:"Idee",c:STATE.products.length},{n:"Bilder",c:STATE.products.filter(p=>(p.shopImgs&&p.shopImgs.length>0)||(p.gallery&&p.gallery.length>0)).length},{n:"Shop",c:STATE.products.filter(p=>p.status!=="draft").length},{n:"Ads",c:STATE.products.filter(p=>p.adsReady).length},{n:"Sale",c:STATE.products.filter(p=>(p.sold||0)>0).length}].map((s,i,a)=>\`<div class="flex items-center gap-1 flex-shrink-0"><div class="text-center"><div class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">\${s.c}</div><div class="text-[9px] mt-0.5">\${s.n}</div></div>\${i<a.length-1?'<i data-lucide="chevron-right" class="w-3 h-3 text-slate-300"></i>':''}</div>\`).join('')}
+${[{n:"Idee",c:STATE.products.length},{n:"Bilder",c:STATE.products.filter(p=>(p.shopImgs&&p.shopImgs.length>0)||(p.gallery&&p.gallery.length>0)).length},{n:"Shop",c:STATE.products.filter(p=>p.status!=="draft").length},{n:"Ads",c:STATE.products.filter(p=>p.adsReady).length},{n:"Sale",c:STATE.products.filter(p=>(p.sold||0)>0).length}].map((s,i,a)=>`<div class="flex items-center gap-1 flex-shrink-0"><div class="text-center"><div class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">${s.c}</div><div class="text-[9px] mt-0.5">${s.n}</div></div>${i<a.length-1?'<i data-lucide="chevron-right" class="w-3 h-3 text-slate-300"></i>':''}</div>`).join('')}
 </div>
 </div>
 
@@ -427,7 +427,7 @@ ${(!STATE.keys.heygen||!STATE.keys.openai||!STATE.keys.discord)?'<button onclick
 <div class="bg-white p-4 rounded-xl shadow-sm">
 <h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4"></i> KI-Activity</h3>
 <div class="space-y-2 text-sm">
-${STATE.activity.length?STATE.activity.slice(0,5).map(a=>\`<div class="flex items-center gap-2 text-slate-700"><span class="text-xs text-slate-400 w-12">\${a.time}</span><i data-lucide="\${a.icon}" class="w-4 h-4 text-purple-500"></i><span>\${a.text}</span></div>\`).join(''):'<p class="text-slate-400 text-center py-3">Noch keine Aktivität · klick auf ⚡ oben für Auto-Run</p>'}
+${STATE.activity.length?STATE.activity.slice(0,5).map(a=>`<div class="flex items-center gap-2 text-slate-700"><span class="text-xs text-slate-400 w-12">${a.time}</span><i data-lucide="${a.icon}" class="w-4 h-4 text-purple-500"></i><span>${a.text}</span></div>`).join(''):'<p class="text-slate-400 text-center py-3">Noch keine Aktivität · klick auf ⚡ oben für Auto-Run</p>'}
 </div>
 </div>
 
@@ -463,7 +463,7 @@ $('app').innerHTML=`
 
 ${cat==='home'?'<div class="bg-orange-50 border border-orange-200 rounded-xl p-3 text-xs text-orange-800">🏡 <b>Home-Produkte</b> sind für späteren 2. Shop (HomeStyle CH) reserviert. Aktuell trotzdem live verkäuflich.</div>':''}
 
-${cat==='pool'?renderPool():\`
+${cat==='pool'?renderPool():`
 <!-- Bulk Actions -->
 <div class="bg-white rounded-xl shadow-sm p-3 space-y-2">
 <h3 class="font-bold text-sm">⚡ Bulk-Aktionen</h3>
@@ -476,9 +476,9 @@ ${cat==='pool'?renderPool():\`
 
 <!-- Product Cards -->
 <div class="space-y-3">
-\${products.map(p=>renderProductCard(p)).join('')}
+${products.map(p=>renderProductCard(p)).join('')}
 </div>
-\`}
+`}
 
 </div>`;
 }
@@ -528,18 +528,18 @@ ${Array.from({length:20},(_,i)=>{
   const img=p.shopImgs?.[i];
   if(img && img.url){
     // AUFGABE 1: Render real image with object-cover + loading lazy
-    return \`<div draggable="true" ondragstart="dragImage(event,'${p.id}','shop',\${i})" onclick="imageMenu('${p.id}','shop',\${i})" class="aspect-square rounded border-2 border-purple-300 overflow-hidden relative cursor-pointer group">
-<img src="\${img.url}" loading="lazy" class="w-full h-full object-cover rounded" alt="${p.t} \${i+1}">
-\${i===0?'<div class="absolute top-0.5 right-0.5 text-yellow-300 text-sm drop-shadow font-bold">★</div>':''}
-\${img.rating?\`<div class="absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold">★\${img.rating}</div>\`:''}
-<div class="absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100">\${img.ki||''}</div></div>\`;
+    return `<div draggable="true" ondragstart="dragImage(event,'${p.id}','shop',${i})" onclick="imageMenu('${p.id}','shop',${i})" class="aspect-square rounded border-2 border-purple-300 overflow-hidden relative cursor-pointer group">
+<img src="${img.url}" loading="lazy" class="w-full h-full object-cover rounded" alt="${p.t} ${i+1}">
+${i===0?'<div class="absolute top-0.5 right-0.5 text-yellow-300 text-sm drop-shadow font-bold">★</div>':''}
+${img.rating?`<div class="absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold">★${img.rating}</div>`:''}
+<div class="absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100">${img.ki||''}</div></div>`;
   } else if(img){
-    return \`<div draggable="true" ondragstart="dragImage(event,'${p.id}','shop',\${i})" onclick="imageMenu('${p.id}','shop',\${i})" class="aspect-square rounded border-2 border-purple-300 overflow-hidden relative cursor-pointer group" style="background:\${img.bg||'#e9d5ff'}">
-<div class="w-full h-full flex items-center justify-center text-xs font-bold text-purple-700">\${i===0?'★':i+1}</div>
-\${img.rating?\`<div class="absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold">★\${img.rating}</div>\`:''}
-<div class="absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100">\${img.ki||''}</div></div>\`;
+    return `<div draggable="true" ondragstart="dragImage(event,'${p.id}','shop',${i})" onclick="imageMenu('${p.id}','shop',${i})" class="aspect-square rounded border-2 border-purple-300 overflow-hidden relative cursor-pointer group" style="background:${img.bg||'#e9d5ff'}">
+<div class="w-full h-full flex items-center justify-center text-xs font-bold text-purple-700">${i===0?'★':i+1}</div>
+${img.rating?`<div class="absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold">★${img.rating}</div>`:''}
+<div class="absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100">${img.ki||''}</div></div>`;
   } else {
-    return \`<button onclick="addImageSlot('${p.id}',\${i})" ondragover="event.preventDefault()" ondrop="dropImage(event,'${p.id}','shop',\${i})" class="aspect-square bg-white border border-dashed border-slate-300 rounded flex items-center justify-center text-slate-400"><i data-lucide="plus" class="w-3 h-3"></i></button>\`;
+    return `<button onclick="addImageSlot('${p.id}',${i})" ondragover="event.preventDefault()" ondrop="dropImage(event,'${p.id}','shop',${i})" class="aspect-square bg-white border border-dashed border-slate-300 rounded flex items-center justify-center text-slate-400"><i data-lucide="plus" class="w-3 h-3"></i></button>`;
   }
 }).join('')}
 </div>
@@ -554,7 +554,7 @@ ${Array.from({length:20},(_,i)=>{
 </div>
 </div>
 <div class="grid grid-cols-5 gap-1" id="gal-grid-${p.id}" ondragover="event.preventDefault()" ondrop="dropImage(event,'${p.id}','gallery')">
-${Array.from({length:20},(_,i)=>{const img=p.gallery?.[i];return img?\`<div draggable="true" ondragstart="dragImage(event,'${p.id}','gallery',\${i})" onclick="imageMenu('${p.id}','gallery',\${i})" class="aspect-square rounded overflow-hidden relative cursor-pointer group" style="background:\${img.url?'url('+img.url+') center/cover':img.bg||'linear-gradient(135deg,#fed7aa,#fef08a)'}">\${img.url?'':\`<div class="w-full h-full flex items-center justify-center text-xs font-bold text-orange-900">\${img.label||(i+1)}</div>\`}\${img.rating?\`<div class="absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold">★\${img.rating}</div>\`:''}<div class="absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100">\${img.ki||''}</div></div>\`:\`<div class="aspect-square bg-white border border-dashed border-slate-200 rounded"></div>\`}).join('')}
+${Array.from({length:20},(_,i)=>{const img=p.gallery?.[i];return img?`<div draggable="true" ondragstart="dragImage(event,'${p.id}','gallery',${i})" onclick="imageMenu('${p.id}','gallery',${i})" class="aspect-square rounded overflow-hidden relative cursor-pointer group" style="background:${img.url?'url('+img.url+') center/cover':img.bg||'linear-gradient(135deg,#fed7aa,#fef08a)'}">${img.url?'':`<div class="w-full h-full flex items-center justify-center text-xs font-bold text-orange-900">${img.label||(i+1)}</div>`}${img.rating?`<div class="absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold">★${img.rating}</div>`:''}<div class="absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100">${img.ki||''}</div></div>`:`<div class="aspect-square bg-white border border-dashed border-slate-200 rounded"></div>`}).join('')}
 </div>
 <div class="text-[10px] text-slate-500 mt-1 text-center">Tippen: Menü · Ziehen: in Shop · Lieferant: ${p.supplier||'—'}</div>
 </div>
@@ -591,21 +591,21 @@ return `<div class="space-y-3">
 <div class="bg-pink-50 border border-pink-200 rounded-xl p-3 text-xs text-pink-800">
 💡 <b>20 Pool-Ideen</b> bereit zum Aktivieren. Klick "Aktivieren" → KI macht in 2 Min ein vollständiges Produkt daraus.
 </div>
-${STATE.poolIdeas.map(idea=>\`
+${STATE.poolIdeas.map(idea=>`
 <div class="bg-white rounded-xl shadow-sm p-3">
 <div class="flex justify-between items-start">
 <div class="flex-1">
-<h4 class="font-bold text-sm">\${idea.name}</h4>
-<div class="text-xs text-slate-500 mt-1">CHF \${idea.price.toFixed(2)} · Marge \${idea.margin}%</div>
+<h4 class="font-bold text-sm">${idea.name}</h4>
+<div class="text-xs text-slate-500 mt-1">CHF ${idea.price.toFixed(2)} · Marge ${idea.margin}%</div>
 <div class="flex gap-2 mt-2 text-xs">
-<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">Viral \${idea.viral}/10</span>
-<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded">Einkauf $\${idea.cost}</span>
+<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">Viral ${idea.viral}/10</span>
+<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded">Einkauf $${idea.cost}</span>
 </div>
 </div>
-<button onclick="activatePoolIdea(\${idea.id})" class="bg-pink-600 text-white px-3 py-2 rounded-lg text-xs font-medium">Aktivieren</button>
+<button onclick="activatePoolIdea(${idea.id})" class="bg-pink-600 text-white px-3 py-2 rounded-lg text-xs font-medium">Aktivieren</button>
 </div>
 </div>
-\`).join('')}
+`).join('')}
 </div>`;
 }
 
@@ -647,19 +647,19 @@ $('app').innerHTML=`
 <div class="space-y-3 text-sm">
 <div>
 <div class="font-medium text-green-700 mb-1">🟢 AKTIV — $${STATE.toolStack.summary.phase1}/Mt</div>
-${STATE.toolStack.tools.filter(t=>t.status==='active').map(t=>\`<div class="flex justify-between text-xs pl-3"><span>\${t.name}</span><span class="text-slate-600">$\${t.cost_monthly}</span></div>\`).join('')}
+${STATE.toolStack.tools.filter(t=>t.status==='active').map(t=>`<div class="flex justify-between text-xs pl-3"><span>${t.name}</span><span class="text-slate-600">$${t.cost_monthly}</span></div>`).join('')}
 </div>
 <div>
 <div class="font-medium text-yellow-700 mb-1">🟡 PHASE 2 → $${STATE.toolStack.summary.phase2}/Mt</div>
-${STATE.toolStack.tools.filter(t=>t.status==='planned'&&['Netlify Pro','OpenAI DALL-E 3'].includes(t.name)).map(t=>\`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>\${t.name}</span><span>$\${t.cost_monthly}</span></div>\`).join('')}
+${STATE.toolStack.tools.filter(t=>t.status==='planned'&&['Netlify Pro','OpenAI DALL-E 3'].includes(t.name)).map(t=>`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>${t.name}</span><span>$${t.cost_monthly}</span></div>`).join('')}
 </div>
 <div>
 <div class="font-medium text-orange-700 mb-1">🟠 PHASE 3 → $${STATE.toolStack.summary.phase3}/Mt</div>
-${STATE.toolStack.tools.filter(t=>['Midjourney v6','Runway Gen-3'].includes(t.name)).map(t=>\`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>\${t.name}</span><span>$\${t.cost_monthly}</span></div>\`).join('')}
+${STATE.toolStack.tools.filter(t=>['Midjourney v6','Runway Gen-3'].includes(t.name)).map(t=>`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>${t.name}</span><span>$${t.cost_monthly}</span></div>`).join('')}
 </div>
 <div>
 <div class="font-medium text-red-700 mb-1">🔴 PHASE 4 → $${STATE.toolStack.summary.phase4}/Mt</div>
-${STATE.toolStack.tools.filter(t=>['ElevenLabs','Suno AI v4'].includes(t.name)).map(t=>\`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>\${t.name}</span><span>$\${t.cost_monthly}</span></div>\`).join('')}
+${STATE.toolStack.tools.filter(t=>['ElevenLabs','Suno AI v4'].includes(t.name)).map(t=>`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>${t.name}</span><span>$${t.cost_monthly}</span></div>`).join('')}
 </div>
 </div>
 </div>
@@ -668,12 +668,12 @@ ${STATE.toolStack.tools.filter(t=>['ElevenLabs','Suno AI v4'].includes(t.name)).
 <div class="bg-white rounded-xl shadow-sm p-4">
 <h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> KI-Chat (Gemini)</h3>
 ${STATE.keys.gemini?
-\`<div id="chat-msgs" class="space-y-2 mb-3 max-h-60 overflow-y-auto text-sm"></div>
+`<div id="chat-msgs" class="space-y-2 mb-3 max-h-60 overflow-y-auto text-sm"></div>
 <div class="flex gap-2">
 <input id="chat-input" type="text" placeholder="Frag mich was zur Strategie..." class="flex-1 border rounded-lg px-3 py-2 text-sm">
 <button onclick="sendChat()" class="bg-purple-600 text-white px-4 rounded-lg"><i data-lucide="send" class="w-4 h-4"></i></button>
-</div>\`:
-\`<p class="text-sm text-slate-500 text-center py-3">Gemini API Key fehlt · <button onclick="openSetup()" class="text-purple-600 underline">jetzt einrichten</button></p>\`}
+</div>`:
+`<p class="text-sm text-slate-500 text-center py-3">Gemini API Key fehlt · <button onclick="openSetup()" class="text-purple-600 underline">jetzt einrichten</button></p>`}
 </div>
 
 <!-- Approval Queue -->
@@ -712,15 +712,15 @@ $('app').innerHTML=`
 <div class="bg-white rounded-xl shadow-sm p-4">
 <h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="ticket" class="w-4 h-4"></i> Discount-Codes (${codes.filter(c=>c.active).length} aktiv)</h3>
 <div class="space-y-2">
-${codes.map(c=>\`
-<div class="\${c.highlight?'border-2 border-blue-400 bg-blue-50':'border'} rounded-lg p-3 flex justify-between items-center">
+${codes.map(c=>`
+<div class="${c.highlight?'border-2 border-blue-400 bg-blue-50':'border'} rounded-lg p-3 flex justify-between items-center">
 <div>
-<div class="font-mono font-bold text-sm">\${c.c}</div>
-<div class="text-xs text-slate-500">\${c.d}\${c.exp?' · läuft '+c.exp:''}</div>
+<div class="font-mono font-bold text-sm">${c.c}</div>
+<div class="text-xs text-slate-500">${c.d}${c.exp?' · läuft '+c.exp:''}</div>
 </div>
-<span class="text-xs \${c.active?'bg-green-100 text-green-700':'bg-slate-100 text-slate-500'} px-2 py-1 rounded">\${c.active?'🟢 Aktiv':'⏸ Geplant'}</span>
+<span class="text-xs ${c.active?'bg-green-100 text-green-700':'bg-slate-100 text-slate-500'} px-2 py-1 rounded">${c.active?'🟢 Aktiv':'⏸ Geplant'}</span>
 </div>
-\`).join('')}
+`).join('')}
 </div>
 </div>
 
@@ -769,8 +769,8 @@ const totalRevenue = STATE.products.reduce((s,p)=>s+((p.sales||0)*(p.p||0)),0);
 const roas = totalSpent>0 ? (totalRevenue/totalSpent).toFixed(2) : "—";
 const orders7d = STATE.stats?.orders7d || [3,5,4,7,6,9,8];
 const max7d = Math.max(...orders7d);
-const sparkline = (vals)=>{const max=Math.max(...vals,1); const w=200, h=40, step=w/(vals.length-1); const pts=vals.map((v,i)=>\`\${i*step},\${h-(v/max)*h}\`).join(" "); return \`<svg width="\${w}" height="\${h}" viewBox="0 0 \${w} \${h}"><polyline fill="none" stroke="#667eea" stroke-width="2" points="\${pts}"/></svg>\`;};
-const bar = (label,val,max,color)=>{const pct=max>0?(val/max*100):0; return \`<div class="mb-2"><div class="flex justify-between text-xs mb-1"><span class="text-slate-600">\${label}</span><span class="font-semibold">\${val}</span></div><div class="bg-slate-200 rounded-full h-2"><div class="\${color} h-2 rounded-full" style="width:\${pct}%"></div></div></div>\`;};
+const sparkline = (vals)=>{const max=Math.max(...vals,1); const w=200, h=40, step=w/(vals.length-1); const pts=vals.map((v,i)=>`${i*step},${h-(v/max)*h}`).join(" "); return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline fill="none" stroke="#667eea" stroke-width="2" points="${pts}"/></svg>`;};
+const bar = (label,val,max,color)=>{const pct=max>0?(val/max*100):0; return `<div class="mb-2"><div class="flex justify-between text-xs mb-1"><span class="text-slate-600">${label}</span><span class="font-semibold">${val}</span></div><div class="bg-slate-200 rounded-full h-2"><div class="${color} h-2 rounded-full" style="width:${pct}%"></div></div></div>`;};
 const topByRev = [...STATE.products].map(p=>({...p,rev:(p.sales||0)*(p.p||0)})).sort((a,b)=>b.rev-a.rev).slice(0,5);
 const channelSpend = {meta:STATE.ads?.meta?.spent||0, google:STATE.ads?.google?.spent||0, tiktok:STATE.ads?.tiktok?.spent||0};
 const maxCh = Math.max(channelSpend.meta,channelSpend.google,channelSpend.tiktok,1);
@@ -817,8 +817,8 @@ ${bar("TikTok Ads", channelSpend.tiktok.toFixed(2)+" CHF", maxCh, "bg-black")}
 <div class="bg-white rounded-xl shadow-sm p-4">
 <h3 class="font-bold text-sm mb-2">🏆 Top-Produkte (Umsatz)</h3>
 <div class="space-y-2">
-${topByRev.length===0 ? \`<p class="text-xs text-slate-400 text-center py-3">Noch keine Verkaufsdaten</p>\` :
-topByRev.map((p,i)=>\`<div class="flex items-center gap-2 text-sm"><span class="w-5 text-slate-400">\${i+1}.</span><span class="flex-1 truncate">\${p.t}</span><span class="text-emerald-600 font-bold">CHF \${(p.rev||0).toFixed(0)}</span></div>\`).join("")}
+${topByRev.length===0 ? `<p class="text-xs text-slate-400 text-center py-3">Noch keine Verkaufsdaten</p>` :
+topByRev.map((p,i)=>`<div class="flex items-center gap-2 text-sm"><span class="w-5 text-slate-400">${i+1}.</span><span class="flex-1 truncate">${p.t}</span><span class="text-emerald-600 font-bold">CHF ${(p.rev||0).toFixed(0)}</span></div>`).join("")}
 </div>
 </div>
 
