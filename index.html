@@ -75,16 +75,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 <script>
 // ========== STATE ==========
 const STATE = {
-  tab: 'cockpit',
-  shop: { name: 'LuxeStyle CH', domain: 'aban-192.myshopify.com', primaryDomain: 'https://aban-192.myshopify.com' },
-  keys: JSON.parse(localStorage.getItem('luxe_keys') || '{}'),
-  settings: JSON.parse(localStorage.getItem('luxe_settings') || '{"shopCategory":"lifestyle","style":"mixed"}'),
-  products: [],
-  poolIdeas: [],
-  toolStack: null,
-  autoRules: null,
-  costs: JSON.parse(localStorage.getItem('luxe_costs') || '{"today":{"heygen":0,"dalle":0,"tiktok":0},"total":0}'),
-  activity: JSON.parse(localStorage.getItem('luxe_activity') || '[]')
+tab: 'cockpit',
+shop: { name: 'LuxeStyle CH', domain: 'aban-192.myshopify.com', primaryDomain: 'https://aban-192.myshopify.com' },
+keys: JSON.parse(localStorage.getItem('luxe_keys') || '{}'),
+settings: JSON.parse(localStorage.getItem('luxe_settings') || '{"shopCategory":"lifestyle","style":"mixed"}'),
+products: [],
+poolIdeas: [],
+toolStack: null,
+autoRules: null,
+costs: JSON.parse(localStorage.getItem('luxe_costs') || '{"today":{"heygen":0,"dalle":0,"tiktok":0},"total":0}'),
+activity: JSON.parse(localStorage.getItem('luxe_activity') || '[]'),
+adsBudgets: JSON.parse(localStorage.getItem('luxe_adsBudgets') || 'null')
 };
 
 // ========== EMBEDDED DATA ==========
@@ -92,38 +93,88 @@ STATE.toolStack = {"tools":[{"name":"Claude Max","category":"AI Assistant","cost
 
 STATE.poolIdeas = [{"id":1,"name":"Magic Hair Towel","cost":3.5,"price":24.9,"margin":80,"viral":9},{"id":2,"name":"Magnetic Armband","cost":5,"price":34.9,"margin":85,"viral":7},{"id":3,"name":"Crystal Glasflasche","cost":7,"price":39.9,"margin":80,"viral":8},{"id":4,"name":"Smart Thermometer","cost":8,"price":29.9,"margin":70,"viral":6},{"id":5,"name":"Anti-Theft Backpack","cost":18,"price":79.9,"margin":75,"viral":8},{"id":6,"name":"Smartwatch Strap","cost":4,"price":24.9,"margin":80,"viral":6},{"id":7,"name":"Bambus Socken 5er","cost":6,"price":29.9,"margin":75,"viral":5},{"id":8,"name":"Salzkristall Lampe","cost":10,"price":44.9,"margin":75,"viral":7},{"id":9,"name":"Bauchtasche Crossbody","cost":7,"price":34.9,"margin":78,"viral":8},{"id":10,"name":"LED Travel Mirror","cost":8,"price":39.9,"margin":80,"viral":7},{"id":11,"name":"Kaschmir-Schal","cost":15,"price":89.9,"margin":80,"viral":6},{"id":12,"name":"Travel Kosmetik XL","cost":6,"price":29.9,"margin":78,"viral":6},{"id":13,"name":"Faltrucksack Ultra","cost":7,"price":34.9,"margin":78,"viral":7},{"id":14,"name":"Schmuck Gold 3-tlg","cost":6,"price":39.9,"margin":82,"viral":8},{"id":15,"name":"Aromatherapie 5er","cost":8,"price":34.9,"margin":75,"viral":7},{"id":16,"name":"Bambus Zahnbürsten","cost":3,"price":19.9,"margin":80,"viral":5},{"id":17,"name":"Schweizer Sommerhut","cost":5,"price":29.9,"margin":78,"viral":6},{"id":18,"name":"Trockenblumen","cost":12,"price":54.9,"margin":75,"viral":7},{"id":19,"name":"Kompressionsstrümpfe","cost":6,"price":34.9,"margin":78,"viral":6},{"id":20,"name":"Wireless Charger","cost":7,"price":29.9,"margin":73,"viral":6}];
 
+// AUFGABE 5: ads_ready products
+const _ADS_READY = new Set(["15396249502081","15396249960833","15396250059137","15396250321281","15397247385985","15397247484289","15397247517057"]);
+
+// AUFGABE 1: real images mapping per product
+const PRODUCT_IMAGES = {"15396249502081":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1627123424574-724758594e93.jpg?v=1778981144"],"15396249698689":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1553062407-98eeb64c6a62.jpg?v=1778981136","https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1581605405669-fcdf81165afa.jpg?v=1778981139"],"15396249960833":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1587836374828-4dbafa94cf0e.jpg?v=1778981099","https://cdn.shopify.com/s/files/1/0943/6856/3585/files/luxury-silver-mens-watch-classic-roman-numerals-white-dial-mesh-bracelet-elegant-product-photo.png?v=1779017506"],"15396250059137":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1600857544200-b2f666a9a2ec.jpg?v=1778981184","https://cdn.shopify.com/s/files/1/0943/6856/3585/files/pexels-photo-3737588.jpg?v=1778981467"],"15396250157441":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/a-rose-pink-leather-ladies-wallet-with-multiple-card-slots-rfid-protection-flat-lay-on-white-background-product-photography-studio-lighting.png?v=1779016800"],"15396250222977":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1601925260368-ae2f83cf8b7f.jpg?v=1778981165","https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1518611012118-696072aa579a.jpg?v=1778981168"],"15396250321281":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1511499767150-a48a237f0083.jpg?v=1778981173","https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1572635196237-14b3f281503f.jpg?v=1778981176"],"15396250419585":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1602143407151-7111542de6e8.jpg?v=1778981191"],"15396250485121":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/pexels-photo-3270223.jpg?v=1778981466"],"15396250812801":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1521572163474-6864f9cf17ab.jpg?v=1778981104","https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1583743814966-8936f5b7be1a.jpg?v=1778981108"],"15396404691329":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/pexels-photo-4210342.jpg?v=1778981520","https://cdn.shopify.com/s/files/1/0943/6856/3585/files/pexels-photo-7015058.jpg?v=1778981520"],"15396404756865":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/pexels-photo-4526407.jpg?v=1778981525","https://cdn.shopify.com/s/files/1/0943/6856/3585/files/pexels-photo-3178938.jpg?v=1778981525"],"15396404789633":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/a-sleek-modern-led-desk-lamp-with-adjustable-arm-white-color-minimalist-design-on-a-clean-white-desk-product-photography-studio-lighting.png?v=1779016563"],"15396404855169":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/pexels-photo-4164512.jpg?v=1778981536","https://cdn.shopify.com/s/files/1/0943/6856/3585/files/pexels-photo-3768916.jpg?v=1778981536"],"15396404920705":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1574258495973-f010dfbb5371.jpg?v=1779165828"],"15397218124161":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1592194996308-7b43878e84a6.jpg?v=1779165914"],"15397218189697":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1583511655826-05700d52f4d9.jpg?v=1779165829"],"15397218255233":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1555252333-9f8e92e65df9.jpg?v=1779165828"],"15397218320769":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1546015720-b8b30df5aa27.jpg?v=1779165828"],"15397218419073":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1593618998160-e34014e67546.jpg?v=1779165844"],"15397218451841":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1556909114-f6e7ad7d3136.jpg?v=1779165845"],"15397247385985":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1617019114583-affb34d1b3cd.jpg?v=1779165845"],"15397247418753":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1589924691995-400dc9ecc119.jpg?v=1779040864"],"15397247484289":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1515488764276-beab7607c1e6.jpg?v=1779040865"],"15397247517057":["https://cdn.shopify.com/s/files/1/0943/6856/3585/files/photo-1607619056574-7b8d3ee536b2.jpg?v=1779165845"]};
+
+// AUFGABE 2: supplier URL mapping per product
+const SUPPLIER_URLS = {"15396249502081":"https://www.aliexpress.com/wholesale?SearchText=rfid+slim+wallet+leather","15396249698689":"https://www.aliexpress.com/wholesale?SearchText=canvas+backpack+25L+laptop","15396249960833":"https://www.aliexpress.com/wholesale?SearchText=mens+watch+saphir+stainless+steel","15396250059137":"https://www.aliexpress.com/wholesale?SearchText=aroma+diffuser+bamboo+500ml+LED","15396250157441":"https://www.aliexpress.com/wholesale?SearchText=ladies+wallet+rose+RFID+leather","15396250222977":"https://www.aliexpress.com/wholesale?SearchText=yoga+mat+6mm+TPE+anti+slip","15396250321281":"https://www.aliexpress.com/wholesale?SearchText=retro+sunglasses+polarized+UV400+vintage","15396250419585":"https://www.aliexpress.com/wholesale?SearchText=stainless+steel+thermos+750ml","15396250485121":"https://www.aliexpress.com/wholesale?SearchText=soy+candle+set+vegan+wellness","15396250812801":"https://www.aliexpress.com/wholesale?SearchText=organic+cotton+t-shirt+GOTS+unisex","15396404691329":"https://www.aliexpress.com/wholesale?SearchText=silk+pillowcase+set+anti+aging","15396404756865":"https://www.aliexpress.com/wholesale?SearchText=solar+power+bank+20000mAh+USB","15396404789633":"https://www.aliexpress.com/wholesale?SearchText=LED+desk+lamp+dimmable+USB-C","15396404855169":"https://www.aliexpress.com/wholesale?SearchText=resistance+bands+set+5+pieces","15396404920705":"https://www.aliexpress.com/wholesale?SearchText=blue+light+glasses+anti+blue+light","15397218124161":"https://www.aliexpress.com/wholesale?SearchText=automatic+pet+water+fountain+2L+filter","15397218189697":"https://www.aliexpress.com/wholesale?SearchText=LED+dog+collar+USB+waterproof","15397218255233":"https://www.aliexpress.com/wholesale?SearchText=electric+baby+nail+clipper+trimmer","15397218320769":"https://www.aliexpress.com/wholesale?SearchText=silicone+baby+bib+set+BPA+free","15397218419073":"https://www.aliexpress.com/wholesale?SearchText=magnetic+knife+block+bamboo+modern","15397218451841":"https://www.aliexpress.com/wholesale?SearchText=digital+kitchen+scale+5kg+tara","15397247385985":"https://www.aliexpress.com/wholesale?SearchText=jade+roller+gua+sha+set+anti+aging","15397247418753":"https://www.aliexpress.com/wholesale?SearchText=slow+feeder+anti+gulp+bowl+pet","15397247484289":"https://www.aliexpress.com/wholesale?SearchText=star+projector+baby+night+light+music","15397247517057":"https://www.aliexpress.com/wholesale?SearchText=5+in+1+vegetable+slicer+steel"};
+
 STATE.products = [
-{id:"15396249502081",t:"Slim Wallet RFID",p:49.90,c:12.50,cat:"lifestyle",img:1,inv:50,sales:0,sup:"CJ Dropshipping",supUrl:"",pipe:"DRAFT",adsReady:true},
-{id:"15396249698689",t:"Canvas Rucksack 25L",p:79.90,c:28.00,cat:"lifestyle",img:2,inv:30,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT"},
-{id:"15396249960833",t:"Herrenuhr Saphirglas",p:129.90,c:45.00,cat:"lifestyle",img:2,inv:25,sales:0,sup:"Spocket",supUrl:"",pipe:"READY",adsReady:true,featured:true},
-{id:"15396250059137",t:"Aroma Diffuser Bambus",p:39.90,c:11.50,cat:"lifestyle",img:2,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT",adsReady:true},
-{id:"15396250157441",t:"Damen Wallet Rose",p:54.90,c:22.00,cat:"lifestyle",img:1,inv:30,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT",featured:true},
-{id:"15396250222977",t:"Yogamatte 6mm TPE",p:54.90,c:24.00,cat:"lifestyle",img:2,inv:35,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT"},
-{id:"15396250321281",t:"Sonnenbrille Polarisiert",p:39.90,c:12.00,cat:"lifestyle",img:2,inv:60,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT",adsReady:true},
-{id:"15396250419585",t:"Thermos 750ml",p:29.90,c:7.50,cat:"lifestyle",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
-{id:"15396250485121",t:"Soja Duftkerzen 3er",p:39.90,c:12.00,cat:"lifestyle",img:1,inv:30,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
-{id:"15396250812801",t:"Bio T-Shirt GOTS",p:34.90,c:14.50,cat:"lifestyle",img:2,inv:50,sales:0,sup:"Printful",supUrl:"",pipe:"DRAFT"},
-{id:"15396404691329",t:"Silk Pillowcase",p:49.90,c:24.00,cat:"lifestyle",img:2,inv:25,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT",featured:true},
-{id:"15396404756865",t:"Solar Powerbank 20k",p:49.90,c:15.00,cat:"lifestyle",img:2,inv:30,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
-{id:"15396404789633",t:"LED Schreibtischlampe",p:44.90,c:13.50,cat:"lifestyle",img:1,inv:35,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
-{id:"15396404855169",t:"Resistance Bands 5er",p:29.90,c:6.00,cat:"lifestyle",img:2,inv:45,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
-{id:"15396404920705",t:"Blue Light Brille",p:29.90,c:10.50,cat:"lifestyle",img:1,inv:40,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
-{id:"15397218124161",t:"Pet Wasserspender 2L",p:39.90,c:11.00,cat:"home",img:1,inv:25,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
-{id:"15397218189697",t:"LED Halsband Hund",p:24.90,c:5.00,cat:"home",img:1,inv:50,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
-{id:"15397218255233",t:"Baby Nagelschneider",p:24.90,c:7.50,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
-{id:"15397218320769",t:"Silikon Lätzchen 5er",p:24.90,c:5.00,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
-{id:"15397218419073",t:"Messerblock Bambus",p:49.90,c:12.00,cat:"home",img:1,inv:25,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
-{id:"15397218451841",t:"Küchenwaage 5kg",p:24.90,c:5.00,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
-{id:"15397247385985",t:"Jade Roller Set",p:29.90,c:6.00,cat:"lifestyle",img:1,inv:50,sales:0,sup:"AliExpress",supUrl:"",pipe:"READY",adsReady:true},
-{id:"15397247418753",t:"Slow Feeder Napf",p:24.90,c:6.00,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
-{id:"15397247484289",t:"Sternenhimmel Projektor",p:44.90,c:12.00,cat:"home",img:1,inv:30,sales:0,sup:"CJ",supUrl:"",pipe:"READY",adsReady:true},
-{id:"15397247517057",t:"Gemüsehobel 5-in-1",p:29.90,c:7.50,cat:"home",img:1,inv:35,sales:0,sup:"AliExpress",supUrl:"",pipe:"READY",adsReady:true}
+{id:"15396249502081",t:"Slim Wallet RFID",p:49.90,c:12.50,cat:"lifestyle",img:1,inv:50,sales:0,sup:"CJ Dropshipping",supUrl:"",pipe:"DRAFT",adsReady:true,videoUrl:null},
+{id:"15396249698689",t:"Canvas Rucksack 25L",p:79.90,c:28.00,cat:"lifestyle",img:2,inv:30,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15396249960833",t:"Herrenuhr Saphirglas",p:129.90,c:45.00,cat:"lifestyle",img:2,inv:25,sales:0,sup:"Spocket",supUrl:"",pipe:"READY",adsReady:true,featured:true,videoUrl:null},
+{id:"15396250059137",t:"Aroma Diffuser Bambus",p:39.90,c:11.50,cat:"lifestyle",img:2,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT",adsReady:true,videoUrl:null},
+{id:"15396250157441",t:"Damen Wallet Rose",p:54.90,c:22.00,cat:"lifestyle",img:1,inv:30,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT",featured:true,videoUrl:null},
+{id:"15396250222977",t:"Yogamatte 6mm TPE",p:54.90,c:24.00,cat:"lifestyle",img:2,inv:35,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15396250321281",t:"Sonnenbrille Polarisiert",p:39.90,c:12.00,cat:"lifestyle",img:2,inv:60,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT",adsReady:true,videoUrl:null},
+{id:"15396250419585",t:"Thermos 750ml",p:29.90,c:7.50,cat:"lifestyle",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15396250485121",t:"Soja Duftkerzen 3er",p:39.90,c:12.00,cat:"lifestyle",img:1,inv:30,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15396250812801",t:"Bio T-Shirt GOTS",p:34.90,c:14.50,cat:"lifestyle",img:2,inv:50,sales:0,sup:"Printful",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15396404691329",t:"Silk Pillowcase",p:49.90,c:24.00,cat:"lifestyle",img:2,inv:25,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT",featured:true,videoUrl:null},
+{id:"15396404756865",t:"Solar Powerbank 20k",p:49.90,c:15.00,cat:"lifestyle",img:2,inv:30,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15396404789633",t:"LED Schreibtischlampe",p:44.90,c:13.50,cat:"lifestyle",img:1,inv:35,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15396404855169",t:"Resistance Bands 5er",p:29.90,c:6.00,cat:"lifestyle",img:2,inv:45,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15396404920705",t:"Blue Light Brille",p:29.90,c:10.50,cat:"lifestyle",img:1,inv:40,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15397218124161",t:"Pet Wasserspender 2L",p:39.90,c:11.00,cat:"home",img:1,inv:25,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15397218189697",t:"LED Halsband Hund",p:24.90,c:5.00,cat:"home",img:1,inv:50,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15397218255233",t:"Baby Nagelschneider",p:24.90,c:7.50,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15397218320769",t:"Silikon Lätzchen 5er",p:24.90,c:5.00,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15397218419073",t:"Messerblock Bambus",p:49.90,c:12.00,cat:"home",img:1,inv:25,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15397218451841",t:"Küchenwaage 5kg",p:24.90,c:5.00,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15397247385985",t:"Jade Roller Set",p:29.90,c:6.00,cat:"lifestyle",img:1,inv:50,sales:0,sup:"AliExpress",supUrl:"",pipe:"READY",adsReady:true,videoUrl:null},
+{id:"15397247418753",t:"Slow Feeder Napf",p:24.90,c:6.00,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT",videoUrl:null},
+{id:"15397247484289",t:"Sternenhimmel Projektor",p:44.90,c:12.00,cat:"home",img:1,inv:30,sales:0,sup:"CJ",supUrl:"",pipe:"READY",adsReady:true,videoUrl:null},
+{id:"15397247517057",t:"Gemüsehobel 5-in-1",p:29.90,c:7.50,cat:"home",img:1,inv:35,sales:0,sup:"AliExpress",supUrl:"",pipe:"READY",adsReady:true,videoUrl:null}
 ];
+
+// AUFGABE 1 & 2: Apply images + supplier URL to each product
+STATE.products.forEach(p=>{
+  if(PRODUCT_IMAGES[p.id]) p.images = PRODUCT_IMAGES[p.id].slice();
+  else p.images = [];
+  if(SUPPLIER_URLS[p.id]) p.supplierUrl = SUPPLIER_URLS[p.id];
+  if(_ADS_READY.has(p.id)) p.adsReady = true;
+});
+
+// AUFGABE 3: Ads Budgets Default
+const _DEFAULT_ADS_BUDGETS = [
+  {id:"tiktok", name:"TikTok Ads", icon:"📱", color:"#FF0050",
+   total:300, used:0, remaining:300, status:"funded_no_payment",
+   warning:"Zahlungsmethode fehlt", url:"https://business.tiktok.com",
+   alertLow:50, alertCritical:20, autoRefill:false, autoRefillAmount:200},
+  {id:"meta", name:"Meta Ads (FB+IG)", icon:"📘", color:"#1877F2",
+   total:0, used:0, remaining:0, status:"not_setup",
+   warning:"Account nicht eingerichtet", url:"https://business.facebook.com",
+   alertLow:50, alertCritical:20, autoRefill:false, autoRefillAmount:150},
+  {id:"google", name:"Google Ads", icon:"🔴", color:"#4285F4",
+   total:0, used:0, remaining:0, status:"not_setup",
+   warning:"Developer Token: 1-2 Wochen Approval nötig", url:"https://ads.google.com",
+   alertLow:50, alertCritical:20, autoRefill:false, autoRefillAmount:200},
+  {id:"pinterest", name:"Pinterest Ads", icon:"📌", color:"#BD081C",
+   total:0, used:0, remaining:0, status:"planned",
+   warning:"Später für Lifestyle", url:"https://ads.pinterest.com",
+   alertLow:50, alertCritical:20, autoRefill:false, autoRefillAmount:100},
+  {id:"snapchat", name:"Snapchat Ads", icon:"👻", color:"#FFFC00",
+   total:0, used:0, remaining:0, status:"planned",
+   warning:"Optional", url:"https://ads.snapchat.com",
+   alertLow:50, alertCritical:20, autoRefill:false, autoRefillAmount:100}
+];
+if(!STATE.adsBudgets || !Array.isArray(STATE.adsBudgets) || STATE.adsBudgets.length===0){
+  STATE.adsBudgets = _DEFAULT_ADS_BUDGETS;
+} else {
+  // merge: if user has stored autoRefill flags, keep them; otherwise use defaults
+  STATE.adsBudgets = _DEFAULT_ADS_BUDGETS.map(d=>{
+    const stored = STATE.adsBudgets.find(x=>x.id===d.id) || {};
+    return Object.assign({}, d, {autoRefill: stored.autoRefill||false});
+  });
+}
 
 // ========== UTILS ==========
 function $(id){return document.getElementById(id)}
 function toast(msg,t=2500){const el=$('toast');el.textContent=msg;el.classList.remove('hidden');setTimeout(()=>el.classList.add('hidden'),t)}
-function save(){localStorage.setItem('luxe_keys',JSON.stringify(STATE.keys));localStorage.setItem('luxe_settings',JSON.stringify(STATE.settings));localStorage.setItem('luxe_costs',JSON.stringify(STATE.costs));localStorage.setItem('luxe_activity',JSON.stringify(STATE.activity.slice(0,20)))}
+function save(){localStorage.setItem('luxe_keys',JSON.stringify(STATE.keys));localStorage.setItem('luxe_settings',JSON.stringify(STATE.settings));localStorage.setItem('luxe_costs',JSON.stringify(STATE.costs));localStorage.setItem('luxe_activity',JSON.stringify(STATE.activity.slice(0,20)));localStorage.setItem('luxe_adsBudgets',JSON.stringify(STATE.adsBudgets))}
 function logActivity(text,icon='zap'){STATE.activity.unshift({text,icon,time:new Date().toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'})});if(STATE.activity.length>20)STATE.activity=STATE.activity.slice(0,20);save();if(STATE.tab==='cockpit')renderCockpit()}
 if(!STATE.ads) STATE.ads={meta:{spent:0,revenue:0,active:false},google:{spent:0,revenue:0,active:false},tiktok:{spent:0,revenue:0,active:false}};
 
@@ -134,13 +185,97 @@ function switchTab(tab){STATE.tab=tab;document.querySelectorAll('.tab-btn').forE
 if(!STATE.shops) STATE.shops = ['LuxeStyle CH'];
 if(!STATE.suppliers) STATE.suppliers = ['Temu','Amazon','Alibaba','AliExpress','CJ Dropshipping'];
 STATE.products.forEach(p=>{
-  if(!p.shopImgs) p.shopImgs = Array.from({length:p.img||0},(_,i)=>({bg:'#e9d5ff',label:i===0?'★':String(i+1),ki:'manual'}));
-  if(!p.gallery) p.gallery = [];
-  if(!p.supplier) p.supplier = '';
+if(!p.shopImgs) {
+  // Auto-build shopImgs from p.images (Aufgabe 1)
+  if(p.images && p.images.length){
+    p.shopImgs = p.images.map((url,i)=>({url:url, label:i===0?'★':String(i+1), ki:'real'}));
+  } else {
+    p.shopImgs = Array.from({length:p.img||0},(_,i)=>({bg:'#e9d5ff',label:i===0?'★':String(i+1),ki:'manual'}));
+  }
+}
+if(!p.gallery) p.gallery = [];
+if(!p.supplier) p.supplier = '';
 });
 save();
 
 function render(){const app=$('app');app.classList.remove('fade-in');void app.offsetWidth;app.classList.add('fade-in');const fn={cockpit:renderCockpit,shop:renderShop,ki:renderKI,marketing:renderMarketing,ads:renderAds,pipeline:renderPipeline,stats:renderStats,mehr:renderMehr}[STATE.tab];fn();lucide.createIcons()}
+
+// ========== AUFGABE 4: BUDGET WIDGET HELPERS ==========
+function _budgetColor(b){
+  if(b.remaining===0) return {bg:'bg-red-100',text:'text-red-700',bar:'bg-red-500',pulse:'pulse-soft'};
+  if(b.remaining < b.alertCritical) return {bg:'bg-red-50',text:'text-red-700',bar:'bg-red-500',pulse:'pulse-soft'};
+  if(b.remaining < b.alertLow) return {bg:'bg-yellow-50',text:'text-yellow-700',bar:'bg-yellow-400',pulse:'pulse-soft'};
+  return {bg:'bg-green-50',text:'text-green-700',bar:'bg-green-500',pulse:''};
+}
+function renderBudgetWidget(){
+  const totalFunded = STATE.adsBudgets.reduce((s,b)=>s+b.total,0);
+  const totalUsed = STATE.adsBudgets.reduce((s,b)=>s+b.used,0);
+  const totalRemaining = STATE.adsBudgets.reduce((s,b)=>s+b.remaining,0);
+  let html = '<div class="bg-white rounded-xl shadow-sm p-4"><h3 class="font-bold text-sm mb-3 flex items-center gap-2">💰 Ads Budget — alle Plattformen</h3>';
+  html += '<div class="grid grid-cols-2 md:grid-cols-3 gap-2">';
+  STATE.adsBudgets.forEach(b=>{
+    const c = _budgetColor(b);
+    const pct = b.total>0 ? Math.min(100,(b.used/b.total)*100) : 0;
+    const dot = b.remaining===0?'🔴':b.remaining<b.alertCritical?'🔴':b.remaining<b.alertLow?'🟡':'🟢';
+    html += '<div class="border rounded-lg p-2 ' + c.bg + ' ' + c.pulse + '" style="border-left:4px solid ' + b.color + '">';
+    html += '<div class="flex justify-between items-start mb-1"><div class="font-bold text-xs">' + b.icon + ' ' + b.name + '</div>' + (b.remaining===0?'<span class="text-[9px] bg-red-600 text-white px-1 rounded font-bold">STOPPED</span>':'') + '</div>';
+    html += '<div class="text-[10px] ' + c.text + '">Total: CHF ' + b.total + ' · Verbleibend: CHF ' + b.remaining + ' ' + dot + '</div>';
+    html += '<div class="h-1.5 bg-slate-200 rounded-full overflow-hidden my-1"><div class="' + c.bar + ' h-full" style="width:' + pct + '%"></div></div>';
+    html += '<div class="text-[10px] text-slate-600">⚠️ ' + b.warning + '</div>';
+    // AUFGABE 6: Auto-Refill switch
+    html += '<label class="flex items-center gap-1 text-[10px] mt-1 cursor-pointer"><input type="checkbox" ' + (b.autoRefill?'checked':'') + ' onchange="toggleAutoRefill(\''+b.id+'\',this.checked)"> Auto-Refill</label>';
+    html += '<div class="flex gap-1 mt-1"><button onclick="topupAdsBudget(\''+b.id+'\')" class="flex-1 text-[10px] bg-emerald-600 text-white py-1 rounded font-medium">Aufladen ↗</button>';
+    html += '<button onclick="window.open(\''+b.url+'\',\'_blank\')" class="flex-1 text-[10px] bg-slate-600 text-white py-1 rounded font-medium">Öffnen</button></div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  html += '<div class="mt-3 pt-3 border-t text-xs text-center"><b>Total Funded:</b> CHF ' + totalFunded + ' · <b>Used:</b> CHF ' + totalUsed + ' · <b>Verfügbar:</b> CHF ' + totalRemaining + '</div>';
+  html += '</div>';
+  return html;
+}
+
+function toggleAutoRefill(id, on){
+  const b = STATE.adsBudgets.find(x=>x.id===id);
+  if(!b) return;
+  b.autoRefill = !!on;
+  save();
+  toast('Auto-Refill ' + (on?'AN':'AUS') + ' für ' + b.name);
+  // Trigger check
+  if(on && b.remaining < b.alertCritical){
+    setTimeout(()=>autoRefillCheck(id), 300);
+  }
+}
+
+function autoRefillCheck(id){
+  const b = STATE.adsBudgets.find(x=>x.id===id);
+  if(!b || !b.autoRefill) return;
+  if(b.remaining >= b.alertCritical) return;
+  const choice = prompt('Auto-Refill: Budget unter CHF ' + b.alertCritical + ' für ' + b.name + '.\nSoll ich CHF ' + b.autoRefillAmount + ' nachladen?\n1 = Ja, jetzt\n2 = Nein\n3 = Werbung pausieren');
+  if(choice==='1'){
+    b.total += b.autoRefillAmount;
+    b.remaining = b.total - b.used;
+    save();render();
+    toast('💰 CHF ' + b.autoRefillAmount + ' nachgeladen');
+    logActivity('Auto-Refill: +CHF ' + b.autoRefillAmount + ' (' + b.name + ')','dollar-sign');
+  } else if(choice==='3'){
+    b.status='paused';
+    save();render();
+    toast('⏸ ' + b.name + ' pausiert');
+  }
+}
+
+function topupAdsBudget(id){
+  const b = STATE.adsBudgets.find(x=>x.id===id);
+  if(!b) return;
+  const amt = prompt('Wie viel CHF aufladen für ' + b.name + '?', '100');
+  const n = parseFloat(amt);
+  if(isNaN(n) || n<=0) return;
+  b.total += n;
+  b.remaining = b.total - b.used;
+  save();render();
+  toast('💰 CHF ' + n + ' zu ' + b.name + ' hinzugefügt');
+  logActivity('Budget +CHF ' + n + ' (' + b.name + ')','dollar-sign');
+}
 
 // ========== TAB: COCKPIT ==========
 function renderCockpit(){
@@ -149,59 +284,65 @@ const ready=STATE.products.filter(p=>p.pipe==='READY').length;
 const lowStock=STATE.products.filter(p=>p.inv<=5).length;
 const adsReady=STATE.products.filter(p=>p.adsReady).length;
 const totalCosts=STATE.costs.today.heygen+STATE.costs.today.dalle+STATE.costs.today.tiktok;
+// AUFGABE 5: video count
+const adsReadyCount = STATE.products.filter(p=>p.adsReady).length;
+const videoCount = STATE.products.filter(p=>p.adsReady && p.videoUrl).length;
 
 $('app').innerHTML=`
 
-    <!-- HEUTE-Übersicht Widget -->
-    <div class="bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-xl p-4 shadow-lg">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="font-bold text-sm">📅 Heute auf einen Blick</h3>
-        <span class="text-xs opacity-80">${new Date().toLocaleDateString("de-CH",{weekday:"long",day:"2-digit",month:"long"})}</span>
-      </div>
-      <div class="grid grid-cols-3 gap-2 text-center">
-        <div><div class="text-2xl font-bold">${STATE.stats?.ordersToday||0}</div><div class="text-xs opacity-80">Bestellungen</div></div>
-        <div><div class="text-2xl font-bold">${(STATE.stats?.visitorsToday||0)}</div><div class="text-xs opacity-80">Besucher</div></div>
-        <div><div class="text-2xl font-bold">CHF ${(STATE.stats?.revToday||0).toFixed(0)}</div><div class="text-xs opacity-80">Umsatz</div></div>
-      </div>
-    </div>
+<!-- HEUTE-Übersicht Widget -->
+<div class="bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-xl p-4 shadow-lg">
+<div class="flex items-center justify-between mb-3">
+<h3 class="font-bold text-sm">📅 Heute auf einen Blick</h3>
+<span class="text-xs opacity-80">${new Date().toLocaleDateString("de-CH",{weekday:"long",day:"2-digit",month:"long"})}</span>
+</div>
+<div class="grid grid-cols-3 gap-2 text-center">
+<div><div class="text-2xl font-bold">${STATE.stats?.ordersToday||0}</div><div class="text-xs opacity-80">Bestellungen</div></div>
+<div><div class="text-2xl font-bold">${(STATE.stats?.visitorsToday||0)}</div><div class="text-xs opacity-80">Besucher</div></div>
+<div><div class="text-2xl font-bold">CHF ${(STATE.stats?.revToday||0).toFixed(0)}</div><div class="text-xs opacity-80">Umsatz</div></div>
+</div>
+<div class="text-xs opacity-90 mt-2 text-center">🎬 KI-Videos: ${videoCount}/${adsReadyCount} generiert</div>
+</div>
 
-    <!-- Quick Actions Widget -->
-    <div class="bg-white rounded-xl shadow-sm p-4">
-      <h3 class="font-bold text-sm mb-3">⚡ Schnell-Aktionen</h3>
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="STATE.tab=\'shop\';render();" class="flex items-center gap-2 px-3 py-2 bg-purple-100 text-purple-700 rounded-lg text-sm font-semibold"><i data-lucide="image" class="w-4 h-4"></i> Bilder gen.</button>
-        <button onclick="STATE.tab=\'ads\';render();" class="flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold"><i data-lucide="megaphone" class="w-4 h-4"></i> Neue Ad</button>
-        <button onclick="STATE.tab=\'pipeline\';render();" class="flex items-center gap-2 px-3 py-2 bg-amber-100 text-amber-700 rounded-lg text-sm font-semibold"><i data-lucide="git-branch" class="w-4 h-4"></i> Pipeline</button>
-        <button onclick="window.open(\'https://admin.shopify.com/store/aban-192/orders\',\'_blank\')" class="flex items-center gap-2 px-3 py-2 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-semibold"><i data-lucide="shopping-bag" class="w-4 h-4"></i> Orders</button>
-      </div>
-    </div>
+${renderBudgetWidget()}
 
-    <!-- Trend Alert Widget -->
-    <div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl p-4 shadow">
-      <div class="flex items-start gap-3">
-        <div class="text-2xl">🔥</div>
-        <div class="flex-1">
-          <h3 class="font-bold text-sm">Trend des Tages</h3>
-          <p class="text-xs opacity-90 mt-1">${(STATE.products[0]?.t)||"Noch kein Produkt"} hat ${STATE.products.filter(p=>p.shopImgs?.length>0).length>0?"gute Engagement-Werte":"Potential — füge Bilder hinzu"}</p>
-        </div>
-      </div>
-    </div>
+<!-- Quick Actions Widget -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">⚡ Schnell-Aktionen</h3>
+<div class="grid grid-cols-2 gap-2">
+<button onclick="STATE.tab='shop';render();" class="flex items-center gap-2 px-3 py-2 bg-purple-100 text-purple-700 rounded-lg text-sm font-semibold"><i data-lucide="image" class="w-4 h-4"></i> Bilder gen.</button>
+<button onclick="STATE.tab='ads';render();" class="flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold"><i data-lucide="megaphone" class="w-4 h-4"></i> Neue Ad</button>
+<button onclick="STATE.tab='pipeline';render();" class="flex items-center gap-2 px-3 py-2 bg-amber-100 text-amber-700 rounded-lg text-sm font-semibold"><i data-lucide="git-branch" class="w-4 h-4"></i> Pipeline</button>
+<button onclick="window.open('https://admin.shopify.com/store/aban-192/orders','_blank')" class="flex items-center gap-2 px-3 py-2 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-semibold"><i data-lucide="shopping-bag" class="w-4 h-4"></i> Orders</button>
+</div>
+</div>
 
-    <!-- Lager / TODO Widget -->
-    <div class="bg-white rounded-xl shadow-sm p-4">
-      <h3 class="font-bold text-sm mb-2">📋 Offene Aufgaben</h3>
-      <div class="space-y-1.5 text-sm">
-        ${(()=>{const todos=[];
-          if(!STATE.keys.openai) todos.push({i:"🔑",t:"OpenAI Key in Setup eintragen",a:"openSetup()"});
-          const noImgs = STATE.products.filter(p=>!p.shopImgs||p.shopImgs.length===0);
-          if(noImgs.length>0) todos.push({i:"🖼️",t:noImgs.length+" Produkt(e) ohne Shop-Bilder",a:"STATE.tab=\'shop\';render()"});
-          const noAds = STATE.products.filter(p=>!p.adsReady);
-          if(noAds.length>3) todos.push({i:"📣",t:noAds.length+" Produkte ohne aktive Ads",a:"STATE.tab=\'ads\';render()"});
-          if(todos.length===0) return `<p class="text-xs text-slate-400">Alles erledigt! 🎉</p>`;
-          return todos.slice(0,5).map(t=>`<button onclick="${t.a}" class="w-full text-left flex items-center gap-2 p-2 hover:bg-slate-50 rounded"><span>${t.i}</span><span class="flex-1 text-slate-700">${t.t}</span><i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i></button>`).join("");
-        })()}
-      </div>
-    </div>
+<!-- Trend Alert Widget -->
+<div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl p-4 shadow">
+<div class="flex items-start gap-3">
+<div class="text-2xl">🔥</div>
+<div class="flex-1">
+<h3 class="font-bold text-sm">Trend des Tages</h3>
+<p class="text-xs opacity-90 mt-1">${(STATE.products[0]?.t)||"Noch kein Produkt"} hat ${STATE.products.filter(p=>p.shopImgs?.length>0).length>0?"gute Engagement-Werte":"Potential — füge Bilder hinzu"}</p>
+</div>
+</div>
+</div>
+
+<!-- Lager / TODO Widget -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-2">📋 Offene Aufgaben</h3>
+<div class="space-y-1.5 text-sm">
+${(()=>{const todos=[];
+if(!STATE.keys.openai) todos.push({i:"🔑",t:"OpenAI Key in Setup eintragen",a:"openSetup()"});
+const noImgs = STATE.products.filter(p=>!p.shopImgs||p.shopImgs.length===0);
+if(noImgs.length>0) todos.push({i:"🖼️",t:noImgs.length+" Produkt(e) ohne Shop-Bilder",a:"STATE.tab='shop';render()"});
+const noAds = STATE.products.filter(p=>!p.adsReady);
+if(noAds.length>3) todos.push({i:"📣",t:noAds.length+" Produkte ohne aktive Ads",a:"STATE.tab='ads';render()"});
+if(todos.length===0) return \`<p class="text-xs text-slate-400">Alles erledigt! 🎉</p>\`;
+return todos.slice(0,5).map(t=>\`<button onclick="\${t.a}" class="w-full text-left flex items-center gap-2 p-2 hover:bg-slate-50 rounded"><span>\${t.i}</span><span class="flex-1 text-slate-700">\${t.t}</span><i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i></button>\`).join("");
+})()}
+</div>
+</div>
 
 <div class="space-y-4">
 
@@ -242,7 +383,7 @@ $('app').innerHTML=`
 <button onclick="switchTab('pipeline')" class="text-[10px] text-purple-600 font-medium">→ Details</button>
 </div>
 <div class="flex items-center gap-1 overflow-x-auto">
-${[{n:"Idee",c:STATE.products.length},{n:"Bilder",c:STATE.products.filter(p=>(p.shopImgs&&p.shopImgs.length>0)||(p.gallery&&p.gallery.length>0)).length},{n:"Shop",c:STATE.products.filter(p=>p.status!=="draft").length},{n:"Ads",c:STATE.products.filter(p=>p.adsReady).length},{n:"Sale",c:STATE.products.filter(p=>(p.sold||0)>0).length}].map((s,i,a)=>`<div class="flex items-center gap-1 flex-shrink-0"><div class="text-center"><div class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">${s.c}</div><div class="text-[9px] mt-0.5">${s.n}</div></div>${i<a.length-1?'<i data-lucide="chevron-right" class="w-3 h-3 text-slate-300"></i>':''}</div>`).join('')}
+${[{n:"Idee",c:STATE.products.length},{n:"Bilder",c:STATE.products.filter(p=>(p.shopImgs&&p.shopImgs.length>0)||(p.gallery&&p.gallery.length>0)).length},{n:"Shop",c:STATE.products.filter(p=>p.status!=="draft").length},{n:"Ads",c:STATE.products.filter(p=>p.adsReady).length},{n:"Sale",c:STATE.products.filter(p=>(p.sold||0)>0).length}].map((s,i,a)=>\`<div class="flex items-center gap-1 flex-shrink-0"><div class="text-center"><div class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold">\${s.c}</div><div class="text-[9px] mt-0.5">\${s.n}</div></div>\${i<a.length-1?'<i data-lucide="chevron-right" class="w-3 h-3 text-slate-300"></i>':''}</div>\`).join('')}
 </div>
 </div>
 
@@ -286,7 +427,7 @@ ${(!STATE.keys.heygen||!STATE.keys.openai||!STATE.keys.discord)?'<button onclick
 <div class="bg-white p-4 rounded-xl shadow-sm">
 <h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4"></i> KI-Activity</h3>
 <div class="space-y-2 text-sm">
-${STATE.activity.length?STATE.activity.slice(0,5).map(a=>`<div class="flex items-center gap-2 text-slate-700"><span class="text-xs text-slate-400 w-12">${a.time}</span><i data-lucide="${a.icon}" class="w-4 h-4 text-purple-500"></i><span>${a.text}</span></div>`).join(''):'<p class="text-slate-400 text-center py-3">Noch keine Aktivität · klick auf ⚡ oben für Auto-Run</p>'}
+${STATE.activity.length?STATE.activity.slice(0,5).map(a=>\`<div class="flex items-center gap-2 text-slate-700"><span class="text-xs text-slate-400 w-12">\${a.time}</span><i data-lucide="\${a.icon}" class="w-4 h-4 text-purple-500"></i><span>\${a.text}</span></div>\`).join(''):'<p class="text-slate-400 text-center py-3">Noch keine Aktivität · klick auf ⚡ oben für Auto-Run</p>'}
 </div>
 </div>
 
@@ -322,7 +463,7 @@ $('app').innerHTML=`
 
 ${cat==='home'?'<div class="bg-orange-50 border border-orange-200 rounded-xl p-3 text-xs text-orange-800">🏡 <b>Home-Produkte</b> sind für späteren 2. Shop (HomeStyle CH) reserviert. Aktuell trotzdem live verkäuflich.</div>':''}
 
-${cat==='pool'?renderPool():`
+${cat==='pool'?renderPool():\`
 <!-- Bulk Actions -->
 <div class="bg-white rounded-xl shadow-sm p-3 space-y-2">
 <h3 class="font-bold text-sm">⚡ Bulk-Aktionen</h3>
@@ -335,9 +476,9 @@ ${cat==='pool'?renderPool():`
 
 <!-- Product Cards -->
 <div class="space-y-3">
-${products.map(p=>renderProductCard(p)).join('')}
+\${products.map(p=>renderProductCard(p)).join('')}
 </div>
-`}
+\`}
 
 </div>`;
 }
@@ -346,6 +487,17 @@ function renderProductCard(p){
 const margin=Math.round(((p.p-p.c)/p.p)*100);
 const invColor=p.inv===0?'text-red-700 bg-red-50':p.inv===1?'text-red-600 bg-red-50':p.inv<=5?'text-yellow-700 bg-yellow-50':'text-green-700 bg-green-50';
 const pipeColor={DRAFT:'bg-slate-100 text-slate-700',READY:'bg-blue-100 text-blue-700',LIVE:'bg-green-100 text-green-700',WINNER:'bg-yellow-100 text-yellow-700',KILLED:'bg-red-100 text-red-700'}[p.pipe]||'bg-slate-100';
+
+// AUFGABE 5: Video badge
+let videoBadge = '';
+if(p.adsReady && p.videoUrl){
+  videoBadge = '<span class="bg-green-100 text-green-800 px-2 py-1 rounded">🎬 Video bereit</span>';
+} else if(p.adsReady){
+  videoBadge = '<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">⏳ Skript bereit, Video fehlt</span>';
+} else {
+  videoBadge = '<span class="bg-slate-200 text-slate-600 px-2 py-1 rounded">❌ Kein Skript</span>';
+}
+
 return `
 <div class="bg-white rounded-xl shadow-sm overflow-hidden">
 <div class="p-3 border-b">
@@ -356,11 +508,12 @@ return `
 </div>
 <span class="${pipeColor} text-xs px-2 py-1 rounded font-medium">${p.pipe}</span>
 </div>
-<div class="flex gap-2 mt-2 text-xs">
+<div class="flex gap-2 mt-2 text-xs flex-wrap">
 <span class="${invColor} px-2 py-1 rounded font-medium">📦 ${p.inv} Stk</span>
 <span class="bg-slate-100 px-2 py-1 rounded">${p.cat==='lifestyle'?'🇨🇭 LS':'🏡 Home'}</span>
 ${p.featured?'<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">⭐ Featured</span>':''}
 ${p.adsReady?'<span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">🎯 Ads</span>':''}
+${videoBadge}
 </div>
 </div>
 
@@ -371,7 +524,24 @@ ${p.adsReady?'<span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">🎯
 <button onclick="uploadImage('${p.id}','shop')" class="text-xs text-purple-600 font-medium">+ Upload</button>
 </div>
 <div class="grid grid-cols-5 gap-1.5" id="shop-grid-${p.id}" ondragover="event.preventDefault()" ondrop="dropImage(event,'${p.id}','shop')">
-${Array.from({length:20},(_,i)=>{const img=p.shopImgs?.[i];return img?`<div draggable="true" ondragstart="dragImage(event,'${p.id}','shop',${i})" onclick="imageMenu('${p.id}','shop',${i})" class="aspect-square rounded border-2 border-purple-300 overflow-hidden relative cursor-pointer group" style="background:${img.url?`url(${img.url}) center/cover`:img.bg||'#e9d5ff'}">${img.url?'':`<div class=\"w-full h-full flex items-center justify-center text-xs font-bold text-purple-700\">${i===0?'★':i+1}</div>`}${img.rating?`<div class=\"absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold\">★${img.rating}</div>`:''}<div class=\"absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100\">${img.ki||''}</div></div>`:`<button onclick="addImageSlot('${p.id}',${i})" ondragover="event.preventDefault()" ondrop="dropImage(event,'${p.id}','shop',${i})" class="aspect-square bg-white border border-dashed border-slate-300 rounded flex items-center justify-center text-slate-400"><i data-lucide="plus" class="w-3 h-3"></i></button>`}).join('')}
+${Array.from({length:20},(_,i)=>{
+  const img=p.shopImgs?.[i];
+  if(img && img.url){
+    // AUFGABE 1: Render real image with object-cover + loading lazy
+    return \`<div draggable="true" ondragstart="dragImage(event,'${p.id}','shop',\${i})" onclick="imageMenu('${p.id}','shop',\${i})" class="aspect-square rounded border-2 border-purple-300 overflow-hidden relative cursor-pointer group">
+<img src="\${img.url}" loading="lazy" class="w-full h-full object-cover rounded" alt="${p.t} \${i+1}">
+\${i===0?'<div class="absolute top-0.5 right-0.5 text-yellow-300 text-sm drop-shadow font-bold">★</div>':''}
+\${img.rating?\`<div class="absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold">★\${img.rating}</div>\`:''}
+<div class="absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100">\${img.ki||''}</div></div>\`;
+  } else if(img){
+    return \`<div draggable="true" ondragstart="dragImage(event,'${p.id}','shop',\${i})" onclick="imageMenu('${p.id}','shop',\${i})" class="aspect-square rounded border-2 border-purple-300 overflow-hidden relative cursor-pointer group" style="background:\${img.bg||'#e9d5ff'}">
+<div class="w-full h-full flex items-center justify-center text-xs font-bold text-purple-700">\${i===0?'★':i+1}</div>
+\${img.rating?\`<div class="absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold">★\${img.rating}</div>\`:''}
+<div class="absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100">\${img.ki||''}</div></div>\`;
+  } else {
+    return \`<button onclick="addImageSlot('${p.id}',\${i})" ondragover="event.preventDefault()" ondrop="dropImage(event,'${p.id}','shop',\${i})" class="aspect-square bg-white border border-dashed border-slate-300 rounded flex items-center justify-center text-slate-400"><i data-lucide="plus" class="w-3 h-3"></i></button>\`;
+  }
+}).join('')}
 </div>
 
 <!-- KI-Galerie (20 Auswahl) -->
@@ -384,7 +554,7 @@ ${Array.from({length:20},(_,i)=>{const img=p.shopImgs?.[i];return img?`<div drag
 </div>
 </div>
 <div class="grid grid-cols-5 gap-1" id="gal-grid-${p.id}" ondragover="event.preventDefault()" ondrop="dropImage(event,'${p.id}','gallery')">
-${Array.from({length:20},(_,i)=>{const img=p.gallery?.[i];return img?`<div draggable="true" ondragstart="dragImage(event,'${p.id}','gallery',${i})" onclick="imageMenu('${p.id}','gallery',${i})" class="aspect-square rounded overflow-hidden relative cursor-pointer group" style="background:${img.url?`url(${img.url}) center/cover`:img.bg||'linear-gradient(135deg,#fed7aa,#fef08a)'}">${img.url?'':`<div class=\"w-full h-full flex items-center justify-center text-xs font-bold text-orange-900\">${img.label||(i+1)}</div>`}${img.rating?`<div class=\"absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold\">★${img.rating}</div>`:''}<div class=\"absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100\">${img.ki||''}</div></div>`:`<div class="aspect-square bg-white border border-dashed border-slate-200 rounded"></div>`}).join('')}
+${Array.from({length:20},(_,i)=>{const img=p.gallery?.[i];return img?\`<div draggable="true" ondragstart="dragImage(event,'${p.id}','gallery',\${i})" onclick="imageMenu('${p.id}','gallery',\${i})" class="aspect-square rounded overflow-hidden relative cursor-pointer group" style="background:\${img.url?'url('+img.url+') center/cover':img.bg||'linear-gradient(135deg,#fed7aa,#fef08a)'}">\${img.url?'':\`<div class="w-full h-full flex items-center justify-center text-xs font-bold text-orange-900">\${img.label||(i+1)}</div>\`}\${img.rating?\`<div class="absolute top-0.5 left-0.5 bg-yellow-400 text-yellow-900 text-[9px] px-1 rounded font-bold">★\${img.rating}</div>\`:''}<div class="absolute bottom-0 right-0 bg-black/60 text-white text-[9px] px-1 opacity-0 group-hover:opacity-100">\${img.ki||''}</div></div>\`:\`<div class="aspect-square bg-white border border-dashed border-slate-200 rounded"></div>\`}).join('')}
 </div>
 <div class="text-[10px] text-slate-500 mt-1 text-center">Tippen: Menü · Ziehen: in Shop · Lieferant: ${p.supplier||'—'}</div>
 </div>
@@ -400,11 +570,20 @@ ${Array.from({length:20},(_,i)=>{const img=p.gallery?.[i];return img?`<div dragg
 <!-- Actions -->
 <div class="p-2 grid grid-cols-4 gap-1 bg-slate-50 border-t">
 <button onclick="generateVideo('${p.id}')" class="text-xs py-2 bg-white rounded font-medium">🎬 Video</button>
-<button onclick="openSupplier('${p.id}')" class="text-xs py-2 bg-white rounded font-medium">🔗 Lieferant</button>
+<button onclick="openSupplierLink('${p.id}')" class="text-xs py-2 bg-white rounded font-medium">🔗 Lieferant</button>
 <button onclick="window.open('${STATE.shop.primaryDomain}/admin/products/${p.id}','_blank')" class="text-xs py-2 bg-white rounded font-medium">✏️ Edit</button>
 <button onclick="swapProduct('${p.id}')" class="text-xs py-2 bg-white rounded font-medium">🔄 Tausch</button>
 </div>
 </div>`;
+}
+
+// AUFGABE 2: open supplier
+function openSupplierLink(pid){
+  const p = STATE.products.find(x=>x.id===pid);
+  if(!p){return;}
+  if(p.supplierUrl){window.open(p.supplierUrl,'_blank');}
+  else if(p.supUrl){window.open(p.supUrl,'_blank');}
+  else {const u=prompt('Lieferant-URL:',''); if(u){p.supplierUrl=u;save();render();}}
 }
 
 function renderPool(){
@@ -412,21 +591,21 @@ return `<div class="space-y-3">
 <div class="bg-pink-50 border border-pink-200 rounded-xl p-3 text-xs text-pink-800">
 💡 <b>20 Pool-Ideen</b> bereit zum Aktivieren. Klick "Aktivieren" → KI macht in 2 Min ein vollständiges Produkt daraus.
 </div>
-${STATE.poolIdeas.map(idea=>`
+${STATE.poolIdeas.map(idea=>\`
 <div class="bg-white rounded-xl shadow-sm p-3">
 <div class="flex justify-between items-start">
 <div class="flex-1">
-<h4 class="font-bold text-sm">${idea.name}</h4>
-<div class="text-xs text-slate-500 mt-1">CHF ${idea.price.toFixed(2)} · Marge ${idea.margin}%</div>
+<h4 class="font-bold text-sm">\${idea.name}</h4>
+<div class="text-xs text-slate-500 mt-1">CHF \${idea.price.toFixed(2)} · Marge \${idea.margin}%</div>
 <div class="flex gap-2 mt-2 text-xs">
-<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">Viral ${idea.viral}/10</span>
-<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded">Einkauf $${idea.cost}</span>
+<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">Viral \${idea.viral}/10</span>
+<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded">Einkauf $\${idea.cost}</span>
 </div>
 </div>
-<button onclick="activatePoolIdea(${idea.id})" class="bg-pink-600 text-white px-3 py-2 rounded-lg text-xs font-medium">Aktivieren</button>
+<button onclick="activatePoolIdea(\${idea.id})" class="bg-pink-600 text-white px-3 py-2 rounded-lg text-xs font-medium">Aktivieren</button>
 </div>
 </div>
-`).join('')}
+\`).join('')}
 </div>`;
 }
 
@@ -468,19 +647,19 @@ $('app').innerHTML=`
 <div class="space-y-3 text-sm">
 <div>
 <div class="font-medium text-green-700 mb-1">🟢 AKTIV — $${STATE.toolStack.summary.phase1}/Mt</div>
-${STATE.toolStack.tools.filter(t=>t.status==='active').map(t=>`<div class="flex justify-between text-xs pl-3"><span>${t.name}</span><span class="text-slate-600">$${t.cost_monthly}</span></div>`).join('')}
+${STATE.toolStack.tools.filter(t=>t.status==='active').map(t=>\`<div class="flex justify-between text-xs pl-3"><span>\${t.name}</span><span class="text-slate-600">$\${t.cost_monthly}</span></div>\`).join('')}
 </div>
 <div>
 <div class="font-medium text-yellow-700 mb-1">🟡 PHASE 2 → $${STATE.toolStack.summary.phase2}/Mt</div>
-${STATE.toolStack.tools.filter(t=>t.status==='planned'&&['Netlify Pro','OpenAI DALL-E 3'].includes(t.name)).map(t=>`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>${t.name}</span><span>$${t.cost_monthly}</span></div>`).join('')}
+${STATE.toolStack.tools.filter(t=>t.status==='planned'&&['Netlify Pro','OpenAI DALL-E 3'].includes(t.name)).map(t=>\`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>\${t.name}</span><span>$\${t.cost_monthly}</span></div>\`).join('')}
 </div>
 <div>
 <div class="font-medium text-orange-700 mb-1">🟠 PHASE 3 → $${STATE.toolStack.summary.phase3}/Mt</div>
-${STATE.toolStack.tools.filter(t=>['Midjourney v6','Runway Gen-3'].includes(t.name)).map(t=>`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>${t.name}</span><span>$${t.cost_monthly}</span></div>`).join('')}
+${STATE.toolStack.tools.filter(t=>['Midjourney v6','Runway Gen-3'].includes(t.name)).map(t=>\`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>\${t.name}</span><span>$\${t.cost_monthly}</span></div>\`).join('')}
 </div>
 <div>
 <div class="font-medium text-red-700 mb-1">🔴 PHASE 4 → $${STATE.toolStack.summary.phase4}/Mt</div>
-${STATE.toolStack.tools.filter(t=>['ElevenLabs','Suno AI v4'].includes(t.name)).map(t=>`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>${t.name}</span><span>$${t.cost_monthly}</span></div>`).join('')}
+${STATE.toolStack.tools.filter(t=>['ElevenLabs','Suno AI v4'].includes(t.name)).map(t=>\`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>\${t.name}</span><span>$\${t.cost_monthly}</span></div>\`).join('')}
 </div>
 </div>
 </div>
@@ -489,12 +668,12 @@ ${STATE.toolStack.tools.filter(t=>['ElevenLabs','Suno AI v4'].includes(t.name)).
 <div class="bg-white rounded-xl shadow-sm p-4">
 <h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> KI-Chat (Gemini)</h3>
 ${STATE.keys.gemini?
-`<div id="chat-msgs" class="space-y-2 mb-3 max-h-60 overflow-y-auto text-sm"></div>
+\`<div id="chat-msgs" class="space-y-2 mb-3 max-h-60 overflow-y-auto text-sm"></div>
 <div class="flex gap-2">
 <input id="chat-input" type="text" placeholder="Frag mich was zur Strategie..." class="flex-1 border rounded-lg px-3 py-2 text-sm">
 <button onclick="sendChat()" class="bg-purple-600 text-white px-4 rounded-lg"><i data-lucide="send" class="w-4 h-4"></i></button>
-</div>`:
-`<p class="text-sm text-slate-500 text-center py-3">Gemini API Key fehlt · <button onclick="openSetup()" class="text-purple-600 underline">jetzt einrichten</button></p>`}
+</div>\`:
+\`<p class="text-sm text-slate-500 text-center py-3">Gemini API Key fehlt · <button onclick="openSetup()" class="text-purple-600 underline">jetzt einrichten</button></p>\`}
 </div>
 
 <!-- Approval Queue -->
@@ -533,15 +712,15 @@ $('app').innerHTML=`
 <div class="bg-white rounded-xl shadow-sm p-4">
 <h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="ticket" class="w-4 h-4"></i> Discount-Codes (${codes.filter(c=>c.active).length} aktiv)</h3>
 <div class="space-y-2">
-${codes.map(c=>`
-<div class="${c.highlight?'border-2 border-blue-400 bg-blue-50':'border'} rounded-lg p-3 flex justify-between items-center">
+${codes.map(c=>\`
+<div class="\${c.highlight?'border-2 border-blue-400 bg-blue-50':'border'} rounded-lg p-3 flex justify-between items-center">
 <div>
-<div class="font-mono font-bold text-sm">${c.c}</div>
-<div class="text-xs text-slate-500">${c.d}${c.exp?' · läuft '+c.exp:''}</div>
+<div class="font-mono font-bold text-sm">\${c.c}</div>
+<div class="text-xs text-slate-500">\${c.d}\${c.exp?' · läuft '+c.exp:''}</div>
 </div>
-<span class="text-xs ${c.active?'bg-green-100 text-green-700':'bg-slate-100 text-slate-500'} px-2 py-1 rounded">${c.active?'🟢 Aktiv':'⏸ Geplant'}</span>
+<span class="text-xs \${c.active?'bg-green-100 text-green-700':'bg-slate-100 text-slate-500'} px-2 py-1 rounded">\${c.active?'🟢 Aktiv':'⏸ Geplant'}</span>
 </div>
-`).join('')}
+\`).join('')}
 </div>
 </div>
 
@@ -581,87 +760,79 @@ ${codes.map(c=>`
 
 // ========== TAB: STATS ==========
 function renderStats(){
-  const app=$("app"); if(!app) return;
-  const totalProd = STATE.products.length;
-  const inShop = STATE.products.filter(p=>p.shopImgs && p.shopImgs.length>0).length;
-  const withAds = STATE.products.filter(p=>p.adsReady).length;
-  const totalSpent = (STATE.costs.spent||0) + (STATE.costs.today.dalle||0);
-  const totalRevenue = STATE.products.reduce((s,p)=>s+((p.sales||0)*(p.p||0)),0);
-  const roas = totalSpent>0 ? (totalRevenue/totalSpent).toFixed(2) : "—";
-  // Demo-Zahlen wenn nichts da
-  const orders7d = STATE.stats?.orders7d || [3,5,4,7,6,9,8];
-  const max7d = Math.max(...orders7d);
-  const sparkline = (vals)=>{const max=Math.max(...vals,1); const w=200, h=40, step=w/(vals.length-1); const pts=vals.map((v,i)=>`${i*step},${h-(v/max)*h}`).join(" "); return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline fill="none" stroke="#667eea" stroke-width="2" points="${pts}"/></svg>`;};
-  const bar = (label,val,max,color)=>{const pct=max>0?(val/max*100):0; return `<div class="mb-2"><div class="flex justify-between text-xs mb-1"><span class="text-slate-600">${label}</span><span class="font-semibold">${val}</span></div><div class="bg-slate-200 rounded-full h-2"><div class="${color} h-2 rounded-full" style="width:${pct}%"></div></div></div>`;};
-  // Top Products by revenue
-  const topByRev = [...STATE.products].map(p=>({...p,rev:(p.sales||0)*(p.p||0)})).sort((a,b)=>b.rev-a.rev).slice(0,5);
-  // Channels
-  const channelSpend = {meta:STATE.ads?.meta?.spent||0, google:STATE.ads?.google?.spent||0, tiktok:STATE.ads?.tiktok?.spent||0};
-  const maxCh = Math.max(channelSpend.meta,channelSpend.google,channelSpend.tiktok,1);
-  app.innerHTML = `
-  <div class="space-y-4">
-    <!-- KPI-Reihe -->
-    <div class="grid grid-cols-2 gap-3">
-      <div class="bg-gradient-to-br from-emerald-500 to-green-600 text-white rounded-xl p-4 shadow">
-        <div class="text-xs opacity-80">💰 Umsatz heute</div>
-        <div class="text-2xl font-bold mt-1">CHF ${(STATE.stats?.revToday||0).toFixed(2)}</div>
-        <div class="text-xs opacity-80 mt-1">${(STATE.stats?.ordersToday||0)} Bestellungen</div>
-      </div>
-      <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-xl p-4 shadow">
-        <div class="text-xs opacity-80">📊 ROAS gesamt</div>
-        <div class="text-2xl font-bold mt-1">${roas}x</div>
-        <div class="text-xs opacity-80 mt-1">CHF ${totalRevenue.toFixed(0)} / ${totalSpent.toFixed(2)}</div>
-      </div>
-      <div class="bg-gradient-to-br from-purple-500 to-pink-600 text-white rounded-xl p-4 shadow">
-        <div class="text-xs opacity-80">🎨 KI-Bilder gesamt</div>
-        <div class="text-2xl font-bold mt-1">${STATE.products.reduce((s,p)=>s+(p.gallery?.length||0),0)}</div>
-        <div class="text-xs opacity-80 mt-1">${STATE.products.reduce((s,p)=>s+(p.shopImgs?.length||0),0)} im Shop</div>
-      </div>
-      <div class="bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-xl p-4 shadow">
-        <div class="text-xs opacity-80">📦 Produkte aktiv</div>
-        <div class="text-2xl font-bold mt-1">${inShop}/${totalProd}</div>
-        <div class="text-xs opacity-80 mt-1">${withAds} mit Ads</div>
-      </div>
-    </div>
+const app=$("app"); if(!app) return;
+const totalProd = STATE.products.length;
+const inShop = STATE.products.filter(p=>p.shopImgs && p.shopImgs.length>0).length;
+const withAds = STATE.products.filter(p=>p.adsReady).length;
+const totalSpent = (STATE.costs.spent||0) + (STATE.costs.today.dalle||0);
+const totalRevenue = STATE.products.reduce((s,p)=>s+((p.sales||0)*(p.p||0)),0);
+const roas = totalSpent>0 ? (totalRevenue/totalSpent).toFixed(2) : "—";
+const orders7d = STATE.stats?.orders7d || [3,5,4,7,6,9,8];
+const max7d = Math.max(...orders7d);
+const sparkline = (vals)=>{const max=Math.max(...vals,1); const w=200, h=40, step=w/(vals.length-1); const pts=vals.map((v,i)=>\`\${i*step},\${h-(v/max)*h}\`).join(" "); return \`<svg width="\${w}" height="\${h}" viewBox="0 0 \${w} \${h}"><polyline fill="none" stroke="#667eea" stroke-width="2" points="\${pts}"/></svg>\`;};
+const bar = (label,val,max,color)=>{const pct=max>0?(val/max*100):0; return \`<div class="mb-2"><div class="flex justify-between text-xs mb-1"><span class="text-slate-600">\${label}</span><span class="font-semibold">\${val}</span></div><div class="bg-slate-200 rounded-full h-2"><div class="\${color} h-2 rounded-full" style="width:\${pct}%"></div></div></div>\`;};
+const topByRev = [...STATE.products].map(p=>({...p,rev:(p.sales||0)*(p.p||0)})).sort((a,b)=>b.rev-a.rev).slice(0,5);
+const channelSpend = {meta:STATE.ads?.meta?.spent||0, google:STATE.ads?.google?.spent||0, tiktok:STATE.ads?.tiktok?.spent||0};
+const maxCh = Math.max(channelSpend.meta,channelSpend.google,channelSpend.tiktok,1);
+app.innerHTML = `
+<div class="space-y-4">
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-gradient-to-br from-emerald-500 to-green-600 text-white rounded-xl p-4 shadow">
+<div class="text-xs opacity-80">💰 Umsatz heute</div>
+<div class="text-2xl font-bold mt-1">CHF ${(STATE.stats?.revToday||0).toFixed(2)}</div>
+<div class="text-xs opacity-80 mt-1">${(STATE.stats?.ordersToday||0)} Bestellungen</div>
+</div>
+<div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-xl p-4 shadow">
+<div class="text-xs opacity-80">📊 ROAS gesamt</div>
+<div class="text-2xl font-bold mt-1">${roas}x</div>
+<div class="text-xs opacity-80 mt-1">CHF ${totalRevenue.toFixed(0)} / ${totalSpent.toFixed(2)}</div>
+</div>
+<div class="bg-gradient-to-br from-purple-500 to-pink-600 text-white rounded-xl p-4 shadow">
+<div class="text-xs opacity-80">🎨 KI-Bilder gesamt</div>
+<div class="text-2xl font-bold mt-1">${STATE.products.reduce((s,p)=>s+(p.gallery?.length||0),0)}</div>
+<div class="text-xs opacity-80 mt-1">${STATE.products.reduce((s,p)=>s+(p.shopImgs?.length||0),0)} im Shop</div>
+</div>
+<div class="bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-xl p-4 shadow">
+<div class="text-xs opacity-80">📦 Produkte aktiv</div>
+<div class="text-2xl font-bold mt-1">${inShop}/${totalProd}</div>
+<div class="text-xs opacity-80 mt-1">${withAds} mit Ads</div>
+</div>
+</div>
 
-    <!-- 7-Tage Verlauf -->
-    <div class="bg-white rounded-xl shadow-sm p-4">
-      <h3 class="font-bold text-sm mb-2">📈 Bestellungen letzte 7 Tage</h3>
-      <div class="flex justify-center">${sparkline(orders7d)}</div>
-      <div class="flex justify-between text-xs text-slate-500 mt-1">
-        <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
-      </div>
-    </div>
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-2">📈 Bestellungen letzte 7 Tage</h3>
+<div class="flex justify-center">${sparkline(orders7d)}</div>
+<div class="flex justify-between text-xs text-slate-500 mt-1">
+<span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+</div>
+</div>
 
-    <!-- Kanal-Verteilung -->
-    <div class="bg-white rounded-xl shadow-sm p-4">
-      <h3 class="font-bold text-sm mb-3">💸 Ausgaben pro Kanal</h3>
-      ${bar("Meta Ads", channelSpend.meta.toFixed(2)+" CHF", maxCh, "bg-blue-500")}
-      ${bar("Google Ads", channelSpend.google.toFixed(2)+" CHF", maxCh, "bg-red-500")}
-      ${bar("TikTok Ads", channelSpend.tiktok.toFixed(2)+" CHF", maxCh, "bg-black")}
-    </div>
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">💸 Ausgaben pro Kanal</h3>
+${bar("Meta Ads", channelSpend.meta.toFixed(2)+" CHF", maxCh, "bg-blue-500")}
+${bar("Google Ads", channelSpend.google.toFixed(2)+" CHF", maxCh, "bg-red-500")}
+${bar("TikTok Ads", channelSpend.tiktok.toFixed(2)+" CHF", maxCh, "bg-black")}
+</div>
 
-    <!-- Top Produkte -->
-    <div class="bg-white rounded-xl shadow-sm p-4">
-      <h3 class="font-bold text-sm mb-2">🏆 Top-Produkte (Umsatz)</h3>
-      <div class="space-y-2">
-        ${topByRev.length===0 ? `<p class="text-xs text-slate-400 text-center py-3">Noch keine Verkaufsdaten</p>` :
-          topByRev.map((p,i)=>`<div class="flex items-center gap-2 text-sm"><span class="w-5 text-slate-400">${i+1}.</span><span class="flex-1 truncate">${p.t}</span><span class="text-emerald-600 font-bold">CHF ${(p.rev||0).toFixed(0)}</span></div>`).join("")}
-      </div>
-    </div>
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-2">🏆 Top-Produkte (Umsatz)</h3>
+<div class="space-y-2">
+${topByRev.length===0 ? \`<p class="text-xs text-slate-400 text-center py-3">Noch keine Verkaufsdaten</p>\` :
+topByRev.map((p,i)=>\`<div class="flex items-center gap-2 text-sm"><span class="w-5 text-slate-400">\${i+1}.</span><span class="flex-1 truncate">\${p.t}</span><span class="text-emerald-600 font-bold">CHF \${(p.rev||0).toFixed(0)}</span></div>\`).join("")}
+</div>
+</div>
 
-    <!-- Externe Tools -->
-    <div class="bg-white rounded-xl shadow-sm p-4">
-      <h3 class="font-bold text-sm mb-3">🔗 Externe Statistik-Tools</h3>
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="window.open(\'https://admin.shopify.com/store/aban-192/analytics\',\'_blank\')" class="px-3 py-2 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-semibold">🛍️ Shopify</button>
-        <button onclick="window.open(\'https://clarity.microsoft.com/\',\'_blank\')" class="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold">🔥 Clarity</button>
-        <button onclick="window.open(\'https://judge.me/\',\'_blank\')" class="px-3 py-2 bg-yellow-100 text-yellow-700 rounded-lg text-sm font-semibold">⭐ Judge.me</button>
-        <button onclick="window.open(\'https://analytics.google.com/\',\'_blank\')" class="px-3 py-2 bg-orange-100 text-orange-700 rounded-lg text-sm font-semibold">📊 GA4</button>
-      </div>
-    </div>
-  </div>`;
-  if(window.lucide) lucide.createIcons();
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">🔗 Externe Statistik-Tools</h3>
+<div class="grid grid-cols-2 gap-2">
+<button onclick="window.open('https://admin.shopify.com/store/aban-192/analytics','_blank')" class="px-3 py-2 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-semibold">🛍️ Shopify</button>
+<button onclick="window.open('https://clarity.microsoft.com/','_blank')" class="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold">🔥 Clarity</button>
+<button onclick="window.open('https://judge.me/','_blank')" class="px-3 py-2 bg-yellow-100 text-yellow-700 rounded-lg text-sm font-semibold">⭐ Judge.me</button>
+<button onclick="window.open('https://analytics.google.com/','_blank')" class="px-3 py-2 bg-orange-100 text-orange-700 rounded-lg text-sm font-semibold">📊 GA4</button>
+</div>
+</div>
+</div>`;
+if(window.lucide) lucide.createIcons();
 }
 
 // ========== TAB: MEHR ==========
@@ -671,7 +842,6 @@ const keysSet=Object.keys(STATE.keys).filter(k=>STATE.keys[k]).length;
 $('app').innerHTML=`
 <div class="space-y-4">
 
-<!-- Setup-Status -->
 <div class="bg-white rounded-xl shadow-sm p-4">
 <h3 class="font-bold text-sm mb-3">⚙️ API-Keys (${keysSet}/6 gesetzt)</h3>
 <div class="space-y-2 text-sm">
@@ -685,41 +855,6 @@ $('app').innerHTML=`
 <button onclick="openSetup()" class="w-full mt-3 bg-purple-600 text-white py-2 rounded-lg text-sm font-medium">Alle Keys einrichten</button>
 </div>
 
-<!-- Multi-Shop -->
-<div class="bg-white rounded-xl shadow-sm p-4">
-<h3 class="font-bold text-sm mb-3">🌍 Multi-Shop-Architektur</h3>
-<div class="space-y-2 text-sm">
-<div class="border-l-4 border-green-500 pl-3"><div class="font-bold">🇨🇭 LuxeStyle CH</div><div class="text-xs text-slate-500">Aktiv · 16 Lifestyle + 9 Home · CHF</div></div>
-<div class="border-l-4 border-slate-300 pl-3"><div class="font-bold">🏡 HomeStyle CH</div><div class="text-xs text-slate-500">Geplant (Phase 3) · 9 Home-Produkte</div></div>
-<div class="border-l-4 border-slate-300 pl-3"><div class="font-bold">🌍 LuxeStyle World</div><div class="text-xs text-slate-500">Später · EN · USD</div></div>
-</div>
-</div>
-
-<!-- Phase-Plan -->
-<div class="bg-white rounded-xl shadow-sm p-4">
-<h3 class="font-bold text-sm mb-3">📈 Phase-Plan</h3>
-<div class="space-y-2 text-sm">
-<div class="flex justify-between p-2 bg-green-50 rounded"><span>Phase 1: Start</span><span class="font-bold">$263/Mt</span></div>
-<div class="flex justify-between p-2 bg-yellow-50 rounded"><span>Phase 2: 5 Sales</span><span class="font-bold">$282/Mt</span></div>
-<div class="flex justify-between p-2 bg-orange-50 rounded"><span>Phase 3: 20 Sales</span><span class="font-bold">$307/Mt</span></div>
-<div class="flex justify-between p-2 bg-red-50 rounded"><span>Phase 4: Scale</span><span class="font-bold">$322/Mt</span></div>
-</div>
-</div>
-
-<!-- Quick Links -->
-<div class="bg-white rounded-xl shadow-sm p-4">
-<h3 class="font-bold text-sm mb-3">🔗 Schnell-Links</h3>
-<div class="grid grid-cols-2 gap-2">
-<button onclick="window.open('${STATE.shop.primaryDomain}/admin','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">🏪 Shopify Admin</button>
-<button onclick="window.open('${STATE.shop.primaryDomain}','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">👁 Live-Shop</button>
-<button onclick="window.open('https://ads.tiktok.com','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">📱 TikTok Ads</button>
-<button onclick="window.open('https://app.heygen.com','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">🎬 HeyGen</button>
-<button onclick="window.open('https://platform.openai.com','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">🎨 OpenAI</button>
-<button onclick="window.open('https://discord.com','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">💬 Discord</button>
-</div>
-</div>
-
-<!-- Footer -->
 <div class="text-center text-xs text-slate-400 py-4">
 LuxeStyle Dashboard v8.0<br>
 Allen Chour · 🇨🇭 Belp<br>
@@ -798,46 +933,39 @@ function runAutoPilot(){
 const adsReady=STATE.products.filter(p=>p.adsReady);
 if(adsReady.length===0){toast('⚠️ Keine Ads-Ready Produkte');return}
 if(!STATE.keys.heygen){toast('⚠️ HeyGen Key fehlt - öffne Setup');openSetup();return}
-toast(`🚀 Auto-Run startet für ${adsReady.length} Produkte...`);
-logActivity(`Auto-Run gestartet (${adsReady.length} Produkte)`,'zap');
-sendDiscord(`🚀 Auto-Run gestartet!\n${adsReady.length} Produkte bereit für KI-Generierung`);
+toast('🚀 Auto-Run startet für '+adsReady.length+' Produkte...');
+logActivity('Auto-Run gestartet ('+adsReady.length+' Produkte)','zap');
+sendDiscord('🚀 Auto-Run gestartet!\n'+adsReady.length+' Produkte bereit für KI-Generierung');
 setTimeout(()=>{logActivity('HeyGen Video für Herrenuhr OK ✓','video');STATE.costs.today.heygen+=1.20;save();render()},2000);
 setTimeout(()=>{logActivity('5 KI-Bilder generiert ✓','image');STATE.costs.today.dalle+=0.20;save();render()},4000);
 }
 
-function addImageSlot(pid,slot){
-const p=STATE.products.find(x=>x.id===pid);
-if(p.img>=5){toast('Max 5 Slots erreicht');return}
-p.img++;save();render();toast('✅ Slot hinzugefügt');logActivity(`Bild zu ${p.t} hinzugefügt`,'image');
-}
-
-// (kiImageOptions replaced by imageMenu)
-
 function generateVideo(pid){
 const p=STATE.products.find(x=>x.id===pid);
 if(!STATE.keys.heygen){toast('⚠️ HeyGen Key fehlt');openSetup();return}
-toast(`🎬 Video für ${p.t} wird generiert...`);
+toast('🎬 Video für '+p.t+' wird generiert...');
 STATE.costs.today.heygen+=1.20;save();
-logActivity(`HeyGen Video: ${p.t}`,'video');
-sendDiscord(`🎬 Neues Video generiert: ${p.t}`);
+logActivity('HeyGen Video: '+p.t,'video');
+sendDiscord('🎬 Neues Video generiert: '+p.t);
 setTimeout(()=>render(),1000);
 }
 
 function openSupplier(pid){
 const p=STATE.products.find(x=>x.id===pid);
+if(p.supplierUrl){window.open(p.supplierUrl,'_blank');return;}
 if(p.supUrl){window.open(p.supUrl,'_blank')}
-else{const url=prompt(`Lieferant-URL für ${p.t}:`,'');if(url){p.supUrl=url;save();toast('✅ URL gespeichert');render()}}
+else{const url=prompt('Lieferant-URL für '+p.t+':','');if(url){p.supUrl=url;save();toast('✅ URL gespeichert');render()}}
 }
 
 function swapProduct(pid){
 const p=STATE.products.find(x=>x.id===pid);
-const ideas=STATE.poolIdeas.slice(0,5).map((i,n)=>`${n+1}. ${i.name} (Marge ${i.margin}%)`).join('\n');
-const choice=prompt(`Tausche ${p.t} gegen:\n\n${ideas}\n\nNummer (1-5) oder 0=abbrechen:`);
+const ideas=STATE.poolIdeas.slice(0,5).map((i,n)=>(n+1)+'. '+i.name+' (Marge '+i.margin+'%)').join('\n');
+const choice=prompt('Tausche '+p.t+' gegen:\n\n'+ideas+'\n\nNummer (1-5) oder 0=abbrechen:');
 const n=parseInt(choice);
 if(n>=1&&n<=5){
 const idea=STATE.poolIdeas[n-1];
-toast(`🔄 Tausch: ${p.t} → ${idea.name}`);
-logActivity(`Tausch: ${p.t} → ${idea.name}`,'refresh-cw');
+toast('🔄 Tausch: '+p.t+' → '+idea.name);
+logActivity('Tausch: '+p.t+' → '+idea.name,'refresh-cw');
 p.t=idea.name;p.p=idea.price;p.c=idea.cost;p.pipe='DRAFT';p.adsReady=false;
 save();render();
 }
@@ -845,316 +973,253 @@ save();render();
 
 function activatePoolIdea(id){
 const idea=STATE.poolIdeas.find(i=>i.id===id);
-if(!confirm(`"${idea.name}" als neues Produkt aktivieren?\nKI wird in 2 Min Bilder + SEO erstellen.`))return;
-toast(`✨ ${idea.name} wird aktiviert...`);
-logActivity(`Pool-Idee aktiviert: ${idea.name}`,'star');
-sendDiscord(`✨ Neues Produkt: ${idea.name}\nPreis: CHF ${idea.price} · Marge ${idea.margin}%`);
+if(!confirm('"'+idea.name+'" als neues Produkt aktivieren?\nKI wird in 2 Min Bilder + SEO erstellen.'))return;
+toast('✨ '+idea.name+' wird aktiviert...');
+logActivity('Pool-Idee aktiviert: '+idea.name,'star');
+sendDiscord('✨ Neues Produkt: '+idea.name+'\nPreis: CHF '+idea.price+' · Marge '+idea.margin+'%');
 }
-
 
 // ========== NEW IMAGE MANAGEMENT (Phase 1) ==========
 function ensureImgArrays(p){
-  if(!p.shopImgs) p.shopImgs = [];
-  if(!p.gallery) p.gallery = [];
-  if(!p.supplier) p.supplier = '';
+if(!p.shopImgs) p.shopImgs = [];
+if(!p.gallery) p.gallery = [];
+if(!p.supplier) p.supplier = '';
 }
 
 function addImageSlot(pid,slot){
-  const p=STATE.products.find(x=>x.id===pid);
-  if(!p) return;
-  ensureImgArrays(p);
-  if(p.shopImgs.length>=20){toast('Max 20 Shop-Slots erreicht');return;}
-  // Move first gallery image to shop, or create placeholder
-  if(p.gallery.length>0){
-    const img = p.gallery.shift();
-    p.shopImgs.push(img);
-    toast('✨ In Shop verschoben');
-  } else {
-    p.shopImgs.push({bg:'#e9d5ff',label:'+',ki:'manual'});
-    toast('➕ Leerer Slot');
-  }
-  p.img = p.shopImgs.length;
-  save();render();
-  logActivity(`Bild zu ${p.t} hinzugefügt`,'image');
+const p=STATE.products.find(x=>x.id===pid);
+if(!p) return;
+ensureImgArrays(p);
+if(p.shopImgs.length>=20){toast('Max 20 Shop-Slots erreicht');return;}
+if(p.gallery.length>0){
+const img = p.gallery.shift();
+p.shopImgs.push(img);
+toast('✨ In Shop verschoben');
+} else {
+p.shopImgs.push({bg:'#e9d5ff',label:'+',ki:'manual'});
+toast('➕ Leerer Slot');
+}
+p.img = p.shopImgs.length;
+save();render();
+logActivity('Bild zu '+p.t+' hinzugefügt','image');
 }
 
 function imageMenu(pid,where,idx){
-  const p=STATE.products.find(x=>x.id===pid);
-  if(!p) return;
-  ensureImgArrays(p);
-  const arr = where==='shop'?p.shopImgs:p.gallery;
-  const img = arr[idx];
-  if(!img) return;
-  const choice = prompt(`Bild ${idx+1} (${where}):
-1 = ★ In Shop übernehmen
-2 = 🔄 Neu generieren ($0.04)
-3 = 🗑️ Löschen
-4 = ↗ Auf andere Webseite
-5 = 🌟 Bewertung setzen (1-5)
-6 = 📝 Beschreibung
-Gib 1-6 ein:`);
-  if(!choice) return;
-  if(choice==='1'){
-    if(where==='gallery'){
-      if(p.shopImgs.length>=20){toast('Shop voll');return;}
-      p.shopImgs.push(img);
-      p.gallery.splice(idx,1);
-      p.img = p.shopImgs.length;
-      toast('✨ In Shop übernommen');
-    } else { toast('Schon im Shop'); }
-  }
-  else if(choice==='2'){
-    if(!STATE.keys.openai){toast('⚠️ OpenAI Key fehlt - Setup öffnen');openSetup();return;}
-    // Placeholder: real DALL-E call comes in Phase 2
-    img.ki='DALL-E';
-    img.url = '';
-    img.bg='linear-gradient(135deg,#a78bfa,#ec4899)';
-    STATE.costs.today.dalle+=0.04;save();
-    toast('🎨 Neu (Phase 2: echte API)');
-    logActivity('KI-Bild neu generiert','sparkles');
-  }
-  else if(choice==='3'){
-    arr.splice(idx,1);
-    if(where==='shop') p.img = p.shopImgs.length;
-    save();toast('🗑️ Gelöscht');
-  }
-  else if(choice==='4'){
-    const shops = STATE.shops||['LuxeStyle CH'];
-    const target = prompt('Verschieben nach:\n'+shops.map((s,i)=>`${i+1} = ${s}`).join('\n')+'\n(weitere Shops später)');
-    if(target){
-      const sname = shops[parseInt(target)-1];
-      if(sname){
-        img.movedTo = sname;
-        toast(`↗ Markiert für ${sname}`);
-        logActivity(`Bild verschoben → ${sname}`,'arrow-right');
-      }
-    }
-  }
-  else if(choice==='5'){
-    const r = prompt('Bewertung 1-5:');
-    const n = parseInt(r);
-    if(n>=1&&n<=5){img.rating=n;toast(`★ ${n}/5`);}
-  }
-  else if(choice==='6'){
-    const d = prompt('Beschreibung:',img.desc||'');
-    if(d!==null){img.desc=d;toast('📝 Gespeichert');}
-  }
-  save();render();
+const p=STATE.products.find(x=>x.id===pid);
+if(!p) return;
+ensureImgArrays(p);
+const arr = where==='shop'?p.shopImgs:p.gallery;
+const img = arr[idx];
+if(!img) return;
+const choice = prompt('Bild '+(idx+1)+' ('+where+'):\n1 = ★ In Shop übernehmen\n2 = 🔄 Neu generieren ($0.04)\n3 = 🗑️ Löschen\n4 = ↗ Auf andere Webseite\n5 = 🌟 Bewertung setzen (1-5)\n6 = 📝 Beschreibung\nGib 1-6 ein:');
+if(!choice) return;
+if(choice==='1'){
+if(where==='gallery'){
+if(p.shopImgs.length>=20){toast('Shop voll');return;}
+p.shopImgs.push(img);
+p.gallery.splice(idx,1);
+p.img = p.shopImgs.length;
+toast('✨ In Shop übernommen');
+} else { toast('Schon im Shop'); }
+}
+else if(choice==='2'){
+if(!STATE.keys.openai){toast('⚠️ OpenAI Key fehlt - Setup öffnen');openSetup();return;}
+img.ki='DALL-E';
+img.url = '';
+img.bg='linear-gradient(135deg,#a78bfa,#ec4899)';
+STATE.costs.today.dalle+=0.04;save();
+toast('🎨 Neu (Phase 2: echte API)');
+logActivity('KI-Bild neu generiert','sparkles');
+}
+else if(choice==='3'){
+arr.splice(idx,1);
+if(where==='shop') p.img = p.shopImgs.length;
+save();toast('🗑️ Gelöscht');
+}
+else if(choice==='4'){
+const shops = STATE.shops||['LuxeStyle CH'];
+const target = prompt('Verschieben nach:\n'+shops.map((s,i)=>(i+1)+' = '+s).join('\n')+'\n(weitere Shops später)');
+if(target){
+const sname = shops[parseInt(target)-1];
+if(sname){
+img.movedTo = sname;
+toast('↗ Markiert für '+sname);
+logActivity('Bild verschoben → '+sname,'arrow-right');
+}
+}
+}
+else if(choice==='5'){
+const r = prompt('Bewertung 1-5:');
+const n = parseInt(r);
+if(n>=1&&n<=5){img.rating=n;toast('★ '+n+'/5');}
+}
+else if(choice==='6'){
+const d = prompt('Beschreibung:',img.desc||'');
+if(d!==null){img.desc=d;toast('📝 Gespeichert');}
+}
+save();render();
 }
 
 async function generateKI(pid,count){
-  const p=STATE.products.find(x=>x.id===pid);
-  if(!p) return;
-  ensureImgArrays(p);
-  count = count || 3;
-  if(!STATE.keys.openai){
-    toast("⚠️ Kein OpenAI Key — bitte in Setup ⚙️ eintragen");
-    openSetup(); return;
-  }
-  const costPer = 0.04; // dall-e-3 standard ~$0.04
-  const cost = (count*costPer).toFixed(2);
-  if(!confirm("DALL·E 3: "+count+" Bild(er) für "+p.name+"\n≈ $"+cost+" Kosten. Fortfahren?")) return;
-  toast("🎨 Generiere "+count+" Bild(er) via DALL·E 3…");
-  logActivity("KI-Gen Start: "+count+" für "+p.name,"sparkles");
-  let ok=0, fail=0;
-  for(let i=0;i<count;i++){
-    if(p.gallery.length>=20){toast("Galerie voll"); break;}
-    try{
-      const prompt = p.name+", professional product photography, premium lifestyle, soft natural lighting, swiss luxury brand aesthetic, clean background, high detail, 4k";
-      const res = await fetch("https://api.openai.com/v1/images/generations",{
-        method:"POST",
-        headers:{"Authorization":"Bearer "+STATE.keys.openai,"Content-Type":"application/json"},
-        body: JSON.stringify({model:"dall-e-3", prompt:prompt, n:1, size:"1024x1024", quality:"standard"})
-      });
-      const data = await res.json();
-      if(data.error) throw new Error(data.error.message||"API Error");
-      const url = data.data && data.data[0] && data.data[0].url;
-      if(!url) throw new Error("Keine URL erhalten");
-      p.gallery.push({bg:"",ki:"DALL-E 3",label:"DALL·E "+(p.gallery.length+1),url:url, generated:Date.now(), rating:0});
-      ok++;
-      STATE.costs.today.dalle = (STATE.costs.today.dalle||0) + costPer;
-      save(); render();
-    }catch(e){
-      fail++;
-      console.error("DALL-E Fehler:",e);
-      toast("❌ Fehler: "+e.message);
-    }
-  }
-  toast("✅ "+ok+" generiert"+(fail?", "+fail+" fehlgeschlagen":"") );
-  logActivity("KI-Gen fertig: "+ok+"/"+count+" für "+p.name,"sparkles");
-  save(); render();
+const p=STATE.products.find(x=>x.id===pid);
+if(!p) return;
+ensureImgArrays(p);
+count = count || 3;
+if(!STATE.keys.openai){
+toast("⚠️ Kein OpenAI Key — bitte in Setup ⚙️ eintragen");
+openSetup(); return;
+}
+const costPer = 0.04;
+const cost = (count*costPer).toFixed(2);
+if(!confirm("DALL·E 3: "+count+" Bild(er) für "+p.t+"\n≈ $"+cost+" Kosten. Fortfahren?")) return;
+toast("🎨 Generiere "+count+" Bild(er) via DALL·E 3…");
+logActivity("KI-Gen Start: "+count+" für "+p.t,"sparkles");
+let ok=0, fail=0;
+for(let i=0;i<count;i++){
+if(p.gallery.length>=20){toast("Galerie voll"); break;}
+try{
+const prompt = p.t+", professional product photography, premium lifestyle, soft natural lighting, swiss luxury brand aesthetic, clean background, high detail, 4k";
+const res = await fetch("https://api.openai.com/v1/images/generations",{
+method:"POST",
+headers:{"Authorization":"Bearer "+STATE.keys.openai,"Content-Type":"application/json"},
+body: JSON.stringify({model:"dall-e-3", prompt:prompt, n:1, size:"1024x1024", quality:"standard"})
+});
+const data = await res.json();
+if(data.error) throw new Error(data.error.message||"API Error");
+const url = data.data && data.data[0] && data.data[0].url;
+if(!url) throw new Error("Keine URL erhalten");
+p.gallery.push({bg:"",ki:"DALL-E 3",label:"DALL·E "+(p.gallery.length+1),url:url, generated:Date.now(), rating:0});
+ok++;
+STATE.costs.today.dalle = (STATE.costs.today.dalle||0) + costPer;
+save(); render();
+}catch(e){
+fail++;
+console.error("DALL-E Fehler:",e);
+toast("❌ Fehler: "+e.message);
+}
+}
+toast("✅ "+ok+" generiert"+(fail?", "+fail+" fehlgeschlagen":"") );
+logActivity("KI-Gen fertig: "+ok+"/"+count+" für "+p.t,"sparkles");
+save(); render();
 }
 
 function uploadImage(pid,where){
-  const inp = document.createElement('input');
-  inp.type='file';
-  inp.accept='image/*';
-  inp.multiple = true;
-  inp.onchange = (e)=>{
-    const p=STATE.products.find(x=>x.id===pid);
-    if(!p) return;
-    ensureImgArrays(p);
-    const files = Array.from(e.target.files||[]);
-    files.forEach(f=>{
-      const reader = new FileReader();
-      reader.onload = (ev)=>{
-        const arr = where==='shop'?p.shopImgs:p.gallery;
-        if(arr.length>=20){toast('Voll (max 20)');return;}
-        arr.push({url:ev.target.result,ki:'upload'});
-        if(where==='shop') p.img = p.shopImgs.length;
-        save();render();
-        toast(`📷 Hochgeladen (${where})`);
-      };
-      reader.readAsDataURL(f);
-    });
-  };
-  inp.click();
+const inp = document.createElement('input');
+inp.type='file';
+inp.accept='image/*';
+inp.multiple = true;
+inp.onchange = (e)=>{
+const p=STATE.products.find(x=>x.id===pid);
+if(!p) return;
+ensureImgArrays(p);
+const files = Array.from(e.target.files||[]);
+files.forEach(f=>{
+const reader = new FileReader();
+reader.onload = (ev)=>{
+const arr = where==='shop'?p.shopImgs:p.gallery;
+if(arr.length>=20){toast('Voll (max 20)');return;}
+arr.push({url:ev.target.result,ki:'upload'});
+if(where==='shop') p.img = p.shopImgs.length;
+save();render();
+toast('📷 Hochgeladen ('+where+')');
+};
+reader.readAsDataURL(f);
+});
+};
+inp.click();
 }
 
-// Drag & Drop
 let _dragData=null;
 function dragImage(ev,pid,where,idx){
-  _dragData={pid,where,idx};
-  ev.dataTransfer.effectAllowed='move';
+_dragData={pid,where,idx};
+ev.dataTransfer.effectAllowed='move';
 }
 function dropImage(ev,pid,targetWhere,targetIdx){
-  ev.preventDefault();
-  if(!_dragData) return;
-  if(_dragData.pid!==pid){toast('Nur innerhalb desselben Produkts');return;}
-  const p=STATE.products.find(x=>x.id===pid);
-  ensureImgArrays(p);
-  const srcArr = _dragData.where==='shop'?p.shopImgs:p.gallery;
-  const tgtArr = targetWhere==='shop'?p.shopImgs:p.gallery;
-  const img = srcArr.splice(_dragData.idx,1)[0];
-  if(!img){_dragData=null;return;}
-  if(typeof targetIdx==='number') tgtArr.splice(targetIdx,0,img);
-  else tgtArr.push(img);
-  if(tgtArr.length>20) tgtArr.length=20;
-  p.img = p.shopImgs.length;
-  _dragData=null;
-  save();render();
-  toast(`✨ ${_dragData?_dragData.where:''} → ${targetWhere}`);
+ev.preventDefault();
+if(!_dragData) return;
+if(_dragData.pid!==pid){toast('Nur innerhalb desselben Produkts');return;}
+const p=STATE.products.find(x=>x.id===pid);
+ensureImgArrays(p);
+const srcArr = _dragData.where==='shop'?p.shopImgs:p.gallery;
+const tgtArr = targetWhere==='shop'?p.shopImgs:p.gallery;
+const img = srcArr.splice(_dragData.idx,1)[0];
+if(!img){_dragData=null;return;}
+if(typeof targetIdx==='number') tgtArr.splice(targetIdx,0,img);
+else tgtArr.push(img);
+if(tgtArr.length>20) tgtArr.length=20;
+p.img = p.shopImgs.length;
+_dragData=null;
+save();render();
+toast('✨ Bild verschoben');
 }
 
-
-// ========== Phase 1.5: Ads + Pipeline + Shop-Link ==========
 function openShopProduct(pid){
-  const p=STATE.products.find(x=>x.id===pid);
-  if(!p) return;
-  const slug=(p.t||"").toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
-  const url=(STATE.shop.primaryDomain||"")+"/products/"+slug;
-  window.open(url,"_blank");
+const p=STATE.products.find(x=>x.id===pid);
+if(!p) return;
+const slug=(p.t||"").toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const url=(STATE.shop.primaryDomain||"")+"/products/"+slug;
+window.open(url,"_blank");
 }
 
+// ========== TAB: ADS ==========
 function renderAds(){
-  const platforms=[
-    {key:'meta',name:'Meta Ads',icon:'facebook',color:'blue',spent:0,budget:0,clicks:0,impr:0,ctr:0,cpc:0,roas:0,connected:!!STATE.keys.meta,loginUrl:'https://business.facebook.com/adsmanager'},
-    {key:'google',name:'Google Ads',icon:'search',color:'red',spent:0,budget:0,clicks:0,impr:0,ctr:0,cpc:0,roas:0,connected:!!STATE.keys.google,loginUrl:'https://ads.google.com'},
-    {key:'tiktok',name:'TikTok Ads',icon:'music',color:'pink',spent:0,budget:350,clicks:0,impr:0,ctr:0,cpc:0,roas:0,connected:!!STATE.keys.tiktok,loginUrl:'https://ads.tiktok.com'}
-  ];
-  const totalSpent=platforms.reduce((s,p)=>s+p.spent,0);
-  const totalClicks=platforms.reduce((s,p)=>s+p.clicks,0);
-  let html='<div class="space-y-4">';
-  html+='<div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-xl"><h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="target" class="w-5 h-5"></i> Werbung · Alle Plattformen</h2><p class="text-sm opacity-90 mt-1">Demo-Daten bis echte APIs verbunden (Phase 3)</p></div>';
-  html+='<div class="grid grid-cols-3 gap-2">';
-  html+='<div class="bg-white rounded-lg p-3 shadow-sm"><div class="text-xs text-slate-500">Spent heute</div><div class="text-lg font-bold text-orange-600">CHF '+totalSpent.toFixed(2)+'</div></div>';
-  html+='<div class="bg-white rounded-lg p-3 shadow-sm"><div class="text-xs text-slate-500">Klicks</div><div class="text-lg font-bold text-purple-600">'+totalClicks+'</div></div>';
-  html+='<div class="bg-white rounded-lg p-3 shadow-sm"><div class="text-xs text-slate-500">Avg ROAS</div><div class="text-lg font-bold text-green-600">0.0x</div></div>';
-  html+='</div>';
-  for(const pl of platforms){
-    const budgetPct=pl.budget>0?(pl.spent/pl.budget*100):0;
-    html+='<div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-'+pl.color+'-500">';
-    html+='<div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2">';
-    html+='<div class="w-8 h-8 rounded-full bg-'+pl.color+'-100 flex items-center justify-center"><i data-lucide="'+pl.icon+'" class="w-4 h-4 text-'+pl.color+'-600"></i></div>';
-    html+='<div><div class="font-bold text-sm">'+pl.name+'</div><div class="text-[10px] text-slate-500">'+(pl.connected?'✅ Verbunden':'⚠️ Nicht verbunden')+'</div></div></div>';
-    html+='<button onclick="window.open(\''+pl.loginUrl+'\',\'_blank\')" class="text-[10px] bg-slate-100 px-2 py-1 rounded">↗ Öffnen</button></div>';
-    html+='<div class="grid grid-cols-3 gap-2 text-center text-xs mb-3">';
-    html+='<div><div class="text-slate-500">Klicks</div><div class="font-bold text-base">'+pl.clicks+'</div></div>';
-    html+='<div><div class="text-slate-500">Impressions</div><div class="font-bold text-base">'+pl.impr.toLocaleString()+'</div></div>';
-    html+='<div><div class="text-slate-500">CTR</div><div class="font-bold text-base">'+pl.ctr+'%</div></div>';
-    html+='<div><div class="text-slate-500">CPC</div><div class="font-bold">CHF '+pl.cpc.toFixed(2)+'</div></div>';
-    html+='<div><div class="text-slate-500">Spent</div><div class="font-bold text-orange-600">CHF '+pl.spent.toFixed(2)+'</div></div>';
-    html+='<div><div class="text-slate-500">ROAS</div><div class="font-bold text-green-600">'+pl.roas.toFixed(1)+'x</div></div></div>';
-    html+='<div class="bg-slate-50 rounded-lg p-2 mb-2 text-xs"><div class="flex justify-between mb-1"><span class="text-slate-500">Budget</span><span class="font-bold">CHF '+(pl.budget-pl.spent).toFixed(2)+' / '+pl.budget.toFixed(2)+'</span></div>';
-    html+='<div class="h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-'+pl.color+'-500" style="width:'+budgetPct+'%"></div></div></div>';
-    html+='<div class="grid grid-cols-3 gap-1.5">';
-    html+='<button onclick="previewAd(\''+pl.key+'\')" class="bg-slate-700 text-white py-2 rounded text-xs font-medium">👁️ Vorschau</button>';
-    html+='<button onclick="regenAd(\''+pl.key+'\')" class="bg-purple-600 text-white py-2 rounded text-xs font-medium">🔄 Neu Gen.</button>';
-    html+='<button onclick="topupBudget(\''+pl.key+'\')" class="bg-green-600 text-white py-2 rounded text-xs font-medium">💰 Aufladen</button></div>';
-    html+='</div>';
-  }
-  html+='<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-xs text-yellow-900"><b>⚠️ Phase 3 noch nicht aktiv:</b> Zahlen sind Demo. Für echte Daten Meta/Google/TikTok APIs anbinden.</div>';
-  html+='</div>';
-  $('app').innerHTML=html;
-}
-
-function previewAd(p){toast('👁️ Vorschau — Phase 3 zeigt echte Creatives');}
-function regenAd(p){if(!confirm('Neue Ad-Variante generieren für '+p+'?\n(Phase 3 nutzt KI für Text+Bild)'))return; toast('🔄 Wird in Phase 3 aktiv'); logActivity('Ad-Regen: '+p,'sparkles');}
-function topupBudget(p){
-  const urls={meta:'https://business.facebook.com/billing_hub',google:'https://ads.google.com/aw/billing',tiktok:'https://ads.tiktok.com/i18n/account/payment'};
-  if(confirm('Öffnet '+p+' Billing in neuem Tab.\nGeld einzahlen musst du selbst tun.')){window.open(urls[p],'_blank');}
+const platforms = STATE.adsBudgets;
+let html='<div class="space-y-4">';
+html+='<div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-xl"><h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="target" class="w-5 h-5"></i> Werbung · Alle Plattformen</h2><p class="text-sm opacity-90 mt-1">Multi-Plattform Budget-Management</p></div>';
+html += renderBudgetWidget();
+html+='<div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-xs text-yellow-900"><b>⚠️ Hinweis:</b> Aufladen leitet zur jeweiligen Plattform weiter. Auto-Refill triggert bei kritischem Budget.</div>';
+html+='</div>';
+$('app').innerHTML=html;
 }
 
 function renderPipeline(){
-  const products=STATE.products||[];
-  const stages=[
-    {key:'idea',name:'Idee',icon:'lightbulb',test:p=>true},
-    {key:'images',name:'Bilder',icon:'image',test:p=>(p.shopImgs&&p.shopImgs.length>0)||(p.gallery&&p.gallery.length>0)},
-    {key:'shop',name:'Im Shop',icon:'store',test:p=>p.status!=='draft'&&p.shopImgs&&p.shopImgs.length>0},
-    {key:'ads',name:'Ads Live',icon:'target',test:p=>p.adsReady||p.adsLive},
-    {key:'sales',name:'Verkauf',icon:'shopping-cart',test:p=>(p.sold||0)>0}
-  ];
-  const counts=stages.map(s=>products.filter(s.test).length);
-  let html='<div class="space-y-4">';
-  html+='<div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-xl"><h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="git-branch" class="w-5 h-5"></i> Pipeline</h2><p class="text-sm opacity-90 mt-1">Produkt-Workflow: Idee → Verkauf</p></div>';
-  html+='<div class="bg-white rounded-xl shadow-sm p-4 overflow-x-auto"><div class="flex items-center gap-1 min-w-max">';
-  for(let i=0;i<stages.length;i++){
-    const s=stages[i];
-    html+='<div class="flex flex-col items-center text-center min-w-[80px]">';
-    html+='<div class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mb-2 relative">';
-    html+='<i data-lucide="'+s.icon+'" class="w-6 h-6 text-purple-600"></i>';
-    html+='<div class="absolute -top-1 -right-1 bg-purple-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">'+counts[i]+'</div></div>';
-    html+='<div class="text-xs font-medium">'+s.name+'</div></div>';
-    if(i<stages.length-1) html+='<div class="flex-1 min-w-[20px] h-0.5 bg-gradient-to-r from-purple-300 to-pink-300 mt-[-20px]"></div>';
-  }
-  html+='</div></div>';
-  for(let i=0;i<stages.length;i++){
-    const s=stages[i];
-    const prods=products.filter(s.test);
-    html+='<div class="bg-white rounded-xl shadow-sm p-3"><h3 class="font-bold text-sm mb-2 flex items-center gap-2"><i data-lucide="'+s.icon+'" class="w-4 h-4 text-purple-600"></i> '+s.name+' ('+prods.length+')</h3>';
-    if(prods.length===0){html+='<div class="text-xs text-slate-400">Keine Produkte hier</div>';}
-    else{
-      html+='<div class="space-y-1">';
-      for(let j=0;j<Math.min(prods.length,5);j++){
-        const p=prods[j];
-        html+='<div class="flex justify-between items-center text-xs p-2 bg-slate-50 rounded"><div class="flex items-center gap-2 truncate"><span class="font-medium truncate">'+p.t+'</span><span class="text-slate-400 text-[10px]">CHF '+p.p+'</span></div>';
-        html+='<button onclick="openShopProduct(\''+p.id+'\')" class="text-purple-600 text-[10px]"><i data-lucide="external-link" class="w-3 h-3 inline"></i></button></div>';
-      }
-      if(prods.length>5) html+='<div class="text-[10px] text-slate-400 text-center">+ '+(prods.length-5)+' weitere</div>';
-      html+='</div>';
-    }
-    html+='</div>';
-  }
-  let hint='';
-  if(counts[1]===0) hint='KI-Bilder generieren — kein Produkt hat Bilder!';
-  else if(counts[2]<counts[1]) hint='Produkte in Shop publizieren ('+(counts[1]-counts[2])+' bereit).';
-  else if(counts[3]<counts[2]) hint='Ads für '+(counts[2]-counts[3])+' Shop-Produkte starten.';
-  else hint='✅ Alle Produkte in der Verkaufsphase!';
-  html+='<div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-900"><b>💡 Nächster Schritt:</b> '+hint+'</div>';
-  html+='</div>';
-  $('app').innerHTML=html;
+const products=STATE.products||[];
+const stages=[
+{key:'idea',name:'Idee',icon:'lightbulb',test:p=>true},
+{key:'images',name:'Bilder',icon:'image',test:p=>(p.shopImgs&&p.shopImgs.length>0)||(p.gallery&&p.gallery.length>0)},
+{key:'shop',name:'Im Shop',icon:'store',test:p=>p.status!=='draft'&&p.shopImgs&&p.shopImgs.length>0},
+{key:'ads',name:'Ads Live',icon:'target',test:p=>p.adsReady||p.adsLive},
+{key:'sales',name:'Verkauf',icon:'shopping-cart',test:p=>(p.sold||0)>0}
+];
+const counts=stages.map(s=>products.filter(s.test).length);
+let html='<div class="space-y-4">';
+html+='<div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-xl"><h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="git-branch" class="w-5 h-5"></i> Pipeline</h2><p class="text-sm opacity-90 mt-1">Produkt-Workflow: Idee → Verkauf</p></div>';
+html+='<div class="bg-white rounded-xl shadow-sm p-4 overflow-x-auto"><div class="flex items-center gap-1 min-w-max">';
+for(let i=0;i<stages.length;i++){
+const s=stages[i];
+html+='<div class="flex flex-col items-center text-center min-w-[80px]">';
+html+='<div class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mb-2 relative">';
+html+='<i data-lucide="'+s.icon+'" class="w-6 h-6 text-purple-600"></i>';
+html+='<div class="absolute -top-1 -right-1 bg-purple-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">'+counts[i]+'</div></div>';
+html+='<div class="text-xs font-medium">'+s.name+'</div></div>';
+if(i<stages.length-1) html+='<div class="flex-1 min-w-[20px] h-0.5 bg-gradient-to-r from-purple-300 to-pink-300 mt-[-20px]"></div>';
 }
-
-function bulkGenerate(){
-const cat=STATE.settings.shopCategory;
-const products=STATE.products.filter(p=>p.cat===cat);
-const cost=products.length*6*0.04;
-if(!confirm(`6 KI-Bilder für ${products.length} ${cat}-Produkte generieren?\nKosten: ~$${cost.toFixed(2)}`))return;
-toast(`🎨 ${products.length*6} Bilder werden generiert...`);
-STATE.costs.today.dalle+=cost;save();
-logActivity(`Bulk: ${products.length*6} KI-Bilder ($${cost.toFixed(2)})`,'sparkles');
-sendDiscord(`🎨 Bulk-Generation: ${products.length*6} Bilder\nKosten: $${cost.toFixed(2)}`);
-setTimeout(()=>render(),1500);
+html+='</div></div>';
+for(let i=0;i<stages.length;i++){
+const s=stages[i];
+const prods=products.filter(s.test);
+html+='<div class="bg-white rounded-xl shadow-sm p-3"><h3 class="font-bold text-sm mb-2 flex items-center gap-2"><i data-lucide="'+s.icon+'" class="w-4 h-4 text-purple-600"></i> '+s.name+' ('+prods.length+')</h3>';
+if(prods.length===0){html+='<div class="text-xs text-slate-400">Keine Produkte hier</div>';}
+else{
+html+='<div class="space-y-1">';
+for(let j=0;j<Math.min(prods.length,5);j++){
+const p=prods[j];
+html+='<div class="flex justify-between items-center text-xs p-2 bg-slate-50 rounded"><div class="flex items-center gap-2 truncate"><span class="font-medium truncate">'+p.t+'</span><span class="text-slate-400 text-[10px]">CHF '+p.p+'</span></div>';
+html+='<button onclick="openShopProduct(\''+p.id+'\')" class="text-purple-600 text-[10px]"><i data-lucide="external-link" class="w-3 h-3 inline"></i></button></div>';
+}
+if(prods.length>5) html+='<div class="text-[10px] text-slate-400 text-center">+ '+(prods.length-5)+' weitere</div>';
+html+='</div>';
+}
+html+='</div>';
+}
+let hint='';
+if(counts[1]===0) hint='KI-Bilder generieren — kein Produkt hat Bilder!';
+else if(counts[2]<counts[1]) hint='Produkte in Shop publizieren ('+(counts[1]-counts[2])+' bereit).';
+else if(counts[3]<counts[2]) hint='Ads für '+(counts[2]-counts[3])+' Shop-Produkte starten.';
+else hint='✅ Alle Produkte in der Verkaufsphase!';
+html+='<div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-900"><b>💡 Nächster Schritt:</b> '+hint+'</div>';
+html+='</div>';
+$('app').innerHTML=html;
 }
 
 // ========== INTEGRATIONS ==========
@@ -1163,7 +1228,7 @@ if(!STATE.keys.discord)return;
 try{
 await fetch(STATE.keys.discord,{
 method:'POST',headers:{'Content-Type':'application/json'},
-body:JSON.stringify({content:`**[LuxeStyle Dashboard]** ${msg}`})
+body:JSON.stringify({content:'**[LuxeStyle Dashboard]** '+msg})
 });
 }catch(e){console.error('Discord error:',e)}
 }
@@ -1174,19 +1239,19 @@ const msg=input.value.trim();
 if(!msg)return;
 if(!STATE.keys.gemini){toast('Gemini Key fehlt');return}
 const msgs=$('chat-msgs');
-msgs.innerHTML+=`<div class="bg-purple-50 p-2 rounded text-sm"><b>Du:</b> ${msg}</div>`;
+msgs.innerHTML+='<div class="bg-purple-50 p-2 rounded text-sm"><b>Du:</b> '+msg+'</div>';
 input.value='';
-msgs.innerHTML+=`<div id="thinking" class="bg-slate-50 p-2 rounded text-sm text-slate-500 pulse-soft">💭 Gemini denkt...</div>`;
+msgs.innerHTML+='<div id="thinking" class="bg-slate-50 p-2 rounded text-sm text-slate-500 pulse-soft">💭 Gemini denkt...</div>';
 msgs.scrollTop=msgs.scrollHeight;
 try{
-const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${STATE.keys.gemini}`,{
+const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+STATE.keys.gemini,{
 method:'POST',headers:{'Content-Type':'application/json'},
-body:JSON.stringify({contents:[{parts:[{text:`Du bist ein E-Commerce-Berater für einen Schweizer Dropshipping-Shop (LuxeStyle CH). Antworte kurz, konkret, auf Deutsch. Frage: ${msg}`}]}]})
+body:JSON.stringify({contents:[{parts:[{text:'Du bist ein E-Commerce-Berater für einen Schweizer Dropshipping-Shop (LuxeStyle CH). Antworte kurz, konkret, auf Deutsch. Frage: '+msg}]}]})
 });
 const data=await res.json();
 const answer=data.candidates?.[0]?.content?.parts?.[0]?.text||'Fehler';
 $('thinking').remove();
-msgs.innerHTML+=`<div class="bg-slate-50 p-2 rounded text-sm"><b>Gemini:</b> ${answer}</div>`;
+msgs.innerHTML+='<div class="bg-slate-50 p-2 rounded text-sm"><b>Gemini:</b> '+answer+'</div>';
 msgs.scrollTop=msgs.scrollHeight;
 }catch(e){$('thinking').textContent='❌ Fehler: '+e.message}
 }
@@ -1195,6 +1260,12 @@ msgs.scrollTop=msgs.scrollHeight;
 function init(){
 lucide.createIcons();
 switchTab('cockpit');
+// Check auto-refill on load
+STATE.adsBudgets.forEach(b=>{
+  if(b.autoRefill && b.remaining<b.alertCritical){
+    setTimeout(()=>autoRefillCheck(b.id), 1500);
+  }
+});
 const firstRun=!localStorage.getItem('luxe_init');
 if(firstRun){
 localStorage.setItem('luxe_init','1');
