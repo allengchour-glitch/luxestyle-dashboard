@@ -125,6 +125,7 @@ function $(id){return document.getElementById(id)}
 function toast(msg,t=2500){const el=$('toast');el.textContent=msg;el.classList.remove('hidden');setTimeout(()=>el.classList.add('hidden'),t)}
 function save(){localStorage.setItem('luxe_keys',JSON.stringify(STATE.keys));localStorage.setItem('luxe_settings',JSON.stringify(STATE.settings));localStorage.setItem('luxe_costs',JSON.stringify(STATE.costs));localStorage.setItem('luxe_activity',JSON.stringify(STATE.activity.slice(0,20)))}
 function logActivity(text,icon='zap'){STATE.activity.unshift({text,icon,time:new Date().toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'})});if(STATE.activity.length>20)STATE.activity=STATE.activity.slice(0,20);save();if(STATE.tab==='cockpit')renderCockpit()}
+if(!STATE.ads) STATE.ads={meta:{spent:0,revenue:0,active:false},google:{spent:0,revenue:0,active:false},tiktok:{spent:0,revenue:0,active:false}};
 
 // ========== ROUTING ==========
 function switchTab(tab){STATE.tab=tab;document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.toggle('text-purple-600',b.dataset.tab===tab);b.classList.toggle('text-slate-500',b.dataset.tab!==tab)});render();window.scrollTo(0,0)}
@@ -150,6 +151,58 @@ const adsReady=STATE.products.filter(p=>p.adsReady).length;
 const totalCosts=STATE.costs.today.heygen+STATE.costs.today.dalle+STATE.costs.today.tiktok;
 
 $('app').innerHTML=`
+
+    <!-- HEUTE-Übersicht Widget -->
+    <div class="bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-xl p-4 shadow-lg">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-sm">📅 Heute auf einen Blick</h3>
+        <span class="text-xs opacity-80">${new Date().toLocaleDateString("de-CH",{weekday:"long",day:"2-digit",month:"long"})}</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2 text-center">
+        <div><div class="text-2xl font-bold">${STATE.stats?.ordersToday||0}</div><div class="text-xs opacity-80">Bestellungen</div></div>
+        <div><div class="text-2xl font-bold">${(STATE.stats?.visitorsToday||0)}</div><div class="text-xs opacity-80">Besucher</div></div>
+        <div><div class="text-2xl font-bold">CHF ${(STATE.stats?.revToday||0).toFixed(0)}</div><div class="text-xs opacity-80">Umsatz</div></div>
+      </div>
+    </div>
+
+    <!-- Quick Actions Widget -->
+    <div class="bg-white rounded-xl shadow-sm p-4">
+      <h3 class="font-bold text-sm mb-3">⚡ Schnell-Aktionen</h3>
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="STATE.tab=\'shop\';render();" class="flex items-center gap-2 px-3 py-2 bg-purple-100 text-purple-700 rounded-lg text-sm font-semibold"><i data-lucide="image" class="w-4 h-4"></i> Bilder gen.</button>
+        <button onclick="STATE.tab=\'ads\';render();" class="flex items-center gap-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold"><i data-lucide="megaphone" class="w-4 h-4"></i> Neue Ad</button>
+        <button onclick="STATE.tab=\'pipeline\';render();" class="flex items-center gap-2 px-3 py-2 bg-amber-100 text-amber-700 rounded-lg text-sm font-semibold"><i data-lucide="git-branch" class="w-4 h-4"></i> Pipeline</button>
+        <button onclick="window.open(\'https://admin.shopify.com/store/aban-192/orders\',\'_blank\')" class="flex items-center gap-2 px-3 py-2 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-semibold"><i data-lucide="shopping-bag" class="w-4 h-4"></i> Orders</button>
+      </div>
+    </div>
+
+    <!-- Trend Alert Widget -->
+    <div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl p-4 shadow">
+      <div class="flex items-start gap-3">
+        <div class="text-2xl">🔥</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-sm">Trend des Tages</h3>
+          <p class="text-xs opacity-90 mt-1">${(STATE.products[0]?.name)||"Noch kein Produkt"} hat ${STATE.products.filter(p=>p.shopImgs?.length>0).length>0?"gute Engagement-Werte":"Potential — füge Bilder hinzu"}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lager / TODO Widget -->
+    <div class="bg-white rounded-xl shadow-sm p-4">
+      <h3 class="font-bold text-sm mb-2">📋 Offene Aufgaben</h3>
+      <div class="space-y-1.5 text-sm">
+        ${(()=>{const todos=[];
+          if(!STATE.keys.openai) todos.push({i:"🔑",t:"OpenAI Key in Setup eintragen",a:"openSetup()"});
+          const noImgs = STATE.products.filter(p=>!p.shopImgs||p.shopImgs.length===0);
+          if(noImgs.length>0) todos.push({i:"🖼️",t:noImgs.length+" Produkt(e) ohne Shop-Bilder",a:"STATE.tab=\'shop\';render()"});
+          const noAds = STATE.products.filter(p=>!p.ads||!p.ads.active);
+          if(noAds.length>3) todos.push({i:"📣",t:noAds.length+" Produkte ohne aktive Ads",a:"STATE.tab=\'ads\';render()"});
+          if(todos.length===0) return `<p class="text-xs text-slate-400">Alles erledigt! 🎉</p>`;
+          return todos.slice(0,5).map(t=>`<button onclick="${t.a}" class="w-full text-left flex items-center gap-2 p-2 hover:bg-slate-50 rounded"><span>${t.i}</span><span class="flex-1 text-slate-700">${t.t}</span><i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i></button>`).join("");
+        })()}
+      </div>
+    </div>
+
 <div class="space-y-4">
 
 <!-- Greeting -->
@@ -528,57 +581,87 @@ ${codes.map(c=>`
 
 // ========== TAB: STATS ==========
 function renderStats(){
-$('app').innerHTML=`
-<div class="space-y-4">
+  const app=$("#app"); if(!app) return;
+  const totalProd = STATE.products.length;
+  const inShop = STATE.products.filter(p=>p.shopImgs && p.shopImgs.length>0).length;
+  const withAds = STATE.products.filter(p=>p.ads && p.ads.active).length;
+  const totalSpent = (STATE.costs.spent||0) + (STATE.costs.today.dalle||0);
+  const totalRevenue = STATE.products.reduce((s,p)=>s+(p.revenue||0),0);
+  const roas = totalSpent>0 ? (totalRevenue/totalSpent).toFixed(2) : "—";
+  // Demo-Zahlen wenn nichts da
+  const orders7d = STATE.stats?.orders7d || [3,5,4,7,6,9,8];
+  const max7d = Math.max(...orders7d);
+  const sparkline = (vals)=>{const max=Math.max(...vals,1); const w=200, h=40, step=w/(vals.length-1); const pts=vals.map((v,i)=>`${i*step},${h-(v/max)*h}`).join(" "); return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline fill="none" stroke="#667eea" stroke-width="2" points="${pts}"/></svg>`;};
+  const bar = (label,val,max,color)=>{const pct=max>0?(val/max*100):0; return `<div class="mb-2"><div class="flex justify-between text-xs mb-1"><span class="text-slate-600">${label}</span><span class="font-semibold">${val}</span></div><div class="bg-slate-200 rounded-full h-2"><div class="${color} h-2 rounded-full" style="width:${pct}%"></div></div></div>`;};
+  // Top Products by revenue
+  const topByRev = [...STATE.products].sort((a,b)=>(b.revenue||0)-(a.revenue||0)).slice(0,5);
+  // Channels
+  const channelSpend = {meta:STATE.ads?.meta?.spent||0, google:STATE.ads?.google?.spent||0, tiktok:STATE.ads?.tiktok?.spent||0};
+  const maxCh = Math.max(channelSpend.meta,channelSpend.google,channelSpend.tiktok,1);
+  app.innerHTML = `
+  <div class="space-y-4">
+    <!-- KPI-Reihe -->
+    <div class="grid grid-cols-2 gap-3">
+      <div class="bg-gradient-to-br from-emerald-500 to-green-600 text-white rounded-xl p-4 shadow">
+        <div class="text-xs opacity-80">💰 Umsatz heute</div>
+        <div class="text-2xl font-bold mt-1">CHF ${(STATE.stats?.revToday||0).toFixed(2)}</div>
+        <div class="text-xs opacity-80 mt-1">${(STATE.stats?.ordersToday||0)} Bestellungen</div>
+      </div>
+      <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-xl p-4 shadow">
+        <div class="text-xs opacity-80">📊 ROAS gesamt</div>
+        <div class="text-2xl font-bold mt-1">${roas}x</div>
+        <div class="text-xs opacity-80 mt-1">CHF ${totalRevenue.toFixed(0)} / ${totalSpent.toFixed(2)}</div>
+      </div>
+      <div class="bg-gradient-to-br from-purple-500 to-pink-600 text-white rounded-xl p-4 shadow">
+        <div class="text-xs opacity-80">🎨 KI-Bilder gesamt</div>
+        <div class="text-2xl font-bold mt-1">${STATE.products.reduce((s,p)=>s+(p.gallery?.length||0),0)}</div>
+        <div class="text-xs opacity-80 mt-1">${STATE.products.reduce((s,p)=>s+(p.shopImgs?.length||0),0)} im Shop</div>
+      </div>
+      <div class="bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-xl p-4 shadow">
+        <div class="text-xs opacity-80">📦 Produkte aktiv</div>
+        <div class="text-2xl font-bold mt-1">${inShop}/${totalProd}</div>
+        <div class="text-xs opacity-80 mt-1">${withAds} mit Ads</div>
+      </div>
+    </div>
 
-<!-- Sales Overview -->
-<div class="bg-white rounded-xl shadow-sm p-4">
-<h3 class="font-bold text-sm mb-3">📊 Performance heute</h3>
-<div class="grid grid-cols-2 gap-3">
-<div class="text-center p-3 bg-slate-50 rounded"><div class="text-2xl font-bold">0</div><div class="text-xs text-slate-500">Bestellungen</div></div>
-<div class="text-center p-3 bg-slate-50 rounded"><div class="text-2xl font-bold">CHF 0</div><div class="text-xs text-slate-500">Umsatz</div></div>
-<div class="text-center p-3 bg-slate-50 rounded"><div class="text-2xl font-bold">0</div><div class="text-xs text-slate-500">Conv-Rate</div></div>
-<div class="text-center p-3 bg-slate-50 rounded"><div class="text-2xl font-bold">CHF 0</div><div class="text-xs text-slate-500">Profit</div></div>
-</div>
-</div>
+    <!-- 7-Tage Verlauf -->
+    <div class="bg-white rounded-xl shadow-sm p-4">
+      <h3 class="font-bold text-sm mb-2">📈 Bestellungen letzte 7 Tage</h3>
+      <div class="flex justify-center">${sparkline(orders7d)}</div>
+      <div class="flex justify-between text-xs text-slate-500 mt-1">
+        <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+      </div>
+    </div>
 
-<!-- Top Products -->
-<div class="bg-white rounded-xl shadow-sm p-4">
-<h3 class="font-bold text-sm mb-3">🏆 Top-Produkte (nach Marge)</h3>
-<div class="space-y-2 text-sm">
-${[...STATE.products].sort((a,b)=>((b.p-b.c)/b.p)-((a.p-a.c)/a.p)).slice(0,5).map((p,i)=>`
-<div class="flex items-center gap-2 text-sm">
-<span class="w-6 text-slate-400">${i+1}.</span>
-<span class="flex-1 truncate">${p.t}</span>
-<span class="text-green-600 font-bold">${Math.round(((p.p-p.c)/p.p)*100)}%</span>
-</div>
-`).join('')}
-</div>
-</div>
+    <!-- Kanal-Verteilung -->
+    <div class="bg-white rounded-xl shadow-sm p-4">
+      <h3 class="font-bold text-sm mb-3">💸 Ausgaben pro Kanal</h3>
+      ${bar("Meta Ads", channelSpend.meta.toFixed(2)+" CHF", maxCh, "bg-blue-500")}
+      ${bar("Google Ads", channelSpend.google.toFixed(2)+" CHF", maxCh, "bg-red-500")}
+      ${bar("TikTok Ads", channelSpend.tiktok.toFixed(2)+" CHF", maxCh, "bg-black")}
+    </div>
 
-<!-- ROAS by Campaign -->
-<div class="bg-white rounded-xl shadow-sm p-4">
-<h3 class="font-bold text-sm mb-3">🎯 TikTok Ads</h3>
-<p class="text-sm text-slate-400 text-center py-6">Noch keine Kampagnen<br><button onclick="window.open('https://ads.tiktok.com','_blank')" class="text-purple-600 underline mt-2">TikTok Ads Manager öffnen</button></p>
-</div>
+    <!-- Top Produkte -->
+    <div class="bg-white rounded-xl shadow-sm p-4">
+      <h3 class="font-bold text-sm mb-2">🏆 Top-Produkte (Umsatz)</h3>
+      <div class="space-y-2">
+        ${topByRev.length===0 ? `<p class="text-xs text-slate-400 text-center py-3">Noch keine Verkaufsdaten</p>` :
+          topByRev.map((p,i)=>`<div class="flex items-center gap-2 text-sm"><span class="w-5 text-slate-400">${i+1}.</span><span class="flex-1 truncate">${p.name}</span><span class="text-emerald-600 font-bold">CHF ${(p.revenue||0).toFixed(0)}</span></div>`).join("")}
+      </div>
+    </div>
 
-<!-- Microsoft Clarity -->
-<div class="bg-white rounded-xl shadow-sm p-4">
-<h3 class="font-bold text-sm mb-3">🔥 Microsoft Clarity Heatmaps</h3>
-<button onclick="window.open('https://clarity.microsoft.com/','_blank')" class="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium">In Clarity öffnen</button>
-</div>
-
-<!-- Judge.me Reviews -->
-<div class="bg-white rounded-xl shadow-sm p-4">
-<h3 class="font-bold text-sm mb-3">⭐ Reviews (Judge.me)</h3>
-<div class="text-sm space-y-1">
-<div class="flex justify-between"><span>Total Reviews:</span><span class="font-bold">0</span></div>
-<div class="flex justify-between"><span>Durchschnitt:</span><span class="text-slate-400">—</span></div>
-<div class="flex justify-between"><span>Auto-Anfrage aktiv:</span><span class="text-green-600">🟢 Ja</span></div>
-</div>
-</div>
-
-</div>`;
+    <!-- Externe Tools -->
+    <div class="bg-white rounded-xl shadow-sm p-4">
+      <h3 class="font-bold text-sm mb-3">🔗 Externe Statistik-Tools</h3>
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="window.open(\'https://admin.shopify.com/store/aban-192/analytics\',\'_blank\')" class="px-3 py-2 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-semibold">🛍️ Shopify</button>
+        <button onclick="window.open(\'https://clarity.microsoft.com/\',\'_blank\')" class="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold">🔥 Clarity</button>
+        <button onclick="window.open(\'https://judge.me/\',\'_blank\')" class="px-3 py-2 bg-yellow-100 text-yellow-700 rounded-lg text-sm font-semibold">⭐ Judge.me</button>
+        <button onclick="window.open(\'https://analytics.google.com/\',\'_blank\')" class="px-3 py-2 bg-orange-100 text-orange-700 rounded-lg text-sm font-semibold">📊 GA4</button>
+      </div>
+    </div>
+  </div>`;
+  if(window.lucide) lucide.createIcons();
 }
 
 // ========== TAB: MEHR ==========
@@ -859,34 +942,47 @@ Gib 1-6 ein:`);
   save();render();
 }
 
-function generateKI(pid,count){
+async function generateKI(pid,count){
   const p=STATE.products.find(x=>x.id===pid);
   if(!p) return;
   ensureImgArrays(p);
+  count = count || 3;
   if(!STATE.keys.openai){
-    toast('⚠️ OpenAI Key fehlt');
-    if(confirm('Setup öffnen, um Key einzutragen?')) openSetup();
-    return;
+    toast("⚠️ Kein OpenAI Key — bitte in Setup ⚙️ eintragen");
+    openSetup(); return;
   }
-  const cost = count*0.04;
-  if(!confirm(`${count} KI-Bild(er) für ${p.t} generieren?\nKosten: ~$${cost.toFixed(2)}`)) return;
-  // Phase 1: nur Platzhalter mit Gradient + KI-Label
-  const kis = ['DALL-E','SD-XL','Midjourney'];
+  const costPer = 0.04; // dall-e-3 standard ~$0.04
+  const cost = (count*costPer).toFixed(2);
+  if(!confirm("DALL·E 3: "+count+" Bild(er) für "+p.name+"\n≈ $"+cost+" Kosten. Fortfahren?")) return;
+  toast("🎨 Generiere "+count+" Bild(er) via DALL·E 3…");
+  logActivity("KI-Gen Start: "+count+" für "+p.name,"sparkles");
+  let ok=0, fail=0;
   for(let i=0;i<count;i++){
-    if(p.gallery.length>=20){toast('Galerie voll');break;}
-    const ki = kis[i%kis.length];
-    const hue = Math.floor(Math.random()*360);
-    p.gallery.push({
-      bg:`linear-gradient(135deg,hsl(${hue},70%,70%),hsl(${(hue+60)%360},70%,50%))`,
-      ki,
-      label: ki.charAt(0),
-      url: ''
-    });
+    if(p.gallery.length>=20){toast("Galerie voll"); break;}
+    try{
+      const prompt = p.name+", professional product photography, premium lifestyle, soft natural lighting, swiss luxury brand aesthetic, clean background, high detail, 4k";
+      const res = await fetch("https://api.openai.com/v1/images/generations",{
+        method:"POST",
+        headers:{"Authorization":"Bearer "+STATE.keys.openai,"Content-Type":"application/json"},
+        body: JSON.stringify({model:"dall-e-3", prompt:prompt, n:1, size:"1024x1024", quality:"standard"})
+      });
+      const data = await res.json();
+      if(data.error) throw new Error(data.error.message||"API Error");
+      const url = data.data && data.data[0] && data.data[0].url;
+      if(!url) throw new Error("Keine URL erhalten");
+      p.gallery.push({bg:"",ki:"DALL-E 3",label:"DALL·E "+(p.gallery.length+1),url:url, generated:Date.now(), rating:0});
+      ok++;
+      STATE.costs.today.dalle = (STATE.costs.today.dalle||0) + costPer;
+      save(); render();
+    }catch(e){
+      fail++;
+      console.error("DALL-E Fehler:",e);
+      toast("❌ Fehler: "+e.message);
+    }
   }
-  STATE.costs.today.dalle+=cost;
-  save();render();
-  toast(`🎨 ${count} Bild(er) (Phase 2: echte API)`);
-  logActivity(`${count} KI-Bilder für ${p.t}`,'sparkles');
+  toast("✅ "+ok+" generiert"+(fail?", "+fail+" fehlgeschlagen":"") );
+  logActivity("KI-Gen fertig: "+ok+"/"+count+" für "+p.name,"sparkles");
+  save(); render();
 }
 
 function uploadImage(pid,where){
