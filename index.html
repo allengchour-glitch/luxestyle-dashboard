@@ -2410,6 +2410,239 @@ function luxStartPhase5a() {
 }
 setTimeout(luxStartPhase5a, 800);
 
+
+
+/* ═══════════════════════════════════════════════════════════════
+   PHASE 5b — HeyGen + OpenAI DALL-E Integration
+   ═══════════════════════════════════════════════════════════════ */
+
+/* HEYGEN VIDEO GENERATOR */
+async function luxHeyGenGenerate(productId, camp) {
+  const key = _luxGetKey("heygen");
+  if (!key) {
+    _luxToast("⚠️ HeyGen Key fehlt. Settings öffnen.");
+    setTimeout(luxSettingsModal, 800);
+    return;
+  }
+  if (!confirm("🎬 HeyGen-Video für \"" + (camp.creative.captionShort||"Produkt") + "\" generieren?\n\nDas kostet ca. $0.50 - $2.00 pro Video (je nach HeyGen-Plan).")) return;
+
+  _luxOpenModal('<div style="max-width:480px;font-family:system-ui;"><h2 style="margin-top:0;">🎬 HeyGen Video</h2><div id="luxHGstatus">⏳ Sende Anfrage an HeyGen...</div><div id="luxHGprogress" style="margin-top:12px;height:8px;background:#eee;border-radius:4px;overflow:hidden;"><div id="luxHGbar" style="height:100%;width:5%;background:#7c3aed;transition:width 0.4s;"></div></div><div id="luxHGresult" style="margin-top:16px;"></div></div>', "heygen-modal");
+
+  const setStatus = (msg, pct) => {
+    const s = document.getElementById("luxHGstatus");
+    const b = document.getElementById("luxHGbar");
+    if (s) s.textContent = msg;
+    if (b && typeof pct === "number") b.style.width = pct + "%";
+  };
+
+  try {
+    setStatus("📤 Übermittle Skript an HeyGen...", 15);
+    const body = {
+      video_inputs: [{
+        character: { type: "avatar", avatar_id: camp.creative.heyGenAvatar || "Daisy_business", avatar_style: "normal" },
+        voice: { type: "text", input_text: camp.creative.heyGenScript || camp.creative.captionLong, voice_id: "1bd001e7e50f421d891986aad5158bc8" }
+      }],
+      dimension: { width: 1080, height: 1920 },
+      aspect_ratio: "9:16",
+      test: false
+    };
+    const r = await fetch("https://api.heygen.com/v2/video/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Api-Key": key },
+      body: JSON.stringify(body)
+    });
+    const j = await r.json();
+    if (!r.ok || j.error) {
+      throw new Error(j.error?.message || j.message || "HeyGen API Fehler: HTTP " + r.status);
+    }
+    const videoId = j.data?.video_id || j.video_id;
+    if (!videoId) throw new Error("Keine video_id in Antwort");
+    setStatus("⏳ Generierung läuft (video_id: " + videoId.slice(0,8) + "...)", 40);
+
+    /* Poll status every 5s, max 24 attempts (2min) */
+    for (let i = 0; i < 24; i++) {
+      await new Promise(res => setTimeout(res, 5000));
+      const sr = await fetch("https://api.heygen.com/v1/video_status.get?video_id=" + videoId, {
+        headers: { "X-Api-Key": key }
+      });
+      const sj = await sr.json();
+      const st = sj.data?.status || sj.status;
+      setStatus("🎞️ Status: " + st + " (" + (i+1) + "/24)", 40 + (i * 2));
+      if (st === "completed" || st === "ready") {
+        const url = sj.data?.video_url || sj.video_url;
+        setStatus("✅ Fertig!", 100);
+        document.getElementById("luxHGresult").innerHTML = '<video controls style="width:100%;border-radius:8px;" src="' + url + '"></video><br/><a href="' + url + '" target="_blank" style="display:inline-block;margin-top:8px;padding:8px 16px;background:#7c3aed;color:#fff;text-decoration:none;border-radius:6px;">⬇️ Video öffnen</a>';
+        /* Save URL to product gallery */
+        if (typeof STATE !== "undefined") {
+          STATE.heyGenVideos = STATE.heyGenVideos || {};
+          STATE.heyGenVideos[productId] = url;
+        }
+        if (typeof logActivity === "function") logActivity("🎬 HeyGen-Video generiert für Produkt " + productId);
+        return;
+      }
+      if (st === "failed") throw new Error("HeyGen-Generierung fehlgeschlagen");
+    }
+    throw new Error("Timeout (2 Minuten) — Video evtl. noch nicht fertig. Check Status manuell.");
+  } catch(e) {
+    setStatus("❌ Fehler: " + e.message, 0);
+    document.getElementById("luxHGresult").innerHTML = '<div style="background:#fef0f0;padding:12px;border-radius:6px;color:#c00;font-size:13px;">' + e.message + '</div>';
+  }
+}
+
+/* OPENAI DALL-E 3 IMAGE GENERATOR */
+const _LUX_STYLES = {
+  "lifestyle-ch": { name: "Lifestyle CH", prompt: "natural lifestyle photo in Swiss setting, soft daylight, premium quality, instagram-worthy" },
+  "luxus-dark":   { name: "Luxus Dark",   prompt: "dramatic dark luxury background, single light source, high-contrast, premium e-commerce" },
+  "studio-clean": { name: "Studio Clean", prompt: "white studio background, even lighting, product centered, e-commerce style, sharp detail" }
+};
+
+function luxOpenAIModal(productId) {
+  const p = (Array.isArray(STATE.products) ? STATE.products : Object.values(STATE.products||{})).find(x => String(x.id) === String(productId)) || { name: "Produkt #" + productId };
+  const stylesHtml = Object.entries(_LUX_STYLES).map(([k,v]) => '<label style="display:flex;align-items:center;gap:8px;padding:8px;border:1px solid #ccc;border-radius:6px;cursor:pointer;"><input type="checkbox" data-style="' + k + '" checked/> <strong>' + v.name + '</strong> <span style="color:#888;font-size:12px;margin-left:auto;">$0.04</span></label>').join("");
+  const html = '<div style="max-width:520px;font-family:system-ui;">' +
+    '<h2 style="margin-top:0;">🎨 DALL-E 3 Bilder generieren</h2>' +
+    '<p style="color:#666;font-size:13px;">Produkt: <strong>' + (p.name || "#"+productId) + '</strong></p>' +
+    '<div style="display:grid;gap:6px;margin:12px 0;">' + stylesHtml + '</div>' +
+    '<div style="background:#fff3cd;padding:10px;border-radius:6px;font-size:12px;margin-bottom:12px;">💰 Kosten: $0.04 pro Bild (DALL-E 3, 1024×1024). Bei 3 Stilen ≈ $0.12.</div>' +
+    '<button id="luxAiStart" style="width:100%;padding:12px;background:#10a37f;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;">🚀 Pipeline starten</button>' +
+    '<div id="luxAiPipeline" style="margin-top:16px;"></div>' +
+  '</div>';
+  _luxOpenModal(html, "openai-modal");
+
+  setTimeout(() => {
+    const btn = document.getElementById("luxAiStart");
+    if (btn) btn.onclick = () => {
+      const selected = Array.from(document.querySelectorAll("[data-style]")).filter(x => x.checked).map(x => x.dataset.style);
+      if (!selected.length) { _luxToast("⚠️ Mind. 1 Stil wählen"); return; }
+      luxOpenAIRun(productId, p, selected);
+    };
+  }, 50);
+}
+
+async function luxOpenAIRun(productId, p, styles) {
+  const key = _luxGetKey("openai");
+  if (!key) { _luxToast("⚠️ OpenAI Key fehlt"); setTimeout(luxSettingsModal, 800); return; }
+  if (!confirm("🎨 " + styles.length + " Bilder generieren? Kosten ca. $" + (styles.length * 0.04).toFixed(2))) return;
+
+  const pipe = document.getElementById("luxAiPipeline");
+  pipe.innerHTML = styles.map((s,i) => '<div id="luxAi-' + s + '" style="padding:10px;border:1px solid #ccc;border-radius:6px;margin-bottom:6px;"><strong>' + _LUX_STYLES[s].name + '</strong> — <span class="status">⏳ wartet...</span></div>').join("");
+
+  STATE.aiImages = STATE.aiImages || {};
+  STATE.aiImages[productId] = STATE.aiImages[productId] || [];
+
+  for (const s of styles) {
+    const card = document.getElementById("luxAi-" + s);
+    const sStat = card.querySelector(".status");
+    sStat.textContent = "🎨 generiere...";
+    try {
+      const prompt = (p.name || ("Product " + productId)) + ", " + _LUX_STYLES[s].prompt;
+      const r = await fetch("https://api.openai.com/v1/images/generations", {
+        method: "POST",
+        headers: { "Content-Type":"application/json", "Authorization":"Bearer " + key },
+        body: JSON.stringify({ model:"dall-e-3", prompt: prompt, n:1, size:"1024x1024" })
+      });
+      const j = await r.json();
+      if (!r.ok || j.error) throw new Error(j.error?.message || "HTTP " + r.status);
+      const url = j.data?.[0]?.url;
+      if (!url) throw new Error("Keine URL in Antwort");
+      sStat.innerHTML = "✅ fertig";
+      card.innerHTML += '<div style="margin-top:8px;"><img src="' + url + '" style="max-width:100%;border-radius:6px;"/><div style="display:flex;gap:4px;margin-top:6px;"><button class="luxAiKeep" data-url="' + url + '" data-style="' + s + '" style="flex:1;padding:6px;background:#10a37f;color:#fff;border:none;border-radius:4px;cursor:pointer;">❤️ Behalten</button><button class="luxAiTrash" data-style="' + s + '" style="flex:1;padding:6px;background:#eee;border:none;border-radius:4px;cursor:pointer;">👎 Löschen</button><button class="luxAiShop" data-url="' + url + '" data-style="' + s + '" style="flex:1;padding:6px;background:#7c3aed;color:#fff;border:none;border-radius:4px;cursor:pointer;">🛒 In Shop</button></div></div>';
+      STATE.aiImages[productId].push({ url: url, style: s, kept: false, inShop: false, at: Date.now() });
+    } catch(e) {
+      sStat.textContent = "❌ " + e.message;
+      card.style.borderColor = "#c00";
+    }
+  }
+
+  /* Bind buttons */
+  setTimeout(() => {
+    document.querySelectorAll(".luxAiKeep").forEach(b => b.onclick = () => {
+      const img = STATE.aiImages[productId].find(x => x.url === b.dataset.url);
+      if (img) img.kept = true;
+      b.textContent = "💖 Behalten ✓"; b.disabled = true;
+      _luxToast("❤️ Bild gespeichert");
+    });
+    document.querySelectorAll(".luxAiTrash").forEach(b => b.onclick = () => {
+      const card = document.getElementById("luxAi-" + b.dataset.style);
+      if (card) card.style.opacity = 0.3;
+      _luxToast("👎 Bild verworfen");
+    });
+    document.querySelectorAll(".luxAiShop").forEach(b => b.onclick = () => {
+      const shop = _luxGetKey("shopify");
+      if (!shop) { _luxToast("⚠️ Shopify-Token fehlt (Settings)"); return; }
+      _luxToast("🛒 Upload-Trigger (Stub) — Shopify-API-Call mit Token wird hier ausgeführt");
+      const img = STATE.aiImages[productId].find(x => x.url === b.dataset.url);
+      if (img) img.inShop = true;
+      if (typeof logActivity === "function") logActivity("🛒 Bild in Shop gepushed: " + b.dataset.style);
+    });
+  }, 50);
+
+  if (typeof logActivity === "function") logActivity("🎨 OpenAI generierte " + styles.length + " Bilder für Produkt " + productId);
+}
+
+/* INJECT "🎨 3 Bilder generieren"-Button auf Produktkarten + Status-Badges */
+function luxInjectPhase5bUI() {
+  if (typeof STATE === "undefined" || !STATE.products) return;
+  const products = Array.isArray(STATE.products) ? STATE.products : Object.values(STATE.products);
+
+  products.forEach(p => {
+    const pid = String(p.id);
+    /* find product card by data-product-id (oder anderes Attribut) */
+    const cards = document.querySelectorAll('[data-product-id="' + pid + '"],[data-pid="' + pid + '"]');
+    cards.forEach(card => {
+      if (card.querySelector(".lux-ai-img-btn")) return;
+      const wrap = document.createElement("div");
+      wrap.className = "lux-ai-img-btn";
+      wrap.style.cssText = "margin-top:6px;display:flex;gap:4px;flex-wrap:wrap;";
+      const b1 = document.createElement("button");
+      b1.textContent = "🎨 3 Bilder";
+      b1.style.cssText = "padding:6px 8px;background:#10a37f;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;";
+      b1.onclick = (e) => { e.stopPropagation(); luxOpenAIModal(pid); };
+      wrap.appendChild(b1);
+
+      if (p.adScript || (_META_AD_CAMPAIGNS[pid] && _META_AD_CAMPAIGNS[pid].creative.heyGenScript)) {
+        const b2 = document.createElement("button");
+        b2.textContent = "🎬 Video";
+        b2.style.cssText = "padding:6px 8px;background:#7c3aed;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:11px;";
+        b2.onclick = (e) => {
+          e.stopPropagation();
+          const camp = _META_AD_CAMPAIGNS[pid];
+          if (camp) luxHeyGenGenerate(pid, camp);
+          else _luxToast("⚠️ Keine Kampagnen-Daten für Produkt");
+        };
+        wrap.appendChild(b2);
+      }
+
+      if (STATE.heyGenVideos && STATE.heyGenVideos[pid]) {
+        const badge = document.createElement("span");
+        badge.textContent = "🎬 Video bereit";
+        badge.style.cssText = "padding:4px 6px;background:#7c3aed;color:#fff;border-radius:4px;font-size:10px;align-self:center;";
+        wrap.appendChild(badge);
+      }
+      if (STATE.aiImages && STATE.aiImages[pid]?.length) {
+        const cnt = STATE.aiImages[pid].filter(x => x.kept).length;
+        if (cnt > 0) {
+          const badge = document.createElement("span");
+          badge.textContent = "🎨 " + cnt + " KI-Bilder";
+          badge.style.cssText = "padding:4px 6px;background:#10a37f;color:#fff;border-radius:4px;font-size:10px;align-self:center;";
+          wrap.appendChild(badge);
+        }
+      }
+
+      card.appendChild(wrap);
+    });
+  });
+}
+
+function luxStartPhase5b() {
+  luxInjectPhase5bUI();
+  setInterval(luxInjectPhase5bUI, 3000);
+  if (typeof logActivity === "function") {
+    try { logActivity("Phase 5b geladen: HeyGen + OpenAI DALL-E"); } catch(e){}
+  }
+}
+setTimeout(luxStartPhase5b, 1200);
+
 init();
 </script>
 </body>
