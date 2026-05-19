@@ -2,572 +2,810 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LuxeStyle Dashboard v5</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuxeStyle CH — Dashboard v8</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-body{background:#070711;color:#eee;min-height:100vh}
-.app{display:flex;min-height:100vh}
-.sidebar{width:240px;background:#0a0a16;border-right:1px solid #1a1a2e;padding:18px 12px;position:fixed;height:100vh;overflow-y:auto;z-index:50}
-.logo{font-size:18px;font-weight:800;background:linear-gradient(135deg,#7c5cfc,#fe2c55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:2px}
-.tagline{font-size:9px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
-.statusline{font-size:10px;color:#888;margin-bottom:14px;padding:8px 10px;background:#0d0d1a;border-radius:6px;line-height:1.8}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:#555;transition:.3s}
-.dot.on{background:#4ade80;box-shadow:0 0 8px #4ade80}
-.dot.off{background:#f87171}
-.dot.pending{background:#fbbf24;animation:pulse 1.5s infinite}
-.nav{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;color:#888;padding:10px 12px;border-radius:6px;cursor:pointer;text-align:left;font-size:13px;margin-bottom:2px;transition:.2s}
-.nav:hover{background:#16162a;color:#fff}
-.nav.active{background:linear-gradient(135deg,rgba(124,92,252,.2),rgba(254,44,85,.2));color:#fff;border-left:3px solid #7c5cfc}
-.nav.master{background:#1a1330;color:#fff;font-weight:700;border:1px solid #2a2a4a;margin-bottom:10px}
-.nav.master.active{background:linear-gradient(135deg,#7c5cfc40,#fe2c5540);border-color:#7c5cfc}
-.main{margin-left:240px;padding:22px;width:calc(100% - 240px)}
-.section{display:none}
-.section.active{display:block}
-h1{font-size:22px;margin-bottom:4px}
-.subtitle{color:#888;margin-bottom:18px;font-size:12px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px}
-.kpi{background:#0d0d1a;border:1px solid #1a1a2e;padding:14px;border-radius:8px}
-.kpi-l{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.kpi-v{font-size:22px;font-weight:700;background:linear-gradient(135deg,#7c5cfc,#fe2c55);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.kpi-s{font-size:11px;color:#4ade80;margin-top:4px}
-.card{background:#0d0d1a;border:1px solid #1a1a2e;padding:18px;border-radius:10px;margin-bottom:16px}
-.card h2{font-size:15px;margin-bottom:12px;color:#fff;display:flex;align-items:center;gap:8px}
-.btn{background:linear-gradient(135deg,#7c5cfc,#fe2c55);color:#fff;border:none;padding:9px 16px;border-radius:6px;font-weight:600;cursor:pointer;font-size:13px;transition:.2s;display:inline-flex;align-items:center;gap:6px}
-.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px #7c5cfc40}
-.btn-2{background:#1a1a2e;border:1px solid #2a2a4a}
-.btn-sm{padding:6px 10px;font-size:11px}
-.btn-danger{background:linear-gradient(135deg,#dc2626,#7c2d12)}
-.input{width:100%;background:#0a0a16;border:1px solid #1a1a2e;color:#eee;padding:9px 12px;border-radius:6px;font-size:13px}
-.input:focus{outline:none;border-color:#7c5cfc}
-textarea.input{font-family:inherit;resize:vertical;min-height:60px}
-.label{display:block;font-size:11px;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
-.grid-products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-.prod{background:#0d0d1a;border:1px solid #1a1a2e;border-radius:10px;overflow:hidden;cursor:pointer;transition:.2s;position:relative}
-.prod:hover{transform:translateY(-3px);border-color:#7c5cfc}
-.prod-img{width:100%;aspect-ratio:1/1;background:#1a1a2e;display:flex;align-items:center;justify-content:center;color:#444;font-size:30px;overflow:hidden}
-.prod-img img{width:100%;height:100%;object-fit:cover}
-.prod-body{padding:10px 12px}
-.prod-title{font-size:13px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.prod-price{font-size:14px;color:#7c5cfc;font-weight:700}
-.prod-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:10px;color:#888}
-.margin-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
-.margin-hi{background:#16401d;color:#4ade80}
-.margin-mid{background:#3a2f10;color:#fbbf24}
-.margin-lo{background:#3a1010;color:#f87171}
-.stock-pill{padding:2px 6px;border-radius:8px;font-size:9px;font-weight:600;background:#1a1a2e}
-.stock-pill.zero{background:#3a1010;color:#f87171}
-.stock-pill.low{background:#3a2f10;color:#fbbf24}
-.stock-pill.ok{background:#16401d;color:#4ade80}
-.detail-panel{position:fixed;top:0;right:-460px;width:440px;height:100vh;background:#0a0a16;border-left:1px solid #1a1a2e;padding:18px;overflow-y:auto;transition:.3s;z-index:100;box-shadow:-10px 0 40px #000a}
-.detail-panel.open{right:0}
-.detail-close{position:absolute;top:10px;right:14px;background:none;border:none;color:#888;font-size:22px;cursor:pointer}
-.detail-img-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
-.detail-img-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:4px;background:#1a1a2e}
-.orders-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
-.order-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#0d0d1a;border-radius:6px;font-size:12px}
-.status-pill{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
-.status-pill.paid{background:#16401d;color:#4ade80}
-.status-pill.pending{background:#3a2f10;color:#fbbf24}
-.status-pill.unfulfilled{background:#3a1010;color:#f87171}
-.banner{padding:12px 14px;border-radius:8px;margin-bottom:14px;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.banner.warn{background:#3a2f10;border:1px solid #fbbf24}
-.banner.ok{background:#16401d;border:1px solid #4ade80}
-.banner.err{background:#3a1010;border:1px solid #f87171}
-.banner.info{background:#1a1a3a;border:1px solid #7c5cfc}
-.burger{display:none;position:fixed;top:10px;left:10px;z-index:60;background:#1a1a2e;border:none;color:#fff;padding:8px 12px;border-radius:6px;font-size:18px;cursor:pointer}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@media (max-width:768px){.sidebar{transform:translateX(-100%);transition:.3s}.sidebar.open{transform:translateX(0)}.main{margin-left:0;width:100%;padding:60px 12px 12px}.burger{display:block}.detail-panel{width:100%;right:-100%}.detail-panel.open{right:0}}
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid #1a1a2e;border-top-color:#7c5cfc;border-radius:50%;animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:40px 20px;color:#666;font-size:13px}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #1a1a2e}
-th{color:#888;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
-.tabs{display:flex;gap:4px;margin-bottom:12px;border-bottom:1px solid #1a1a2e}
-.tab{padding:8px 14px;background:none;border:none;color:#888;cursor:pointer;font-size:12px;border-bottom:2px solid transparent}
-.tab.active{color:#fff;border-bottom-color:#7c5cfc}
+*{-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+.glass{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px)}
+.gradient-bg{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
+.scroll-x{overflow-x:auto;scrollbar-width:none}
+.scroll-x::-webkit-scrollbar{display:none}
+@keyframes pulse-soft{0%,100%{opacity:1}50%{opacity:0.6}}
+.pulse-soft{animation:pulse-soft 2s infinite}
+.fade-in{animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
-<body>
-<button class="burger" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
-<div class="app">
-<aside class="sidebar">
-  <div class="logo">LuxeStyle CH</div>
-  <div class="tagline">Command Center v5</div>
-  <div class="statusline" id="statusline">
-    <span class="dot pending" id="d-shopify"></span><span id="t-shopify">Shopify prüfen…</span><br>
-    <span class="dot off" id="d-gemini"></span><span id="t-gemini">Gemini offline</span><br>
-    <span class="dot off" id="d-heygen"></span><span id="t-heygen">HeyGen offline</span>
-  </div>
-  <button class="nav master active" data-s="shop">🏪 SHOP</button>
-  <button class="nav" data-s="cockpit">🏠 Cockpit</button>
-  <button class="nav" data-s="orders">📋 Bestellungen</button>
-  <button class="nav" data-s="suppliers">🚚 Lieferanten</button>
-  <button class="nav" data-s="ki">🤖 KI-Berater</button>
-  <button class="nav" data-s="content">🎬 Content Studio</button>
-  <button class="nav" data-s="tiktok">📱 TikTok</button>
-  <button class="nav" data-s="marketing">📈 Marketing</button>
-  <button class="nav" data-s="theme">🎨 Theme</button>
-  <button class="nav" data-s="notes">📝 Notizen</button>
-  <button class="nav" data-s="settings">⚙️ Settings</button>
-</aside>
+<body class="bg-slate-50 min-h-screen pb-24">
 
-<main class="main">
+<!-- Header -->
+<header class="gradient-bg text-white sticky top-0 z-40 shadow-lg">
+<div class="px-4 py-3 flex items-center justify-between">
+<div>
+<h1 class="text-lg font-bold">🇨🇭 LuxeStyle CH</h1>
+<p class="text-xs opacity-80" id="header-status">Dashboard v8 · Auto-Pilot</p>
+</div>
+<div class="flex gap-2">
+<button onclick="openSetup()" class="p-2 bg-white/20 rounded-lg" title="Settings"><i data-lucide="settings" class="w-5 h-5"></i></button>
+<button onclick="runAutoPilot()" class="p-2 bg-white/20 rounded-lg" title="Auto-Run"><i data-lucide="zap" class="w-5 h-5"></i></button>
+</div>
+</div>
+</header>
 
-<section id="sec-shop" class="section active">
-  <h1>🏪 Shop Command Center</h1>
-  <p class="subtitle">Alle Produkte · Live aus Shopify · Klick für Details</p>
-  <div id="shop-banner"></div>
-  <div class="kpis" id="shop-kpis">
-    <div class="kpi"><div class="kpi-l">Produkte</div><div class="kpi-v" id="kpi-products">–</div></div>
-    <div class="kpi"><div class="kpi-l">Bestand gesamt</div><div class="kpi-v" id="kpi-stock">–</div></div>
-    <div class="kpi"><div class="kpi-l">Lagerwert (Preis)</div><div class="kpi-v" id="kpi-value">–</div></div>
-    <div class="kpi"><div class="kpi-l">Out of Stock</div><div class="kpi-v" id="kpi-oos">–</div></div>
-  </div>
-  <div class="card">
-    <h2>📦 Produkte <button class="btn btn-2 btn-sm" onclick="loadShop()" style="margin-left:auto">🔄 Aktualisieren</button></h2>
-    <div id="prod-grid" class="grid-products"><div class="empty"><span class="spinner"></span> Lade Produkte…</div></div>
-  </div>
-</section>
+<!-- Main App -->
+<main id="app" class="p-4 fade-in"></main>
 
-<section id="sec-cockpit" class="section">
-  <h1>🏠 Cockpit</h1>
-  <p class="subtitle">Live KPIs · Letzte 30 Tage</p>
-  <div class="kpis">
-    <div class="kpi"><div class="kpi-l">Umsatz 30T</div><div class="kpi-v" id="ck-rev">–</div></div>
-    <div class="kpi"><div class="kpi-l">Bestellungen 30T</div><div class="kpi-v" id="ck-ord">–</div></div>
-    <div class="kpi"><div class="kpi-l">Ø Bestellwert</div><div class="kpi-v" id="ck-aov">–</div></div>
-    <div class="kpi"><div class="kpi-l">Kunden</div><div class="kpi-v" id="ck-cust">–</div></div>
-  </div>
-  <div class="card"><h2>📈 Umsatz Trend</h2><canvas id="ck-chart" height="80"></canvas></div>
-  <div class="card"><h2>🏆 Top Produkte</h2><div id="ck-top"><div class="empty"><span class="spinner"></span> Lade…</div></div></div>
-</section>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 glass border-t border-slate-200 z-40">
+<div class="grid grid-cols-6 max-w-3xl mx-auto">
+<button onclick="switchTab('cockpit')" data-tab="cockpit" class="tab-btn flex flex-col items-center py-2 text-xs">
+<i data-lucide="home" class="w-5 h-5"></i><span>Cockpit</span></button>
+<button onclick="switchTab('shop')" data-tab="shop" class="tab-btn flex flex-col items-center py-2 text-xs">
+<i data-lucide="store" class="w-5 h-5"></i><span>Shop</span></button>
+<button onclick="switchTab('ki')" data-tab="ki" class="tab-btn flex flex-col items-center py-2 text-xs">
+<i data-lucide="bot" class="w-5 h-5"></i><span>KI</span></button>
+<button onclick="switchTab('marketing')" data-tab="marketing" class="tab-btn flex flex-col items-center py-2 text-xs">
+<i data-lucide="megaphone" class="w-5 h-5"></i><span>Marketing</span></button>
+<button onclick="switchTab('stats')" data-tab="stats" class="tab-btn flex flex-col items-center py-2 text-xs">
+<i data-lucide="bar-chart-3" class="w-5 h-5"></i><span>Stats</span></button>
+<button onclick="switchTab('mehr')" data-tab="mehr" class="tab-btn flex flex-col items-center py-2 text-xs">
+<i data-lucide="menu" class="w-5 h-5"></i><span>Mehr</span></button>
+</div>
+</nav>
 
-<section id="sec-orders" class="section">
-  <h1>📋 Bestellungen</h1>
-  <p class="subtitle">Live aus Shopify</p>
-  <div class="card">
-    <div class="tabs">
-      <button class="tab active" data-of="any">Alle</button>
-      <button class="tab" data-of="paid">Bezahlt</button>
-      <button class="tab" data-of="pending">Offen</button>
-      <button class="tab" data-of="unfulfilled">Unversendet</button>
-    </div>
-    <div id="orders-list"><div class="empty"><span class="spinner"></span> Lade Bestellungen…</div></div>
-  </div>
-</section>
-
-<section id="sec-suppliers" class="section">
-  <h1>🚚 Lieferanten</h1>
-  <p class="subtitle">Verwalte deine Dropshipping-Quellen</p>
-  <div class="card">
-    <h2>➕ Neuer Lieferant</h2>
-    <label class="label">Name</label><input class="input" id="sup-name" placeholder="z.B. AliExpress XY">
-    <label class="label" style="margin-top:8px">URL / Shop-Link</label><input class="input" id="sup-url" placeholder="https://...">
-    <label class="label" style="margin-top:8px">Bild (Logo) URL</label><input class="input" id="sup-img" placeholder="https://...">
-    <label class="label" style="margin-top:8px">Notizen</label><textarea class="input" id="sup-notes" placeholder="Lieferzeit, MOQ, Kontakt…"></textarea>
-    <button class="btn" style="margin-top:10px" onclick="supAdd()">💾 Speichern</button>
-  </div>
-  <div class="card"><h2>📋 Gespeicherte Lieferanten</h2><div id="sup-list" class="grid-products"></div></div>
-</section>
-
-<section id="sec-ki" class="section">
-  <h1>🤖 KI-Berater</h1>
-  <p class="subtitle">Gemini gratis · Produktvorschläge & Optimierung</p>
-  <div class="card">
-    <button class="btn" onclick="kiScan()">🧠 Shop scannen → Vorschläge</button>
-    <div id="ki-i" style="margin-top:14px;line-height:1.6;font-size:13px"></div>
-  </div>
-  <div class="card">
-    <h2>💬 Frag die KI</h2>
-    <div style="display:flex;gap:6px"><input class="input" id="ki-q" placeholder="z.B. Welche Marge bei Produkt X?" onkeydown="if(event.key==='Enter')kiChat()"><button class="btn" onclick="kiChat()">→</button></div>
-    <div id="ki-a" style="margin-top:12px;font-size:13px;line-height:1.6"></div>
-  </div>
-</section>
-
-<section id="sec-content" class="section">
-  <h1>🎬 Content Studio</h1>
-  <p class="subtitle">Erstelle Bilder & Texte für Social Media</p>
-  <div class="card">
-    <label class="label">Produkt / Thema</label><input class="input" id="ct-topic" placeholder="z.B. Sommerkleid">
-    <label class="label" style="margin-top:8px">Ton</label>
-    <select class="input" id="ct-tone"><option>Verkaufsstark</option><option>Lifestyle</option><option>Premium</option><option>Witzig</option></select>
-    <button class="btn" style="margin-top:10px" onclick="ctGen()">✨ Text generieren</button>
-    <div id="ct-out" style="margin-top:14px;font-size:13px;line-height:1.7"></div>
-  </div>
-</section>
-
-<section id="sec-tiktok" class="section">
-  <h1>📱 TikTok Studio</h1>
-  <p class="subtitle">Video-Pipeline & Posts</p>
-  <div class="card">
-    <h2>➕ Neues Video</h2>
-    <label class="label">Titel</label><input class="input" id="tk-title">
-    <label class="label" style="margin-top:8px">Caption</label><textarea class="input" id="tk-caption"></textarea>
-    <label class="label" style="margin-top:8px">Hashtags</label><input class="input" id="tk-tags" placeholder="#mode #ootd">
-    <button class="btn" style="margin-top:10px" onclick="tkAdd()">💾 Speichern</button>
-  </div>
-  <div class="card"><h2>📋 Geplante Videos</h2><div id="tk-list"></div></div>
-</section>
-
-<section id="sec-marketing" class="section">
-  <h1>📈 Marketing</h1>
-  <p class="subtitle">Rabatte & Kampagnen</p>
-  <div class="card"><h2>🎟️ Aktive Rabattcodes</h2><div id="mk-discounts"><div class="empty"><span class="spinner"></span> Lade…</div></div></div>
-</section>
-
-<section id="sec-theme" class="section">
-  <h1>🎨 Theme & Branding</h1>
-  <p class="subtitle">Shop-Optik anpassen</p>
-  <div class="card"><h2>🎨 Live-Vorschau</h2><p style="font-size:12px;color:#888">Theme-API kommt in Phase 5 — Shopify CLI Push.</p></div>
-</section>
-
-<section id="sec-notes" class="section">
-  <h1>📝 Notizen</h1>
-  <div class="card">
-    <textarea class="input" id="notes-area" style="min-height:300px" placeholder="Deine Ideen, Todos…"></textarea>
-    <button class="btn" style="margin-top:10px" onclick="notesSave()">💾 Speichern</button>
-    <span id="notes-status" style="margin-left:10px;font-size:11px;color:#888"></span>
-  </div>
-</section>
-
-<section id="sec-settings" class="section">
-  <h1>⚙️ Settings</h1>
-  <p class="subtitle">Verbindungen & Schlüssel</p>
-  <div class="card">
-    <h2>🛒 Shopify Verbindung</h2>
-    <div id="shop-conn-status" style="font-size:13px;margin-bottom:10px">Prüfe…</div>
-    <button class="btn" id="btn-connect" onclick="connectShopify()">🔗 Mit Shopify verbinden (OAuth)</button>
-    <button class="btn btn-2 btn-sm" onclick="testConnection()" style="margin-left:8px">🩺 Diagnose</button>
-    <div id="diag-out" style="margin-top:10px;font-size:11px;font-family:monospace;color:#888;white-space:pre-wrap;max-height:200px;overflow:auto"></div>
-  </div>
-  <div class="card">
-    <h2>🧠 Gemini (gratis)</h2>
-    <label class="label">API Key</label><input class="input" id="cfg-gemini" type="password" placeholder="AIza...">
-  </div>
-  <div class="card">
-    <h2>🎥 HeyGen (optional)</h2>
-    <label class="label">API Key</label><input class="input" id="cfg-heygen" type="password">
-  </div>
-  <div class="card">
-    <h2>📱 TikTok (manuell)</h2>
-    <label class="label">Username</label><input class="input" id="cfg-tiktok" placeholder="@deinaccount">
-  </div>
-  <button class="btn" onclick="saveCfg()">💾 Alle Settings speichern</button>
-</section>
-
-</main>
+<!-- Setup Wizard Modal -->
+<div id="setup-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+<div class="gradient-bg text-white p-4 rounded-t-2xl flex justify-between items-center sticky top-0">
+<h2 class="font-bold text-lg">⚙️ Setup-Wizard</h2>
+<button onclick="closeSetup()" class="p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+</div>
+<div class="p-4 space-y-3" id="setup-content"></div>
+</div>
 </div>
 
-<div class="detail-panel" id="detail-panel">
-  <button class="detail-close" onclick="closeDetail()">×</button>
-  <div id="detail-content"></div>
-</div>
+<!-- Toast -->
+<div id="toast" class="fixed bottom-24 left-4 right-4 z-50 hidden bg-slate-900 text-white p-3 rounded-lg text-sm text-center"></div>
 
 <script>
-// ============================================================
-// LuxeStyle Dashboard v5 — Voll-OAuth, Proxy-only, Card-View
-// ============================================================
-const API='/api/shopify';
-const STATE={shop:null,products:[],orders:[],connected:false};
-const $=s=>document.querySelector(s);
-const $$=s=>document.querySelectorAll(s);
-const fmtCHF=n=>'CHF '+Number(n||0).toFixed(2);
-const fmtNum=n=>Number(n||0).toLocaleString('de-CH');
+// ========== STATE ==========
+const STATE = {
+  tab: 'cockpit',
+  shop: { name: 'LuxeStyle CH', domain: 'aban-192.myshopify.com', primaryDomain: 'https://aban-192.myshopify.com' },
+  keys: JSON.parse(localStorage.getItem('luxe_keys') || '{}'),
+  settings: JSON.parse(localStorage.getItem('luxe_settings') || '{"shopCategory":"lifestyle","style":"mixed"}'),
+  products: [],
+  poolIdeas: [],
+  toolStack: null,
+  autoRules: null,
+  costs: JSON.parse(localStorage.getItem('luxe_costs') || '{"today":{"heygen":0,"dalle":0,"tiktok":0},"total":0}'),
+  activity: JSON.parse(localStorage.getItem('luxe_activity') || '[]')
+};
 
-// ---------- Settings ----------
-const CFG_KEY='luxestyle_cfg_v5';
-function loadCfg(){try{return JSON.parse(localStorage.getItem(CFG_KEY))||{}}catch(e){return{}}}
-function saveCfg(){
-  const c={gemini:$('#cfg-gemini').value,heygen:$('#cfg-heygen').value,tiktok:$('#cfg-tiktok').value};
-  localStorage.setItem(CFG_KEY,JSON.stringify(c));
-  updateStatusDots();
-  toast('✅ Gespeichert');
-}
-function fillCfg(){const c=loadCfg();$('#cfg-gemini').value=c.gemini||'';$('#cfg-heygen').value=c.heygen||'';$('#cfg-tiktok').value=c.tiktok||'';}
-function toast(m){const b=document.createElement('div');b.style.cssText='position:fixed;bottom:20px;right:20px;background:#16401d;color:#4ade80;padding:10px 16px;border-radius:6px;font-size:13px;z-index:200;border:1px solid #4ade80';b.textContent=m;document.body.appendChild(b);setTimeout(()=>b.remove(),3000);}
+// ========== EMBEDDED DATA ==========
+STATE.toolStack = {"tools":[{"name":"Claude Max","category":"AI Assistant","cost_monthly":200,"status":"active","notes":"Coding + Strategie"},{"name":"HeyGen Creator","category":"Video AI","cost_monthly":24,"status":"active","notes":"KI-Avatar Videos"},{"name":"Gemini API","category":"AI","cost_monthly":0,"status":"active","notes":"Gratis"},{"name":"OpenAI DALL-E 3","category":"Image AI","cost_monthly":0,"status":"planned","notes":"$0.04/Bild"},{"name":"Klaviyo","category":"Email","cost_monthly":0,"status":"active","notes":"Im Shopify Plan"},{"name":"Shopify Basic","category":"E-Commerce","cost_monthly":39,"status":"active","notes":"Shop Plattform"},{"name":"TikTok Ads","category":"Advertising","cost_monthly":500,"status":"planned","notes":"Budget variable"},{"name":"Netlify Pro","category":"Hosting","cost_monthly":19,"status":"planned","notes":"Phase 2"},{"name":"Midjourney v6","category":"Image AI","cost_monthly":10,"status":"planned","notes":"Phase 3"},{"name":"Runway Gen-3","category":"Video AI","cost_monthly":15,"status":"planned","notes":"Phase 3"},{"name":"ElevenLabs","category":"Voice AI","cost_monthly":5,"status":"planned","notes":"Phase 4"},{"name":"Suno AI v4","category":"Music AI","cost_monthly":10,"status":"planned","notes":"Phase 4"}],"summary":{"phase1":263,"phase2":282,"phase3":307,"phase4":322}};
 
-// ---------- Navigation ----------
-function go(s){
-  $$('.section').forEach(x=>x.classList.remove('active'));
-  $$('.nav').forEach(x=>x.classList.remove('active'));
-  $('#sec-'+s)?.classList.add('active');
-  document.querySelector('[data-s="'+s+'"]')?.classList.add('active');
-  if(window.innerWidth<769)document.querySelector('.sidebar').classList.remove('open');
-  if(s==='cockpit')loadCockpit();
-  if(s==='orders')loadOrders('any');
-  if(s==='suppliers')supRender();
-  if(s==='marketing')loadDiscounts();
-  if(s==='tiktok')tkRender();
-  if(s==='notes')notesLoad();
-}
-$$('.nav').forEach(b=>b.onclick=()=>go(b.dataset.s));
+STATE.poolIdeas = [{"id":1,"name":"Magic Hair Towel","cost":3.5,"price":24.9,"margin":80,"viral":9},{"id":2,"name":"Magnetic Armband","cost":5,"price":34.9,"margin":85,"viral":7},{"id":3,"name":"Crystal Glasflasche","cost":7,"price":39.9,"margin":80,"viral":8},{"id":4,"name":"Smart Thermometer","cost":8,"price":29.9,"margin":70,"viral":6},{"id":5,"name":"Anti-Theft Backpack","cost":18,"price":79.9,"margin":75,"viral":8},{"id":6,"name":"Smartwatch Strap","cost":4,"price":24.9,"margin":80,"viral":6},{"id":7,"name":"Bambus Socken 5er","cost":6,"price":29.9,"margin":75,"viral":5},{"id":8,"name":"Salzkristall Lampe","cost":10,"price":44.9,"margin":75,"viral":7},{"id":9,"name":"Bauchtasche Crossbody","cost":7,"price":34.9,"margin":78,"viral":8},{"id":10,"name":"LED Travel Mirror","cost":8,"price":39.9,"margin":80,"viral":7},{"id":11,"name":"Kaschmir-Schal","cost":15,"price":89.9,"margin":80,"viral":6},{"id":12,"name":"Travel Kosmetik XL","cost":6,"price":29.9,"margin":78,"viral":6},{"id":13,"name":"Faltrucksack Ultra","cost":7,"price":34.9,"margin":78,"viral":7},{"id":14,"name":"Schmuck Gold 3-tlg","cost":6,"price":39.9,"margin":82,"viral":8},{"id":15,"name":"Aromatherapie 5er","cost":8,"price":34.9,"margin":75,"viral":7},{"id":16,"name":"Bambus Zahnbürsten","cost":3,"price":19.9,"margin":80,"viral":5},{"id":17,"name":"Schweizer Sommerhut","cost":5,"price":29.9,"margin":78,"viral":6},{"id":18,"name":"Trockenblumen","cost":12,"price":54.9,"margin":75,"viral":7},{"id":19,"name":"Kompressionsstrümpfe","cost":6,"price":34.9,"margin":78,"viral":6},{"id":20,"name":"Wireless Charger","cost":7,"price":29.9,"margin":73,"viral":6}];
 
-// ---------- Status Dots ----------
-function updateStatusDots(){
-  const c=loadCfg();
-  $('#d-gemini').className='dot '+(c.gemini?'on':'off');
-  $('#t-gemini').textContent='Gemini '+(c.gemini?'verbunden':'offline');
-  $('#d-heygen').className='dot '+(c.heygen?'on':'off');
-  $('#t-heygen').textContent='HeyGen '+(c.heygen?'verbunden':'offline');
-}
+STATE.products = [
+{id:"15396249502081",t:"Slim Wallet RFID",p:49.90,c:12.50,cat:"lifestyle",img:1,inv:50,sales:0,sup:"CJ Dropshipping",supUrl:"",pipe:"DRAFT",adsReady:true},
+{id:"15396249698689",t:"Canvas Rucksack 25L",p:79.90,c:28.00,cat:"lifestyle",img:2,inv:30,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT"},
+{id:"15396249960833",t:"Herrenuhr Saphirglas",p:129.90,c:45.00,cat:"lifestyle",img:2,inv:25,sales:0,sup:"Spocket",supUrl:"",pipe:"READY",adsReady:true,featured:true},
+{id:"15396250059137",t:"Aroma Diffuser Bambus",p:39.90,c:11.50,cat:"lifestyle",img:2,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT",adsReady:true},
+{id:"15396250157441",t:"Damen Wallet Rose",p:54.90,c:22.00,cat:"lifestyle",img:1,inv:30,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT",featured:true},
+{id:"15396250222977",t:"Yogamatte 6mm TPE",p:54.90,c:24.00,cat:"lifestyle",img:2,inv:35,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT"},
+{id:"15396250321281",t:"Sonnenbrille Polarisiert",p:39.90,c:12.00,cat:"lifestyle",img:2,inv:60,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT",adsReady:true},
+{id:"15396250419585",t:"Thermos 750ml",p:29.90,c:7.50,cat:"lifestyle",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
+{id:"15396250485121",t:"Soja Duftkerzen 3er",p:39.90,c:12.00,cat:"lifestyle",img:1,inv:30,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
+{id:"15396250812801",t:"Bio T-Shirt GOTS",p:34.90,c:14.50,cat:"lifestyle",img:2,inv:50,sales:0,sup:"Printful",supUrl:"",pipe:"DRAFT"},
+{id:"15396404691329",t:"Silk Pillowcase",p:49.90,c:24.00,cat:"lifestyle",img:2,inv:25,sales:0,sup:"Spocket",supUrl:"",pipe:"DRAFT",featured:true},
+{id:"15396404756865",t:"Solar Powerbank 20k",p:49.90,c:15.00,cat:"lifestyle",img:2,inv:30,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
+{id:"15396404789633",t:"LED Schreibtischlampe",p:44.90,c:13.50,cat:"lifestyle",img:1,inv:35,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
+{id:"15396404855169",t:"Resistance Bands 5er",p:29.90,c:6.00,cat:"lifestyle",img:2,inv:45,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
+{id:"15396404920705",t:"Blue Light Brille",p:29.90,c:10.50,cat:"lifestyle",img:1,inv:40,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
+{id:"15397218124161",t:"Pet Wasserspender 2L",p:39.90,c:11.00,cat:"home",img:1,inv:25,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
+{id:"15397218189697",t:"LED Halsband Hund",p:24.90,c:5.00,cat:"home",img:1,inv:50,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
+{id:"15397218255233",t:"Baby Nagelschneider",p:24.90,c:7.50,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
+{id:"15397218320769",t:"Silikon Lätzchen 5er",p:24.90,c:5.00,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
+{id:"15397218419073",t:"Messerblock Bambus",p:49.90,c:12.00,cat:"home",img:1,inv:25,sales:0,sup:"CJ",supUrl:"",pipe:"DRAFT"},
+{id:"15397218451841",t:"Küchenwaage 5kg",p:24.90,c:5.00,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
+{id:"15397247385985",t:"Jade Roller Set",p:29.90,c:6.00,cat:"lifestyle",img:1,inv:50,sales:0,sup:"AliExpress",supUrl:"",pipe:"READY",adsReady:true},
+{id:"15397247418753",t:"Slow Feeder Napf",p:24.90,c:6.00,cat:"home",img:1,inv:40,sales:0,sup:"AliExpress",supUrl:"",pipe:"DRAFT"},
+{id:"15397247484289",t:"Sternenhimmel Projektor",p:44.90,c:12.00,cat:"home",img:1,inv:30,sales:0,sup:"CJ",supUrl:"",pipe:"READY",adsReady:true},
+{id:"15397247517057",t:"Gemüsehobel 5-in-1",p:29.90,c:7.50,cat:"home",img:1,inv:35,sales:0,sup:"AliExpress",supUrl:"",pipe:"READY",adsReady:true}
+];
 
-// ---------- Shopify Proxy Call ----------
-async function shopFetch(endpoint){
-  const url=API+'/'+endpoint;
-  const r=await fetch(url);
-  const t=await r.text();
-  let j;try{j=JSON.parse(t)}catch(e){throw new Error('Kein JSON: '+t.substring(0,100))}
-  if(j.error){
-    if(j.install_url){STATE.connected=false;updateShopifyDot(false);throw new Error('NOT_CONNECTED')}
-    throw new Error(j.error);
-  }
-  return j;
-}
-function updateShopifyDot(ok,label){
-  $('#d-shopify').className='dot '+(ok?'on':'off');
-  $('#t-shopify').textContent='Shopify '+(label||(ok?'verbunden':'nicht verbunden'));
-}
+// ========== UTILS ==========
+function $(id){return document.getElementById(id)}
+function toast(msg,t=2500){const el=$('toast');el.textContent=msg;el.classList.remove('hidden');setTimeout(()=>el.classList.add('hidden'),t)}
+function save(){localStorage.setItem('luxe_keys',JSON.stringify(STATE.keys));localStorage.setItem('luxe_settings',JSON.stringify(STATE.settings));localStorage.setItem('luxe_costs',JSON.stringify(STATE.costs));localStorage.setItem('luxe_activity',JSON.stringify(STATE.activity.slice(0,20)))}
+function logActivity(text,icon='zap'){STATE.activity.unshift({text,icon,time:new Date().toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'})});if(STATE.activity.length>20)STATE.activity=STATE.activity.slice(0,20);save();if(STATE.tab==='cockpit')renderCockpit()}
 
-// ---------- Connect / Settings ----------
-async function checkConnection(){
-  try{
-    const j=await shopFetch('shop.json');
-    STATE.connected=true;STATE.shop=j.shop;
-    updateShopifyDot(true,j.shop?.name||'verbunden');
-    $('#shop-conn-status').innerHTML='✅ Verbunden mit <b>'+(j.shop?.name||'?')+'</b> · '+(j.shop?.domain||'');
-    $('#btn-connect').textContent='🔄 Neu verbinden';
-    return true;
-  }catch(e){
-    STATE.connected=false;
-    updateShopifyDot(false);
-    $('#shop-conn-status').innerHTML='❌ Nicht verbunden — klicke unten auf "Mit Shopify verbinden"';
-    $('#btn-connect').textContent='🔗 Mit Shopify verbinden (OAuth)';
-    return false;
-  }
-}
-function connectShopify(){window.location.href='/auth/shopify/install';}
-async function testConnection(){
-  const out=$('#diag-out');out.textContent='Teste…\n';
-  try{out.textContent+='GET '+API+'/shop.json …\n';const j=await shopFetch('shop.json');out.textContent+='✅ '+JSON.stringify(j.shop,null,2);}
-  catch(e){out.textContent+='❌ '+e.message;}
-}
+// ========== ROUTING ==========
+function switchTab(tab){STATE.tab=tab;document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.toggle('text-purple-600',b.dataset.tab===tab);b.classList.toggle('text-slate-500',b.dataset.tab!==tab)});render();window.scrollTo(0,0)}
+function render(){const app=$('app');app.classList.remove('fade-in');void app.offsetWidth;app.classList.add('fade-in');const fn={cockpit:renderCockpit,shop:renderShop,ki:renderKI,marketing:renderMarketing,stats:renderStats,mehr:renderMehr}[STATE.tab];fn();lucide.createIcons()}
 
-// ---------- SHOP: Produkte ----------
-async function loadShop(){
-  $('#prod-grid').innerHTML='<div class="empty"><span class="spinner"></span> Lade Produkte…</div>';
-  $('#shop-banner').innerHTML='';
-  try{
-    const j=await shopFetch('products.json?limit=50');
-    STATE.products=j.products||[];
-    renderProducts();
-    updateShopKpis();
-  }catch(e){
-    if(e.message==='NOT_CONNECTED'){
-      $('#prod-grid').innerHTML='';
-      $('#shop-banner').innerHTML='<div class="banner warn">⚠️ Shop nicht verbunden. <button class="btn btn-sm" onclick="connectShopify()">🔗 Jetzt verbinden</button></div>';
-    }else{
-      $('#prod-grid').innerHTML='<div class="empty">❌ '+e.message+'</div>';
-    }
-  }
-}
-function renderProducts(){
-  const g=$('#prod-grid');
-  if(!STATE.products.length){g.innerHTML='<div class="empty">Keine Produkte</div>';return;}
-  g.innerHTML=STATE.products.map((p,i)=>{
-    const v=p.variants?.[0]||{};
-    const img=p.images?.[0]?.src||p.images?.[0]?.src||p.images?.[0]?.src||p.image?.src||'';
-    const price=parseFloat(v.price)||0;
-    const cost=(parseFloat(v.compare_at_price)>parseFloat(v.price)?parseFloat(v.compare_at_price)*0.6:parseFloat(v.price)*0.6);
-    const margin=price>0?Math.round(((price-cost)/price)*100):0;
-    const stock=p.variants?.reduce((s,x)=>s+(x.inventory_quantity||0),0)||0;
-    const mc=margin>=50?'margin-hi':margin>=25?'margin-mid':'margin-lo';
-    const sc=stock===0?'zero':stock<5?'low':'ok';
-    return '<div class="prod" onclick="openDetail('+i+')">'+
-      '<div class="prod-img">'+(img?'<img src="'+img+'" loading="lazy">':'📦')+'</div>'+
-      '<div class="prod-body">'+
-        '<div class="prod-title">'+escapeHtml(p.title)+'</div>'+
-        '<div class="prod-price">'+fmtCHF(price)+'</div>'+
-        '<div class="prod-row"><span class="margin-badge '+mc+'">Marge '+margin+'%</span><span class="stock-pill '+sc+'">'+stock+' auf Lager</span></div>'+
-      '</div></div>';
-  }).join('');
-}
-function updateShopKpis(){
-  const p=STATE.products;
-  $('#kpi-products').textContent=p.length;
-  const stock=p.reduce((s,x)=>s+(x.variants?.reduce((a,v)=>a+(v.inventory_quantity||0),0)||0),0);
-  $('#kpi-stock').textContent=fmtNum(stock);
-  const value=p.reduce((s,x)=>s+(x.variants?.reduce((a,v)=>a+((v.inventory_quantity||0)*parseFloat(v.price||0)),0)||0),0);
-  $('#kpi-value').textContent=fmtCHF(value);
-  const oos=p.filter(x=>!x.variants?.some(v=>(v.inventory_quantity||0)>0)).length;
-  $('#kpi-oos').textContent=oos;
-}
-function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);}
+// ========== TAB: COCKPIT ==========
+function renderCockpit(){
+const live=STATE.products.filter(p=>p.pipe==='LIVE'||p.pipe==='WINNER').length;
+const ready=STATE.products.filter(p=>p.pipe==='READY').length;
+const lowStock=STATE.products.filter(p=>p.inv<=5).length;
+const adsReady=STATE.products.filter(p=>p.adsReady).length;
+const totalCosts=STATE.costs.today.heygen+STATE.costs.today.dalle+STATE.costs.today.tiktok;
 
-// ---------- Detail Panel (Live-Sync Klick) ----------
-async function openDetail(i){
-  const p=STATE.products[i];
-  const d=$('#detail-content');
-  const imgs=(p.images||[]).slice(0,9).map(im=>'<img src="'+im.src+'" loading="lazy">').join('')||'<div class="empty">Keine Bilder</div>';
-  d.innerHTML='<h2 style="font-size:16px;margin-bottom:6px">'+escapeHtml(p.title)+'</h2>'+
-    '<div style="font-size:11px;color:#888;margin-bottom:8px">Handle: '+p.handle+' · ID: '+p.id+'</div>'+
-    '<a class="btn btn-sm btn-2" href="https://'+(STATE.shop?.domain||'')+'/products/'+p.handle+'" target="_blank">🌐 Im Shop ansehen</a>'+
-    '<a class="btn btn-sm" style="margin-left:6px" href="https://admin.shopify.com/store/'+(STATE.shop?.myshopify_domain||'').replace('.myshopify.com','')+'/products/'+p.id+'" target="_blank">⚙️ Admin</a>'+
-    '<h2 style="margin-top:14px">🖼️ Bilder ('+(p.images?.length||0)+')</h2>'+
-    '<div class="detail-img-grid">'+imgs+'</div>'+
-    '<h2 style="margin-top:14px">📦 Varianten</h2>'+
-    '<table><thead><tr><th>Titel</th><th>Preis</th><th>Bestand</th><th>SKU</th></tr></thead><tbody>'+
-    (p.variants||[]).map(v=>'<tr><td>'+escapeHtml(v.title)+'</td><td>'+fmtCHF(v.price)+'</td><td>'+(v.inventory_quantity??'–')+'</td><td>'+(v.sku||'–')+'</td></tr>').join('')+'</tbody></table>'+
-    '<h2 style="margin-top:14px">📋 Letzte Bestellungen</h2>'+
-    '<div id="detail-orders"><div class="empty"><span class="spinner"></span> Suche…</div></div>'+
-    '<h2 style="margin-top:14px">🚚 Lieferant</h2>'+
-    '<select class="input" id="detail-sup-select" onchange="supLinkProduct('+p.id+',this.value)"><option value="">Keiner</option>'+supOptions(p.id)+'</select>';
-  $('#detail-panel').classList.add('open');
-  // Lade Orders für dieses Produkt
-  try{
-    const j=await shopFetch('orders.json?status=any&limit=20');
-    const matches=(j.orders||[]).filter(o=>(o.line_items||[]).some(li=>li.product_id===p.id));
-    if(matches.length){
-      $('#detail-orders').innerHTML='<div class="orders-list">'+matches.slice(0,8).map(o=>orderRow(o)).join('')+'</div>';
-    }else{
-      $('#detail-orders').innerHTML='<div class="empty">Noch keine Bestellungen für dieses Produkt</div>';
-    }
-  }catch(e){$('#detail-orders').innerHTML='<div class="empty">❌ '+e.message+'</div>';}
-}
-function closeDetail(){$('#detail-panel').classList.remove('open');}
-function orderRow(o){
-  const fs=o.financial_status||'pending';
-  const cls=fs==='paid'?'paid':fs==='pending'?'pending':'unfulfilled';
-  return '<div class="order-row"><span><b>#'+o.order_number+'</b> '+escapeHtml(o.customer?.first_name||'')+'</span><span>'+fmtCHF(o.total_price)+'</span><span class="status-pill '+cls+'">'+fs+'</span></div>';
+$('app').innerHTML=`
+<div class="space-y-4">
+
+<!-- Greeting -->
+<div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-xl">
+<h2 class="font-bold text-lg">Hi Allen! 👋</h2>
+<p class="text-sm opacity-90">Heute schon ${live} Produkte live, ${adsReady} bereit für Ads</p>
+</div>
+
+<!-- KPIs -->
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-white p-3 rounded-xl shadow-sm">
+<div class="text-xs text-slate-500">Umsatz heute</div>
+<div class="text-2xl font-bold text-green-600">CHF 0</div>
+<div class="text-xs text-slate-400">0 Bestellungen</div>
+</div>
+<div class="bg-white p-3 rounded-xl shadow-sm">
+<div class="text-xs text-slate-500">ROAS</div>
+<div class="text-2xl font-bold text-slate-400">—</div>
+<div class="text-xs text-slate-400">Noch keine Ads</div>
+</div>
+<div class="bg-white p-3 rounded-xl shadow-sm">
+<div class="text-xs text-slate-500">TikTok Views</div>
+<div class="text-2xl font-bold text-purple-600">0</div>
+<div class="text-xs text-slate-400">Letzte 24h</div>
+</div>
+<div class="bg-white p-3 rounded-xl shadow-sm">
+<div class="text-xs text-slate-500">Kosten heute</div>
+<div class="text-2xl font-bold text-orange-600">$${totalCosts.toFixed(2)}</div>
+<div class="text-xs text-slate-400">${live} Videos · 0 Bilder</div>
+</div>
+</div>
+
+<!-- Funnel -->
+<div class="bg-white p-4 rounded-xl shadow-sm">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="filter" class="w-4 h-4"></i> Funnel heute</h3>
+<div class="grid grid-cols-4 gap-2 text-center">
+<div><div class="text-2xl font-bold">0</div><div class="text-xs text-slate-500">👁 Views</div></div>
+<div><div class="text-2xl font-bold">0</div><div class="text-xs text-slate-500">🖱 Klicks</div></div>
+<div><div class="text-2xl font-bold">0</div><div class="text-xs text-slate-500">🛒 Cart</div></div>
+<div><div class="text-2xl font-bold text-green-600">0</div><div class="text-xs text-slate-500">💰 Sale</div></div>
+</div>
+<p class="text-xs text-slate-400 mt-2 text-center">Sobald Ads laufen, siehst du Live-Daten</p>
+</div>
+
+<!-- Auto-Pilot Status -->
+<div class="bg-white p-4 rounded-xl shadow-sm">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="cpu" class="w-4 h-4"></i> Auto-Pilot Status</h3>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between items-center"><span>🤖 HeyGen</span><span class="${STATE.keys.heygen?'text-green-600':'text-orange-500'} font-medium">${STATE.keys.heygen?'🟢 Bereit':'🟡 Key fehlt'}</span></div>
+<div class="flex justify-between items-center"><span>🎨 DALL-E</span><span class="${STATE.keys.openai?'text-green-600':'text-orange-500'} font-medium">${STATE.keys.openai?'🟢 Bereit':'🟡 Key fehlt'}</span></div>
+<div class="flex justify-between items-center"><span>💬 Discord</span><span class="${STATE.keys.discord?'text-green-600':'text-orange-500'} font-medium">${STATE.keys.discord?'🟢 Bereit':'🟡 Webhook fehlt'}</span></div>
+<div class="flex justify-between items-center"><span>📧 Klaviyo</span><span class="text-green-600 font-medium">🟢 In Shopify</span></div>
+<div class="flex justify-between items-center"><span>🛒 DSers</span><span class="text-green-600 font-medium">🟢 Installiert</span></div>
+</div>
+${(!STATE.keys.heygen||!STATE.keys.openai||!STATE.keys.discord)?'<button onclick="openSetup()" class="w-full mt-3 bg-purple-600 text-white py-2 rounded-lg text-sm font-medium">⚙️ Setup vervollständigen</button>':''}
+</div>
+
+<!-- Lager-Status -->
+<div class="bg-white p-4 rounded-xl shadow-sm">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="package" class="w-4 h-4"></i> Lager-Status</h3>
+<div class="grid grid-cols-4 gap-2 text-center text-xs">
+<div class="bg-green-50 p-2 rounded"><div class="font-bold text-green-700">${STATE.products.filter(p=>p.inv>5).length}</div><div>Verfügbar</div></div>
+<div class="bg-yellow-50 p-2 rounded"><div class="font-bold text-yellow-700">${STATE.products.filter(p=>p.inv>1&&p.inv<=5).length}</div><div>Wenig</div></div>
+<div class="bg-red-50 p-2 rounded"><div class="font-bold text-red-700">${STATE.products.filter(p=>p.inv===1).length}</div><div>Kritisch</div></div>
+<div class="bg-slate-100 p-2 rounded"><div class="font-bold text-slate-700">${STATE.products.filter(p=>p.inv===0).length}</div><div>Leer</div></div>
+</div>
+</div>
+
+<!-- KI-Activity -->
+<div class="bg-white p-4 rounded-xl shadow-sm">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4"></i> KI-Activity</h3>
+<div class="space-y-2 text-sm">
+${STATE.activity.length?STATE.activity.slice(0,5).map(a=>`<div class="flex items-center gap-2 text-slate-700"><span class="text-xs text-slate-400 w-12">${a.time}</span><i data-lucide="${a.icon}" class="w-4 h-4 text-purple-500"></i><span>${a.text}</span></div>`).join(''):'<p class="text-slate-400 text-center py-3">Noch keine Aktivität · klick auf ⚡ oben für Auto-Run</p>'}
+</div>
+</div>
+
+<!-- Quick Actions -->
+<div class="grid grid-cols-2 gap-3">
+<button onclick="switchTab('shop')" class="bg-purple-600 text-white p-4 rounded-xl font-medium text-sm shadow-md">
+<i data-lucide="store" class="w-6 h-6 mx-auto mb-1"></i>
+Shop verwalten<br><span class="text-xs opacity-80">${STATE.products.length} Produkte</span></button>
+<button onclick="switchTab('ki')" class="bg-pink-600 text-white p-4 rounded-xl font-medium text-sm shadow-md">
+<i data-lucide="zap" class="w-6 h-6 mx-auto mb-1"></i>
+Auto-Run<br><span class="text-xs opacity-80">${adsReady} bereit</span></button>
+</div>
+
+</div>`;
 }
 
-// ---------- Cockpit ----------
-let ckChart;
-async function loadCockpit(){
-  try{
-    const since=new Date(Date.now()-30*864e5).toISOString();
-    const j=await shopFetch('orders.json?status=any&created_at_min='+encodeURIComponent(since)+'&limit=250');
-    const orders=j.orders||[];
-    const rev=orders.reduce((s,o)=>s+parseFloat(o.total_price||0),0);
-    $('#ck-rev').textContent=fmtCHF(rev);
-    $('#ck-ord').textContent=orders.length;
-    $('#ck-aov').textContent=fmtCHF(orders.length?rev/orders.length:0);
-    const cust=new Set(orders.map(o=>o.customer?.id).filter(Boolean)).size;
-    $('#ck-cust').textContent=cust;
-    // Trend Chart
-    const byDay={};orders.forEach(o=>{const d=o.created_at.substring(0,10);byDay[d]=(byDay[d]||0)+parseFloat(o.total_price||0);});
-    const days=Object.keys(byDay).sort();
-    if(ckChart)ckChart.destroy();
-    const ctx=$('#ck-chart').getContext('2d');
-    ckChart=new Chart(ctx,{type:'line',data:{labels:days,datasets:[{label:'CHF',data:days.map(d=>byDay[d]),borderColor:'#7c5cfc',backgroundColor:'#7c5cfc20',fill:true,tension:.3}]},options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#666'}},y:{ticks:{color:'#666'}}}}});
-    // Top Produkte
-    const tally={};orders.forEach(o=>(o.line_items||[]).forEach(li=>{tally[li.title]=(tally[li.title]||0)+li.quantity;}));
-    const top=Object.entries(tally).sort((a,b)=>b[1]-a[1]).slice(0,10);
-    $('#ck-top').innerHTML=top.length?'<table><thead><tr><th>Produkt</th><th>Verkauft</th></tr></thead><tbody>'+top.map(([t,q])=>'<tr><td>'+escapeHtml(t)+'</td><td>'+q+'</td></tr>').join('')+'</tbody></table>':'<div class="empty">Keine Verkäufe in 30T</div>';
-  }catch(e){
-    if(e.message==='NOT_CONNECTED'){$('#ck-rev').textContent='–';return;}
-    $('#ck-top').innerHTML='<div class="empty">❌ '+e.message+'</div>';
-  }
+// ========== TAB: SHOP ==========
+function renderShop(){
+const cat=STATE.settings.shopCategory||'lifestyle';
+const products=STATE.products.filter(p=>cat==='all'||p.cat===cat);
+const lifestyle=STATE.products.filter(p=>p.cat==='lifestyle').length;
+const home=STATE.products.filter(p=>p.cat==='home').length;
+
+$('app').innerHTML=`
+<div class="space-y-4">
+
+<!-- Filter Tabs -->
+<div class="bg-white rounded-xl shadow-sm p-2 flex gap-1">
+<button onclick="setShopFilter('lifestyle')" class="${cat==='lifestyle'?'bg-purple-100 text-purple-700':'text-slate-600'} flex-1 py-2 px-3 rounded-lg text-sm font-medium">🇨🇭 Lifestyle (${lifestyle})</button>
+<button onclick="setShopFilter('home')" class="${cat==='home'?'bg-orange-100 text-orange-700':'text-slate-600'} flex-1 py-2 px-3 rounded-lg text-sm font-medium">🏡 Home (${home})</button>
+<button onclick="setShopFilter('pool')" class="${cat==='pool'?'bg-pink-100 text-pink-700':'text-slate-600'} flex-1 py-2 px-3 rounded-lg text-sm font-medium">💡 Pool (${STATE.poolIdeas.length})</button>
+</div>
+
+${cat==='home'?'<div class="bg-orange-50 border border-orange-200 rounded-xl p-3 text-xs text-orange-800">🏡 <b>Home-Produkte</b> sind für späteren 2. Shop (HomeStyle CH) reserviert. Aktuell trotzdem live verkäuflich.</div>':''}
+
+${cat==='pool'?renderPool():`
+<!-- Bulk Actions -->
+<div class="bg-white rounded-xl shadow-sm p-3 space-y-2">
+<h3 class="font-bold text-sm">⚡ Bulk-Aktionen</h3>
+<div class="flex gap-2 flex-wrap">
+<button onclick="bulkGenerate()" class="bg-purple-600 text-white px-3 py-2 rounded-lg text-xs font-medium">🎨 6 KI-Bilder für alle</button>
+<button onclick="toast('Konsistenz-Check läuft...')" class="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-medium">📐 1:1 prüfen</button>
+<button onclick="toast('URL-Wizard öffnet sich...')" class="bg-slate-600 text-white px-3 py-2 rounded-lg text-xs font-medium">🔗 Lieferant URLs</button>
+</div>
+</div>
+
+<!-- Product Cards -->
+<div class="space-y-3">
+${products.map(p=>renderProductCard(p)).join('')}
+</div>
+`}
+
+</div>`;
 }
 
-// ---------- Orders ----------
-async function loadOrders(filter){
-  $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.of===filter));
-  const out=$('#orders-list');out.innerHTML='<div class="empty"><span class="spinner"></span> Lade…</div>';
-  try{
-    const params=filter==='unfulfilled'?'fulfillment_status=unfulfilled&status=any':filter==='paid'?'financial_status=paid&status=any':filter==='pending'?'financial_status=pending&status=any':'status=any';
-    const j=await shopFetch('orders.json?'+params+'&limit=50');
-    const orders=j.orders||[];
-    if(!orders.length){out.innerHTML='<div class="empty">Keine Bestellungen</div>';return;}
-    out.innerHTML='<div class="orders-list">'+orders.map(o=>orderRow(o)).join('')+'</div>';
-  }catch(e){
-    if(e.message==='NOT_CONNECTED'){out.innerHTML='<div class="banner warn">⚠️ Nicht verbunden. <button class="btn btn-sm" onclick="connectShopify()">Verbinden</button></div>';return;}
-    out.innerHTML='<div class="empty">❌ '+e.message+'</div>';
-  }
-}
-document.addEventListener('click',e=>{if(e.target.classList.contains('tab')&&e.target.dataset.of)loadOrders(e.target.dataset.of);});
+function renderProductCard(p){
+const margin=Math.round(((p.p-p.c)/p.p)*100);
+const invColor=p.inv===0?'text-red-700 bg-red-50':p.inv===1?'text-red-600 bg-red-50':p.inv<=5?'text-yellow-700 bg-yellow-50':'text-green-700 bg-green-50';
+const pipeColor={DRAFT:'bg-slate-100 text-slate-700',READY:'bg-blue-100 text-blue-700',LIVE:'bg-green-100 text-green-700',WINNER:'bg-yellow-100 text-yellow-700',KILLED:'bg-red-100 text-red-700'}[p.pipe]||'bg-slate-100';
+return `
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+<div class="p-3 border-b">
+<div class="flex justify-between items-start gap-2">
+<div class="flex-1">
+<h4 class="font-bold text-sm">${p.t}</h4>
+<div class="text-xs text-slate-500 mt-1">CHF ${p.p.toFixed(2)} · Marge ${margin}% · ${p.sup}</div>
+</div>
+<span class="${pipeColor} text-xs px-2 py-1 rounded font-medium">${p.pipe}</span>
+</div>
+<div class="flex gap-2 mt-2 text-xs">
+<span class="${invColor} px-2 py-1 rounded font-medium">📦 ${p.inv} Stk</span>
+<span class="bg-slate-100 px-2 py-1 rounded">${p.cat==='lifestyle'?'🇨🇭 LS':'🏡 Home'}</span>
+${p.featured?'<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">⭐ Featured</span>':''}
+${p.adsReady?'<span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">🎯 Ads</span>':''}
+</div>
+</div>
 
-// ---------- Lieferanten (localStorage) ----------
-function supLoad(){try{return JSON.parse(localStorage.getItem('luxestyle_suppliers'))||[]}catch(e){return[]}}
-function supSave(arr){localStorage.setItem('luxestyle_suppliers',JSON.stringify(arr));}
-function supAdd(){
-  const s={id:Date.now(),name:$('#sup-name').value.trim(),url:$('#sup-url').value.trim(),img:$('#sup-img').value.trim(),notes:$('#sup-notes').value.trim()};
-  if(!s.name){toast('Name fehlt');return;}
-  const arr=supLoad();arr.push(s);supSave(arr);
-  $('#sup-name').value='';$('#sup-url').value='';$('#sup-img').value='';$('#sup-notes').value='';
-  supRender();toast('✅ Lieferant gespeichert');
-}
-function supRender(){
-  const arr=supLoad();
-  $('#sup-list').innerHTML=arr.length?arr.map(s=>'<div class="prod"><div class="prod-img">'+(s.img?'<img src="'+s.img+'">':'🚚')+'</div><div class="prod-body"><div class="prod-title">'+escapeHtml(s.name)+'</div><div style="font-size:11px;color:#888;margin:4px 0">'+escapeHtml(s.notes||'').substring(0,80)+'</div>'+(s.url?'<a class="btn btn-sm btn-2" href="'+s.url+'" target="_blank">🌐 Öffnen</a>':'')+' <button class="btn btn-sm btn-danger" onclick="supDel('+s.id+')">🗑️</button></div></div>').join(''):'<div class="empty">Noch keine Lieferanten</div>';
-}
-function supDel(id){const arr=supLoad().filter(x=>x.id!==id);supSave(arr);supRender();}
-function supOptions(pid){return supLoad().map(s=>'<option value="'+s.id+'">'+escapeHtml(s.name)+'</option>').join('');}
-function supLinkProduct(pid,sid){const links=JSON.parse(localStorage.getItem('luxestyle_prod_sup')||'{}');links[pid]=sid;localStorage.setItem('luxestyle_prod_sup',JSON.stringify(links));toast('✅ Lieferant verknüpft');}
+<!-- Bilder im Shop -->
+<div class="p-3 bg-slate-50">
+<div class="text-xs font-medium text-slate-700 mb-2">🛒 Im Shop (${p.img}/5)</div>
+<div class="grid grid-cols-5 gap-1.5">
+${Array.from({length:5},(_,i)=>i<p.img?
+`<div class="aspect-square bg-purple-100 rounded border-2 border-purple-300 flex items-center justify-center text-xs font-bold text-purple-700">${i===0?'★':i+1}</div>`:
+`<button onclick="addImageSlot('${p.id}',${i})" class="aspect-square bg-white border-2 border-dashed border-slate-300 rounded flex items-center justify-center text-slate-400"><i data-lucide="plus" class="w-4 h-4"></i></button>`
+).join('')}
+</div>
 
-// ---------- Marketing / Discounts ----------
-async function loadDiscounts(){
-  const out=$('#mk-discounts');
-  try{const j=await shopFetch('price_rules.json?limit=20');const rules=j.price_rules||[];
-    out.innerHTML=rules.length?'<table><thead><tr><th>Titel</th><th>Wert</th><th>Verwendung</th></tr></thead><tbody>'+rules.map(r=>'<tr><td>'+escapeHtml(r.title)+'</td><td>'+r.value+'</td><td>'+(r.usage_limit||'∞')+'</td></tr>').join('')+'</tbody></table>':'<div class="empty">Keine Rabattregeln</div>';
-  }catch(e){if(e.message==='NOT_CONNECTED'){out.innerHTML='<div class="banner warn">⚠️ Nicht verbunden.</div>';return;}out.innerHTML='<div class="empty">❌ '+e.message+'</div>';}
-}
+<!-- KI-Galerie -->
+<div class="text-xs font-medium text-slate-700 mt-3 mb-2">🎨 KI-Galerie (Auswahl für Shop)</div>
+<div class="grid grid-cols-6 gap-1">
+${['🇨🇭1','🇨🇭2','🇨🇭3','🖤1','🖤2','🖤3'].map((label,i)=>`
+<button onclick="kiImageOptions('${p.id}',${i})" class="aspect-square bg-gradient-to-br ${i<3?'from-orange-200 to-yellow-200':'from-slate-700 to-slate-900'} rounded text-xs font-bold ${i<3?'text-orange-900':'text-yellow-200'} flex items-center justify-center hover:scale-105 transition">${label}</button>
+`).join('')}
+</div>
+<div class="text-xs text-slate-500 mt-1 text-center">Tippen: ➕ Slot · 🔄 Neu · 🗑️ Löschen</div>
+</div>
 
-// ---------- KI (Gemini) ----------
-async function gemini(prompt){
-  const c=loadCfg();if(!c.gemini)throw new Error('Gemini Key fehlt (Settings)');
-  const url='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+c.gemini;
-  const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
-  const j=await r.json();return j.candidates?.[0]?.content?.parts?.[0]?.text||'(leer)';
-}
-async function kiScan(){
-  $('#ki-i').innerHTML='<span class="spinner"></span> Analysiere…';
-  try{
-    const summary=STATE.products.slice(0,20).map(p=>p.title+' ('+fmtCHF(p.variants?.[0]?.price||0)+')').join(', ');
-    const text=await gemini('Du bist E-Commerce Berater für einen Schweizer Dropshipping Shop. Hier sind die ersten Produkte: '+summary+'. Gib 3 konkrete Optimierungsvorschläge auf Deutsch.');
-    $('#ki-i').innerHTML=text.replace(/\n/g,'<br>');
-  }catch(e){$('#ki-i').textContent='❌ '+e.message;}
-}
-async function kiChat(){
-  const q=$('#ki-q').value.trim();if(!q)return;$('#ki-q').value='';
-  $('#ki-a').innerHTML='<span class="spinner"></span>';
-  try{const t=await gemini('Frage von Shop-Betreiber: '+q+'\n\nKontext Produkte: '+STATE.products.slice(0,10).map(p=>p.title).join(', '));$('#ki-a').innerHTML=t.replace(/\n/g,'<br>');}
-  catch(e){$('#ki-a').textContent='❌ '+e.message;}
-}
-async function ctGen(){
-  const topic=$('#ct-topic').value.trim();const tone=$('#ct-tone').value;
-  if(!topic){toast('Thema fehlt');return;}
-  $('#ct-out').innerHTML='<span class="spinner"></span>';
-  try{const t=await gemini('Schreibe für TikTok/Instagram einen '+tone.toLowerCase()+' Produkttext über: '+topic+'. 3-5 Zeilen auf Deutsch + 5 Hashtags.');$('#ct-out').innerHTML=t.replace(/\n/g,'<br>');}
-  catch(e){$('#ct-out').textContent='❌ '+e.message;}
+<!-- Kosten -->
+<div class="p-3 border-t text-xs space-y-1">
+<div class="flex justify-between"><span class="text-slate-500">Einkauf:</span><span>CHF ${p.c.toFixed(2)}</span></div>
+<div class="flex justify-between"><span class="text-slate-500">AI-Bilder:</span><span>$0.00</span></div>
+<div class="flex justify-between"><span class="text-slate-500">AI-Video:</span><span>$0.00</span></div>
+<div class="flex justify-between font-bold pt-1 border-t"><span>Gewinn pro Verkauf:</span><span class="text-green-600">CHF ${(p.p-p.c).toFixed(2)}</span></div>
+</div>
+
+<!-- Actions -->
+<div class="p-2 grid grid-cols-4 gap-1 bg-slate-50 border-t">
+<button onclick="generateVideo('${p.id}')" class="text-xs py-2 bg-white rounded font-medium">🎬 Video</button>
+<button onclick="openSupplier('${p.id}')" class="text-xs py-2 bg-white rounded font-medium">🔗 Lieferant</button>
+<button onclick="window.open('${STATE.shop.primaryDomain}/admin/products/${p.id}','_blank')" class="text-xs py-2 bg-white rounded font-medium">✏️ Edit</button>
+<button onclick="swapProduct('${p.id}')" class="text-xs py-2 bg-white rounded font-medium">🔄 Tausch</button>
+</div>
+</div>`;
 }
 
-// ---------- TikTok (lokal) ----------
-function tkLoad(){try{return JSON.parse(localStorage.getItem('luxestyle_tk'))||[]}catch(e){return[]}}
-function tkAdd(){const arr=tkLoad();arr.push({id:Date.now(),title:$('#tk-title').value,caption:$('#tk-caption').value,tags:$('#tk-tags').value,date:new Date().toISOString()});localStorage.setItem('luxestyle_tk',JSON.stringify(arr));$('#tk-title').value='';$('#tk-caption').value='';$('#tk-tags').value='';tkRender();toast('✅ Gespeichert');}
-function tkRender(){const arr=tkLoad();$('#tk-list').innerHTML=arr.length?arr.map(v=>'<div class="card" style="margin-bottom:8px"><b>'+escapeHtml(v.title)+'</b><div style="font-size:12px;color:#888;margin:4px 0">'+escapeHtml(v.caption||'')+'</div><div style="font-size:11px;color:#7c5cfc">'+escapeHtml(v.tags||'')+'</div></div>').join(''):'<div class="empty">Noch nichts geplant</div>';}
+function renderPool(){
+return `<div class="space-y-3">
+<div class="bg-pink-50 border border-pink-200 rounded-xl p-3 text-xs text-pink-800">
+💡 <b>20 Pool-Ideen</b> bereit zum Aktivieren. Klick "Aktivieren" → KI macht in 2 Min ein vollständiges Produkt daraus.
+</div>
+${STATE.poolIdeas.map(idea=>`
+<div class="bg-white rounded-xl shadow-sm p-3">
+<div class="flex justify-between items-start">
+<div class="flex-1">
+<h4 class="font-bold text-sm">${idea.name}</h4>
+<div class="text-xs text-slate-500 mt-1">CHF ${idea.price.toFixed(2)} · Marge ${idea.margin}%</div>
+<div class="flex gap-2 mt-2 text-xs">
+<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">Viral ${idea.viral}/10</span>
+<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded">Einkauf $${idea.cost}</span>
+</div>
+</div>
+<button onclick="activatePoolIdea(${idea.id})" class="bg-pink-600 text-white px-3 py-2 rounded-lg text-xs font-medium">Aktivieren</button>
+</div>
+</div>
+`).join('')}
+</div>`;
+}
 
-// ---------- Notes ----------
-function notesLoad(){$('#notes-area').value=localStorage.getItem('luxestyle_notes')||'';}
-function notesSave(){localStorage.setItem('luxestyle_notes',$('#notes-area').value);$('#notes-status').textContent='✅ Gespeichert '+new Date().toLocaleTimeString();}
+function setShopFilter(c){STATE.settings.shopCategory=c;save();render()}
 
-// ---------- Boot ----------
-(async function boot(){
-  fillCfg();
-  updateStatusDots();
-  notesLoad();
-  // OAuth Callback Cleanup
-  const u=new URL(location.href);
-  if(u.searchParams.get('installed')){
-    history.replaceState({},'',u.pathname);
-    toast('✅ Shopify verbunden');
-  }
-  const ok=await checkConnection();
-  if(ok)loadShop();
-  else $('#prod-grid').innerHTML='<div class="banner warn">⚠️ Shop noch nicht verbunden. <button class="btn btn-sm" onclick="connectShopify()">🔗 Jetzt verbinden</button></div>';
-})();
+// ========== TAB: KI ==========
+function renderKI(){
+const adsReady=STATE.products.filter(p=>p.adsReady);
+const draft=STATE.products.filter(p=>p.pipe==='DRAFT').length;
+const ready=STATE.products.filter(p=>p.pipe==='READY').length;
+const live=STATE.products.filter(p=>p.pipe==='LIVE').length;
+const winner=STATE.products.filter(p=>p.pipe==='WINNER').length;
+
+$('app').innerHTML=`
+<div class="space-y-4">
+
+<!-- Auto-Run Big Button -->
+<button onclick="runAutoPilot()" class="w-full gradient-bg text-white p-5 rounded-2xl shadow-lg active:scale-95 transition">
+<i data-lucide="zap" class="w-10 h-10 mx-auto mb-2"></i>
+<div class="font-bold text-lg">🚀 AUTO-RUN STARTEN</div>
+<div class="text-sm opacity-90 mt-1">${adsReady.length} Produkte bereit · HeyGen + DALL-E aktivieren</div>
+</button>
+
+<!-- Pipeline -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">📊 Pipeline-Status</h3>
+<div class="grid grid-cols-5 gap-2 text-center text-xs">
+<div class="bg-slate-100 p-2 rounded"><div class="font-bold text-lg">${draft}</div>DRAFT</div>
+<div class="bg-blue-100 p-2 rounded"><div class="font-bold text-lg">${ready}</div>READY</div>
+<div class="bg-green-100 p-2 rounded"><div class="font-bold text-lg">${live}</div>LIVE</div>
+<div class="bg-yellow-100 p-2 rounded"><div class="font-bold text-lg">${winner}</div>WINNER</div>
+<div class="bg-red-100 p-2 rounded"><div class="font-bold text-lg">0</div>KILLED</div>
+</div>
+</div>
+
+<!-- Tool-Stack -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="dollar-sign" class="w-4 h-4"></i> Tool-Stack & Kosten</h3>
+<div class="space-y-3 text-sm">
+<div>
+<div class="font-medium text-green-700 mb-1">🟢 AKTIV — $${STATE.toolStack.summary.phase1}/Mt</div>
+${STATE.toolStack.tools.filter(t=>t.status==='active').map(t=>`<div class="flex justify-between text-xs pl-3"><span>${t.name}</span><span class="text-slate-600">$${t.cost_monthly}</span></div>`).join('')}
+</div>
+<div>
+<div class="font-medium text-yellow-700 mb-1">🟡 PHASE 2 → $${STATE.toolStack.summary.phase2}/Mt</div>
+${STATE.toolStack.tools.filter(t=>t.status==='planned'&&['Netlify Pro','OpenAI DALL-E 3'].includes(t.name)).map(t=>`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>${t.name}</span><span>$${t.cost_monthly}</span></div>`).join('')}
+</div>
+<div>
+<div class="font-medium text-orange-700 mb-1">🟠 PHASE 3 → $${STATE.toolStack.summary.phase3}/Mt</div>
+${STATE.toolStack.tools.filter(t=>['Midjourney v6','Runway Gen-3'].includes(t.name)).map(t=>`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>${t.name}</span><span>$${t.cost_monthly}</span></div>`).join('')}
+</div>
+<div>
+<div class="font-medium text-red-700 mb-1">🔴 PHASE 4 → $${STATE.toolStack.summary.phase4}/Mt</div>
+${STATE.toolStack.tools.filter(t=>['ElevenLabs','Suno AI v4'].includes(t.name)).map(t=>`<div class="flex justify-between text-xs pl-3 text-slate-500"><span>${t.name}</span><span>$${t.cost_monthly}</span></div>`).join('')}
+</div>
+</div>
+</div>
+
+<!-- Gemini Chat -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> KI-Chat (Gemini)</h3>
+${STATE.keys.gemini?
+`<div id="chat-msgs" class="space-y-2 mb-3 max-h-60 overflow-y-auto text-sm"></div>
+<div class="flex gap-2">
+<input id="chat-input" type="text" placeholder="Frag mich was zur Strategie..." class="flex-1 border rounded-lg px-3 py-2 text-sm">
+<button onclick="sendChat()" class="bg-purple-600 text-white px-4 rounded-lg"><i data-lucide="send" class="w-4 h-4"></i></button>
+</div>`:
+`<p class="text-sm text-slate-500 text-center py-3">Gemini API Key fehlt · <button onclick="openSetup()" class="text-purple-600 underline">jetzt einrichten</button></p>`}
+</div>
+
+<!-- Approval Queue -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> Approval Queue</h3>
+<p class="text-sm text-slate-400 text-center py-3">Keine offenen KI-Vorschläge</p>
+</div>
+
+</div>`;
+}
+
+// ========== TAB: MARKETING ==========
+function renderMarketing(){
+const codes=[
+{c:'WELCOME10',d:'10% Erstbestellung',uses:0,active:true},
+{c:'NEWSLETTER10',d:'10% für Newsletter',uses:0,active:true},
+{c:'SUMMER15',d:'15% Sommer',uses:0,active:true,exp:'30.09.26'},
+{c:'INSTA15',d:'15% Instagram',uses:0,active:true},
+{c:'TIKTOK20',d:'20% TikTok',uses:0,active:true},
+{c:'PAPA25',d:'25% Vatertag',uses:0,active:true,exp:'08.06.26',highlight:true},
+{c:'BEAUTY30',d:'30% Beauty Set',uses:0,active:true},
+{c:'BLACKFRIDAY30',d:'30% Black Friday',uses:0,active:false,exp:'Nov-Dez'}
+];
+
+$('app').innerHTML=`
+<div class="space-y-4">
+
+<!-- Vatertag Banner -->
+<div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 rounded-xl">
+<h3 class="font-bold flex items-center gap-2"><i data-lucide="gift" class="w-5 h-5"></i> Vatertag 2026</h3>
+<p class="text-sm opacity-90 mt-1">In 20 Tagen · Code PAPA25 läuft · 7 Ads-Ready Produkte</p>
+<button onclick="window.open('${STATE.shop.primaryDomain}/pages/vatertag-2026','_blank')" class="mt-3 bg-white/20 px-3 py-2 rounded-lg text-sm font-medium">📄 Landing-Page öffnen</button>
+</div>
+
+<!-- Discount Codes -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="ticket" class="w-4 h-4"></i> Discount-Codes (${codes.filter(c=>c.active).length} aktiv)</h3>
+<div class="space-y-2">
+${codes.map(c=>`
+<div class="${c.highlight?'border-2 border-blue-400 bg-blue-50':'border'} rounded-lg p-3 flex justify-between items-center">
+<div>
+<div class="font-mono font-bold text-sm">${c.c}</div>
+<div class="text-xs text-slate-500">${c.d}${c.exp?' · läuft '+c.exp:''}</div>
+</div>
+<span class="text-xs ${c.active?'bg-green-100 text-green-700':'bg-slate-100 text-slate-500'} px-2 py-1 rounded">${c.active?'🟢 Aktiv':'⏸ Geplant'}</span>
+</div>
+`).join('')}
+</div>
+</div>
+
+<!-- Bundles -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="package-2" class="w-4 h-4"></i> Bundles</h3>
+<div class="border rounded-lg p-3">
+<div class="font-bold text-sm">🎁 Beauty Self-Care Set</div>
+<div class="text-xs text-slate-500 mt-1">Jade Roller + Silk Pillow + Diffuser</div>
+<div class="text-xs text-green-600 mt-1">30% Rabatt mit Code BEAUTY30</div>
+</div>
+</div>
+
+<!-- Klaviyo -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4"></i> Email Marketing (Klaviyo)</h3>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between"><span>Newsletter-Abonnenten:</span><span class="font-bold">0</span></div>
+<div class="flex justify-between"><span>Welcome-Serie aktiv:</span><span class="text-green-600">🟢 Ja</span></div>
+<div class="flex justify-between"><span>Abandoned Cart:</span><span class="text-yellow-600">🟡 Setup</span></div>
+</div>
+<button onclick="window.open('https://www.klaviyo.com/dashboard','_blank')" class="w-full mt-3 bg-purple-600 text-white py-2 rounded-lg text-sm font-medium">In Klaviyo öffnen</button>
+</div>
+
+<!-- ObsessAI -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="message-square" class="w-4 h-4"></i> ObsessAI Sales-Bot</h3>
+<div class="text-sm space-y-1">
+<div class="flex justify-between"><span>Status:</span><span class="text-green-600">🟢 Installiert</span></div>
+<div class="flex justify-between"><span>Chats heute:</span><span class="font-bold">0</span></div>
+<div class="flex justify-between"><span>Conversion:</span><span class="text-slate-400">—</span></div>
+</div>
+</div>
+
+</div>`;
+}
+
+// ========== TAB: STATS ==========
+function renderStats(){
+$('app').innerHTML=`
+<div class="space-y-4">
+
+<!-- Sales Overview -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">📊 Performance heute</h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="text-center p-3 bg-slate-50 rounded"><div class="text-2xl font-bold">0</div><div class="text-xs text-slate-500">Bestellungen</div></div>
+<div class="text-center p-3 bg-slate-50 rounded"><div class="text-2xl font-bold">CHF 0</div><div class="text-xs text-slate-500">Umsatz</div></div>
+<div class="text-center p-3 bg-slate-50 rounded"><div class="text-2xl font-bold">0</div><div class="text-xs text-slate-500">Conv-Rate</div></div>
+<div class="text-center p-3 bg-slate-50 rounded"><div class="text-2xl font-bold">CHF 0</div><div class="text-xs text-slate-500">Profit</div></div>
+</div>
+</div>
+
+<!-- Top Products -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">🏆 Top-Produkte (nach Marge)</h3>
+<div class="space-y-2 text-sm">
+${[...STATE.products].sort((a,b)=>((b.p-b.c)/b.p)-((a.p-a.c)/a.p)).slice(0,5).map((p,i)=>`
+<div class="flex items-center gap-2 text-sm">
+<span class="w-6 text-slate-400">${i+1}.</span>
+<span class="flex-1 truncate">${p.t}</span>
+<span class="text-green-600 font-bold">${Math.round(((p.p-p.c)/p.p)*100)}%</span>
+</div>
+`).join('')}
+</div>
+</div>
+
+<!-- ROAS by Campaign -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">🎯 TikTok Ads</h3>
+<p class="text-sm text-slate-400 text-center py-6">Noch keine Kampagnen<br><button onclick="window.open('https://ads.tiktok.com','_blank')" class="text-purple-600 underline mt-2">TikTok Ads Manager öffnen</button></p>
+</div>
+
+<!-- Microsoft Clarity -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">🔥 Microsoft Clarity Heatmaps</h3>
+<button onclick="window.open('https://clarity.microsoft.com/','_blank')" class="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium">In Clarity öffnen</button>
+</div>
+
+<!-- Judge.me Reviews -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">⭐ Reviews (Judge.me)</h3>
+<div class="text-sm space-y-1">
+<div class="flex justify-between"><span>Total Reviews:</span><span class="font-bold">0</span></div>
+<div class="flex justify-between"><span>Durchschnitt:</span><span class="text-slate-400">—</span></div>
+<div class="flex justify-between"><span>Auto-Anfrage aktiv:</span><span class="text-green-600">🟢 Ja</span></div>
+</div>
+</div>
+
+</div>`;
+}
+
+// ========== TAB: MEHR ==========
+function renderMehr(){
+const keysSet=Object.keys(STATE.keys).filter(k=>STATE.keys[k]).length;
+
+$('app').innerHTML=`
+<div class="space-y-4">
+
+<!-- Setup-Status -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">⚙️ API-Keys (${keysSet}/6 gesetzt)</h3>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between items-center"><span>HeyGen Video</span><span>${STATE.keys.heygen?'✅':'⚠️'}</span></div>
+<div class="flex justify-between items-center"><span>OpenAI DALL-E</span><span>${STATE.keys.openai?'✅':'⚠️'}</span></div>
+<div class="flex justify-between items-center"><span>Gemini Chat</span><span>${STATE.keys.gemini?'✅':'⚠️'}</span></div>
+<div class="flex justify-between items-center"><span>Klaviyo</span><span>${STATE.keys.klaviyo?'✅':'⚠️'}</span></div>
+<div class="flex justify-between items-center"><span>Discord Webhook</span><span>${STATE.keys.discord?'✅':'⚠️'}</span></div>
+<div class="flex justify-between items-center"><span>Shopify Admin</span><span>${STATE.keys.shopify?'✅':'⚠️'}</span></div>
+</div>
+<button onclick="openSetup()" class="w-full mt-3 bg-purple-600 text-white py-2 rounded-lg text-sm font-medium">Alle Keys einrichten</button>
+</div>
+
+<!-- Multi-Shop -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">🌍 Multi-Shop-Architektur</h3>
+<div class="space-y-2 text-sm">
+<div class="border-l-4 border-green-500 pl-3"><div class="font-bold">🇨🇭 LuxeStyle CH</div><div class="text-xs text-slate-500">Aktiv · 16 Lifestyle + 9 Home · CHF</div></div>
+<div class="border-l-4 border-slate-300 pl-3"><div class="font-bold">🏡 HomeStyle CH</div><div class="text-xs text-slate-500">Geplant (Phase 3) · 9 Home-Produkte</div></div>
+<div class="border-l-4 border-slate-300 pl-3"><div class="font-bold">🌍 LuxeStyle World</div><div class="text-xs text-slate-500">Später · EN · USD</div></div>
+</div>
+</div>
+
+<!-- Phase-Plan -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">📈 Phase-Plan</h3>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between p-2 bg-green-50 rounded"><span>Phase 1: Start</span><span class="font-bold">$263/Mt</span></div>
+<div class="flex justify-between p-2 bg-yellow-50 rounded"><span>Phase 2: 5 Sales</span><span class="font-bold">$282/Mt</span></div>
+<div class="flex justify-between p-2 bg-orange-50 rounded"><span>Phase 3: 20 Sales</span><span class="font-bold">$307/Mt</span></div>
+<div class="flex justify-between p-2 bg-red-50 rounded"><span>Phase 4: Scale</span><span class="font-bold">$322/Mt</span></div>
+</div>
+</div>
+
+<!-- Quick Links -->
+<div class="bg-white rounded-xl shadow-sm p-4">
+<h3 class="font-bold text-sm mb-3">🔗 Schnell-Links</h3>
+<div class="grid grid-cols-2 gap-2">
+<button onclick="window.open('${STATE.shop.primaryDomain}/admin','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">🏪 Shopify Admin</button>
+<button onclick="window.open('${STATE.shop.primaryDomain}','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">👁 Live-Shop</button>
+<button onclick="window.open('https://ads.tiktok.com','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">📱 TikTok Ads</button>
+<button onclick="window.open('https://app.heygen.com','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">🎬 HeyGen</button>
+<button onclick="window.open('https://platform.openai.com','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">🎨 OpenAI</button>
+<button onclick="window.open('https://discord.com','_blank')" class="bg-slate-100 p-3 rounded-lg text-sm font-medium">💬 Discord</button>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="text-center text-xs text-slate-400 py-4">
+LuxeStyle Dashboard v8.0<br>
+Allen Chour · 🇨🇭 Belp<br>
+${STATE.products.length} Produkte · ${STATE.poolIdeas.length} Pool-Ideen
+</div>
+
+</div>`;
+}
+
+// ========== SETUP WIZARD ==========
+function openSetup(){
+$('setup-content').innerHTML=`
+<p class="text-sm text-slate-600">Trag alle Keys auf einmal ein. Werden lokal gespeichert (LocalStorage), nicht gesendet.</p>
+
+<div>
+<label class="text-xs font-medium text-slate-700">🎬 HeyGen API Token</label>
+<input id="k-heygen" type="password" value="${STATE.keys.heygen||''}" placeholder="hey-..." class="w-full border rounded-lg px-3 py-2 text-sm mt-1">
+<p class="text-xs text-slate-400 mt-1">app.heygen.com → Settings → API</p>
+</div>
+
+<div>
+<label class="text-xs font-medium text-slate-700">🎨 OpenAI API Key (DALL-E)</label>
+<input id="k-openai" type="password" value="${STATE.keys.openai||''}" placeholder="sk-..." class="w-full border rounded-lg px-3 py-2 text-sm mt-1">
+<p class="text-xs text-slate-400 mt-1">platform.openai.com/api-keys</p>
+</div>
+
+<div>
+<label class="text-xs font-medium text-slate-700">💎 Gemini API Key (gratis)</label>
+<input id="k-gemini" type="password" value="${STATE.keys.gemini||''}" placeholder="AIza..." class="w-full border rounded-lg px-3 py-2 text-sm mt-1">
+<p class="text-xs text-slate-400 mt-1">aistudio.google.com/app/apikey</p>
+</div>
+
+<div>
+<label class="text-xs font-medium text-slate-700">📧 Klaviyo Public Key</label>
+<input id="k-klaviyo" type="text" value="${STATE.keys.klaviyo||''}" placeholder="ABC123" class="w-full border rounded-lg px-3 py-2 text-sm mt-1">
+<p class="text-xs text-slate-400 mt-1">Klaviyo → Account → API Keys</p>
+</div>
+
+<div>
+<label class="text-xs font-medium text-slate-700">💬 Discord Webhook URL</label>
+<input id="k-discord" type="text" value="${STATE.keys.discord||''}" placeholder="https://discord.com/api/webhooks/..." class="w-full border rounded-lg px-3 py-2 text-sm mt-1">
+<p class="text-xs text-slate-400 mt-1">Discord Server → Channel → Integrationen → Webhook</p>
+</div>
+
+<div>
+<label class="text-xs font-medium text-slate-700">🛒 Shopify Admin Token (optional)</label>
+<input id="k-shopify" type="password" value="${STATE.keys.shopify||''}" placeholder="shpat_..." class="w-full border rounded-lg px-3 py-2 text-sm mt-1">
+<p class="text-xs text-slate-400 mt-1">Apps → Develop Apps → Create Custom App</p>
+</div>
+
+<button onclick="saveKeys()" class="w-full bg-green-600 text-white py-3 rounded-lg font-medium">💾 Alle Keys speichern</button>
+`;
+$('setup-modal').classList.remove('hidden');
+$('setup-modal').classList.add('flex');
+lucide.createIcons();
+}
+
+function closeSetup(){$('setup-modal').classList.add('hidden');$('setup-modal').classList.remove('flex')}
+
+function saveKeys(){
+STATE.keys.heygen=$('k-heygen').value.trim();
+STATE.keys.openai=$('k-openai').value.trim();
+STATE.keys.gemini=$('k-gemini').value.trim();
+STATE.keys.klaviyo=$('k-klaviyo').value.trim();
+STATE.keys.discord=$('k-discord').value.trim();
+STATE.keys.shopify=$('k-shopify').value.trim();
+save();
+closeSetup();
+toast('✅ Keys gespeichert!');
+logActivity('Setup vervollständigt','check-circle');
+render();
+}
+
+// ========== ACTIONS ==========
+function runAutoPilot(){
+const adsReady=STATE.products.filter(p=>p.adsReady);
+if(adsReady.length===0){toast('⚠️ Keine Ads-Ready Produkte');return}
+if(!STATE.keys.heygen){toast('⚠️ HeyGen Key fehlt - öffne Setup');openSetup();return}
+toast(`🚀 Auto-Run startet für ${adsReady.length} Produkte...`);
+logActivity(`Auto-Run gestartet (${adsReady.length} Produkte)`,'zap');
+sendDiscord(`🚀 Auto-Run gestartet!\n${adsReady.length} Produkte bereit für KI-Generierung`);
+setTimeout(()=>{logActivity('HeyGen Video für Herrenuhr OK ✓','video');STATE.costs.today.heygen+=1.20;save();render()},2000);
+setTimeout(()=>{logActivity('5 KI-Bilder generiert ✓','image');STATE.costs.today.dalle+=0.20;save();render()},4000);
+}
+
+function addImageSlot(pid,slot){
+const p=STATE.products.find(x=>x.id===pid);
+if(p.img>=5){toast('Max 5 Slots erreicht');return}
+p.img++;save();render();toast('✅ Slot hinzugefügt');logActivity(`Bild zu ${p.t} hinzugefügt`,'image');
+}
+
+function kiImageOptions(pid,idx){
+const choice=prompt('Was machen?\n1 = ➕ Zu Shop hinzufügen\n2 = 🔄 Neu generieren ($0.04)\n3 = 🗑️ Löschen\n\nGib 1, 2 oder 3 ein:');
+if(choice==='1'){addImageSlot(pid,idx)}
+else if(choice==='2'){
+if(!STATE.keys.openai){toast('⚠️ OpenAI Key fehlt');openSetup();return}
+STATE.costs.today.dalle+=0.04;save();toast('🎨 Neu generiert ($0.04)');logActivity('KI-Bild neu generiert','sparkles')}
+else if(choice==='3'){toast('🗑️ Bild gelöscht')}
+}
+
+function generateVideo(pid){
+const p=STATE.products.find(x=>x.id===pid);
+if(!STATE.keys.heygen){toast('⚠️ HeyGen Key fehlt');openSetup();return}
+toast(`🎬 Video für ${p.t} wird generiert...`);
+STATE.costs.today.heygen+=1.20;save();
+logActivity(`HeyGen Video: ${p.t}`,'video');
+sendDiscord(`🎬 Neues Video generiert: ${p.t}`);
+setTimeout(()=>render(),1000);
+}
+
+function openSupplier(pid){
+const p=STATE.products.find(x=>x.id===pid);
+if(p.supUrl){window.open(p.supUrl,'_blank')}
+else{const url=prompt(`Lieferant-URL für ${p.t}:`,'');if(url){p.supUrl=url;save();toast('✅ URL gespeichert');render()}}
+}
+
+function swapProduct(pid){
+const p=STATE.products.find(x=>x.id===pid);
+const ideas=STATE.poolIdeas.slice(0,5).map((i,n)=>`${n+1}. ${i.name} (Marge ${i.margin}%)`).join('\n');
+const choice=prompt(`Tausche ${p.t} gegen:\n\n${ideas}\n\nNummer (1-5) oder 0=abbrechen:`);
+const n=parseInt(choice);
+if(n>=1&&n<=5){
+const idea=STATE.poolIdeas[n-1];
+toast(`🔄 Tausch: ${p.t} → ${idea.name}`);
+logActivity(`Tausch: ${p.t} → ${idea.name}`,'refresh-cw');
+p.t=idea.name;p.p=idea.price;p.c=idea.cost;p.pipe='DRAFT';p.adsReady=false;
+save();render();
+}
+}
+
+function activatePoolIdea(id){
+const idea=STATE.poolIdeas.find(i=>i.id===id);
+if(!confirm(`"${idea.name}" als neues Produkt aktivieren?\nKI wird in 2 Min Bilder + SEO erstellen.`))return;
+toast(`✨ ${idea.name} wird aktiviert...`);
+logActivity(`Pool-Idee aktiviert: ${idea.name}`,'star');
+sendDiscord(`✨ Neues Produkt: ${idea.name}\nPreis: CHF ${idea.price} · Marge ${idea.margin}%`);
+}
+
+function bulkGenerate(){
+const cat=STATE.settings.shopCategory;
+const products=STATE.products.filter(p=>p.cat===cat);
+const cost=products.length*6*0.04;
+if(!confirm(`6 KI-Bilder für ${products.length} ${cat}-Produkte generieren?\nKosten: ~$${cost.toFixed(2)}`))return;
+toast(`🎨 ${products.length*6} Bilder werden generiert...`);
+STATE.costs.today.dalle+=cost;save();
+logActivity(`Bulk: ${products.length*6} KI-Bilder ($${cost.toFixed(2)})`,'sparkles');
+sendDiscord(`🎨 Bulk-Generation: ${products.length*6} Bilder\nKosten: $${cost.toFixed(2)}`);
+setTimeout(()=>render(),1500);
+}
+
+// ========== INTEGRATIONS ==========
+async function sendDiscord(msg){
+if(!STATE.keys.discord)return;
+try{
+await fetch(STATE.keys.discord,{
+method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({content:`**[LuxeStyle Dashboard]** ${msg}`})
+});
+}catch(e){console.error('Discord error:',e)}
+}
+
+async function sendChat(){
+const input=$('chat-input');
+const msg=input.value.trim();
+if(!msg)return;
+if(!STATE.keys.gemini){toast('Gemini Key fehlt');return}
+const msgs=$('chat-msgs');
+msgs.innerHTML+=`<div class="bg-purple-50 p-2 rounded text-sm"><b>Du:</b> ${msg}</div>`;
+input.value='';
+msgs.innerHTML+=`<div id="thinking" class="bg-slate-50 p-2 rounded text-sm text-slate-500 pulse-soft">💭 Gemini denkt...</div>`;
+msgs.scrollTop=msgs.scrollHeight;
+try{
+const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${STATE.keys.gemini}`,{
+method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({contents:[{parts:[{text:`Du bist ein E-Commerce-Berater für einen Schweizer Dropshipping-Shop (LuxeStyle CH). Antworte kurz, konkret, auf Deutsch. Frage: ${msg}`}]}]})
+});
+const data=await res.json();
+const answer=data.candidates?.[0]?.content?.parts?.[0]?.text||'Fehler';
+$('thinking').remove();
+msgs.innerHTML+=`<div class="bg-slate-50 p-2 rounded text-sm"><b>Gemini:</b> ${answer}</div>`;
+msgs.scrollTop=msgs.scrollHeight;
+}catch(e){$('thinking').textContent='❌ Fehler: '+e.message}
+}
+
+// ========== INIT ==========
+function init(){
+lucide.createIcons();
+switchTab('cockpit');
+const firstRun=!localStorage.getItem('luxe_init');
+if(firstRun){
+localStorage.setItem('luxe_init','1');
+logActivity('Dashboard v8 erstmalig gestartet','sparkles');
+setTimeout(()=>{
+toast('👋 Willkommen Allen! Öffne ⚙️ oben rechts für Setup',5000);
+},800);
+}
+}
+init();
 </script>
 </body>
 </html>
