@@ -182,7 +182,7 @@ $('app').innerHTML=`
         <div class="text-2xl">🔥</div>
         <div class="flex-1">
           <h3 class="font-bold text-sm">Trend des Tages</h3>
-          <p class="text-xs opacity-90 mt-1">${(STATE.products[0]?.name)||"Noch kein Produkt"} hat ${STATE.products.filter(p=>p.shopImgs?.length>0).length>0?"gute Engagement-Werte":"Potential — füge Bilder hinzu"}</p>
+          <p class="text-xs opacity-90 mt-1">${(STATE.products[0]?.t)||"Noch kein Produkt"} hat ${STATE.products.filter(p=>p.shopImgs?.length>0).length>0?"gute Engagement-Werte":"Potential — füge Bilder hinzu"}</p>
         </div>
       </div>
     </div>
@@ -195,7 +195,7 @@ $('app').innerHTML=`
           if(!STATE.keys.openai) todos.push({i:"🔑",t:"OpenAI Key in Setup eintragen",a:"openSetup()"});
           const noImgs = STATE.products.filter(p=>!p.shopImgs||p.shopImgs.length===0);
           if(noImgs.length>0) todos.push({i:"🖼️",t:noImgs.length+" Produkt(e) ohne Shop-Bilder",a:"STATE.tab=\'shop\';render()"});
-          const noAds = STATE.products.filter(p=>!p.ads||!p.ads.active);
+          const noAds = STATE.products.filter(p=>!p.adsReady);
           if(noAds.length>3) todos.push({i:"📣",t:noAds.length+" Produkte ohne aktive Ads",a:"STATE.tab=\'ads\';render()"});
           if(todos.length===0) return `<p class="text-xs text-slate-400">Alles erledigt! 🎉</p>`;
           return todos.slice(0,5).map(t=>`<button onclick="${t.a}" class="w-full text-left flex items-center gap-2 p-2 hover:bg-slate-50 rounded"><span>${t.i}</span><span class="flex-1 text-slate-700">${t.t}</span><i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i></button>`).join("");
@@ -584,9 +584,9 @@ function renderStats(){
   const app=$("app"); if(!app) return;
   const totalProd = STATE.products.length;
   const inShop = STATE.products.filter(p=>p.shopImgs && p.shopImgs.length>0).length;
-  const withAds = STATE.products.filter(p=>p.ads && p.ads.active).length;
+  const withAds = STATE.products.filter(p=>p.adsReady).length;
   const totalSpent = (STATE.costs.spent||0) + (STATE.costs.today.dalle||0);
-  const totalRevenue = STATE.products.reduce((s,p)=>s+(p.revenue||0),0);
+  const totalRevenue = STATE.products.reduce((s,p)=>s+((p.sales||0)*(p.p||0)),0);
   const roas = totalSpent>0 ? (totalRevenue/totalSpent).toFixed(2) : "—";
   // Demo-Zahlen wenn nichts da
   const orders7d = STATE.stats?.orders7d || [3,5,4,7,6,9,8];
@@ -594,7 +594,7 @@ function renderStats(){
   const sparkline = (vals)=>{const max=Math.max(...vals,1); const w=200, h=40, step=w/(vals.length-1); const pts=vals.map((v,i)=>`${i*step},${h-(v/max)*h}`).join(" "); return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline fill="none" stroke="#667eea" stroke-width="2" points="${pts}"/></svg>`;};
   const bar = (label,val,max,color)=>{const pct=max>0?(val/max*100):0; return `<div class="mb-2"><div class="flex justify-between text-xs mb-1"><span class="text-slate-600">${label}</span><span class="font-semibold">${val}</span></div><div class="bg-slate-200 rounded-full h-2"><div class="${color} h-2 rounded-full" style="width:${pct}%"></div></div></div>`;};
   // Top Products by revenue
-  const topByRev = [...STATE.products].sort((a,b)=>(b.revenue||0)-(a.revenue||0)).slice(0,5);
+  const topByRev = [...STATE.products].map(p=>({...p,rev:(p.sales||0)*(p.p||0)})).sort((a,b)=>b.rev-a.rev).slice(0,5);
   // Channels
   const channelSpend = {meta:STATE.ads?.meta?.spent||0, google:STATE.ads?.google?.spent||0, tiktok:STATE.ads?.tiktok?.spent||0};
   const maxCh = Math.max(channelSpend.meta,channelSpend.google,channelSpend.tiktok,1);
@@ -646,7 +646,7 @@ function renderStats(){
       <h3 class="font-bold text-sm mb-2">🏆 Top-Produkte (Umsatz)</h3>
       <div class="space-y-2">
         ${topByRev.length===0 ? `<p class="text-xs text-slate-400 text-center py-3">Noch keine Verkaufsdaten</p>` :
-          topByRev.map((p,i)=>`<div class="flex items-center gap-2 text-sm"><span class="w-5 text-slate-400">${i+1}.</span><span class="flex-1 truncate">${p.name}</span><span class="text-emerald-600 font-bold">CHF ${(p.revenue||0).toFixed(0)}</span></div>`).join("")}
+          topByRev.map((p,i)=>`<div class="flex items-center gap-2 text-sm"><span class="w-5 text-slate-400">${i+1}.</span><span class="flex-1 truncate">${p.t}</span><span class="text-emerald-600 font-bold">CHF ${(p.rev||0).toFixed(0)}</span></div>`).join("")}
       </div>
     </div>
 
