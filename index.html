@@ -581,7 +581,7 @@ ${codes.map(c=>`
 
 // ========== TAB: STATS ==========
 function renderStats(){
-  const app=$("#app"); if(!app) return;
+  const app=$("app"); if(!app) return;
   const totalProd = STATE.products.length;
   const inShop = STATE.products.filter(p=>p.shopImgs && p.shopImgs.length>0).length;
   const withAds = STATE.products.filter(p=>p.ads && p.ads.active).length;
