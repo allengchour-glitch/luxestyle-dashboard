@@ -2073,6 +2073,343 @@ setTimeout(rerender, 200);
 }catch(__p4err){console.error("[Phase4 Patch error]", __p4err);}
 /* === PHASE 4 PATCH END === */
 
+
+
+/* ═══════════════════════════════════════════════════════════════
+   PHASE 5a — Ad-Launch-Helper + Settings + Klaviyo + TikTok API Stub
+   ═══════════════════════════════════════════════════════════════ */
+
+/* SIMULATED SHOPIFY METAFIELDS (tool_stack.*) */
+const _META_AD_CAMPAIGNS = {
+  "15396249960833": { /* Herrenuhr */
+    creative: {
+      previewImage: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600",
+      captionShort: "Klassisch. Zeitlos. Vatertag. ⌚",
+      captionLong: "Schenk Papa, was er sich nie selbst kauft. Edle Herrenuhr mit Schweizer Präzision — limitiert verfügbar bis Vatertag. Versand in 3-7 Tagen aus EU-Lager. 🇨🇭",
+      heyGenAvatar: "Daisy_business",
+      heyGenScript: "Suchst du das perfekte Vatertagsgeschenk? Diese klassische Herrenuhr begeistert jeden Vater. Jetzt bestellen — Lieferung garantiert vor dem 8. Juni."
+    },
+    targeting: {
+      country: "CH",
+      ageRange: "30-55",
+      gender: "Female",
+      interests: ["Gifting", "Fashion accessories", "Father's Day"],
+      placements: ["TikTok"],
+      objective: "Traffic",
+      budget_chf_day: 15,
+      duration_days: 7
+    },
+    checklist: [
+      "Pixel D85AB2RC77U9617DG8I0 prüfen — ✓ aktiv",
+      "Catalog mit Produkt-ID 15396249960833 verknüpft",
+      "Caption + Hashtags geprüft",
+      "Landing-Page-URL: /products/herrenuhr",
+      "UTM-Parameter: ?utm_source=tiktok&utm_campaign=vatertag",
+      "Zielgruppe Schweiz, 30-55, weiblich",
+      "Budget 15 CHF/Tag × 7 Tage = 105 CHF total"
+    ]
+  },
+  "15396249502081": { /* Slim Wallet */
+    creative: {
+      previewImage: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600",
+      captionShort: "RFID-Schutz im Mini-Format 💳",
+      captionLong: "Schluss mit dicker Brieftasche. Slim Wallet mit RFID-Schutz, Platz für 12 Karten, Premium-Leder. Versand aus EU.",
+      heyGenAvatar: "Tyler_office",
+      heyGenScript: "Du trägst zu viele Karten herum? Dieses Slim Wallet löst das Problem mit RFID-Schutz und Premium-Leder."
+    },
+    targeting: {
+      country: "CH",
+      ageRange: "25-45",
+      gender: "Male",
+      interests: ["EDC", "Minimalism", "Travel"],
+      placements: ["TikTok"],
+      objective: "Traffic",
+      budget_chf_day: 10,
+      duration_days: 5
+    },
+    checklist: [
+      "Pixel aktiv",
+      "Catalog verknüpft",
+      "Caption geprüft",
+      "Landing-Page: /products/slim-wallet",
+      "Zielgruppe Schweiz Männer 25-45",
+      "Budget 10 CHF/Tag × 5 Tage = 50 CHF"
+    ]
+  }
+};
+
+const _META_API_ROADMAP = [
+  { name: "Shopify Admin API", status: "connected", note: "Read-only via Storefront-Token" },
+  { name: "HeyGen API", status: "ready", note: "Key in localStorage erforderlich" },
+  { name: "OpenAI DALL-E 3", status: "ready", note: "Key in localStorage erforderlich" },
+  { name: "Klaviyo API", status: "pending", note: "Account muss approved werden" },
+  { name: "TikTok Marketing API", status: "approval_pending", note: "Apply via business-api.tiktok.com" },
+  { name: "Meta Ads API", status: "not_started", note: "Geplant für Q3" }
+];
+
+const _META_DASHBOARD_TODOS = [
+  { task: "Pixel Purchase-Event firen", priority: "high", due: "diese Woche" },
+  { task: "Klaviyo Account einrichten", priority: "medium", due: "diese Woche" },
+  { task: "TikTok Marketing API beantragen", priority: "low", due: "wenn approved" }
+];
+
+/* localStorage Keys Wrapper */
+function _luxGetKey(provider) {
+  try { return localStorage.getItem("luxApiKey_" + provider) || ""; } catch(e) { return ""; }
+}
+function _luxSetKey(provider, value) {
+  try { localStorage.setItem("luxApiKey_" + provider, value); } catch(e) {}
+}
+function _luxKeyMasked(provider) {
+  const k = _luxGetKey(provider);
+  if (!k) return "(noch nicht gesetzt)";
+  return k.slice(0,4) + "•".repeat(Math.max(0,k.length-8)) + k.slice(-4);
+}
+
+/* SETTINGS / API-KEYS MODAL */
+function luxSettingsModal() {
+  const heyKey = _luxGetKey("heygen");
+  const aiKey = _luxGetKey("openai");
+  const klavKey = _luxGetKey("klaviyo");
+  const shopKey = _luxGetKey("shopify");
+  const roadmapHtml = _META_API_ROADMAP.map(api => {
+    const statusEmoji = { connected:"✅", ready:"🟢", pending:"🟡", approval_pending:"🟠", not_started:"⚪" }[api.status] || "⚪";
+    return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #eee;"><span>' + statusEmoji + '</span><strong>' + api.name + '</strong><span style="color:#888;font-size:12px;margin-left:auto;">' + api.note + '</span></div>';
+  }).join("");
+  const todosHtml = _META_DASHBOARD_TODOS.map(t => {
+    const pri = { high:"🔴", medium:"🟡", low:"🔵" }[t.priority] || "⚪";
+    return '<li style="padding:4px 0;">' + pri + ' ' + t.task + ' <span style="color:#888;font-size:11px;">(' + t.due + ')</span></li>';
+  }).join("");
+
+  const html = '<div style="font-family:system-ui;max-width:560px;">' +
+    '<h2 style="margin-top:0;">⚙️ Settings &mdash; API Keys</h2>' +
+    '<p style="color:#666;font-size:13px;margin:0 0 16px;">Keys werden NUR im Browser (localStorage) gespeichert. Bei jedem Neustart wieder eingeben, wenn gelöscht.</p>' +
+    '<div style="display:grid;gap:12px;">' +
+      '<label><strong>🎬 HeyGen API Key</strong><br/><small style="color:#888;">Aktuell: ' + _luxKeyMasked("heygen") + '</small><br/><input id="luxKeyHeygen" type="password" placeholder="hg_..." value="' + heyKey.replace(/"/g,"&quot;") + '" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"/></label>' +
+      '<label><strong>🎨 OpenAI API Key</strong><br/><small style="color:#888;">Aktuell: ' + _luxKeyMasked("openai") + '</small><br/><input id="luxKeyOpenai" type="password" placeholder="sk-..." value="' + aiKey.replace(/"/g,"&quot;") + '" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"/></label>' +
+      '<label><strong>📧 Klaviyo API Key</strong><br/><small style="color:#888;">Aktuell: ' + _luxKeyMasked("klaviyo") + '</small><br/><input id="luxKeyKlav" type="password" placeholder="pk_..." value="' + klavKey.replace(/"/g,"&quot;") + '" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"/></label>' +
+      '<label><strong>🛒 Shopify Admin Token</strong><br/><small style="color:#888;">Aktuell: ' + _luxKeyMasked("shopify") + '</small><br/><input id="luxKeyShop" type="password" placeholder="shpat_..." value="' + shopKey.replace(/"/g,"&quot;") + '" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"/></label>' +
+    '</div>' +
+    '<div style="display:flex;gap:8px;margin:16px 0;">' +
+      '<button id="luxSaveKeys" style="padding:10px 20px;background:#7c3aed;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;">💾 Speichern</button>' +
+      '<button id="luxClearKeys" style="padding:10px 20px;background:#eee;border:none;border-radius:6px;cursor:pointer;">🗑️ Alle löschen</button>' +
+    '</div>' +
+    '<details style="margin-top:20px;"><summary style="cursor:pointer;font-weight:600;">📡 API Roadmap (' + _META_API_ROADMAP.length + ')</summary><div style="margin-top:8px;">' + roadmapHtml + '</div></details>' +
+    '<details style="margin-top:12px;"><summary style="cursor:pointer;font-weight:600;">✅ Dashboard ToDos (' + _META_DASHBOARD_TODOS.length + ')</summary><ul style="margin:8px 0 0 16px;padding:0;list-style:none;">' + todosHtml + '</ul></details>' +
+  '</div>';
+
+  _luxOpenModal(html, "settings-modal");
+  setTimeout(() => {
+    const btn = document.getElementById("luxSaveKeys");
+    if (btn) btn.onclick = () => {
+      _luxSetKey("heygen", document.getElementById("luxKeyHeygen").value.trim());
+      _luxSetKey("openai", document.getElementById("luxKeyOpenai").value.trim());
+      _luxSetKey("klaviyo", document.getElementById("luxKeyKlav").value.trim());
+      _luxSetKey("shopify", document.getElementById("luxKeyShop").value.trim());
+      _luxToast("✅ Keys gespeichert (nur im Browser)");
+      _luxCloseModal();
+    };
+    const clr = document.getElementById("luxClearKeys");
+    if (clr) clr.onclick = () => {
+      if (confirm("Alle API Keys aus localStorage löschen?")) {
+        ["heygen","openai","klaviyo","shopify"].forEach(p => _luxSetKey(p, ""));
+        _luxToast("🗑️ Alle Keys gelöscht");
+        _luxCloseModal();
+      }
+    };
+  }, 50);
+}
+
+/* MODAL/TOAST INFRASTRUKTUR (idempotent, falls schon vorhanden) */
+function _luxOpenModal(html, idHint) {
+  let bd = document.getElementById("luxModalBackdrop");
+  if (!bd) {
+    bd = document.createElement("div");
+    bd.id = "luxModalBackdrop";
+    bd.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;overflow:auto;";
+    bd.onclick = (e) => { if (e.target === bd) _luxCloseModal(); };
+    document.body.appendChild(bd);
+  }
+  bd.innerHTML = '<div id="luxModalBox" data-modal="' + (idHint||"") + '" style="background:#fff;border-radius:12px;padding:24px;max-width:90vw;max-height:90vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);position:relative;"><button id="luxModalClose" style="position:absolute;top:8px;right:12px;background:transparent;border:none;font-size:24px;cursor:pointer;color:#999;">×</button>' + html + '</div>';
+  setTimeout(() => {
+    const c = document.getElementById("luxModalClose");
+    if (c) c.onclick = _luxCloseModal;
+  }, 30);
+}
+function _luxCloseModal() {
+  const bd = document.getElementById("luxModalBackdrop");
+  if (bd) bd.remove();
+}
+function _luxToast(msg, undoCb) {
+  let t = document.createElement("div");
+  t.textContent = msg;
+  t.style.cssText = "position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:12px 20px;border-radius:8px;z-index:10000;font-family:system-ui;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,0.3);display:flex;align-items:center;gap:12px;";
+  if (undoCb) {
+    const u = document.createElement("button");
+    u.textContent = "Rückgängig";
+    u.style.cssText = "background:#7c3aed;color:#fff;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;";
+    u.onclick = () => { undoCb(); t.remove(); };
+    t.appendChild(u);
+  }
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), undoCb ? 8000 : 3500);
+}
+
+/* AD-LAUNCH-HELPER MODAL */
+function luxAdLaunchModal(productId) {
+  const camp = _META_AD_CAMPAIGNS[productId];
+  if (!camp) {
+    _luxToast("⚠️ Keine Kampagnen-Daten für dieses Produkt");
+    return;
+  }
+  const p = (Array.isArray(STATE.products) ? STATE.products : Object.values(STATE.products||{})).find(x => String(x.id) === String(productId)) || { name: "Produkt #" + productId };
+
+  const tabsHtml = '<div id="luxAdTabs" style="display:flex;gap:4px;border-bottom:2px solid #eee;margin-bottom:16px;">' +
+    '<button class="luxAdTab" data-tab="creative" style="padding:8px 16px;border:none;background:#7c3aed;color:#fff;border-radius:6px 6px 0 0;cursor:pointer;">🎨 Creative</button>' +
+    '<button class="luxAdTab" data-tab="settings" style="padding:8px 16px;border:none;background:#eee;color:#333;border-radius:6px 6px 0 0;cursor:pointer;">⚙️ Settings</button>' +
+    '<button class="luxAdTab" data-tab="launch" style="padding:8px 16px;border:none;background:#eee;color:#333;border-radius:6px 6px 0 0;cursor:pointer;">🚀 Launch</button>' +
+  '</div>';
+
+  const creativeHtml = '<div class="luxAdPanel" data-panel="creative">' +
+    '<div id="luxDropZone" style="border:2px dashed #ccc;border-radius:8px;padding:12px;text-align:center;margin-bottom:12px;"><img id="luxAdPreview" src="' + camp.creative.previewImage + '" style="max-width:100%;max-height:240px;border-radius:6px;"/><br/><small style="color:#888;">Drag&Drop ein anderes Bild hierher</small></div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+      '<button data-act="dl-img" style="padding:8px;border:1px solid #ccc;border-radius:6px;background:#fff;cursor:pointer;">⬇️ Bild herunterladen</button>' +
+      '<button data-act="cp-short" style="padding:8px;border:1px solid #ccc;border-radius:6px;background:#fff;cursor:pointer;">📋 Caption kurz</button>' +
+      '<button data-act="cp-long" style="padding:8px;border:1px solid #ccc;border-radius:6px;background:#fff;cursor:pointer;">📋 Caption lang</button>' +
+      '<button data-act="heygen" style="padding:8px;border:1px solid #7c3aed;border-radius:6px;background:#7c3aed;color:#fff;cursor:pointer;">🎬 HeyGen-Video</button>' +
+    '</div>' +
+    '<div style="background:#f7f7f7;padding:12px;border-radius:6px;margin-top:12px;font-size:13px;"><strong>Caption (kurz):</strong> ' + camp.creative.captionShort + '<br/><strong>Caption (lang):</strong> ' + camp.creative.captionLong + '</div>' +
+  '</div>';
+
+  const settingsRows = Object.entries(camp.targeting).map(([k,v]) => '<tr><td style="padding:4px 8px;color:#666;font-weight:600;">' + k + '</td><td style="padding:4px 8px;">' + (Array.isArray(v) ? v.join(", ") : v) + '</td></tr>').join("");
+  const settingsHtml = '<div class="luxAdPanel" data-panel="settings" style="display:none;">' +
+    '<table style="width:100%;font-size:14px;border-collapse:collapse;">' + settingsRows + '</table>' +
+    '<button data-act="cp-settings" style="margin-top:12px;padding:10px 20px;background:#7c3aed;color:#fff;border:none;border-radius:6px;cursor:pointer;">📋 Alle Settings kopieren</button>' +
+  '</div>';
+
+  const checkHtml = camp.checklist.map((c,i) => '<label style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;"><input type="checkbox" data-check="' + i + '"/> <span>' + c + '</span></label>').join("");
+  const launchHtml = '<div class="luxAdPanel" data-panel="launch" style="display:none;">' +
+    '<h3 style="margin-top:0;">Vor dem Launch — Checkliste:</h3>' +
+    checkHtml +
+    '<div style="margin-top:16px;padding:12px;background:#fff3cd;border-radius:6px;font-size:13px;">⚠️ TikTok Ads Manager öffnet sich in neuem Tab. Alle Daten (Creative + Settings) muss du manuell rüberkopieren (oder per Marketing-API, sobald approved).</div>' +
+    '<button data-act="open-ttads" style="margin-top:12px;width:100%;padding:12px;background:#000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;">🚀 TikTok Ads Manager öffnen</button>' +
+  '</div>';
+
+  _luxOpenModal('<div style="max-width:560px;font-family:system-ui;"><h2 style="margin-top:0;">🚀 Ad-Launch: ' + (p.name || ("Produkt #" + productId)) + '</h2>' + tabsHtml + creativeHtml + settingsHtml + launchHtml + '</div>', "ad-launch-modal");
+
+  setTimeout(() => luxBindAdLaunchHandlers(productId, camp), 50);
+}
+
+function luxBindAdLaunchHandlers(productId, camp) {
+  const tabs = document.querySelectorAll(".luxAdTab");
+  tabs.forEach(tb => {
+    tb.onclick = () => {
+      tabs.forEach(t => { t.style.background = "#eee"; t.style.color = "#333"; });
+      tb.style.background = "#7c3aed"; tb.style.color = "#fff";
+      document.querySelectorAll(".luxAdPanel").forEach(p => { p.style.display = p.dataset.panel === tb.dataset.tab ? "block" : "none"; });
+    };
+  });
+
+  document.querySelectorAll("[data-act]").forEach(b => {
+    b.onclick = async () => {
+      const act = b.dataset.act;
+      if (act === "dl-img") {
+        try {
+          const r = await fetch(camp.creative.previewImage);
+          const blob = await r.blob();
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url; a.download = "ad-preview-" + productId + ".jpg";
+          document.body.appendChild(a); a.click(); a.remove();
+          _luxToast("⬇️ Bild heruntergeladen");
+        } catch(e) { _luxToast("❌ Download fehlgeschlagen"); }
+      }
+      else if (act === "cp-short") {
+        navigator.clipboard.writeText(camp.creative.captionShort);
+        _luxToast("📋 Kurze Caption kopiert");
+      }
+      else if (act === "cp-long") {
+        navigator.clipboard.writeText(camp.creative.captionLong);
+        _luxToast("📋 Lange Caption kopiert");
+      }
+      else if (act === "cp-settings") {
+        const txt = Object.entries(camp.targeting).map(([k,v]) => k + ": " + (Array.isArray(v) ? v.join(", ") : v)).join("\n");
+        navigator.clipboard.writeText(txt);
+        _luxToast("📋 Settings kopiert");
+      }
+      else if (act === "heygen") {
+        if (typeof luxHeyGenGenerate === "function") {
+          luxHeyGenGenerate(productId, camp);
+        } else {
+          _luxToast("⚠️ HeyGen-Modul nicht geladen (Phase 5b)");
+        }
+      }
+      else if (act === "open-ttads") {
+        window.open("https://ads.tiktok.com/i18n/dashboard?aadvid=7641101648701554704", "_blank");
+        _luxToast("🚀 TikTok Ads Manager geöffnet");
+      }
+    };
+  });
+
+  /* DRAG&DROP für neues Bild */
+  const dz = document.getElementById("luxDropZone");
+  if (dz) {
+    dz.ondragover = (e) => { e.preventDefault(); dz.style.borderColor = "#7c3aed"; };
+    dz.ondragleave = () => { dz.style.borderColor = "#ccc"; };
+    dz.ondrop = (e) => {
+      e.preventDefault();
+      dz.style.borderColor = "#ccc";
+      const f = e.dataTransfer.files[0];
+      if (f && f.type.startsWith("image/")) {
+        const r = new FileReader();
+        r.onload = ev => { document.getElementById("luxAdPreview").src = ev.target.result; _luxToast("🖼️ Neues Bild geladen"); };
+        r.readAsDataURL(f);
+      }
+    };
+  }
+}
+
+/* INJECT "🚀 Neue Ad"-Button in Ads-Tab + Settings-FAB */
+function luxInjectPhase5aUI() {
+  /* Settings-Zahnrad oben in Header (idempotent) */
+  if (!document.getElementById("luxSettingsBtn")) {
+    const btn = document.createElement("button");
+    btn.id = "luxSettingsBtn";
+    btn.innerHTML = "⚙️";
+    btn.title = "Settings / API Keys";
+    btn.style.cssText = "position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:24px;background:#7c3aed;color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 8px 24px rgba(124,58,237,0.4);z-index:998;";
+    btn.onclick = luxSettingsModal;
+    document.body.appendChild(btn);
+  }
+
+  /* In jeder TikTok-Ad-Karte einen "🚀 Neue Ad"-Button injizieren */
+  document.querySelectorAll('[data-platform="tiktok"],.lux-ad-platform-tiktok,.ad-card-tiktok').forEach(card => {
+    if (card.querySelector(".lux-new-ad-btn")) return;
+    const ids = Object.keys(_META_AD_CAMPAIGNS);
+    const sel = document.createElement("div");
+    sel.className = "lux-new-ad-btn";
+    sel.style.cssText = "margin-top:8px;display:flex;gap:4px;flex-wrap:wrap;";
+    ids.forEach(pid => {
+      const b = document.createElement("button");
+      b.textContent = "🚀 Neue Ad: " + (pid.slice(-4));
+      b.style.cssText = "padding:6px 10px;background:#000;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;";
+      b.onclick = (e) => { e.stopPropagation(); luxAdLaunchModal(pid); };
+      sel.appendChild(b);
+    });
+    card.appendChild(sel);
+  });
+}
+
+/* Re-Inject on tab/render changes */
+function luxStartPhase5a() {
+  luxInjectPhase5aUI();
+  setInterval(luxInjectPhase5aUI, 2500);
+  if (typeof logActivity === "function") {
+    try { logActivity("Phase 5a geladen: Ad-Launch-Helper + Settings"); } catch(e){}
+  }
+}
+setTimeout(luxStartPhase5a, 800);
+
 init();
 </script>
 </body>
