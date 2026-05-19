@@ -1797,6 +1797,282 @@ setTimeout(rerender, 300);
 }catch(__phase3err){console.error("[Phase3 Patch error]", __phase3err);}
 /* === PHASE 3 PATCH END === */
 
+
+/* === PHASE 4 PATCH BEGIN === */
+try{
+
+/* === PHASE 4: SUPPLIER DETAIL MODAL === */
+
+// Hardcoded supplier data for top 5 products
+window._SUPPLIER_DB = {
+  '15396249502081': {
+    productName: 'Slim Wallet RFID',
+    primary: 'spocket',
+    sources: {
+      spocket: {name:'Spocket EU', country:'🇪🇺 EU', flag:'🇪🇺', price:45, currency:'USD', shipDays:'3-7', rating:4.7, reviews:234, stock:true, notes:'EU Versand schnell, hochwertig', url:'https://app.spocket.co/search?query=slim+wallet+rfid'},
+      aliexpress: {name:'AliExpress', country:'🇨🇳 China', flag:'🇨🇳', price:22, currency:'USD', shipDays:'15-25', rating:4.3, reviews:1820, stock:true, notes:'Günstig, lange Lieferzeit', url:'https://de.aliexpress.com/w/wholesale-rfid-slim-wallet-leather.html'},
+      cj: {name:'CJ Dropshipping', country:'🇨🇳 China', flag:'🇨🇳', price:28, currency:'USD', shipDays:'10-15', rating:4.5, reviews:456, stock:true, notes:'Solider Mittelweg', url:'https://www.cjdropshipping.com/list/wallet-l-AB003.html'}
+    }
+  },
+  '15396249960833': {
+    productName: 'Herrenuhr Edelstahl',
+    primary: 'spocket',
+    sources: {
+      spocket: {name:'Spocket EU', country:'🇪🇺 EU', flag:'🇪🇺', price:58, currency:'USD', shipDays:'3-7', rating:4.8, reviews:189, stock:true, notes:'Premium Marken, schneller EU Versand', url:'https://app.spocket.co/search?query=mens+watch+steel'},
+      aliexpress: {name:'AliExpress', country:'🇨🇳 China', flag:'🇨🇳', price:24, currency:'USD', shipDays:'18-28', rating:4.4, reviews:3210, stock:true, notes:'Sehr günstig, Massenware', url:'https://de.aliexpress.com/w/wholesale-mens-watch-steel.html'},
+      cj: {name:'CJ Dropshipping', country:'🇨🇳 China', flag:'🇨🇳', price:32, currency:'USD', shipDays:'12-18', rating:4.6, reviews:678, stock:true, notes:'Geprüfte Qualität', url:'https://www.cjdropshipping.com/list/watches-l-AB004.html'}
+    }
+  },
+  '15396250321281': {
+    productName: 'Sonnenbrille Polarisiert',
+    primary: 'spocket',
+    sources: {
+      spocket: {name:'Spocket EU', country:'🇪🇺 EU', flag:'🇪🇺', price:38, currency:'USD', shipDays:'4-8', rating:4.6, reviews:142, stock:true, notes:'UV400, polarisiert, EU-Lager', url:'https://app.spocket.co/search?query=polarized+sunglasses'},
+      aliexpress: {name:'AliExpress', country:'🇨🇳 China', flag:'🇨🇳', price:14, currency:'USD', shipDays:'15-25', rating:4.2, reviews:2540, stock:true, notes:'Sehr günstig', url:'https://de.aliexpress.com/w/wholesale-polarized-sunglasses.html'},
+      cj: {name:'CJ Dropshipping', country:'🇨🇳 China', flag:'🇨🇳', price:20, currency:'USD', shipDays:'10-15', rating:4.5, reviews:389, stock:true, notes:'Mit QC-Bildern', url:'https://www.cjdropshipping.com/list/sunglasses-l-AB005.html'}
+    }
+  },
+  '15397247385985': {
+    productName: 'Jade Roller Set',
+    primary: 'spocket',
+    sources: {
+      spocket: {name:'Spocket EU', country:'🇪🇺 EU', flag:'🇪🇺', price:18, currency:'USD', shipDays:'3-6', rating:4.9, reviews:312, stock:true, notes:'Echtes Jade, Geschenkverpackung', url:'https://app.spocket.co/search?query=jade+roller'},
+      aliexpress: {name:'AliExpress', country:'🇨🇳 China', flag:'🇨🇳', price:6, currency:'USD', shipDays:'15-25', rating:4.4, reviews:5210, stock:true, notes:'Massenware, Qualität variabel', url:'https://de.aliexpress.com/w/wholesale-jade-roller.html'},
+      cj: {name:'CJ Dropshipping', country:'🇨🇳 China', flag:'🇨🇳', price:9, currency:'USD', shipDays:'10-15', rating:4.6, reviews:823, stock:true, notes:'Mit Gua-Sha-Stein', url:'https://www.cjdropshipping.com/list/beauty-l-AB006.html'}
+    }
+  },
+  '15397247484289': {
+    productName: 'Mini Beamer Projektor',
+    primary: 'spocket',
+    sources: {
+      spocket: {name:'Spocket EU', country:'🇪🇺 EU', flag:'🇪🇺', price:89, currency:'USD', shipDays:'4-8', rating:4.7, reviews:98, stock:true, notes:'1080p HD, EU-Stecker, Garantie', url:'https://app.spocket.co/search?query=mini+projector+hd'},
+      aliexpress: {name:'AliExpress', country:'🇨🇳 China', flag:'🇨🇳', price:42, currency:'USD', shipDays:'18-30', rating:4.3, reviews:1456, stock:true, notes:'Günstig, EU-Stecker prüfen', url:'https://de.aliexpress.com/w/wholesale-mini-projector-1080p.html'},
+      cj: {name:'CJ Dropshipping', country:'🇨🇳 China', flag:'🇨🇳', price:55, currency:'USD', shipDays:'12-18', rating:4.5, reviews:267, stock:true, notes:'Mit Testvideos', url:'https://www.cjdropshipping.com/list/electronics-l-AB007.html'}
+    }
+  }
+};
+
+// Track per-product supplier choice in localStorage
+window._supplierChoice = JSON.parse(localStorage.getItem('luxe_supplierChoice') || '{}');
+function _saveSupplierChoice(){
+  try{ localStorage.setItem('luxe_supplierChoice', JSON.stringify(window._supplierChoice)); }catch(e){}
+}
+function _getCurrentSupplier(pid){
+  if(window._supplierChoice[pid]) return window._supplierChoice[pid];
+  const db = window._SUPPLIER_DB[pid];
+  return db ? db.primary : null;
+}
+
+function luxSupplierModal(pid){
+  const db = window._SUPPLIER_DB[pid];
+  const p = STATE.products.find(function(x){return x.id===pid;});
+  if(!p) return;
+  document.querySelectorAll('.lux-modal').forEach(function(m){m.remove();});
+
+  if(!db){
+    const m = document.createElement('div');
+    m.className = 'lux-modal';
+    m.innerHTML = '<div class="panel"><div style="font-size:16px;font-weight:600;margin-bottom:8px">📦 Lieferanten</div>' +
+      '<div style="font-size:14px;color:#475569;margin-bottom:8px"><b>'+p.t+'</b></div>' +
+      '<div style="background:#fef3c7;color:#78350f;padding:14px;border-radius:10px;font-size:13px;margin-bottom:14px">⚠️ Lieferant-Details noch nicht erfasst.<br><br>Für dieses Produkt sind noch keine detaillierten Quellen hinterlegt. Bisher hinterlegt: <b>'+(p.sup||'—')+'</b></div>' +
+      (p.supplierUrl ? '<button onclick="window.open(\''+p.supplierUrl+'\',\'_blank\')" style="width:100%;padding:10px;background:#1e293b;color:#fff;border-radius:8px;font-weight:600;margin-bottom:8px">🔗 Aktuellen Lieferanten öffnen</button>' : '') +
+      '<button onclick="this.closest(\'.lux-modal\').remove()" style="width:100%;padding:10px;background:#f1f5f9;border-radius:8px">Schliessen</button>' +
+      '</div>';
+    m.addEventListener('click', function(e){ if(e.target===m) m.remove(); });
+    document.body.appendChild(m);
+    return;
+  }
+
+  const currentKey = _getCurrentSupplier(pid);
+  const current = db.sources[currentKey] || db.sources[db.primary];
+  const altKeys = Object.keys(db.sources).filter(function(k){return k!==currentKey;});
+
+  // Margin calculation: sale price p.p (CHF) vs cost (USD ~ CHF for display)
+  function calcMargin(cost){
+    if(!p.p || p.p<=0) return 0;
+    return Math.round((1 - cost/p.p) * 100);
+  }
+
+  // Header: margin comparison
+  let marginCompareHtml = '<div style="background:#f0fdf4;border-radius:10px;padding:10px;margin-bottom:14px;font-size:13px">';
+  marginCompareHtml += '<div style="font-weight:600;color:#166534;margin-bottom:4px">💰 Marge-Vergleich (Verkaufspreis CHF '+p.p.toFixed(2)+')</div>';
+  Object.keys(db.sources).forEach(function(k){
+    const s = db.sources[k];
+    const margin = calcMargin(s.price);
+    const isCur = k===currentKey;
+    marginCompareHtml += '<div style="display:flex;justify-content:space-between;padding:2px 0;'+(isCur?'font-weight:700;color:#166534':'color:#475569')+'">'+
+      '<span>'+(isCur?'★ ':'')+s.name+'</span>'+
+      '<span>'+margin+'% Marge ($'+s.price+')</span>'+
+      '</div>';
+  });
+  marginCompareHtml += '</div>';
+
+  // Primary card
+  function primaryCard(key, s){
+    const margin = calcMargin(s.price);
+    return '<div style="background:linear-gradient(135deg,#fef3c7,#fff);border:2px solid #fbbf24;border-radius:14px;padding:16px;margin-bottom:14px">'+
+      '<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px">'+
+        '<div><div style="font-size:11px;color:#a16207;font-weight:700;letter-spacing:0.5px">🌟 PRIMARY</div>'+
+        '<div style="font-size:18px;font-weight:700;color:#78350f">'+s.name+'</div></div>'+
+        '<div style="text-align:right"><div style="font-size:22px;font-weight:700;color:#166534">$'+s.price+'</div>'+
+        '<div style="font-size:11px;color:#64748b">Marge '+margin+'%</div></div>'+
+      '</div>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:#475569;margin-bottom:8px">'+
+        '<span>⭐ '+s.rating+' ('+s.reviews+' reviews)</span>'+
+        '<span>'+(s.stock?'✅ Lager':'❌ Aus')+'</span>'+
+        '<span>🚚 '+s.shipDays+' Tage</span>'+
+        '<span>'+s.flag+' '+s.country.replace(/^[^\s]+\s/,'')+'</span>'+
+      '</div>'+
+      '<div style="font-size:13px;color:#475569;background:#fff;padding:8px;border-radius:6px;margin-bottom:10px">📝 '+s.notes+'</div>'+
+      '<div style="display:flex;gap:8px">'+
+        '<button onclick="window.open(\''+s.url+'\',\'_blank\')" style="flex:1;padding:10px;background:#1e293b;color:#fff;border-radius:8px;font-weight:600">↗ Zur Lieferant-Seite</button>'+
+      '</div>'+
+    '</div>';
+  }
+
+  // Alternative card
+  function altCard(key, s){
+    const margin = calcMargin(s.price);
+    const curPrice = current.price;
+    const priceDiff = s.price - curPrice;
+    const marginDiff = margin - calcMargin(curPrice);
+    return '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px;margin-bottom:8px">'+
+      '<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px">'+
+        '<div style="font-weight:600;color:#1e293b">'+s.name+' '+s.flag+'</div>'+
+        '<div style="text-align:right"><div style="font-weight:700;color:#1e293b">$'+s.price+' <span style="font-size:11px;color:'+(priceDiff<0?'#16a34a':'#dc2626')+'">('+(priceDiff>=0?'+':'')+'$'+priceDiff+')</span></div>'+
+        '<div style="font-size:11px;color:#64748b">'+margin+'% Marge <span style="color:'+(marginDiff>=0?'#16a34a':'#dc2626')+'">('+(marginDiff>=0?'+':'')+marginDiff+'%)</span></div></div>'+
+      '</div>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;font-size:11px;color:#64748b;margin-bottom:6px">'+
+        '<span>⭐ '+s.rating+' ('+s.reviews+')</span>'+
+        '<span>🚚 '+s.shipDays+'T</span>'+
+        '<span>'+s.country+'</span>'+
+      '</div>'+
+      '<div style="font-size:11px;color:#475569;margin-bottom:8px">📝 '+s.notes+'</div>'+
+      '<div style="display:flex;gap:6px">'+
+        '<button onclick="window.open(\''+s.url+'\',\'_blank\')" style="flex:1;padding:6px;background:#f1f5f9;color:#1e293b;border-radius:6px;font-size:12px">↗ Öffnen</button>'+
+        '<button onclick="luxConfirmSwitchSupplier(\''+pid+'\',\''+key+'\')" style="flex:1;padding:6px;background:#a855f7;color:#fff;border-radius:6px;font-size:12px;font-weight:600">🔄 Wechseln</button>'+
+      '</div>'+
+    '</div>';
+  }
+
+  const m = document.createElement('div');
+  m.className = 'lux-modal';
+  let html = '<div class="panel" style="max-width:560px">'+
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'+
+      '<div style="font-size:18px;font-weight:700">📦 Lieferanten</div>'+
+      '<button onclick="this.closest(\'.lux-modal\').remove()" style="background:#f1f5f9;width:32px;height:32px;border-radius:8px;font-size:16px">×</button>'+
+    '</div>'+
+    '<div style="font-size:14px;color:#475569;margin-bottom:14px"><b>'+db.productName+'</b> · Verkaufspreis CHF '+p.p.toFixed(2)+'</div>'+
+    marginCompareHtml +
+    primaryCard(currentKey, current);
+
+  if(altKeys.length>0){
+    html += '<div style="font-size:13px;font-weight:600;color:#64748b;margin:14px 0 8px">Alternativen</div>';
+    altKeys.forEach(function(k){ html += altCard(k, db.sources[k]); });
+  }
+
+  html += '</div>';
+  m.innerHTML = html;
+  m.addEventListener('click', function(e){ if(e.target===m) m.remove(); });
+  document.body.appendChild(m);
+}
+
+function luxConfirmSwitchSupplier(pid, newKey){
+  const db = window._SUPPLIER_DB[pid];
+  const p = STATE.products.find(function(x){return x.id===pid;});
+  if(!db || !p) return;
+  const oldKey = _getCurrentSupplier(pid);
+  const oldS = db.sources[oldKey];
+  const newS = db.sources[newKey];
+  function margin(c){ return Math.round((1 - c/p.p)*100); }
+  const oldMargin = margin(oldS.price);
+  const newMargin = margin(newS.price);
+  const priceDiff = newS.price - oldS.price;
+  const marginDiff = newMargin - oldMargin;
+
+  // Long shipping warning?
+  const newShipMax = parseInt((newS.shipDays||'0').split('-').pop()) || 0;
+  const shipWarn = newShipMax > 14;
+
+  const c = document.createElement('div');
+  c.className = 'lux-modal';
+  c.style.zIndex = 10001;
+  c.innerHTML = '<div class="panel" style="max-width:420px">'+
+    '<div style="font-size:16px;font-weight:700;margin-bottom:6px">'+(p.t||'')+': Lieferant wechseln zu '+newS.name+'?</div>'+
+    '<div style="background:#f8fafc;border-radius:10px;padding:12px;margin:10px 0;font-size:13px">'+
+      '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #e2e8f0"><span>Cost:</span><span><b>$'+oldS.price+' → $'+newS.price+'</b> <span style="color:'+(priceDiff<0?'#16a34a':'#dc2626')+'">('+(priceDiff>=0?'+':'')+'$'+priceDiff+')</span></span></div>'+
+      '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #e2e8f0"><span>Marge:</span><span><b>'+oldMargin+'% → '+newMargin+'%</b> <span style="color:'+(marginDiff>=0?'#16a34a':'#dc2626')+'">('+(marginDiff>=0?'+':'')+marginDiff+'%)</span></span></div>'+
+      '<div style="display:flex;justify-content:space-between;padding:4px 0"><span>Versand:</span><span><b>'+oldS.shipDays+' Tage → '+newS.shipDays+' Tage</b>'+(shipWarn?' ⚠️':'')+'</span></div>'+
+    '</div>'+
+    (shipWarn ? '<div style="background:#fef3c7;color:#78350f;padding:10px;border-radius:8px;font-size:12px;margin-bottom:10px">⚠️ Kunden warten '+newS.shipDays+' Tage — Lieferzeit im Shop anpassen!</div>' : '')+
+    '<div style="display:flex;gap:8px">'+
+      '<button id="lux-sw-yes" style="flex:1;padding:12px;background:#a855f7;color:#fff;border-radius:10px;font-weight:600">✓ Ja, wechseln</button>'+
+      '<button onclick="this.closest(\'.lux-modal\').remove()" style="flex:1;padding:12px;background:#f1f5f9;border-radius:10px">Abbrechen</button>'+
+    '</div></div>';
+  document.body.appendChild(c);
+  document.getElementById('lux-sw-yes').onclick = function(){
+    // Apply switch
+    const prevChoice = oldKey;
+    window._supplierChoice[pid] = newKey;
+    _saveSupplierChoice();
+    p.sup = newS.name;
+    p.cost = newS.price;
+    p.supplierUrl = newS.url;
+    db.primary = newKey;
+    if(typeof logActivity==='function'){
+      try{ logActivity({text:'🔄 Lieferant gewechselt: '+p.t+' → '+newS.name+' ($'+oldS.price+'→$'+newS.price+')', icon:'sparkles', linkType:'product', linkId:pid}); }catch(e){}
+    }
+    c.remove();
+    // Refresh supplier modal if open
+    document.querySelectorAll('.lux-modal').forEach(function(m){m.remove();});
+    luxToast('✅ Gewechselt zu '+newS.name, function(){
+      // Undo
+      window._supplierChoice[pid] = prevChoice;
+      _saveSupplierChoice();
+      p.sup = oldS.name;
+      p.cost = oldS.price;
+      p.supplierUrl = oldS.url;
+      db.primary = prevChoice;
+      rerender();
+      luxToast('↩ Wechsel rückgängig gemacht', null);
+    });
+    if(shipWarn){
+      setTimeout(function(){
+        luxToast('⚠️ '+newS.shipDays+' Tage Versand — Lieferzeit im Shop anpassen?', null);
+      }, 5500);
+    }
+    rerender();
+    // Re-open supplier modal to show new layout
+    setTimeout(function(){ luxSupplierModal(pid); }, 400);
+  };
+}
+
+// Patch renderProductCard to add Lieferanten button
+(function patchSupplierButton(){
+  if(typeof window.renderProductCard !== 'function') return;
+  const _origCard = window.renderProductCard;
+  window.renderProductCard = function(p){
+    let html = _origCard.call(this, p);
+    // Inject "📦 Lieferanten" button next to existing Lieferant link button
+    // Find the supplier action row (it has a button with onclick window.open + supplierUrl)
+    const btn = '<button onclick="luxSupplierModal(\''+p.id+'\')" class="text-[11px] bg-purple-600 text-white px-2 py-1 rounded" style="cursor:pointer">📦 Lieferanten</button>';
+    // Insert after the existing 🔗 Lieferant button (if exists), else just before the bilder section
+    const marker = '🔗 Lieferant</button>';
+    if(html.indexOf(marker) >= 0){
+      html = html.replace(marker, marker + btn);
+    } else {
+      // Fallback: add into the actions row
+      html = html.replace('<div class="flex gap-1.5 mt-2 flex-wrap">', '<div class="flex gap-1.5 mt-2 flex-wrap">'+btn);
+    }
+    return html;
+  };
+})();
+
+setTimeout(rerender, 200);
+
+}catch(__p4err){console.error("[Phase4 Patch error]", __p4err);}
+/* === PHASE 4 PATCH END === */
+
 init();
 </script>
 </body>
