@@ -3651,6 +3651,35 @@ init();
               if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,2000));}else{setTimeout(init,2000);}
               try{if(typeof logActivity==='function')logActivity('Phase 8 Snippet 1: Vatertag-Plan-Karte geladen');}catch(e){}
              })();
+
+  // ========== PHASE 8 SNIPPET 2: DALL-E Prompts Helper ==========
+  (function(){'use strict';
+              if(document.documentElement.dataset.luxP8S2Done)return;
+              document.documentElement.dataset.luxP8S2Done='1';
+              const PROMPTS={'Slim Wallet RFID':[{title:'Studio Clean',text:'Professional product photography of a premium slim brown leather wallet with RFID protection, photographed on a clean white seamless background, soft natural lighting from the left, slight shadow on the right, ultra-sharp focus on leather texture, minimalist e-commerce style, 4K quality, shot with 85mm lens, centered composition, no text, no watermark'},{title:'Lifestyle Hand',text:'A confident Swiss man aged 40, wearing a navy blue blazer, holding a slim brown leather wallet in his right hand, soft window light, blurred warm coffee shop background, candid moment, premium lifestyle photography, shot on Fuji X-T4, 50mm lens, golden hour, no text'},{title:'Geschenkbox',text:'A premium brown leather slim wallet placed inside an elegant dark blue gift box with subtle gold ribbon, Father Day theme, warm soft light, dark wood table surface, single rose stem beside the box, romantic premium gifting mood, top-down 45-degree angle, photorealistic, no text, no watermark'},{title:'Detail RFID',text:'Extreme macro close-up shot of a premium brown leather wallet showing fine stitching and RFID protection symbol on the inner lining, dramatic side lighting, shallow depth of field, leather grain visible, luxury craftsmanship aesthetic, dark background, commercial product photography, no text'}],'Herrenuhr Saphirglas':[{title:'Studio Hero',text:'Professional luxury watch photography of a classic men stainless steel wristwatch with black dial and sapphire crystal, photographed on dark slate background, dramatic top lighting creating gleaming reflections on the case, shot from 30-degree angle showing the dial and crown, premium Swiss watch aesthetic, ultra-detailed, 4K, no text, no watermark'},{title:'Lifestyle Wrist',text:'Close-up shot of a man wrist wearing a stainless steel classic watch with sapphire crystal, his hand resting on a wooden desk next to a laptop and coffee cup, modern office setting, soft window light, executive lifestyle, photorealistic, shallow depth of field, no text'},{title:'Geschenkbox Vater',text:'A luxury silver wristwatch with sapphire crystal placed inside an open premium black velvet gift box, Father Day theme, warm soft lighting, dark walnut wood surface, blurred bokeh background with golden lights, elegant premium gift presentation, photorealistic top-down angle, no text'},{title:'Water-resistant',text:'A stainless steel mens watch with sapphire crystal partially submerged in clear water with droplets and ripples, dynamic action shot demonstrating water resistance, dramatic lighting, dark moody background, high-end watch advertising style, photorealistic, no text, no watermark'}]};
+              function openHelper(){
+                const e=document.getElementById('lux-p8-prompts');if(e)e.remove();
+                const m=document.createElement('div');m.id='lux-p8-prompts';
+                m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+                let html='<div style="background:#1a1f2e;color:#fff;border-radius:16px;padding:20px;max-width:700px;width:100%;max-height:90vh;overflow:auto;"><div style="display:flex;justify-content:space-between;margin-bottom:12px;"><h3 style="font-size:18px;font-weight:bold;">DALL-E Prompts Vatertag</h3><button id="lux-p8-px" style="background:none;border:none;color:#fff;font-size:24px;cursor:pointer;">x</button></div><div style="background:#2a3142;padding:10px;border-radius:8px;margin-bottom:14px;font-size:12px;line-height:1.5;"><b>Anleitung:</b><br>1. Klick "Kopieren" bei einem Prompt<br>2. Geh auf <a href="https://platform.openai.com/playground/images" target="_blank" style="color:#60a5fa;">platform.openai.com/playground/images</a> oder <a href="https://chat.openai.com" target="_blank" style="color:#60a5fa;">chat.openai.com</a><br>3. Paste rein, generiere, speichere Bild<br>4. Upload in Shopify Admin -> Produkt -> Bilder</div>';
+                Object.keys(PROMPTS).forEach(p=>{html+='<div style="margin-bottom:14px;"><div style="font-size:15px;font-weight:bold;color:#a78bfa;margin-bottom:6px;">'+p+'</div>';PROMPTS[p].forEach((pr,i)=>{const id='p_'+p.replace(/\s/g,'_')+'_'+i;html+='<div style="background:#2a3142;padding:10px;border-radius:8px;margin-bottom:6px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><b style="font-size:13px;">'+pr.title+'</b><button data-copy="'+id+'" style="background:#10b981;color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;font-size:11px;">Kopieren</button></div><textarea id="'+id+'" readonly style="width:100%;background:#0f1420;color:#cbd5e1;border:1px solid #3a4254;border-radius:4px;padding:6px;font-size:11px;height:80px;font-family:monospace;">'+pr.text+'</textarea></div>';});html+='</div>';});
+                html+='<div style="background:#0f1420;padding:12px;border-radius:8px;font-size:11px;color:#94a3b8;"><b>Geschaetzt:</b> 8 Bilder x DALL-E 3 Standard ~0.32 USD gesamt | <b>Format:</b> 1024x1024 oder 1024x1792</div></div>';
+                m.innerHTML=html;
+                document.body.appendChild(m);
+                document.getElementById('lux-p8-px').onclick=()=>m.remove();
+                m.querySelectorAll('[data-copy]').forEach(b=>{b.onclick=()=>{const ta=document.getElementById(b.dataset.copy);ta.select();document.execCommand('copy');b.textContent='Kopiert!';setTimeout(()=>{b.textContent='Kopieren';},1500);};});
+              }
+              function addBtn(){
+                if(document.getElementById('lux-p8-prompt-btn'))return;
+                const btn=document.createElement('button');btn.id='lux-p8-prompt-btn';
+                btn.style.cssText='position:fixed;bottom:260px;right:16px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#7c3aed);color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 12px rgba(167,139,250,.4);z-index:9998;';
+                btn.innerHTML='AI';btn.title='DALL-E Prompts Helper';
+                btn.onclick=openHelper;document.body.appendChild(btn);
+              }
+              function init(){addBtn();setInterval(addBtn,5000);}
+              if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,3500));}else{setTimeout(init,3500);}
+              try{if(typeof logActivity==='function')logActivity('Phase 8 Snippet 2: DALL-E Prompts Helper geladen');}catch(e){}
+             })();
 </script>
 </body>
 </html>
