@@ -2777,6 +2777,151 @@ init();
       }
       try { if (typeof logActivity === 'function') logActivity('Phase 6 UI Snippets geladen: Cost-Tracker + Search + Filter'); } catch(e) {}
   })();
+
+  /* ============================================================
+     PHASE 6 — SNIPPET 2: Sort Dropdown + Counter + Reset
+        Extends the bottom toolbar from Snippet 1
+           ============================================================ */
+  (function() {
+      'use strict';
+
+      function findToolbar() { return document.getElementById('lux-p6-toolbar'); }
+      function findCards() { return document.querySelectorAll('[data-product-id], .product-card, [data-pid]'); }
+      function isVisible(el) { return !el.classList.contains('lux-p6-hide'); }
+
+      // ---------- Number extraction helper ----------
+      function extractNumber(text, regex) {
+            const m = text.match(regex);
+            return m ? parseFloat(m[1].replace(',', '.')) : 0;
+      }
+
+      function getSortKey(card, mode) {
+            const text = card.textContent || '';
+            if (mode === 'margin')  return extractNumber(text, /Marge[^0-9-]*(-?\d+[.,]?\d*)/i);
+            if (mode === 'clicks')  return extractNumber(text, /(?:Klicks?|Clicks?)[^0-9]*(\d+)/i);
+            if (mode === 'price')   return extractNumber(text, /(?:CHF|Preis)[^0-9-]*(\d+[.,]?\d*)/i);
+            if (mode === 'name')    {
+                    const h = card.querySelector('h1,h2,h3,h4,.title,[data-name]');
+                    return h ? h.textContent.trim().toLowerCase() : text.slice(0,30).toLowerCase();
+            }
+            if (mode === 'status') {
+                    const t = text.toUpperCase();
+                    if (t.includes('LIVE') || t.includes('ACTIVE')) return 1;
+                    if (t.includes('IDEE') || t.includes('POOL'))   return 2;
+                    if (t.includes('ARCHIV') || t.includes('DRAFT'))return 3;
+                    return 9;
+            }
+            return 0;
+      }
+
+      function applySort(mode) {
+            if (!mode || mode === 'default') { updateCounter(); return; }
+            const cards = Array.from(findCards());
+            if (!cards.length) return;
+            const parent = cards[0].parentNode;
+            if (!parent) return;
+            const sorted = cards.slice().sort((a, b) => {
+                    const av = getSortKey(a, mode), bv = getSortKey(b, mode);
+                    if (typeof av === 'string') return av.localeCompare(bv);
+                    return bv - av; // descending for numbers
+            });
+            sorted.forEach(c => parent.appendChild(c));
+            updateCounter();
+      }
+
+      // ---------- Counter ----------
+      function updateCounter() {
+            const el = document.getElementById('lux-p6-counter');
+            if (!el) return;
+            const cards = findCards();
+            const visible = Array.from(cards).filter(isVisible).length;
+            el.textContent = visible + '/' + cards.length;
+      }
+
+      // ---------- Reset ----------
+      function resetAll() {
+            const search = document.getElementById('lux-p6-search');
+            if (search) { search.value = ''; search.dispatchEvent(new Event('input', {bubbles:true})); }
+            const allBtn = document.querySelector('#lux-p6-toolbar button[data-filter="ALL"]');
+            if (allBtn) allBtn.click();
+            const sortSel = document.getElementById('lux-p6-sort');
+            if (sortSel) { sortSel.value = 'default'; applySort('default'); }
+            updateCounter();
+      }
+
+      // ---------- Inject into existing toolbar ----------
+      function extendToolbar() {
+            const bar = findToolbar();
+            if (!bar) { setTimeout(extendToolbar, 500); return; }
+            if (document.getElementById('lux-p6-sort')) return; // already injected
+
+            const sortStyle = document.createElement('style');
+            sortStyle.textContent = `
+                  #lux-p6-sort{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:6px 8px;border-radius:8px;font-size:12px;outline:none;cursor:pointer}
+                        #lux-p6-sort option{background:#0f172a;color:#fff}
+                              #lux-p6-counter{padding:4px 8px;background:rgba(34,197,94,0.2);border-radius:8px;font-weight:600;font-size:11px;min-width:48px;text-align:center}
+                                    #lux-p6-reset{background:rgba(239,68,68,0.2) !important}
+                                          #lux-p6-reset:hover{background:rgba(239,68,68,0.35) !important}
+                                                @media (max-width:640px){#lux-p6-sort{font-size:11px;padding:5px 6px}#lux-p6-counter{font-size:10px;min-width:40px}}
+                                                    `;
+            document.head.appendChild(sortStyle);
+
+            // Build new controls
+            const sortWrap = document.createElement('select');
+            sortWrap.id = 'lux-p6-sort';
+            sortWrap.title = 'Sortieren';
+            sortWrap.innerHTML = `
+                  <option value="default">\u2195 Sortieren</option>
+                        <option value="margin">\uD83D\uDCB0 Marge</option>
+                              <option value="clicks">\uD83D\uDC46 Klicks</option>
+                                    <option value="price">\uD83C\uDFF7\uFE0F Preis</option>
+                                          <option value="name">\uD83D\uDD24 Name A-Z</option>
+                                                <option value="status">\uD83D\uDCCA Status</option>
+                                                    `;
+            sortWrap.addEventListener('change', e => applySort(e.target.value));
+
+            const counter = document.createElement('div');
+            counter.id = 'lux-p6-counter';
+            counter.title = 'Sichtbare / Total Produkte';
+            counter.textContent = '0/0';
+
+            const resetBtn = document.createElement('button');
+            resetBtn.id = 'lux-p6-reset';
+            resetBtn.title = 'Filter & Sortierung zur\u00FCcksetzen';
+            resetBtn.textContent = '\u21BA';
+            resetBtn.addEventListener('click', resetAll);
+
+            // Insert before the cost widget (last child)
+            const costEl = document.getElementById('lux-p6-cost');
+            if (costEl) {
+                    bar.insertBefore(sortWrap, costEl);
+                    bar.insertBefore(counter, costEl);
+                    bar.insertBefore(resetBtn, costEl);
+            } else {
+                    bar.appendChild(sortWrap);
+                    bar.appendChild(counter);
+                    bar.appendChild(resetBtn);
+            }
+
+            // Update counter on any filter/search change
+            const search = document.getElementById('lux-p6-search');
+            if (search) search.addEventListener('input', () => setTimeout(updateCounter, 50));
+            bar.querySelectorAll('button[data-filter]').forEach(b => {
+                    b.addEventListener('click', () => setTimeout(updateCounter, 50));
+            });
+
+            // Periodic refresh (in case new cards appear dynamically)
+            setInterval(updateCounter, 3000);
+            updateCounter();
+      }
+
+      if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => setTimeout(extendToolbar, 1200));
+      } else {
+            setTimeout(extendToolbar, 1200);
+      }
+      try { if (typeof logActivity === 'function') logActivity('Phase 6 Snippet 2 geladen: Sort + Counter + Reset'); } catch(e) {}
+  })();
 </script>
 </body>
 </html>
