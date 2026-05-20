@@ -3554,6 +3554,68 @@ init();
               if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,3500));}else{setTimeout(init,3500);}
               try{if(typeof logActivity==='function')logActivity('Phase 7 Snippet 4 geladen: Video-Player');}catch(e){}
              })();
+
+  // ========== PHASE 7 SNIPPET 5: Automation Triggers ==========
+  (function(){'use strict';
+              if(document.documentElement.dataset.luxP7S5Done)return;
+              document.documentElement.dataset.luxP7S5Done='1';
+              function getTriggers(){try{return JSON.parse(localStorage.getItem('lux_triggers')||'[]');}catch(e){return[];}}
+              function setTriggers(t){try{localStorage.setItem('lux_triggers',JSON.stringify(t));}catch(e){}}
+              function runTrigger(t){
+                try{if(typeof logActivity==='function')logActivity('Trigger ausgefuehrt: '+t.name);}catch(e){}
+                if(t.action==='alert'){alert('Trigger: '+t.name+' - '+t.message);}
+                else if(t.action==='log'){console.log('[LuxTrigger]',t.name,t.message);}
+                else if(t.action==='notify'&&('Notification' in window)){if(Notification.permission==='granted'){new Notification('LuxeStyle: '+t.name,{body:t.message});}else{Notification.requestPermission();}}
+              }
+              function checkTriggers(){
+                const now=new Date();const triggers=getTriggers();let changed=false;
+                triggers.forEach(t=>{
+                  if(!t.enabled)return;
+                  const last=t.lastRun?new Date(t.lastRun):null;
+                  let should=false;
+                  if(t.type==='daily'){const target=new Date(now);const[h,mi]=(t.time||'09:00').split(':');target.setHours(parseInt(h),parseInt(mi),0,0);if(now>=target&&(!last||last.toDateString()!==now.toDateString())){should=true;}}
+                  else if(t.type==='hourly'){if(!last||(now-last)>=3600000)should=true;}
+                  else if(t.type==='once'){if(!last&&t.time){const target=new Date(t.time);if(now>=target)should=true;}}
+                  if(should){runTrigger(t);t.lastRun=now.toISOString();changed=true;}
+                });
+                if(changed)setTriggers(triggers);
+              }
+              function openManager(){
+                const e=document.getElementById('lux-p7-trg');if(e)e.remove();
+                const triggers=getTriggers();
+                const m=document.createElement('div');m.id='lux-p7-trg';
+                m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+                let list='';
+                if(triggers.length===0){list='<div style="color:#94a3b8;text-align:center;padding:20px;">Keine Trigger. Erstelle einen unten.</div>';}
+                else{triggers.forEach((t,i)=>{list+='<div style="background:#2a3142;padding:10px;border-radius:8px;margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:center;"><div style="flex:1;"><div style="font-weight:bold;">'+t.name+'</div><div style="font-size:11px;color:#94a3b8;">'+t.type+' @ '+(t.time||'-')+' -> '+t.action+'</div></div><label style="margin-right:8px;"><input type="checkbox" data-tog="'+i+'"'+(t.enabled?' checked':'')+'> Aktiv</label><button data-del="'+i+'" style="background:#ef4444;color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;">X</button></div></div>';});}
+                const form='<div style="background:#0f1420;padding:10px;border-radius:8px;margin-top:10px;"><div style="font-weight:bold;margin-bottom:6px;">Neuer Trigger</div><input id="lux-tn" placeholder="Name (z.B. Morgen-Check)" style="width:100%;padding:6px;background:#1a1f2e;color:#fff;border:1px solid #3a4254;border-radius:4px;margin-bottom:6px;"><div style="display:flex;gap:6px;margin-bottom:6px;"><select id="lux-tt" style="flex:1;padding:6px;background:#1a1f2e;color:#fff;border:1px solid #3a4254;border-radius:4px;"><option value="daily">Taeglich</option><option value="hourly">Stuendlich</option><option value="once">Einmalig</option></select><input id="lux-ttime" placeholder="09:00 oder ISO" style="flex:1;padding:6px;background:#1a1f2e;color:#fff;border:1px solid #3a4254;border-radius:4px;"></div><div style="display:flex;gap:6px;margin-bottom:6px;"><select id="lux-ta" style="flex:1;padding:6px;background:#1a1f2e;color:#fff;border:1px solid #3a4254;border-radius:4px;"><option value="alert">Alert</option><option value="log">Console-Log</option><option value="notify">Browser-Notify</option></select><input id="lux-tm" placeholder="Nachricht" style="flex:2;padding:6px;background:#1a1f2e;color:#fff;border:1px solid #3a4254;border-radius:4px;"></div><button id="lux-tadd" style="width:100%;padding:8px;background:#10b981;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">+ Trigger speichern</button></div>';
+                m.innerHTML='<div style="background:#1a1f2e;color:#fff;border-radius:16px;padding:20px;max-width:500px;width:100%;max-height:85vh;overflow:auto;"><div style="display:flex;justify-content:space-between;margin-bottom:10px;"><h3 style="font-size:16px;font-weight:bold;">AUTO Automation Triggers</h3><button id="lux-tx" style="background:none;border:none;color:#fff;font-size:24px;cursor:pointer;">x</button></div>'+list+form+'</div>';
+                document.body.appendChild(m);
+                document.getElementById('lux-tx').onclick=()=>m.remove();
+                document.getElementById('lux-tadd').onclick=()=>{
+                  const n=document.getElementById('lux-tn').value.trim();
+                  const ty=document.getElementById('lux-tt').value;
+                  const ti=document.getElementById('lux-ttime').value.trim();
+                  const ac=document.getElementById('lux-ta').value;
+                  const me=document.getElementById('lux-tm').value.trim();
+                  if(!n){alert('Name fehlt');return;}
+                  triggers.push({name:n,type:ty,time:ti,action:ac,message:me,enabled:true,lastRun:null});
+                  setTriggers(triggers);m.remove();openManager();
+                };
+                m.querySelectorAll('[data-tog]').forEach(c=>{c.onchange=()=>{triggers[parseInt(c.dataset.tog)].enabled=c.checked;setTriggers(triggers);};});
+                m.querySelectorAll('[data-del]').forEach(b=>{b.onclick=()=>{if(!confirm('Trigger loeschen?'))return;triggers.splice(parseInt(b.dataset.del),1);setTriggers(triggers);m.remove();openManager();};});
+              }
+              function addBtn(){
+                if(document.getElementById('lux-p7-trg-btn'))return;
+                const btn=document.createElement('button');btn.id='lux-p7-trg-btn';
+                btn.style.cssText='position:fixed;bottom:200px;right:16px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;font-size:20px;font-weight:bold;cursor:pointer;box-shadow:0 4px 12px rgba(245,158,11,.4);z-index:9998;';
+                btn.innerHTML='AUTO';btn.title='Automation Triggers';
+                btn.onclick=openManager;document.body.appendChild(btn);
+              }
+              function init(){addBtn();setInterval(addBtn,5000);checkTriggers();setInterval(checkTriggers,60000);}
+              if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,4000));}else{setTimeout(init,4000);}
+              try{if(typeof logActivity==='function')logActivity('Phase 7 Snippet 5 geladen: Automation Triggers');}catch(e){}
+             })();
 </script>
 </body>
 </html>
