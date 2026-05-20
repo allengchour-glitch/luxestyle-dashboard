@@ -3222,6 +3222,192 @@ init();
       }
       try { if (typeof logActivity === 'function') logActivity('Phase 6 Snippet 4 geladen: Bug-Fixes + API-Key Hints'); } catch(e) {}
   })();
+
+  /* ============================================================
+     PHASE 6 — SNIPPET 5: Shopify Direct-Links + Bulk Actions
+        Per-card admin/storefront links + multi-select bulk toolbar
+           ============================================================ */
+  (function() {
+      'use strict';
+
+      const SHOPIFY_STORE = 'aban-192';
+      const SHOPIFY_ADMIN = 'https://admin.shopify.com/store/' + SHOPIFY_STORE;
+      const SHOPIFY_SHOP  = 'https://' + SHOPIFY_STORE + '.myshopify.com';
+
+      const selected = new Set();
+
+      // ---------- Shared CSS ----------
+      const style = document.createElement('style');
+      style.textContent = `
+      .lux-p6-shop-bar{display:flex;gap:6px;padding:6px;flex-wrap:wrap;border-top:1px dashed rgba(0,0,0,0.08);margin-top:4px}
+          .lux-p6-shop-bar a{flex:1;min-width:80px;text-align:center;padding:5px 8px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;color:#fff;transition:opacity 0.15s}
+              .lux-p6-shop-bar a:hover{opacity:0.85}
+                  .lux-p6-shop-bar .lux-admin{background:#5c6ac4}
+                      .lux-p6-shop-bar .lux-store{background:#10b981}
+                          .lux-p6-select{position:absolute;top:4px;right:4px;width:22px;height:22px;cursor:pointer;z-index:11}
+                              .lux-p6-selected{outline:3px solid #667eea;outline-offset:-3px}
+                                  #lux-p6-bulk{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 16px;border-radius:14px;display:none;gap:8px;align-items:center;box-shadow:0 8px 24px rgba(0,0,0,0.3);z-index:9995;font-family:-apple-system,sans-serif;font-size:13px;flex-wrap:wrap;max-width:95vw}
+                                      #lux-p6-bulk.visible{display:flex}
+                                          #lux-p6-bulk button{background:rgba(255,255,255,0.12);color:#fff;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;transition:background 0.15s}
+                                              #lux-p6-bulk button:hover{background:rgba(255,255,255,0.22)}
+                                                  #lux-p6-bulk .lux-bulk-danger{background:rgba(239,68,68,0.25)}
+                                                      #lux-p6-bulk .lux-bulk-danger:hover{background:rgba(239,68,68,0.4)}
+                                                        `;
+      document.head.appendChild(style);
+
+      // ---------- Slugify (for storefront URL) ----------
+      function slugify(text) {
+            return (text || '')
+              .toLowerCase()
+              .replace(/\u00e4/g,'ae').replace(/\u00f6/g,'oe').replace(/\u00fc/g,'ue').replace(/\u00df/g,'ss')
+              .replace(/[^a-z0-9]+/g,'-')
+              .replace(/^-+|-+$/g,'');
+      }
+
+      // ---------- Get product info ----------
+      function getCardInfo(card) {
+            const titleEl = card.querySelector('h1,h2,h3,h4,.title,[data-name]');
+            const title = titleEl ? titleEl.textContent.trim() : 'Produkt';
+            const pid = card.dataset.productId || card.dataset.pid || '';
+            return { title: title, pid: pid, slug: slugify(title) };
+      }
+
+      // ---------- Add admin/store links + checkbox ----------
+      function decorateCard(card) {
+            if (card.dataset.luxP6S5Done === '1') return;
+            card.dataset.luxP6S5Done = '1';
+
+            const info = getCardInfo(card);
+
+            // Selection checkbox
+            if (getComputedStyle(card).position === 'static') card.style.position = 'relative';
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.className = 'lux-p6-select';
+            cb.title = 'Zur Bulk-Auswahl hinzuf\u00FCgen';
+            cb.addEventListener('click', e => e.stopPropagation());
+            cb.addEventListener('change', () => {
+                    if (cb.checked) { selected.add(card); card.classList.add('lux-p6-selected'); }
+                    else { selected.delete(card); card.classList.remove('lux-p6-selected'); }
+                    updateBulkBar();
+            });
+            card.appendChild(cb);
+
+            // Link bar
+            const bar = document.createElement('div');
+            bar.className = 'lux-p6-shop-bar';
+
+            const adminUrl = info.pid
+              ? SHOPIFY_ADMIN + '/products/' + encodeURIComponent(info.pid)
+                    : SHOPIFY_ADMIN + '/products?query=' + encodeURIComponent(info.title);
+            const storeUrl = SHOPIFY_SHOP + '/products/' + info.slug;
+
+            const a1 = document.createElement('a');
+            a1.href = adminUrl; a1.target = '_blank'; a1.rel = 'noopener';
+            a1.className = 'lux-admin'; a1.textContent = '\u2699\uFE0F Admin';
+            a1.title = 'In Shopify Admin \u00F6ffnen';
+
+            const a2 = document.createElement('a');
+            a2.href = storeUrl; a2.target = '_blank'; a2.rel = 'noopener';
+            a2.className = 'lux-store'; a2.textContent = '\uD83D\uDED2 Storefront';
+            a2.title = 'Im Shop ansehen';
+
+            bar.appendChild(a1); bar.appendChild(a2);
+            card.appendChild(bar);
+      }
+
+                function scanCards() {
+                      document.querySelectorAll('[data-product-id], .product-card, [data-pid]').forEach(decorateCard);
+                }
+
+      // ---------- Bulk Action Bar ----------
+      function buildBulkBar() {
+            if (document.getElementById('lux-p6-bulk')) return;
+            const bar = document.createElement('div');
+            bar.id = 'lux-p6-bulk';
+            bar.innerHTML = `
+                  <span><b id="lux-p6-bulk-count">0</b> ausgew\u00E4hlt</span>
+                        <button data-action="open-admin">\u2699\uFE0F Alle in Admin</button>
+                              <button data-action="open-store">\uD83D\uDED2 Alle im Shop</button>
+                                    <button data-action="copy-titles">\uD83D\uDCCB Titel kopieren</button>
+                                          <button data-action="export-csv">\uD83D\uDCC4 CSV Export</button>
+                                                <button class="lux-bulk-danger" data-action="clear">\u2715 Auswahl l\u00F6schen</button>
+                                                    `;
+            document.body.appendChild(bar);
+
+            bar.querySelectorAll('button').forEach(b => {
+                    b.addEventListener('click', () => handleBulk(b.dataset.action));
+            });
+      }
+
+      function updateBulkBar() {
+            const bar = document.getElementById('lux-p6-bulk');
+            if (!bar) return;
+            const count = selected.size;
+            bar.querySelector('#lux-p6-bulk-count').textContent = count;
+            bar.classList.toggle('visible', count > 0);
+      }
+
+      function bulkToast(msg) {
+            const t = document.createElement('div');
+            t.textContent = msg;
+            t.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#10b981;color:#fff;padding:10px 16px;border-radius:8px;font-family:-apple-system,sans-serif;font-size:13px;z-index:99999;box-shadow:0 4px 12px rgba(0,0,0,0.2)';
+            document.body.appendChild(t);
+            setTimeout(() => { try { t.remove(); } catch(e) {} }, 2500);
+      }
+
+      function handleBulk(action) {
+            const items = Array.from(selected).map(getCardInfo);
+            if (!items.length && action !== 'clear') return;
+
+            if (action === 'open-admin') {
+                    if (items.length > 5 && !confirm('\u00D6ffne ' + items.length + ' Tabs in Shopify Admin?')) return;
+                    items.forEach(i => window.open(
+                              i.pid ? SHOPIFY_ADMIN + '/products/' + encodeURIComponent(i.pid)
+                                    : SHOPIFY_ADMIN + '/products?query=' + encodeURIComponent(i.title), '_blank'));
+            }
+            else if (action === 'open-store') {
+                    if (items.length > 5 && !confirm('\u00D6ffne ' + items.length + ' Tabs im Shop?')) return;
+                    items.forEach(i => window.open(SHOPIFY_SHOP + '/products/' + i.slug, '_blank'));
+            }
+            else if (action === 'copy-titles') {
+                    const text = items.map(i => i.title).join('\n');
+                    navigator.clipboard.writeText(text).then(() => bulkToast('\u2705 ' + items.length + ' Titel kopiert'));
+            }
+            else if (action === 'export-csv') {
+                    const csv = 'Title,Slug,ProductID\n' + items.map(i => '"' + i.title.replace(/"/g,'""') + '",' + i.slug + ',' + (i.pid || '')).join('\n');
+                    const blob = new Blob([csv], {type:'text/csv'});
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url; a.download = 'luxestyle-export-' + Date.now() + '.csv';
+                    document.body.appendChild(a); a.click(); a.remove();
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    bulkToast('\u2705 CSV Download gestartet');
+            }
+            else if (action === 'clear') {
+                    selected.forEach(c => {
+                              c.classList.remove('lux-p6-selected');
+                              const cb = c.querySelector('.lux-p6-select');
+                              if (cb) cb.checked = false;
+                    });
+                    selected.clear();
+                    updateBulkBar();
+            }
+      }
+
+      function init() {
+            buildBulkBar();
+            scanCards();
+            setInterval(scanCards, 4000);
+      }
+
+      if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => setTimeout(init, 2000));
+      } else {
+            setTimeout(init, 2000);
+      }
+      try { if (typeof logActivity === 'function') logActivity('Phase 6 Snippet 5 geladen: Shopify-Links + Bulk Actions'); } catch(e) {}
+  })();
 </script>
 </body>
 </html>
