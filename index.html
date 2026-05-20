@@ -1305,6 +1305,12 @@ try{
     .lux-carousel .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55)}
     .lux-carousel .dot.active{background:#fff}
     .lux-carousel .counter{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:3px 8px;border-radius:10px}
+    .lux-gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;max-width:260px;margin:0 auto;position:relative}
+    .lux-gallery-grid.cols3{grid-template-columns:repeat(3,1fr)}
+    .lux-gallery-cell{position:relative;aspect-ratio:1;background:#f1f5f9;border-radius:8px;overflow:hidden}
+    .lux-gallery-cell img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;display:block}
+    .lux-gallery-cell .star{position:absolute;top:4px;left:4px;color:#fbbf24;font-size:14px;text-shadow:0 0 4px rgba(0,0,0,.7)}
+    .lux-gallery-count{grid-column:1/-1;text-align:center;font-size:11px;color:#64748b;padding:2px 0}
     .lux-carousel .star{position:absolute;top:8px;left:8px;color:#fde047;font-size:20px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
     .lux-mini-gal{display:flex;gap:6px;overflow-x:auto;padding:8px 0;scrollbar-width:none}
     .lux-mini-gal::-webkit-scrollbar{display:none}
@@ -1534,18 +1540,11 @@ function luxGeminiModal(){
 window._carouselIdx = window._carouselIdx || {};
 function luxCarousel(p){
   const imgs = (p.shopImgs||[]).filter(function(x){return x && x.url;});
-  let idx = window._carouselIdx[p.id] || 0;
-  if(idx >= imgs.length) idx = 0;
-  const cur = imgs[idx] || null;
   const total = imgs.length;
   const safeTitle = (p.t||'').replace(/'/g,'').replace(/"/g,'');
-  return '<div class="lux-carousel">' +
-    (cur ? '<img src="'+cur.url+'" loading="lazy" onclick="luxLightbox(\''+cur.url+'\',\''+safeTitle+'\')">' : '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;font-size:48px">📷</div>') +
-    (total>1 ? '<button class="nav-btn nav-prev" onclick="luxCarPrev(\''+p.id+'\')">‹</button><button class="nav-btn nav-next" onclick="luxCarNext(\''+p.id+'\')">›</button>' : '') +
-    (total>0 ? '<div class="counter">'+(idx+1)+' / '+total+'</div>' : '') +
-    (idx===0 && cur ? '<span class="star">★</span>' : '') +
-    (total>1 ? '<div class="dots">'+imgs.map(function(_,i){return '<div class="dot'+(i===idx?' active':'')+'"></div>';}).join('')+'</div>' : '') +
-    '</div>';
+  if(total===0) return '<div class="lux-carousel"><div style="display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;font-size:48px">📷</div></div>';
+  const cls = total>=5 ? 'lux-gallery-grid cols3' : 'lux-gallery-grid';
+  return '<div class="'+cls+'">' + imgs.map(function(im,i){return '<div class="lux-gallery-cell"><img src="'+im.url+'" loading="lazy" onclick="luxLightbox(\''+im.url+'\',\''+safeTitle+'\')">'+(i===0?'<span class="star">★</span>':'')+'</div>';}).join('') + '<div class="lux-gallery-count">'+total+' Bilder</div></div>';
 }
 function luxCarPrev(pid){
   const p = STATE.products.find(function(x){return x.id===pid;});
