@@ -3616,6 +3616,41 @@ init();
               if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,4000));}else{setTimeout(init,4000);}
               try{if(typeof logActivity==='function')logActivity('Phase 7 Snippet 5 geladen: Automation Triggers');}catch(e){}
              })();
+
+  // ========== PHASE 8 SNIPPET 1: Vatertag-Countdown + Was tun heute? ==========
+  (function(){'use strict';
+              if(document.documentElement.dataset.luxP8S1Done)return;
+              document.documentElement.dataset.luxP8S1Done='1';
+              const VATERTAG=new Date('2026-06-05T00:00:00');
+              const BESTELL_DEADLINE=new Date('2026-06-01T23:59:00');
+              function daysUntil(d){return Math.ceil((d-new Date())/(1000*60*60*24));}
+              function buildCard(){
+                if(document.getElementById('lux-p8-todo'))return;
+                const d=daysUntil(VATERTAG);
+                const dBestell=daysUntil(BESTELL_DEADLINE);
+                const bg=d<=14?'linear-gradient(135deg,#ef4444,#dc2626)':d<=21?'linear-gradient(135deg,#f59e0b,#d97706)':'linear-gradient(135deg,#10b981,#059669)';
+                const card=document.createElement('div');card.id='lux-p8-todo';
+                card.style.cssText='margin:16px;padding:16px;border-radius:12px;background:'+bg+';color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.15);';
+                const tasks=[];
+                if(d>0){tasks.push('⚠️ Noch '+d+' Tage bis Vatertag (5. Juni)');tasks.push('📅 Letzter Bestelltag für Kunden: in '+dBestell+' Tagen (1. Juni)');}
+                tasks.push('🎨 8 DALL-E Bilder generieren (Wallet + Herrenuhr)');
+                tasks.push('📝 Produktbeschreibungen Wallet + Uhr aktualisieren');
+                tasks.push('🎥 1 HeyGen Vatertag-Video rendern (15 Sek, 9:16)');
+                tasks.push('💰 TikTok Vatertag-Test-1 reaktivieren (Budget 30 CHF)');
+                tasks.push('✅ LIVE schalten + Pixel testen');
+                let html='<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;"><div><div style="font-size:11px;opacity:.9;text-transform:uppercase;letter-spacing:1px;">Was tun heute?</div><div style="font-size:20px;font-weight:bold;margin-top:4px;">Vatertag-Launch Plan</div></div><button id="lux-p8-todo-x" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:16px;">×</button></div><ol style="margin:0;padding-left:20px;font-size:13px;line-height:1.8;">';
+                tasks.forEach(t=>{html+='<li>'+t+'</li>';});
+                html+='</ol><div style="margin-top:10px;font-size:11px;opacity:.85;">💡 Tipp: Generiere Bilder zuerst, dann Produktseiten aktualisieren.</div>';
+                card.innerHTML=html;
+                const host=document.querySelector('main')||document.body;
+                host.insertBefore(card,host.firstChild);
+                document.getElementById('lux-p8-todo-x').onclick=()=>{card.style.display='none';try{localStorage.setItem('lux_p8_todo_hide',new Date().toDateString());}catch(e){}};
+              }
+              function shouldShow(){try{return localStorage.getItem('lux_p8_todo_hide')!==new Date().toDateString();}catch(e){return true;}}
+              function init(){if(shouldShow())buildCard();}
+              if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,2000));}else{setTimeout(init,2000);}
+              try{if(typeof logActivity==='function')logActivity('Phase 8 Snippet 1: Vatertag-Plan-Karte geladen');}catch(e){}
+             })();
 </script>
 </body>
 </html>
