@@ -2922,6 +2922,173 @@ init();
       }
       try { if (typeof logActivity === 'function') logActivity('Phase 6 Snippet 2 geladen: Sort + Counter + Reset'); } catch(e) {}
   })();
+
+  /* ============================================================
+     PHASE 6 — SNIPPET 3: KI-Workflow (HeyGen + DALL-E + Tool-Center)
+        Adds 1-click AI buttons to product cards + central tool launcher
+           ============================================================ */
+  (function() {
+      'use strict';
+
+      const TOOLS = {
+            heygen:    'https://app.heygen.com/create-v4',
+            dalle:     'https://chat.openai.com/?model=gpt-4',
+            canva:     'https://www.canva.com/design',
+            capcut:    'https://www.capcut.com/editor',
+            runway:    'https://app.runwayml.com/',
+            elevenlabs:'https://elevenlabs.io/app/speech-synthesis',
+            shopify:   'https://admin.shopify.com/store/aban-192',
+            tiktok:    'https://ads.tiktok.com/i18n/dashboard'
+      };
+
+      // ---------- Clipboard helper ----------
+      function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                    return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+            }
+            return fallbackCopy(text);
+      }
+      function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); } catch(e) {}
+            document.body.removeChild(ta);
+            return Promise.resolve();
+      }
+
+      // ---------- Toast ----------
+      function toast(msg, type) {
+            const t = document.createElement('div');
+            t.textContent = msg;
+            const bg = type === 'error' ? '#dc2626' : (type === 'warn' ? '#f59e0b' : '#10b981');
+            t.style.cssText = 'position:fixed;top:20px;right:20px;background:' + bg + ';color:#fff;padding:10px 16px;border-radius:8px;font-family:-apple-system,sans-serif;font-size:13px;z-index:99999;box-shadow:0 4px 12px rgba(0,0,0,0.2);max-width:340px;line-height:1.4;animation:slideIn 0.2s ease';
+            document.body.appendChild(t);
+            setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; }, 2700);
+            setTimeout(() => { try { document.body.removeChild(t); } catch(e) {} }, 3100);
+      }
+
+      // ---------- Extract product info from card ----------
+      function getProductData(card) {
+            const titleEl = card.querySelector('h1,h2,h3,h4,.title,[data-name]');
+            const title = titleEl ? titleEl.textContent.trim() : 'Produkt';
+            const text = card.textContent || '';
+            let script = '';
+            const sm = text.match(/Script[:\s]+([\s\S]{20,400}?)(?:\n\n|$)/i);
+            if (sm) script = sm[1].trim();
+            return { title: title, script: script, fullText: text };
+      }
+
+      // ---------- Workflow actions ----------
+      function launchHeyGen(card) {
+            const p = getProductData(card);
+            const txt = p.script || ('Hier ist ein 15-Sekunden TikTok-Werbespot fuer: ' + p.title + '. Mach ihn dynamisch, mit Hook in den ersten 3 Sekunden, Vorteilen in der Mitte, und Call-to-Action am Ende.');
+            copyToClipboard(txt).then(() => {
+                    toast('\u2705 Script kopiert! HeyGen \u00F6ffnet sich \u2026', 'success');
+                    try { if (typeof window.luxAddCost === 'function') window.luxAddCost('ai', 1); } catch(e) {}
+                    setTimeout(() => window.open(TOOLS.heygen, '_blank'), 600);
+            });
+      }
+      function launchDallE(card) {
+            const p = getProductData(card);
+            const prompt = 'Generate a high-quality product photo for TikTok ads: ' + p.title + '. Lifestyle setting, Swiss aesthetic, soft natural lighting, 9:16 vertical, premium feel, no text overlay.';
+            copyToClipboard(prompt).then(() => {
+                    toast('\u2705 Prompt kopiert! ChatGPT \u00F6ffnet sich \u2026', 'success');
+                    setTimeout(() => window.open(TOOLS.dalle, '_blank'), 600);
+            });
+      }
+
+      // ---------- Add buttons to each card ----------
+      function addButtonsToCard(card) {
+            if (card.dataset.luxP6S3Done === '1') return;
+            card.dataset.luxP6S3Done = '1';
+
+            const wrap = document.createElement('div');
+            wrap.className = 'lux-p6-ai-bar';
+            wrap.style.cssText = 'display:flex;gap:6px;padding:6px;margin-top:6px;flex-wrap:wrap;border-top:1px dashed rgba(0,0,0,0.1)';
+
+            const mkBtn = (label, title, handler, color) => {
+                    const b = document.createElement('button');
+                    b.type = 'button';
+                    b.textContent = label;
+                    b.title = title;
+                    b.style.cssText = 'flex:1;min-width:80px;background:' + color + ';color:#fff;border:none;padding:6px 8px;border-radius:6px;font-size:11px;cursor:pointer;font-weight:600';
+                    b.addEventListener('click', e => {
+                              e.preventDefault(); e.stopPropagation();
+                              try { handler(card); } catch(err) { toast('\u26A0\uFE0F Fehler: ' + err.message, 'error'); }
+                    });
+                    return b;
+            };
+
+            wrap.appendChild(mkBtn('\uD83C\uDFAC HeyGen', 'Script kopieren + HeyGen \u00F6ffnen', launchHeyGen, '#8b5cf6'));
+            wrap.appendChild(mkBtn('\uD83C\uDFA8 DALL-E', 'Prompt kopieren + ChatGPT \u00F6ffnen', launchDallE, '#10b981'));
+            card.appendChild(wrap);
+      }
+
+      function scanAndAdd() {
+            const cards = document.querySelectorAll('[data-product-id], .product-card, [data-pid]');
+            cards.forEach(addButtonsToCard);
+      }
+
+      // ---------- KI Tool Center (floating right-side panel) ----------
+      function buildToolCenter() {
+            if (document.getElementById('lux-p6-tool-center')) return;
+
+            const fab = document.createElement('button');
+            fab.id = 'lux-p6-tool-fab';
+            fab.innerHTML = '\uD83E\uDD16';
+            fab.title = 'KI Tool Center';
+            fab.style.cssText = 'position:fixed;bottom:90px;right:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.25);z-index:9997';
+
+            const panel = document.createElement('div');
+            panel.id = 'lux-p6-tool-center';
+            panel.style.cssText = 'position:fixed;bottom:148px;right:20px;width:240px;background:rgba(15,23,42,0.97);color:#fff;border-radius:14px;padding:12px;box-shadow:0 8px 24px rgba(0,0,0,0.3);z-index:9996;display:none;font-family:-apple-system,sans-serif';
+            const tools = [
+              {key:'heygen',    label:'\uD83C\uDFAC HeyGen (Avatar Videos)'},
+              {key:'dalle',     label:'\uD83C\uDFA8 DALL-E / ChatGPT'},
+              {key:'canva',     label:'\uD83D\uDD8C\uFE0F Canva'},
+              {key:'capcut',    label:'\u2702\uFE0F CapCut Editor'},
+              {key:'runway',    label:'\uD83C\uDFAE Runway ML'},
+              {key:'elevenlabs',label:'\uD83D\uDD0A ElevenLabs (Voice)'},
+              {key:'shopify',   label:'\uD83D\uDED2 Shopify Admin'},
+              {key:'tiktok',    label:'\uD83D\uDCF1 TikTok Ads Manager'}
+                  ];
+            const title = document.createElement('div');
+            title.textContent = 'KI Tool Center';
+            title.style.cssText = 'font-weight:700;font-size:13px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.15)';
+            panel.appendChild(title);
+            tools.forEach(t => {
+                    const link = document.createElement('a');
+                    link.href = TOOLS[t.key]; link.target = '_blank'; link.rel = 'noopener';
+                    link.textContent = t.label;
+                    link.style.cssText = 'display:block;padding:7px 10px;color:#fff;text-decoration:none;font-size:12px;border-radius:6px;margin:2px 0;transition:background 0.15s';
+                    link.addEventListener('mouseenter', () => link.style.background = 'rgba(255,255,255,0.1)');
+                    link.addEventListener('mouseleave', () => link.style.background = 'transparent');
+                    panel.appendChild(link);
+            });
+
+            fab.addEventListener('click', () => {
+                    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            });
+            document.body.appendChild(panel);
+            document.body.appendChild(fab);
+      }
+
+      function init() {
+            buildToolCenter();
+            scanAndAdd();
+            setInterval(scanAndAdd, 4000);
+      }
+
+      if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => setTimeout(init, 1500));
+      } else {
+            setTimeout(init, 1500);
+      }
+      try { if (typeof logActivity === 'function') logActivity('Phase 6 Snippet 3 geladen: KI-Workflow + Tool Center'); } catch(e) {}
+  })();
 </script>
 </body>
 </html>
