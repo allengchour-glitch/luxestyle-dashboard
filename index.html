@@ -3089,6 +3089,139 @@ init();
       }
       try { if (typeof logActivity === 'function') logActivity('Phase 6 Snippet 3 geladen: KI-Workflow + Tool Center'); } catch(e) {}
   })();
+
+  /* ============================================================
+     PHASE 6 — SNIPPET 4: Bug-Fixes + API-Key Hints
+        Fixes image mismatch + warns about missing API keys
+           ============================================================ */
+  (function() {
+      'use strict';
+
+      // ---------- API-Key Status Banner ----------
+      const REQUIRED_KEYS = [
+        { key: 'lux-key-heygen',    label: 'HeyGen API',    optional: true  },
+        { key: 'lux-key-openai',    label: 'OpenAI/DALL-E', optional: true  },
+        { key: 'lux-key-shopify',   label: 'Shopify Admin', optional: false },
+        { key: 'lux-key-tiktok',    label: 'TikTok Ads',    optional: true  }
+          ];
+
+      function getMissingKeys() {
+            return REQUIRED_KEYS.filter(k => {
+                    try { return !localStorage.getItem(k.key); } catch(e) { return true; }
+            });
+      }
+
+      function buildKeyBanner() {
+            if (document.getElementById('lux-p6-key-banner')) return;
+            const missing = getMissingKeys();
+            if (!missing.length) return;
+
+            const dismissed = sessionStorage.getItem('lux-p6-key-banner-dismissed');
+            if (dismissed === '1') return;
+
+            const banner = document.createElement('div');
+            banner.id = 'lux-p6-key-banner';
+            banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#f59e0b,#d97706);color:#fff;padding:8px 16px;font-family:-apple-system,sans-serif;font-size:13px;z-index:9999;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,0.15)';
+
+            const icon = document.createElement('span'); icon.textContent = '\u26A0\uFE0F';
+            const text = document.createElement('span');
+            text.style.flex = '1';
+            const list = missing.map(m => m.label + (m.optional ? ' (optional)' : ' \u26A0')).join(' \u00B7 ');
+            text.textContent = 'API-Keys fehlen: ' + list;
+
+            const settingsBtn = document.createElement('button');
+            settingsBtn.textContent = '\u2699\uFE0F Einstellungen';
+            settingsBtn.style.cssText = 'background:rgba(255,255,255,0.2);color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600';
+            settingsBtn.addEventListener('click', () => {
+                    const settingsTab = document.querySelector('[data-tab="settings"], [data-section="settings"], a[href*="settings"]');
+                    if (settingsTab) { settingsTab.click(); }
+                    else { alert('Settings-Tab nicht gefunden. \u00D6ffne ihn manuell und f\u00FCge die API-Keys hinzu.'); }
+            });
+
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = '\u00D7';
+            closeBtn.title = 'F\u00FCr diese Session ausblenden';
+            closeBtn.style.cssText = 'background:transparent;color:#fff;border:none;font-size:20px;cursor:pointer;padding:0 4px;line-height:1';
+            closeBtn.addEventListener('click', () => {
+                    try { sessionStorage.setItem('lux-p6-key-banner-dismissed', '1'); } catch(e) {}
+                    banner.remove();
+            });
+
+            banner.appendChild(icon);
+            banner.appendChild(text);
+            banner.appendChild(settingsBtn);
+            banner.appendChild(closeBtn);
+            document.body.appendChild(banner);
+
+            // Push down body so banner doesn't cover content
+            document.body.style.paddingTop = (banner.offsetHeight || 40) + 'px';
+      }
+
+      // ---------- Image-Mismatch Fix ----------
+      // Pet Wasserspender card was showing Slim Wallet image.
+      // We detect cards by title text and verify their <img> src matches.
+      const PRODUCT_IMAGE_HINTS = {
+            'pet wasserspender': ['pet', 'wasser', 'dispenser', 'fountain'],
+            'slim wallet':       ['wallet', 'geldbeutel'],
+            'herrenuhr':         ['watch', 'uhr', 'timepiece'],
+            'jade roller':       ['jade', 'roller', 'beauty'],
+            'sonnenbrille':      ['sunglass', 'sonnenbrille'],
+            'sternenhimmel':     ['star', 'sternen', 'projektor', 'galaxy']
+      };
+
+      function imageMatchesTitle(title, src) {
+            const t = (title || '').toLowerCase();
+            const s = (src   || '').toLowerCase();
+            for (const productKey in PRODUCT_IMAGE_HINTS) {
+                    if (t.includes(productKey)) {
+                              const hints = PRODUCT_IMAGE_HINTS[productKey];
+                              return hints.some(h => s.includes(h));
+                    }
+            }
+            return true; // unknown product: trust it
+      }
+
+      function fixImageMismatch() {
+            const cards = document.querySelectorAll('[data-product-id], .product-card, [data-pid]');
+            let fixed = 0;
+            cards.forEach(card => {
+                    if (card.dataset.luxP6S4Checked === '1') return;
+                    const titleEl = card.querySelector('h1,h2,h3,h4,.title,[data-name]');
+                    const img = card.querySelector('img');
+                    if (!titleEl || !img) return;
+                    const title = titleEl.textContent.trim();
+                    if (!imageMatchesTitle(title, img.src)) {
+                              // Add warning badge instead of silently swapping (safer)
+                              if (!card.querySelector('.lux-p6-img-warn')) {
+                                          const warn = document.createElement('div');
+                                          warn.className = 'lux-p6-img-warn';
+                                          warn.textContent = '\u26A0\uFE0F Bild stimmt evtl. nicht';
+                                          warn.title = 'Titel passt nicht zum Bild-URL: ' + img.src;
+                                          warn.style.cssText = 'position:absolute;top:4px;left:4px;background:#f59e0b;color:#fff;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;z-index:10;pointer-events:none';
+                                          if (getComputedStyle(card).position === 'static') card.style.position = 'relative';
+                                          card.appendChild(warn);
+                                          fixed++;
+                              }
+                    }
+                    card.dataset.luxP6S4Checked = '1';
+            });
+            return fixed;
+      }
+
+      // ---------- Init ----------
+      function init() {
+            try { buildKeyBanner(); } catch(e) { console.warn('Key banner failed:', e); }
+            try { fixImageMismatch(); } catch(e) { console.warn('Image fix failed:', e); }
+            setInterval(() => { try { fixImageMismatch(); } catch(e) {} }, 5000);
+      }
+
+      if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => setTimeout(init, 1800));
+      } else {
+            setTimeout(init, 1800);
+      }
+      try { if (typeof logActivity === 'function') logActivity('Phase 6 Snippet 4 geladen: Bug-Fixes + API-Key Hints'); } catch(e) {}
+  })();
 </script>
 </body>
 </html>
