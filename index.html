@@ -3502,6 +3502,58 @@ init();
               if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,3000));}else{setTimeout(init,3000);}
               try{if(typeof logActivity==='function')logActivity('Phase 7 Snippet 3 geladen: KI-Image Gallery');}catch(e){}
              })();
+
+  // ========== PHASE 7 SNIPPET 4: HeyGen Video-Player Preview ==========
+  (function(){'use strict';
+              if(document.documentElement.dataset.luxP7S4Done)return;
+              document.documentElement.dataset.luxP7S4Done='1';
+              function getVideos(id){try{return JSON.parse(localStorage.getItem('lux_videos_'+id)||'[]');}catch(e){return[];}}
+              function setVideos(id,arr){try{localStorage.setItem('lux_videos_'+id,JSON.stringify(arr.slice(-10)));}catch(e){}}
+              window.luxSaveVideo=function(id,url,title){const a=getVideos(id);a.push({url:url,title:title||'Video',date:new Date().toISOString()});setVideos(id,a);};
+              function openPlayer(url,title){
+                const e=document.getElementById('lux-p7-vid-modal');if(e)e.remove();
+                const m=document.createElement('div');m.id='lux-p7-vid-modal';
+                m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+                let player='';
+                if(url.includes('youtube.com')||url.includes('youtu.be')){const v=url.match(/(?:v=|youtu\.be\/)([^&?]+)/);if(v)player='<iframe src="https://www.youtube.com/embed/'+v[1]+'" style="width:100%;aspect-ratio:16/9;border:none;border-radius:8px;" allowfullscreen></iframe>';}
+                else if(url.includes('heygen.com')){player='<div style="background:#2a3142;padding:30px;border-radius:8px;text-align:center;"><div style="font-size:48px;">VID</div><div style="margin:10px 0;">HeyGen-Video</div><a href="'+url+'" target="_blank" style="color:#60a5fa;">In HeyGen oeffnen</a></div>';}
+                else{player='<video src="'+url+'" controls style="width:100%;border-radius:8px;"></video>';}
+                m.innerHTML='<div style="background:#1a1f2e;color:#fff;border-radius:16px;padding:16px;max-width:720px;width:100%;"><div style="display:flex;justify-content:space-between;margin-bottom:10px;"><h3>'+title+'</h3><button id="lux-p7-vid-x" style="background:none;border:none;color:#fff;font-size:24px;cursor:pointer;">x</button></div>'+player+'</div>';
+                document.body.appendChild(m);
+                document.getElementById('lux-p7-vid-x').onclick=()=>m.remove();
+                m.onclick=(ev)=>{if(ev.target===m)m.remove();};
+              }
+              function openList(id,title){
+                const e=document.getElementById('lux-p7-vidlist');if(e)e.remove();
+                const vids=getVideos(id);
+                const m=document.createElement('div');m.id='lux-p7-vidlist';
+                m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99998;display:flex;align-items:center;justify-content:center;padding:16px;';
+                let html='';
+                if(vids.length===0){html='<div style="color:#94a3b8;text-align:center;padding:20px;">Noch keine Videos.</div>';}
+                else{vids.forEach((v,i)=>{html+='<div style="display:flex;justify-content:space-between;padding:8px;background:#2a3142;border-radius:6px;margin-bottom:6px;"><div style="flex:1;cursor:pointer;" data-play="'+i+'">'+v.title+'</div><button data-del="'+i+'" style="background:#ef4444;color:#fff;border:none;border-radius:4px;padding:4px 8px;cursor:pointer;">X</button></div>';});}
+                m.innerHTML='<div style="background:#1a1f2e;color:#fff;border-radius:12px;padding:16px;max-width:500px;width:100%;max-height:80vh;overflow:auto;"><div style="display:flex;justify-content:space-between;margin-bottom:10px;"><h3>Videos: '+title+'</h3><button id="lux-p7-vlx" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;">x</button></div>'+html+'<div style="display:flex;gap:6px;margin-top:10px;"><input id="lux-p7-vidu" placeholder="Video-URL" style="flex:1;padding:6px;background:#0f1420;color:#fff;border:1px solid #3a4254;border-radius:4px;"><button id="lux-p7-vidadd" style="background:#10b981;color:#fff;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;">+</button></div></div>';
+                document.body.appendChild(m);
+                document.getElementById('lux-p7-vlx').onclick=()=>m.remove();
+                document.getElementById('lux-p7-vidadd').onclick=()=>{const u=document.getElementById('lux-p7-vidu').value.trim();if(!u)return;window.luxSaveVideo(id,u,'Video '+(vids.length+1));m.remove();openList(id,title);};
+                m.querySelectorAll('[data-play]').forEach(b=>{b.onclick=()=>{openPlayer(vids[parseInt(b.dataset.play)].url,vids[parseInt(b.dataset.play)].title);};});
+                m.querySelectorAll('[data-del]').forEach(b=>{b.onclick=()=>{vids.splice(parseInt(b.dataset.del),1);setVideos(id,vids);m.remove();openList(id,title);};});
+              }
+              function addVidBtn(card){
+                if(card.querySelector('.lux-p7-vid-btn'))return;
+                const id=card.dataset.productId||card.dataset.id||(card.querySelector('h3')||{}).textContent||'unknown';
+                const title=(card.querySelector('h3')||card.querySelector('h2')||{}).textContent||'Produkt';
+                const btn=document.createElement('button');btn.className='lux-p7-vid-btn';
+                btn.style.cssText='position:absolute;top:8px;left:60px;background:rgba(239,68,68,.9);color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;z-index:5;';
+                btn.innerHTML='VID '+getVideos(id).length;btn.title='Videos';
+                btn.onclick=(e)=>{e.stopPropagation();openList(id,title);};
+                if(getComputedStyle(card).position==='static')card.style.position='relative';
+                card.appendChild(btn);
+              }
+              function scan(){document.querySelectorAll('[data-product-id],[data-id],.product-card,.card').forEach(addVidBtn);}
+              function init(){scan();setInterval(scan,5000);}
+              if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,3500));}else{setTimeout(init,3500);}
+              try{if(typeof logActivity==='function')logActivity('Phase 7 Snippet 4 geladen: Video-Player');}catch(e){}
+             })();
 </script>
 </body>
 </html>
