@@ -2644,6 +2644,139 @@ function luxStartPhase5b() {
 setTimeout(luxStartPhase5b, 1200);
 
 init();
+
+  /* ============================================================
+     PHASE 6 — UI SNIPPETS (Daily Cost Tracker + Search + Filter)
+        Append-only, no dependencies on existing functions
+           ============================================================ */
+  (function() {
+      'use strict';
+
+      // ---------- Shared CSS ----------
+      const style = document.createElement('style');
+      style.textContent = `
+          #lux-p6-toolbar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9998;display:flex;gap:8px;align-items:center;background:rgba(15,23,42,0.95);color:#fff;padding:10px 14px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,0.25);font-family:-apple-system,Segoe UI,Roboto,sans-serif;font-size:13px;flex-wrap:wrap;max-width:95vw}
+              #lux-p6-toolbar button{background:rgba(255,255,255,0.1);border:none;color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px;transition:background 0.15s}
+                  #lux-p6-toolbar button:hover{background:rgba(255,255,255,0.2)}
+                      #lux-p6-toolbar button.active{background:#667eea}
+                          #lux-p6-search{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;width:160px;outline:none}
+                              #lux-p6-search::placeholder{color:rgba(255,255,255,0.5)}
+                                  #lux-p6-cost{display:flex;gap:6px;align-items:center;padding:4px 8px;background:rgba(102,126,234,0.2);border-radius:8px;font-weight:600}
+                                      .lux-p6-hide{display:none !important}
+                                          @media (max-width:640px){#lux-p6-toolbar{font-size:11px;padding:8px;gap:6px}#lux-p6-search{width:110px}}
+                                            `;
+      document.head.appendChild(style);
+
+      // ---------- Daily Cost Tracker ----------
+      function getDailyCost() {
+            try {
+                    const today = new Date().toISOString().slice(0,10);
+                    const raw = localStorage.getItem('lux-daily-cost-' + today);
+                    if (raw) return JSON.parse(raw);
+            } catch(e) {}
+            return { ai: 0, ads: 0, supplier: 0 };
+      }
+      function saveDailyCost(c) {
+            try {
+                    const today = new Date().toISOString().slice(0,10);
+                    localStorage.setItem('lux-daily-cost-' + today, JSON.stringify(c));
+            } catch(e) {}
+      }
+      window.luxAddCost = function(type, amount) {
+            const c = getDailyCost();
+            if (c[type] !== undefined) {
+                    c[type] = +(c[type] + Number(amount)).toFixed(2);
+                    saveDailyCost(c);
+                    updateCostUI();
+            }
+      };
+      function updateCostUI() {
+            const c = getDailyCost();
+            const total = (c.ai + c.ads + c.supplier).toFixed(2);
+            const el = document.getElementById('lux-p6-cost-value');
+            if (el) el.textContent = total + ' CHF';
+      }
+
+      // ---------- Search ----------
+      function applySearch(query) {
+            const q = (query || '').trim().toLowerCase();
+            const cards = document.querySelectorAll('[data-product-id], .product-card, [data-pid]');
+            let visible = 0;
+            cards.forEach(card => {
+                    if (!q) {
+                              card.classList.remove('lux-p6-hide');
+                              visible++;
+                              return;
+                    }
+                    const text = (card.textContent || '').toLowerCase();
+                    if (text.includes(q)) {
+                              card.classList.remove('lux-p6-hide');
+                              visible++;
+                    } else {
+                              card.classList.add('lux-p6-hide');
+                    }
+            });
+            return visible;
+      }
+
+      // ---------- Filter Chips ----------
+      let activeFilter = 'ALL';
+      function applyFilter(filter) {
+            activeFilter = filter;
+            const cards = document.querySelectorAll('[data-product-id], .product-card, [data-pid]');
+            cards.forEach(card => {
+                    const text = (card.textContent || '').toUpperCase();
+                    let show = true;
+                    if (filter === 'LIVE') show = text.includes('LIVE') || text.includes('ACTIVE');
+                    else if (filter === 'ARCHIV') show = text.includes('ARCHIV') || text.includes('DRAFT');
+                    else if (filter === 'IDEEN') show = text.includes('IDEE') || text.includes('IDEA') || text.includes('POOL');
+                    card.classList.toggle('lux-p6-hide', !show);
+            });
+            document.querySelectorAll('#lux-p6-toolbar button[data-filter]').forEach(b => {
+                    b.classList.toggle('active', b.dataset.filter === filter);
+            });
+      }
+
+      // ---------- Build Toolbar ----------
+      function buildToolbar() {
+            if (document.getElementById('lux-p6-toolbar')) return;
+            const bar = document.createElement('div');
+            bar.id = 'lux-p6-toolbar';
+            bar.innerHTML = `
+                  <input id="lux-p6-search" type="text" placeholder="\uD83D\uDD0D Suche (Strg+K)" />
+                        <button data-filter="ALL" class="active">Alle</button>
+                              <button data-filter="LIVE">\uD83D\uDFE2 LIVE</button>
+                                    <button data-filter="ARCHIV">\uD83D\uDCE6 Archiv</button>
+                                          <button data-filter="IDEEN">\uD83D\uDCA1 Ideen</button>
+                                                <div id="lux-p6-cost" title="Tagesausgaben (AI+Ads+Supplier)">\uD83D\uDCB0 <span id="lux-p6-cost-value">0.00 CHF</span></div>
+                                                    `;
+            document.body.appendChild(bar);
+
+            const searchInput = document.getElementById('lux-p6-search');
+            searchInput.addEventListener('input', e => applySearch(e.target.value));
+
+            bar.querySelectorAll('button[data-filter]').forEach(btn => {
+                    btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
+            });
+
+            document.addEventListener('keydown', e => {
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                              e.preventDefault();
+                              searchInput.focus();
+                              searchInput.select();
+                    }
+            });
+
+            updateCostUI();
+      }
+
+      if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', buildToolbar);
+      } else {
+            setTimeout(buildToolbar, 800);
+      }
+      try { if (typeof logActivity === 'function') logActivity('Phase 6 UI Snippets geladen: Cost-Tracker + Search + Filter'); } catch(e) {}
+  })();
 </script>
 </body>
 </html>
