@@ -3408,6 +3408,23 @@ init();
       }
       try { if (typeof logActivity === 'function') logActivity('Phase 6 Snippet 5 geladen: Shopify-Links + Bulk Actions'); } catch(e) {}
   })();
+
+  // ========== PHASE 7 SNIPPET 1: BUGFIX - Toolbar Responsive ==========
+  (function(){'use strict';
+              if(document.documentElement.dataset.luxP7S1Done)return;
+              document.documentElement.dataset.luxP7S1Done='1';
+              const css=`
+              .lux-p6-toolbar{bottom:64px !important;left:8px !important;right:8px !important;max-width:calc(100vw - 16px) !important;overflow-x:auto !important;scrollbar-width:none !important;flex-wrap:nowrap !important;padding:6px 8px !important;gap:6px !important;}
+              .lux-p6-toolbar::-webkit-scrollbar{display:none !important;}
+              .lux-p6-toolbar > *{flex-shrink:0 !important;font-size:12px !important;}
+              .lux-p6-toolbar input{min-width:120px !important;max-width:160px !important;}
+              .lux-p6-toolbar button{padding:4px 8px !important;}
+              @media(max-width:640px){.lux-p6-toolbar{bottom:60px !important;}.lux-p6-toolbar input{min-width:90px !important;}}
+              body{padding-bottom:120px !important;}
+              `;
+              const s=document.createElement('style');s.textContent=css;document.head.appendChild(s);
+              try{if(typeof logActivity==='function')logActivity('Phase 7 Snippet 1: Toolbar Bugfix geladen');}catch(e){}
+             })();
 </script>
 </body>
 </html>
