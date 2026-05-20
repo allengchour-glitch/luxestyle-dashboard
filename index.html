@@ -3425,6 +3425,47 @@ init();
               const s=document.createElement('style');s.textContent=css;document.head.appendChild(s);
               try{if(typeof logActivity==='function')logActivity('Phase 7 Snippet 1: Toolbar Bugfix geladen');}catch(e){}
              })();
+
+  // ========== PHASE 7 SNIPPET 2: Auto-Upload zu Shopify ==========
+  (function(){'use strict';
+              if(document.documentElement.dataset.luxP7S2Done)return;
+              document.documentElement.dataset.luxP7S2Done='1';
+              function getShopifyCreds(){try{const t=localStorage.getItem('lux_shopify_token')||'';const d=localStorage.getItem('lux_shopify_domain')||'aban-192.myshopify.com';return{token:t,domain:d};}catch(e){return{token:'',domain:''};}}
+              function openAutoUpload(){
+                const existing=document.getElementById('lux-p7-upload-modal');if(existing){existing.remove();}
+                const creds=getShopifyCreds();
+                const modal=document.createElement('div');modal.id='lux-p7-upload-modal';
+                modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+                modal.innerHTML='<div style="background:#1a1f2e;color:#fff;border-radius:16px;padding:20px;max-width:480px;width:100%;max-height:90vh;overflow:auto;"><h3 style="font-size:18px;font-weight:bold;margin-bottom:12px;">🚀 Auto-Upload zu Shopify</h3><div style="background:#2a3142;padding:10px;border-radius:8px;margin-bottom:12px;font-size:13px;"><b>Store:</b> '+creds.domain+'<br><b>Token:</b> '+(creds.token?'✅ gesetzt':'❌ fehlt (Einstellungen)')+'</div><label style="font-size:13px;display:block;margin-bottom:4px;">Produkt-Titel:</label><input id="lux-p7-up-title" style="width:100%;padding:8px;border-radius:6px;background:#0f1420;color:#fff;border:1px solid #3a4254;margin-bottom:8px;" placeholder="z.B. Herrenuhr Premium"><label style="font-size:13px;display:block;margin-bottom:4px;">Preis (CHF):</label><input id="lux-p7-up-price" type="number" style="width:100%;padding:8px;border-radius:6px;background:#0f1420;color:#fff;border:1px solid #3a4254;margin-bottom:8px;" placeholder="79.00"><label style="font-size:13px;display:block;margin-bottom:4px;">Beschreibung:</label><textarea id="lux-p7-up-desc" rows="3" style="width:100%;padding:8px;border-radius:6px;background:#0f1420;color:#fff;border:1px solid #3a4254;margin-bottom:12px;" placeholder="Produktbeschreibung..."></textarea><div style="background:#3a2a1a;padding:8px;border-radius:6px;font-size:12px;margin-bottom:12px;">⚠️ Erstellt einen DRAFT in Shopify (nicht live). Du musst es manuell publizieren.</div><div style="display:flex;gap:8px;"><button id="lux-p7-up-cancel" style="flex:1;padding:10px;background:#3a4254;color:#fff;border-radius:6px;border:none;cursor:pointer;">Abbrechen</button><button id="lux-p7-up-go" style="flex:1;padding:10px;background:#10b981;color:#fff;border-radius:6px;border:none;cursor:pointer;font-weight:bold;">Draft erstellen</button></div></div>';
+                document.body.appendChild(modal);
+                document.getElementById('lux-p7-up-cancel').onclick=()=>modal.remove();
+                document.getElementById('lux-p7-up-go').onclick=async()=>{
+                  const title=document.getElementById('lux-p7-up-title').value.trim();
+                  const price=document.getElementById('lux-p7-up-price').value.trim();
+                  const desc=document.getElementById('lux-p7-up-desc').value.trim();
+                  if(!title||!price){alert('Titel und Preis sind Pflicht');return;}
+                  if(!creds.token){alert('Shopify-Token fehlt. Bitte in Einstellungen setzen.');return;}
+                  if(!confirm('Draft-Produkt "'+title+'" für '+price+' CHF in Shopify erstellen?'))return;
+                  try{
+                    const url='https://'+creds.domain+'/admin/api/2024-01/products.json';
+                    const body={product:{title:title,body_html:desc,status:'draft',variants:[{price:price}]}};
+                    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json','X-Shopify-Access-Token':creds.token},body:JSON.stringify(body)});
+                    if(res.ok){alert('✅ Draft erstellt! Öffne Shopify Admin um zu publizieren.');try{if(typeof logActivity==='function')logActivity('Shopify Draft erstellt: '+title);}catch(e){}modal.remove();}else{const t=await res.text();alert('❌ Fehler '+res.status+': '+t.slice(0,200));}
+                  }catch(e){alert('❌ Netzwerk-Fehler (CORS?): '+e.message+'\n\nTipp: Shopify API erlaubt CORS nur von vertrauten Domains. Erstelle Produkte direkt im Admin.');}
+                };
+              }
+              function addBtn(){
+                const tools=document.getElementById('lux-p6-tools-fab');
+                if(!tools||document.getElementById('lux-p7-upload-btn'))return;
+                const btn=document.createElement('button');btn.id='lux-p7-upload-btn';
+                btn.style.cssText='position:fixed;bottom:140px;right:16px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 12px rgba(16,185,129,.4);z-index:9998;';
+                btn.innerHTML='🚀';btn.title='Auto-Upload zu Shopify';
+                btn.onclick=openAutoUpload;document.body.appendChild(btn);
+              }
+              function init(){addBtn();setInterval(addBtn,5000);}
+              if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,2500));}else{setTimeout(init,2500);}
+              try{if(typeof logActivity==='function')logActivity('Phase 7 Snippet 2 geladen: Auto-Upload Shopify');}catch(e){}
+             })();
 </script>
 </body>
 </html>
