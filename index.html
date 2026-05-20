@@ -3466,6 +3466,42 @@ init();
               if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,2500));}else{setTimeout(init,2500);}
               try{if(typeof logActivity==='function')logActivity('Phase 7 Snippet 2 geladen: Auto-Upload Shopify');}catch(e){}
              })();
+
+  // ========== PHASE 7 SNIPPET 3: KI-Image Gallery pro Produkt ==========
+  (function(){'use strict';
+              if(document.documentElement.dataset.luxP7S3Done)return;
+              document.documentElement.dataset.luxP7S3Done='1';
+              function getGallery(id){try{return JSON.parse(localStorage.getItem('lux_gallery_'+id)||'[]');}catch(e){return[];}}
+              function setGallery(id,arr){try{localStorage.setItem('lux_gallery_'+id,JSON.stringify(arr.slice(-20)));}catch(e){}}
+              function openGallery(id,title){
+                const existing=document.getElementById('lux-p7-gal-modal');if(existing)existing.remove();
+                const items=getGallery(id);
+                const m=document.createElement('div');m.id='lux-p7-gal-modal';
+                m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+                let grid='';
+                if(items.length===0){grid='<div style="color:#94a3b8;text-align:center;padding:30px;">Noch keine Bilder. Generiere welche mit DALL-E (Sterne-Icon).</div>';}else{items.forEach((it,i)=>{grid+='<div style="position:relative;"><img src="'+it.url+'" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;"><button data-del="'+i+'" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.7);color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;">×</button><div style="font-size:10px;color:#94a3b8;margin-top:2px;">'+(it.date||'').slice(0,10)+'</div></div>';});}
+                m.innerHTML='<div style="background:#1a1f2e;color:#fff;border-radius:16px;padding:20px;max-width:600px;width:100%;max-height:90vh;overflow:auto;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><h3 style="font-size:16px;font-weight:bold;">🎨 Galerie: '+title+'</h3><button id="lux-p7-gal-x" style="background:none;border:none;color:#fff;font-size:24px;cursor:pointer;">×</button></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;">'+grid+'</div><div style="margin-top:12px;font-size:12px;color:#94a3b8;">'+items.length+'/20 Bilder gespeichert (localStorage)</div></div>';
+                document.body.appendChild(m);
+                document.getElementById('lux-p7-gal-x').onclick=()=>m.remove();
+                m.querySelectorAll('[data-del]').forEach(b=>{b.onclick=()=>{const idx=parseInt(b.dataset.del);const a=getGallery(id);a.splice(idx,1);setGallery(id,a);m.remove();openGallery(id,title);};});
+              }
+              function addGalleryBtn(card){
+                if(card.querySelector('.lux-p7-gal-btn'))return;
+                const id=card.dataset.productId||card.dataset.id||(card.querySelector('h3')||{}).textContent||'unknown';
+                const title=(card.querySelector('h3')||card.querySelector('h2')||{}).textContent||'Produkt';
+                const btn=document.createElement('button');btn.className='lux-p7-gal-btn';
+                btn.style.cssText='position:absolute;top:8px;left:8px;background:rgba(139,92,246,.9);color:#fff;border:none;border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;z-index:5;';
+                btn.innerHTML='🎨 '+getGallery(id).length;btn.title='KI-Bild-Galerie';
+                btn.onclick=(e)=>{e.stopPropagation();openGallery(id,title);};
+                if(getComputedStyle(card).position==='static')card.style.position='relative';
+                card.appendChild(btn);
+              }
+              function scan(){document.querySelectorAll('[data-product-id],[data-id]').forEach(addGalleryBtn);document.querySelectorAll('.product-card,.card').forEach(addGalleryBtn);}
+              window.luxSaveToGallery=function(id,url,prompt){const a=getGallery(id);a.push({url:url,prompt:prompt||'',date:new Date().toISOString()});setGallery(id,a);try{if(typeof logActivity==='function')logActivity('Bild zu Galerie hinzugefügt: '+id);}catch(e){}};
+              function init(){scan();setInterval(scan,5000);}
+              if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>setTimeout(init,3000));}else{setTimeout(init,3000);}
+              try{if(typeof logActivity==='function')logActivity('Phase 7 Snippet 3 geladen: KI-Image Gallery');}catch(e){}
+             })();
 </script>
 </body>
 </html>
