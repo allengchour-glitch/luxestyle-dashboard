@@ -373,6 +373,49 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
     </div>
 
     <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">Werbe-Konten Live-Status</span><h2 class="section-title">💰 Ad-Budget Tracker</h2></div></div>
+      <div class="grid-2">
+
+        <!-- TikTok Ad Account -->
+        <div class="profit-card">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+            <span style="font-size:18px;">🎵</span>
+            <strong style="font-size:14px;">TikTok Ads</strong>
+            <span style="font-size:9px;padding:2px 8px;border-radius:100px;background:rgba(29,158,117,0.15);color:var(--success);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Pixel Active</span>
+          </div>
+          <div class="profit-row"><span>Pixel ID</span><span style="font-family:Monaco,monospace;font-size:10px;">D85AB2RC77U9617DG8I0</span></div>
+          <div class="profit-row"><span>Pixel-Created</span><span style="font-size:11px;">24.05.2026</span></div>
+          <div class="profit-row"><span>Aktuelles Guthaben</span><span style="color:var(--text-tertiary);">—</span></div>
+          <div class="profit-row"><span>Daily Spend Limit</span><span style="color:var(--text-tertiary);">—</span></div>
+          <div class="profit-row"><span>Heute ausgegeben</span><span>CHF 0.00</span></div>
+          <div class="profit-row total"><span>Total Spend (lifetime)</span><span>CHF 0.00</span></div>
+          <button class="btn btn-sm" style="width:100%;margin-top:8px;" onclick="window.open('https://ads.tiktok.com/i18n/dashboard', '_blank')">→ TikTok Ads Manager</button>
+        </div>
+
+        <!-- Meta Ad Account -->
+        <div class="profit-card">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+            <span style="font-size:18px;">📘</span>
+            <strong style="font-size:14px;">Meta Ads</strong>
+            <span style="font-size:9px;padding:2px 8px;border-radius:100px;background:rgba(239,159,39,0.15);color:var(--warning);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Pixel Pending</span>
+          </div>
+          <div class="profit-row"><span>Asset-ID (Ad Account)</span><span style="font-family:Monaco,monospace;font-size:11px;">203129197</span></div>
+          <div class="profit-row"><span>Account-Name</span><span style="font-size:11px;">Alleng Chour</span></div>
+          <div class="profit-row"><span>Aktuelles Guthaben</span><span>€ 0,00</span></div>
+          <div class="profit-row"><span>Daily Spend Limit</span><span>€ 1.400,00</span></div>
+          <div class="profit-row"><span>Payment-Method</span><span style="font-size:11px;">PayPal (a****@g****.ch)</span></div>
+          <div class="profit-row total"><span>Nächste Abrechnung</span><span>31.05.2026 / €20</span></div>
+          <button class="btn btn-sm" style="width:100%;margin-top:8px;" onclick="window.open('https://business.facebook.com/billing_hub/payment_settings', '_blank')">→ Meta Billing Hub</button>
+        </div>
+
+      </div>
+      <p style="font-size:11px;color:var(--text-secondary);margin-top:12px;">
+        💡 <strong>Werte manuell gepflegt</strong> (kein Auto-Sync). Sag code-claude wenn sich was ändert (Guthaben aufgeladen, Tagesausgabe, neue Kampagne) → ich update das Dashboard.
+        <br>Für vollautomatisches Live-Tracking: TikTok Ads API + Meta Marketing API (App-Review nötig, 24-48h, Premium-Pflicht).
+      </p>
+    </div>
+
+    <div class="section">
       <div class="section-header"><div><span class="section-subtitle">3 Hero-Produkte</span><h2 class="section-title">Für TikTok-Ads</h2></div></div>
       <div class="product-grid" id="hero-marketing"><div class="product-card" onclick="showProductDetail('15403341447553')"><div class="product-image-wrapper"><img src="https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sfcf2c90de585492eb95bfc6dfb730791i.webp?v=1779481360" alt="Galaxy Aurora LED-Projektor" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=&quot;product-emoji-bg&quot;&gt;✨&lt;/div&gt;'"><span class="product-badge hero">🚀 Hero</span></div><div class="product-info"><div class="product-type">Tech</div><div class="product-title">Galaxy Aurora LED-Projektor</div><div class="product-price">CHF 19.90</div><div class="product-actions"><button class="action-btn" title="Im Shop ansehen" onclick="event.stopPropagation(); openShop('galaxy-aurora-led-projektor-360-sternenhimmel')">🌐</button><button class="action-btn" title="Bearbeiten" onclick="event.stopPropagation(); openAdmin('15403341447553')">✏️</button><button class="action-btn" title="AliExpress" onclick="event.stopPropagation(); window.open('https://aliexpress.com/item/galaxy-aurora', '_blank')">🛒</button></div></div></div><div class="product-card" onclick="showProductDetail('15403009704321')"><div class="product-image-wrapper"><img src="https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S87f9bd226faa442e8a030f289acaa68a0.webp?v=1779477435" alt="Mini Robo-Diffuser Auto" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=&quot;product-emoji-bg&quot;&gt;👽&lt;/div&gt;'"><span class="product-badge hero">🚀 Hero</span></div><div class="product-info"><div class="product-type">Auto</div><div class="product-title">Mini Robo-Diffuser Auto</div><div class="product-price">CHF 19.90</div><div class="product-actions"><button class="action-btn" title="Im Shop ansehen" onclick="event.stopPropagation(); openShop('mini-robo-diffuser-auto-ai-lichter-usb')">🌐</button><button class="action-btn" title="Bearbeiten" onclick="event.stopPropagation(); openAdmin('15403009704321')">✏️</button><button class="action-btn" title="AliExpress" onclick="event.stopPropagation(); window.open('https://aliexpress.com/item/mini-robo', '_blank')">🛒</button></div></div></div><div class="product-card" onclick="showProductDetail('15402998792577')"><div class="product-image-wrapper"><img src="https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S3044a6e3cefd48cbad8abdfff60bab60n.avif?v=1779464224" alt="Flame Diffuser 7 Farben" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=&quot;product-emoji-bg&quot;&gt;🔥&lt;/div&gt;'"><span class="product-badge hero">🚀 Hero</span></div><div class="product-info"><div class="product-type">Wohnen</div><div class="product-title">Flame Diffuser 7 Farben</div><div class="product-price">CHF 49.90</div><div class="product-actions"><button class="action-btn" title="Im Shop ansehen" onclick="event.stopPropagation(); openShop('flame-diffuser-7-farben-kamin-effekt')">🌐</button><button class="action-btn" title="Bearbeiten" onclick="event.stopPropagation(); openAdmin('15402998792577')">✏️</button><button class="action-btn" title="AliExpress" onclick="event.stopPropagation(); window.open('https://aliexpress.com/item/flame', '_blank')">🛒</button></div></div></div></div>
     </div>
