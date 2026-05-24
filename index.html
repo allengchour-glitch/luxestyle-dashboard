@@ -709,26 +709,23 @@ const SHOP_URL = 'https://luxestyle.com.co';
 const ADMIN_URL = 'https://admin.shopify.com/store/luxestyle-ch';
 
 // 🎬 Videos pro Produkt — füge hier neue Videos hinzu (key = product.id)
-// Schema: {platform: 'tiktok'|'youtube'|'instagram'|'meta', title: '...', url: '...', thumbnail?: '...'}
-// Aktuell leer — sobald du echte Videos hast, sag's code-claude oder editiere direkt hier.
+// Schema: {platform: 'tiktok'|'youtube'|'instagram'|'meta'|'heygen', title: '...', url: '...', thumbnail?: '...'}
 const VIDEOS = {
-  // BEISPIELE — copy-paste-Pattern für künftige Einträge (auskommentiert solange keine echten Videos da sind):
-  //
-  // '15403341447553': [  // Galaxy Aurora LED-Projektor
-  //   {platform: 'tiktok', title: 'Hook v1 · Schweizer Nacht-Vibe', url: 'https://www.tiktok.com/@allengchour/video/REAL_ID_HIER'},
-  //   {platform: 'tiktok', title: 'Variation B · Music-Sync', url: 'https://www.tiktok.com/@allengchour/video/REAL_ID_HIER'}
-  // ],
-  // '15403009704321': [  // Mini Robo-Diffuser
-  //   {platform: 'tiktok', title: 'Auto-Hack Demo', url: 'https://www.tiktok.com/@.../video/...'},
-  //   {platform: 'youtube', title: 'Long-form Review', url: 'https://www.youtube.com/watch?v=...'}
-  // ],
-  // '15402998792577': [  // Flame Diffuser
-  //   {platform: 'tiktok', title: 'Cozy Vibes ASMR', url: 'https://www.tiktok.com/@.../video/...'}
+  '15403341447553': [  // Galaxy Aurora LED-Projektor
+    {platform: 'heygen', title: '🎬 HeyGen Draft · Krista Spokesperson DE · 19s · Cosmic Intergalactic Music', url: 'https://app.heygen.com/videos/galaxy-aurora-led-projektor-tiktok-de-a5be0715aee441248114f3f82a94e663'}
+    // {platform: 'tiktok', title: 'Final Upload', url: 'https://www.tiktok.com/@allengchour/video/REAL_ID_NACH_UPLOAD'}
+  ],
+  '15403009704321': [  // Mini Robo-Diffuser Auto
+    {platform: 'heygen', title: '🎬 HeyGen Draft · Krista + Roboter · 21s · Hypnotic Dreams Music', url: 'https://app.heygen.com/projects'}
+    // {platform: 'tiktok', title: 'Final Upload', url: 'https://www.tiktok.com/@allengchour/video/REAL_ID_NACH_UPLOAD'}
+  ]
+  // '15402998792577': [  // Flame Diffuser — nächstes Hero-Video
+  //   {platform: 'heygen', title: '...', url: '...'}
   // ],
 };
 
 function platformIcon(p) {
-  return p === 'tiktok' ? '🎵' : p === 'youtube' ? '▶️' : p === 'instagram' ? '📷' : p === 'meta' ? '📘' : '🎬';
+  return p === 'tiktok' ? '🎵' : p === 'youtube' ? '▶️' : p === 'instagram' ? '📷' : p === 'meta' ? '📘' : p === 'heygen' ? '🤖' : '🎬';
 }
 
 function renderVideosBlock(productId) {
