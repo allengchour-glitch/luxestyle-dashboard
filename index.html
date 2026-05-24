@@ -454,6 +454,54 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
       <p style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">Pipeline-Kosten sind <strong>nahezu vernachlässigbar</strong>. Hauptkosten sind Werbung (TikTok/Meta) + AliExpress-Wareneinkauf.</p>
     </div>
 
+    <!-- Stack-Kosten (Monatlich, alle Komponenten) -->
+    <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">Monatlich · alle Tools im Stack</span><h2 class="section-title">Komponenten-Kosten</h2></div></div>
+      <table class="table">
+        <thead><tr><th>Komponente</th><th>Plan</th><th>Kosten/Mt</th><th>Status</th></tr></thead>
+        <tbody>
+          <!-- AKTIV -->
+          <tr><td colspan="4" style="padding-top: 4px; font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">✅ Aktiv jetzt</td></tr>
+          <tr><td>Shopify</td><td>Basic</td><td>CHF 36</td><td><span style="color: var(--success);">● running</span></td></tr>
+          <tr><td>Make.com (Scenario 5859433)</td><td>Core (10k Ops)</td><td>$9</td><td><span style="color: var(--success);">● 54/10k used</span></td></tr>
+          <tr><td>DSers</td><td>Basic (50 Orders/Mt)</td><td>$0</td><td><span style="color: var(--success);">● connected</span></td></tr>
+          <tr><td>Klaviyo</td><td>Free (500 Kontakte)</td><td>$0</td><td><span style="color: var(--warning);">⚠ wrong shop</span></td></tr>
+          <tr><td>Discord Webhook</td><td>—</td><td>$0</td><td><span style="color: var(--success);">● gratis</span></td></tr>
+          <tr><td>catbox.moe Image-Hosting</td><td>—</td><td>$0</td><td><span style="color: var(--success);">● gratis</span></td></tr>
+          <tr><td>GitHub + Netlify (Dashboard)</td><td>Free</td><td>$0</td><td><span style="color: var(--success);">● running</span></td></tr>
+          <tr><td>Replicate (Flux Schnell)</td><td>Pay-per-use</td><td>~$0.50</td><td><span style="color: var(--success);">● $0.003 × ~150 Bilder</span></td></tr>
+          <tr><td>Apify (AliExpress)</td><td>Free ($5 Credit)</td><td>$0</td><td><span style="color: var(--warning);">○ exhausted · Reset 1.6.</span></td></tr>
+
+          <!-- GEPLANT -->
+          <tr><td colspan="4" style="padding-top: 16px; font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">⏳ Geplant / wenn aktiviert</td></tr>
+          <tr><td>AdCreative.ai</td><td>Premium</td><td>$89</td><td><span style="color: var(--warning);">⏳ API-Doku morgen</span></td></tr>
+          <tr><td>flair.ai</td><td>Scale Tier 1</td><td>$38</td><td><span style="color: var(--warning);">⏳ Skeleton ready</span></td></tr>
+          <tr><td>HeyGen</td><td>Free → Creator</td><td>$0-24</td><td><span style="color: var(--warning);">○ Template-ID gesetzt, Vars fehlen</span></td></tr>
+          <tr><td>Crisp Helpdesk</td><td>Free</td><td>$0</td><td><span style="color: var(--text-tertiary);">○ nicht installiert</span></td></tr>
+          <tr><td>Loox Reviews</td><td>Free (100/Mt)</td><td>$0</td><td><span style="color: var(--text-tertiary);">○ nicht installiert</span></td></tr>
+
+          <!-- MARKETING -->
+          <tr><td colspan="4" style="padding-top: 16px; font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">📢 Marketing (variabel, dein Budget)</td></tr>
+          <tr><td>TikTok Ads (Plan A)</td><td>—</td><td>CHF 500-1'000</td><td><span style="color: var(--warning);">○ pre-launch, Pixel pending</span></td></tr>
+          <tr><td>Meta Ads (später)</td><td>—</td><td>CHF 0-500</td><td><span style="color: var(--text-tertiary);">○ nach TikTok-Daten</span></td></tr>
+
+          <!-- VARIABLE PER ORDER -->
+          <tr><td colspan="4" style="padding-top: 16px; font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">📦 Pro Order (variabel · Cost of Goods)</td></tr>
+          <tr><td>AliExpress Wareneinkauf</td><td>—</td><td>~40% Umsatz</td><td><span style="color: var(--text-tertiary);">Dropshipping-Standard</span></td></tr>
+          <tr><td>AliExpress Versand</td><td>—</td><td>~$2-5 / Order</td><td><span style="color: var(--text-tertiary);">meist free shipping</span></td></tr>
+
+          <!-- TOTALS -->
+          <tr style="font-weight: 600; background: var(--bg-soft);"><td colspan="2">Fix-Kosten Infrastruktur + Tools (heute)</td><td>≈ CHF 45</td><td>Minimal-Setup running</td></tr>
+          <tr style="font-weight: 600; background: var(--bg-soft);"><td colspan="2">+ Marketing TikTok (geplant)</td><td>≈ CHF 750</td><td>Mid-Range Pre-Launch</td></tr>
+          <tr style="font-weight: 600; background: var(--bg-soft);"><td colspan="2">+ AdCreative + flair (wenn aktiviert)</td><td>≈ CHF 115</td><td>~$127 in CHF</td></tr>
+          <tr style="font-weight: 700; background: var(--bg-soft); color: var(--accent);"><td colspan="2"><strong>Total „Volle Pipeline + Marketing"</strong></td><td><strong>≈ CHF 910/Mt</strong></td><td><strong>+ COGS variabel</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">
+        💡 <strong>Break-Even:</strong> Bei Ø Profit CHF 12.50/Sale (Single-Item) → <strong>~73 Sales/Mt</strong> decken Stack. Bei Bundle-AOV (~CHF 22 Profit) → <strong>~42 Sales/Mt</strong>. Realistic target Monat 3-4 nach Ad-Optimization.
+      </p>
+    </div>
+
     <!-- Click-Savings durch Pipeline + DSers -->
     <div class="section">
       <div class="section-header"><div><span class="section-subtitle">Manuell vs Automation</span><h2 class="section-title">Zeit-Ersparnis pro Order/Produkt</h2></div></div>
