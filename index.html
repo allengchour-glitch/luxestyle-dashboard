@@ -270,16 +270,17 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
     <div class="alert alert-success">
       <span style="font-size:18px;">✨</span>
       <div class="alert-content">
-        <h4>System läuft</h4>
-        <p>16 aktive Produkte · 3 TikTok Heroes · TIKTOK2026 (15%) aktiv</p>
+        <h4>System läuft · Pipeline grün seit 24.05 10:02</h4>
+        <p>149 aktive Produkte · DSers connected (Basic) · 3 TikTok Heroes · TIKTOK2026 (15%) aktiv</p>
       </div>
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-label">Produkte</div><div class="kpi-value">16</div><div class="kpi-sub up">+1 heute</div></div>
-      <div class="kpi"><div class="kpi-label">Drafts</div><div class="kpi-value">30+</div><div class="kpi-sub">Bereit</div></div>
-      <div class="kpi"><div class="kpi-label">Verkäufe</div><div class="kpi-value">0</div><div class="kpi-sub">Marketing</div></div>
+      <div class="kpi"><div class="kpi-label">Aktive Produkte</div><div class="kpi-value">149</div><div class="kpi-sub up">Bulk-Activate 24.05</div></div>
+      <div class="kpi"><div class="kpi-label">Drafts</div><div class="kpi-value">28</div><div class="kpi-sub">26 Stock-Img Bundles</div></div>
+      <div class="kpi"><div class="kpi-label">Verkäufe</div><div class="kpi-value">0</div><div class="kpi-sub">Pre-Launch</div></div>
       <div class="kpi"><div class="kpi-label">Heroes</div><div class="kpi-value">3</div><div class="kpi-sub up">Ready</div></div>
+      <div class="kpi"><div class="kpi-label">DSers</div><div class="kpi-value">●</div><div class="kpi-sub up">Connected</div></div>
       <div class="kpi"><div class="kpi-label">Discord</div><div class="kpi-value">●</div><div class="kpi-sub up">Online</div></div>
     </div>
 
@@ -289,10 +290,10 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
         <div class="pipeline-mini">
           <div class="pipe-step success"><div class="pipe-step-icon">⚡</div><div class="pipe-step-label">Webhook</div><div class="pipe-step-status">OK</div></div>
           <div class="pipe-step success"><div class="pipe-step-icon">📦</div><div class="pipe-step-label">Create</div><div class="pipe-step-status">OK</div></div>
-          <div class="pipe-step warning"><div class="pipe-step-icon">💰</div><div class="pipe-step-label">Preis</div><div class="pipe-step-status">Bug</div></div>
-          <div class="pipe-step warning"><div class="pipe-step-icon">🖼️</div><div class="pipe-step-label">Bilder</div><div class="pipe-step-status">Bug</div></div>
+          <div class="pipe-step success"><div class="pipe-step-icon">💰</div><div class="pipe-step-label">Preis</div><div class="pipe-step-status">OK</div></div>
+          <div class="pipe-step success"><div class="pipe-step-icon">🖼️</div><div class="pipe-step-label">Bilder</div><div class="pipe-step-status">OK</div></div>
         </div>
-        <p style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">Module 20 + 17 brauchen Token-Refresh.</p>
+        <p style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">Pipeline grün · Modul 20 (Update Variant) + Modul 17 (Update Media) gefixt 24.05 10:02.</p>
       </div>
 
       <div class="section">
@@ -400,11 +401,11 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
   </div>
 
   <div class="tab-content" id="pipeline">
-    <div class="alert alert-warning">
-      <span style="font-size:18px;">⚠️</span>
+    <div class="alert alert-success">
+      <span style="font-size:18px;">✅</span>
       <div class="alert-content">
-        <h4>Pipeline-Bugs identifiziert</h4>
-        <p>Modul 21 ✅ gefixt. Modul 20 + 17 brauchen Token-Refresh.</p>
+        <h4>Pipeline läuft grün</h4>
+        <p>Alle Module gefixt seit 24.05 10:02. Update Variant Mapping: <code>{{21.variants[1].id}}</code> · Update Media mediaContentType: <code>IMAGE</code></p>
       </div>
     </div>
 
@@ -419,8 +420,8 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
           <tr><td><strong>1</strong></td><td>Webhook</td><td><span style="color: var(--success);">● OK</span></td><td>—</td></tr>
           <tr><td><strong>16</strong></td><td>Create Product</td><td><span style="color: var(--success);">● OK</span></td><td>—</td></tr>
           <tr><td><strong>21</strong></td><td>Get Product</td><td><span style="color: var(--success);">● Gefixt</span></td><td>—</td></tr>
-          <tr><td><strong>20</strong></td><td>Update Variant</td><td><span style="color: var(--warning);">● Bug</span></td><td><button class="btn btn-sm" onclick="fixModule(20)">🔧 Fix</button></td></tr>
-          <tr><td><strong>17</strong></td><td>Update Media</td><td><span style="color: var(--warning);">● Bug</span></td><td><button class="btn btn-sm" onclick="fixModule(17)">🔧 Fix</button></td></tr>
+          <tr><td><strong>20</strong></td><td>Update Variant</td><td><span style="color: var(--success);">● OK</span></td><td>—</td></tr>
+          <tr><td><strong>17</strong></td><td>Update Media</td><td><span style="color: var(--success);">● OK</span></td><td>—</td></tr>
           <tr><td><strong>14</strong></td><td>Discord</td><td><span style="color: var(--success);">● OK</span></td><td>—</td></tr>
         </tbody>
       </table>
@@ -490,19 +491,23 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
       <table class="table">
         <thead><tr><th>Service</th><th>Status</th><th>Notiz</th></tr></thead>
         <tbody>
-          <tr><td>Shopify Admin</td><td><span style="color: var(--success);">● Connected</span></td><td>luxestyle.com.co</td></tr>
-          <tr><td>Make.com</td><td><span style="color: var(--success);">● Active</span></td><td>Core Plan</td></tr>
+          <tr><td>Shopify Admin</td><td><span style="color: var(--success);">● Connected</span></td><td>luxestyle.com.co · 149 ACTIVE</td></tr>
+          <tr><td>Make.com (5859433)</td><td><span style="color: var(--success);">● Active · Pipeline grün</span></td><td>Core Plan</td></tr>
           <tr><td>Replicate</td><td><span style="color: var(--success);">● Active</span></td><td>Flux Schnell</td></tr>
-          <tr><td>Discord</td><td><span style="color: var(--success);">● OK</span></td><td>V8.2</td></tr>
-          <tr><td>Apify</td><td><span style="color: var(--warning);">○ Token</span></td><td>AliExpress</td></tr>
-          <tr><td>TikTok Ads</td><td><span style="color: var(--warning);">○ Manuell</span></td><td>ok</td></tr>
-          <tr><td>Meta Ads</td><td><span style="color: var(--warning);">○ Manuell</span></td><td>ok</td></tr>
+          <tr><td>Discord</td><td><span style="color: var(--success);">● OK</span></td><td>Make Modul 18 (Python deakt.)</td></tr>
+          <tr><td><strong>DSers</strong></td><td><span style="color: var(--success);">● Connected · Basic</span></td><td>AliExpress verlinkt · NEU 24.05</td></tr>
+          <tr><td><strong>Klaviyo</strong></td><td><span style="color: var(--warning);">⚠ Wrong Shop</span></td><td>aban-192 ≠ LuxeStyle</td></tr>
+          <tr><td>Apify (AliExpress)</td><td><span style="color: var(--warning);">○ FREE exhausted</span></td><td>Reset 1. Juni</td></tr>
+          <tr><td>AdCreative.ai</td><td><span style="color: var(--warning);">⏳ API-Doku pending</span></td><td>phase7 skeleton ready</td></tr>
+          <tr><td>flair.ai</td><td><span style="color: var(--warning);">⏳ API verify pending</span></td><td>phase6 skeleton ready</td></tr>
+          <tr><td>TikTok Ads</td><td><span style="color: var(--warning);">○ Manuell</span></td><td>Pixel pending</td></tr>
+          <tr><td>Meta Ads</td><td><span style="color: var(--warning);">○ Manuell</span></td><td>Pixel pending</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <div class="footer">LuxeStyle CH · Premium Wellness · Dashboard v9.1 · 24.05.2026</div>
+  <div class="footer">LuxeStyle CH · Premium Wellness · Dashboard v9.2 · Updated 24.05.2026 · Pipeline-Fix + DSers + 149 ACTIVE</div>
 
 </div>
 
