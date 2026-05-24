@@ -426,6 +426,66 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
         </tbody>
       </table>
     </div>
+
+    <!-- Pipeline-KPIs (today) -->
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">Runs Heute</div><div class="kpi-value">6</div><div class="kpi-sub">letzte 24h</div></div>
+      <div class="kpi"><div class="kpi-label">Cost Heute</div><div class="kpi-value">$0.054</div><div class="kpi-sub">Replicate only</div></div>
+      <div class="kpi"><div class="kpi-label">Avg Duration</div><div class="kpi-value">39s</div><div class="kpi-sub">pro Run</div></div>
+      <div class="kpi"><div class="kpi-label">Make Ops</div><div class="kpi-value">54</div><div class="kpi-sub">/ 10'000 Plan</div></div>
+      <div class="kpi"><div class="kpi-label">Webhook Success</div><div class="kpi-value">100%</div><div class="kpi-sub up">200 OK</div></div>
+      <div class="kpi"><div class="kpi-label">Apify Credits</div><div class="kpi-value">$0</div><div class="kpi-sub">Reset 1.6.</div></div>
+    </div>
+
+    <!-- Cost-Breakdown per Run -->
+    <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">Pro Pipeline-Run</span><h2 class="section-title">Kosten-Breakdown</h2></div></div>
+      <table class="table">
+        <thead><tr><th>Komponente</th><th>$ / Run</th><th>$ / 50 Runs/Mt</th><th>Hinweis</th></tr></thead>
+        <tbody>
+          <tr><td>Replicate (Flux Schnell, 3 Bilder)</td><td>$0.009</td><td>$0.45</td><td>$0.003 × 3 Bilder</td></tr>
+          <tr><td>catbox.moe Image-Upload</td><td>$0.00</td><td>$0.00</td><td>gratis Hosting</td></tr>
+          <tr><td>Make.com Webhook → Shopify (~10 Ops)</td><td>~$0.00</td><td>~$0.04</td><td>10'000 Ops gratis (Core Plan)</td></tr>
+          <tr><td>Shopify Admin API (Create + Variant + Media)</td><td>$0.00</td><td>$0.00</td><td>Plan-inklusive (Basic)</td></tr>
+          <tr><td>Discord Webhook</td><td>$0.00</td><td>$0.00</td><td>gratis</td></tr>
+          <tr style="font-weight: 600; background: var(--bg-soft);"><td>Total pro Run</td><td>≈ $0.01</td><td>≈ $0.50/Mt</td><td>Bei 50 Runs/Monat</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">Pipeline-Kosten sind <strong>nahezu vernachlässigbar</strong>. Hauptkosten sind Werbung (TikTok/Meta) + AliExpress-Wareneinkauf.</p>
+    </div>
+
+    <!-- Click-Savings durch Pipeline + DSers -->
+    <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">Manuell vs Automation</span><h2 class="section-title">Zeit-Ersparnis pro Order/Produkt</h2></div></div>
+      <table class="table">
+        <thead><tr><th>Aktion</th><th>Manuell</th><th>Mit Pipeline + DSers</th><th>Ersparnis</th></tr></thead>
+        <tbody>
+          <tr><td>Produkt anlegen (Bilder + Preis + Beschreibung)</td><td>20-30 Min</td><td>~40s + 1 Webhook-Trigger</td><td><span style="color: var(--success);">~95%</span></td></tr>
+          <tr><td>Order zu AliExpress weiterleiten</td><td>15 Min / Order</td><td>1-2 Min Bulk-Klick (DSers Basic)</td><td><span style="color: var(--success);">~90%</span></td></tr>
+          <tr><td>Tracking-Nummer eintragen</td><td>5 Min / Order</td><td>Auto-Sync (DSers)</td><td><span style="color: var(--success);">~100%</span></td></tr>
+          <tr><td>Kunden-Notification senden</td><td>3 Min / Order</td><td>Shopify Default-Email</td><td><span style="color: var(--success);">~100%</span></td></tr>
+          <tr style="font-weight: 600; background: var(--bg-soft);"><td>Total bei 30 Orders/Monat</td><td>≈ 22h / Monat</td><td>≈ 1h / Monat</td><td><span style="color: var(--success);">21h gespart</span></td></tr>
+        </tbody>
+      </table>
+      <p style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">Bei DSers <strong>Pro</strong> ($49.90/Mt) wären's 0 Klicks pro Order. Aktuell Basic = Bulk-Click 1×/Tag.</p>
+    </div>
+
+    <!-- Letzte Pipeline-Runs (aus autopilot_state.json) -->
+    <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">autopilot_state.json</span><h2 class="section-title">Letzte 6 Pipeline-Runs</h2></div></div>
+      <table class="table">
+        <thead><tr><th>Time (UTC)</th><th>Produkt</th><th>Phase 3 (Replicate)</th><th>Upload</th><th>Webhook</th><th>Total</th></tr></thead>
+        <tbody>
+          <tr><td>08:03</td><td>Bambus Aroma Diffuser 300ml</td><td>29.8s</td><td>4.4s</td><td><span style="color: var(--success);">200</span></td><td>35.2s</td></tr>
+          <tr><td>07:58</td><td>Bambus Aroma Diffuser 300ml</td><td>30.2s</td><td>6.4s</td><td><span style="color: var(--success);">200</span></td><td>37.5s</td></tr>
+          <tr><td>07:44</td><td>Bambus Aroma Diffuser 300ml</td><td>43.0s</td><td>4.7s</td><td><span style="color: var(--success);">200</span></td><td>48.4s</td></tr>
+          <tr><td>07:29</td><td>Bambus Aroma Diffuser 300ml</td><td>30.2s</td><td>7.9s</td><td><span style="color: var(--success);">200</span></td><td>39.2s</td></tr>
+          <tr><td>06:07</td><td>Rosenquarz Gua Sha Set</td><td>32.5s</td><td>4.6s</td><td><span style="color: var(--success);">200</span></td><td>38.0s</td></tr>
+          <tr><td>23-19:59</td><td>Update Variant Test</td><td>30.1s</td><td>5.7s</td><td><span style="color: var(--success);">200</span></td><td>36.7s</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">⚠️ <strong>Beobachtung Duplikate</strong>: 4× Bambus Aroma Diffuser 300ml hintereinander → Make.com sollte per Title/SKU deduplizieren, sonst entstehen Shopify-Duplikate.</p>
+    </div>
   </div>
 
   <div class="tab-content" id="launchpad">
