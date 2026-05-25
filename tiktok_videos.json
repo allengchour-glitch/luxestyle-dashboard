@@ -1,0 +1,97 @@
+{
+  "_schema_version": "1.0",
+  "_description": "TikTok-Video-Index für Dashboard v9 + LuxeStyle Cross-Posting. Pro Produkt-Handle 1+ Video-Objekt.",
+  "_last_updated": "2026-05-25",
+  "videos": [
+    {
+      "id": "tt-galaxy-aurora-01",
+      "product_handle": "galaxy-aurora-led-projektor",
+      "title": "Schlaflos? Diese LED-Galaxie hilft 🌌",
+      "tiktok_url": "",
+      "instagram_reels_url": "",
+      "youtube_shorts_url": "",
+      "thumbnail_url": "",
+      "duration_seconds": 28,
+      "status": "scripted",
+      "script_file": "TIKTOK_SCRIPTS_TOP3.md#video-1-galaxy-aurora-led-projektor",
+      "audience": "wellness_frauen_25_45",
+      "hashtags": ["aurora", "ledprojektor", "schweiz", "wellness", "schlaf", "luxestyleCH"],
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "shares": 0,
+        "saved": 0,
+        "ctr": 0,
+        "last_updated": null
+      },
+      "production_notes": "VEO 3 für Aurora-FX, CapCut für Cuts, Trending Lo-Fi Music"
+    },
+    {
+      "id": "tt-himalaya-01",
+      "product_handle": "himalaya-salzkristall-lampe",
+      "title": "Echtes Himalaya. Echtes Wohlfühlen.",
+      "tiktok_url": "",
+      "instagram_reels_url": "",
+      "youtube_shorts_url": "",
+      "thumbnail_url": "",
+      "duration_seconds": 28,
+      "status": "scripted",
+      "script_file": "TIKTOK_SCRIPTS_TOP3.md#video-2-himalaya-salzkristall-lampe",
+      "audience": "wellness_frauen_25_45",
+      "hashtags": ["himalaya", "salzlampe", "wellness", "meditation", "schweiz", "luxestyleCH"],
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "shares": 0,
+        "saved": 0,
+        "ctr": 0,
+        "last_updated": null
+      },
+      "production_notes": "Beruhigende Klangbäder-Musik · Lifestyle-Shots · Spec-Grafik"
+    },
+    {
+      "id": "tt-mini-robo-01",
+      "product_handle": "mini-robo-diffuser",
+      "title": "Mein Schreibtisch-Buddy ist süsser als deiner 🤖",
+      "tiktok_url": "",
+      "instagram_reels_url": "",
+      "youtube_shorts_url": "",
+      "thumbnail_url": "",
+      "duration_seconds": 28,
+      "status": "scripted",
+      "script_file": "TIKTOK_SCRIPTS_TOP3.md#video-3-mini-robo-diffuser",
+      "audience": "studenten_18_28",
+      "hashtags": ["diffuser", "aromatherapy", "cute", "homeoffice", "geschenkidee", "luxestyleCH"],
+      "metrics": {
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "shares": 0,
+        "saved": 0,
+        "ctr": 0,
+        "last_updated": null
+      },
+      "production_notes": "Cute/Wholesome Trending Sound · 3 Farben showcase · jugendlicher Voiceover"
+    }
+  ],
+  "_post_schedule": {
+    "tt-galaxy-aurora-01": "Mittwoch 19:00 CET",
+    "tt-himalaya-01": "Sonntag 11:00 CET",
+    "tt-mini-robo-01": "Freitag 17:00 CET"
+  },
+  "_pipeline_status": {
+    "scripts_written": 3,
+    "videos_produced": 0,
+    "videos_posted": 0,
+    "total_views_lifetime": 0
+  },
+  "_dashboard_integration": "index.html sollte diesen File via fetch() lesen und in TikTok-Section rendern. Status-Filter: 'scripted' | 'in_production' | 'live' | 'archived'.",
+  "_status_workflow": [
+    "scripted    — Skript fertig, noch nicht produziert (DEFAULT)",
+    "in_production — VEO 3 / CapCut / HeyGen running",
+    "live        — Auf TikTok+Reels+Shorts gepostet, URLs gefüllt",
+    "archived    — Vom Hauptfeed entfernt aber gespeichert"
+  ]
+}
