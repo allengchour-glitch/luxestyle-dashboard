@@ -29,8 +29,8 @@ Tab-Wechsel über `showTab(event, 'id')`. Für Sprung-Links aus anderen Tabs: `s
 | Kampagnen-To-do (Sommer) | `marketing` | `luxe_campaign_v1` | `campInit` / `campToggleStep` |
 | E-Mail-Flow-Setup-Checkliste | `marketing` | `luxe_email_v1` | `emailInit` / `emailToggleStep` |
 | Automation-Mails (8×, DE/EN) | `marketing` | `luxe_mail_v1` (+ `luxe_mail_lang_v1`) | `mailRender` |
-| TikTok-Kommentar-Antworten (13×, DE/EN) | `content` | `luxe_tt_replies_v1` (+ `luxe_tt_lang_v1`) | `ttReplyRender` |
-| Mode-Creatives (DE/EN) | `content` | `luxe_creative_v1` (+ `luxe_creative_lang_v1`) | `creativeRender` |
+| TikTok-Kommentar-Antworten (17×, DE/EN) | `content` | `luxe_tt_replies_v1` (+ `luxe_tt_lang_v1`) | `ttReplyRender` |
+| Mode-Creatives (8×, DE/EN) | `content` | `luxe_creative_v1` (+ `luxe_creative_lang_v1`) | `creativeRender` |
 | Kundenservice-Antworten (DE/EN) | `marketing` | `luxe_service_v1` (+ `luxe_service_lang_v1`) | `serviceRender` |
 | Cockpit-Übersicht (aggregiert) | `overview` | — (liest die obigen) | `cockpitRender` |
 
@@ -67,5 +67,22 @@ Funktionaler Test: `index.html` im Browser öffnen — alles läuft client-seiti
 
 ## Git / Workflow
 - Entwicklungs-Branch: `claude/blissful-albattani-wUQZV`. Push mit `git push -u origin <branch>`.
-- Aktiver PR: **#1** (Draft) — sammelt die o.g. Module. Nach dem Push immer einen (Draft-)PR sicherstellen.
+- **PR #1** (Affiliate · Kampagne · E-Mail-Flows · TikTok-Antworten · Creatives · Cockpit) ist **gemergt** (squash → `main`).
+- **PR #2** (Draft) — Kundenservice-Antworten-Modul. Nach dem Push immer einen (Draft-)PR sicherstellen.
 - Footer-Versionsstring in `index.html` (Suche `class="footer"`) bei größeren Änderungen mitziehen.
+
+## Externer Projekt-Stand (außerhalb des Repos · Juni 2026)
+Läuft über In-Admin-Tools / MCP, NICHT im Dashboard-Code:
+- **Shopify** (`luxestyle.ch`, CHF · Markets: **USA = USD aktiv**): 5 Produkte „US/Summer 2026" live mit
+  Bild + Varianten + Dropship-Inventar (SKUs `LX-DIFF/LAMP/CLOCK/PHN/JWL`), Collection „US / Summer 2026".
+  Echte Dropship-Produkte kommen über **CJ/DSers** (echte Fotos + Lieferanten-SKUs, z. B. Ring, Shorts).
+- **Klaviyo** (Account = LuxeStyle CH, hängt am `.com.co`-Shop): **14 E-Mail-Templates** (7 DE + 7 EN:
+  Cart 1–3, Welcome 1–2, Post-Purchase, Win-Back), Branding Taupe/Cream, Code `WELCOME10`.
+  Flows müssen in der Klaviyo-UI gebaut/aktiviert werden (API kann keine Flow-Trigger anlegen).
+- **Loox:** 56 Reviews (5.0★) importiert, Core-Script im Theme aktiv.
+- **TikTok Ads** (`luxestyle.ch`): Kampagne „LuxeStyle Mode CH – Sommer" als Entwurf; Pixel
+  `D8EQE4JC77UAEKHUJCM0` aktiv. Offen: Optimierungsereignis **Complete Payment** + 4 Creatives → veröffentlichen.
+- **Nur In-Admin (keine API für Claude):** DSers, Loox, TikTok/Meta Ads.
+- **Bild-Lektion:** Shopify-Produktbilder müssen **< 25 MP** sein, sonst Fehler „Mediendatei konnte nicht
+  verarbeitet werden". Adobe-Stock-**Free**-Collection taugt für Platzhalter (0 Credits, kommerziell nutzbar) —
+  große Assets (>25 MP) vorher herunterskalieren (z. B. `image_crop_and_resize`).
