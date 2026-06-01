@@ -535,6 +535,48 @@ var e=ttq._i[t]||[],n=0;n&lt;ttq.methods.length;n++)ttq.setAndDefer(e,ttq.method
     </div>
 
     <div class="section">
+      <div class="section-header">
+        <div><span class="section-subtitle">E-Mail · Automationen</span><h2 class="section-title">📧 E-Mail-Flows</h2></div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="ttf-btn ttf-active" data-mlang="de" onclick="mailSetLang('de')">🇩🇪 DE</button>
+          <button class="ttf-btn" data-mlang="en" onclick="mailSetLang('en')">🇬🇧 EN</button>
+          <button class="btn btn-sm" onclick="mailReset()">↺ <span id="mail-reset-label">Standard</span></button>
+        </div>
+      </div>
+
+      <div class="alert alert-info">
+        <span style="font-size:18px;">💸</span>
+        <div class="alert-content">
+          <h4>Warenkorb-Abbrecher zuerst – höchster Umsatz-Hebel</h4>
+          <p>Läuft nach dem Einrichten passiv weiter. Gratis über Shopify Email oder Klaviyo. Code WELCOME10 (-10 %) ist als Anreiz eingebaut.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="profit-card">
+          <p style="font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Flow-Status</p>
+          <div class="profit-row"><span>🛒 Warenkorb-Abbrecher</span><span style="color:var(--warning);">⏳ Einrichten</span></div>
+          <div class="profit-row"><span>👋 Willkommens-Serie</span><span style="color:var(--text-tertiary);">○ Geplant</span></div>
+          <div class="profit-row"><span>📦 Nach dem Kauf (Review)</span><span style="color:var(--text-tertiary);">○ Geplant</span></div>
+          <div class="profit-row"><span>👀 Browse-Abbruch</span><span style="color:var(--text-tertiary);">○ Optional</span></div>
+          <div class="profit-row total"><span>🔁 Win-Back (60 Tage)</span><span style="color:var(--text-tertiary);">○ Optional</span></div>
+        </div>
+        <div class="section" style="margin-bottom:0;">
+          <div class="section-header"><div><span class="section-subtitle">Setup · Shopify / Klaviyo</span><h2 class="section-title">Checkliste</h2></div></div>
+          <label class="aff-step"><input type="checkbox" data-flow="provider" onchange="emailToggleStep('provider', this.checked)"> Shopify Email aktivieren <em>oder</em> Klaviyo verbinden</label>
+          <label class="aff-step"><input type="checkbox" data-flow="trigger" onchange="emailToggleStep('trigger', this.checked)"> Abandoned-Cart-Flow aktivieren (Trigger: Checkout abgebrochen)</label>
+          <label class="aff-step"><input type="checkbox" data-flow="timing" onchange="emailToggleStep('timing', this.checked)"> Timing setzen: 1 Std · 24 Std · 48 Std (3 Mails)</label>
+          <label class="aff-step"><input type="checkbox" data-flow="code" onchange="emailToggleStep('code', this.checked)"> Rabattcode <code>WELCOME10</code> (-10 %) in Mail 2 &amp; 3 einbinden</label>
+          <label class="aff-step"><input type="checkbox" data-flow="branding" onchange="emailToggleStep('branding', this.checked)"> Logo, Branding &amp; Abmelde-Footer prüfen</label>
+          <label class="aff-step"><input type="checkbox" data-flow="live" onchange="emailToggleStep('live', this.checked)"> Test-Mail senden &amp; Flow live schalten</label>
+        </div>
+      </div>
+
+      <p style="font-size:12px;color:var(--text-secondary);margin:14px 0 10px;"><strong>Warenkorb-Abbrecher-Mails</strong> · editierbar, 📋 kopiert Betreff oder Text. Platzhalter <code>{VORNAME}</code>, <code>{PRODUKT}</code>, <code>{CODE}</code> ersetzen.</p>
+      <div class="grid-2" id="mail-grid"></div>
+    </div>
+
+    <div class="section">
       <div class="section-header"><div><span class="section-subtitle">3 Hero-Produkte</span><h2 class="section-title">Für TikTok-Ads</h2></div></div>
       <div class="product-grid" id="hero-marketing"><div class="product-card" onclick="showProductDetail('15403341447553')"><div class="product-image-wrapper"><img src="https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sfcf2c90de585492eb95bfc6dfb730791i.webp?v=1779481360" alt="Galaxy Aurora LED-Projektor" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=&quot;product-emoji-bg&quot;&gt;✨&lt;/div&gt;'"><span class="product-badge hero">🚀 Hero</span></div><div class="product-info"><div class="product-type">Tech</div><div class="product-title">Galaxy Aurora LED-Projektor</div><div class="product-price">CHF 19.90</div><div class="product-actions"><button class="action-btn" title="Im Shop ansehen" onclick="event.stopPropagation(); openShop('galaxy-aurora-led-projektor-360-sternenhimmel')">🌐</button><button class="action-btn" title="Bearbeiten" onclick="event.stopPropagation(); openAdmin('15403341447553')">✏️</button><button class="action-btn" title="AliExpress" onclick="event.stopPropagation(); window.open('https://aliexpress.com/item/galaxy-aurora', '_blank')">🛒</button><button class="action-btn" title="🎬 TikTok-Videos + Ads-Library (2 Tabs)" onclick="event.stopPropagation(); tiktokResearch('galaxy aurora star projector')">🎬</button><button class="action-btn" title="📘 Meta Ad Library (CH+DE · 2 Tabs)" onclick="event.stopPropagation(); metaAdsLibrary('galaxy aurora star projector')">📘</button></div></div></div><div class="product-card" onclick="showProductDetail('15403009704321')"><div class="product-image-wrapper"><img src="https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S87f9bd226faa442e8a030f289acaa68a0.webp?v=1779477435" alt="Mini Robo-Diffuser Auto" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=&quot;product-emoji-bg&quot;&gt;👽&lt;/div&gt;'"><span class="product-badge hero">🚀 Hero</span></div><div class="product-info"><div class="product-type">Auto</div><div class="product-title">Mini Robo-Diffuser Auto</div><div class="product-price">CHF 19.90</div><div class="product-actions"><button class="action-btn" title="Im Shop ansehen" onclick="event.stopPropagation(); openShop('mini-robo-diffuser-auto-ai-lichter-usb')">🌐</button><button class="action-btn" title="Bearbeiten" onclick="event.stopPropagation(); openAdmin('15403009704321')">✏️</button><button class="action-btn" title="AliExpress" onclick="event.stopPropagation(); window.open('https://aliexpress.com/item/mini-robo', '_blank')">🛒</button><button class="action-btn" title="🎬 TikTok-Videos + Ads-Library (2 Tabs)" onclick="event.stopPropagation(); tiktokResearch('mini robot car aroma diffuser')">🎬</button><button class="action-btn" title="📘 Meta Ad Library (CH+DE · 2 Tabs)" onclick="event.stopPropagation(); metaAdsLibrary('mini robot car aroma diffuser')">📘</button></div></div></div><div class="product-card" onclick="showProductDetail('15402998792577')"><div class="product-image-wrapper"><img src="https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S3044a6e3cefd48cbad8abdfff60bab60n.avif?v=1779464224" alt="Flame Diffuser 7 Farben" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=&quot;product-emoji-bg&quot;&gt;🔥&lt;/div&gt;'"><span class="product-badge hero">🚀 Hero</span></div><div class="product-info"><div class="product-type">Wohnen</div><div class="product-title">Flame Diffuser 7 Farben</div><div class="product-price">CHF 49.90</div><div class="product-actions"><button class="action-btn" title="Im Shop ansehen" onclick="event.stopPropagation(); openShop('flame-diffuser-7-farben-kamin-effekt')">🌐</button><button class="action-btn" title="Bearbeiten" onclick="event.stopPropagation(); openAdmin('15402998792577')">✏️</button><button class="action-btn" title="AliExpress" onclick="event.stopPropagation(); window.open('https://aliexpress.com/item/flame', '_blank')">🛒</button><button class="action-btn" title="🎬 TikTok-Videos + Ads-Library (2 Tabs)" onclick="event.stopPropagation(); tiktokResearch('flame fireplace diffuser humidifier')">🎬</button><button class="action-btn" title="📘 Meta Ad Library (CH+DE · 2 Tabs)" onclick="event.stopPropagation(); metaAdsLibrary('flame fireplace diffuser humidifier')">📘</button></div></div></div></div>
     </div>
@@ -926,6 +968,19 @@ Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
       </div>
       <p id="tt-reply-intro" style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">Fertige Antwort-Vorlagen für die häufigsten TikTok-Kommentare. Editierbar, Klick auf 📋 kopiert den Text. Änderungen bleiben lokal gespeichert. Platzhalter <code>{PRODUKT}</code> vor dem Senden ersetzen.</p>
       <div class="grid-2" id="tt-reply-grid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div><span class="section-subtitle">CONTENT · ADS</span><h2 class="section-title">🎬 Mode-Creatives</h2></div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="ttf-btn ttf-active" data-clang="de" onclick="creativeSetLang('de')">🇩🇪 DE</button>
+          <button class="ttf-btn" data-clang="en" onclick="creativeSetLang('en')">🇬🇧 EN</button>
+          <button class="btn btn-sm" onclick="creativeReset()">↺ <span id="creative-reset-label">Standard</span></button>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">Hook + Caption-Bausteine für die Sommer-Kampagne (luxestyle.ch). 📋 kopiert die Caption. Editierbar &amp; lokal gespeichert. Platzhalter <code>{PRODUKT}</code> ersetzen.</p>
+      <div class="grid-2" id="creative-grid"></div>
     </div>
   </div>
 
@@ -1385,6 +1440,196 @@ function campCopyPixel() {
   if (el) copyCode(el.value);
 }
 
+/* ===== E-Mail-Flow Setup-Checkliste (localStorage) ===== */
+const EMAIL_KEY = 'luxe_email_v1';
+function emailLoad() {
+  try { const r = localStorage.getItem(EMAIL_KEY); if (r) return JSON.parse(r) || {}; }
+  catch (e) { console.warn('E-Mail-Status konnte nicht geladen werden:', e); }
+  return {};
+}
+function emailToggleStep(key, checked) {
+  const s = emailLoad();
+  s[key] = !!checked;
+  try { localStorage.setItem(EMAIL_KEY, JSON.stringify(s)); }
+  catch (e) { console.warn('E-Mail-Status konnte nicht gespeichert werden:', e); }
+}
+function emailInit() {
+  const s = emailLoad();
+  document.querySelectorAll('#marketing input[data-flow]').forEach(box => {
+    box.checked = !!s[box.getAttribute('data-flow')];
+  });
+}
+
+/* ===== Warenkorb-Abbrecher-Mails (bilingual, localStorage) ===== */
+const MAIL_KEY = 'luxe_mail_v1';
+const MAIL_LANG_KEY = 'luxe_mail_lang_v1';
+const MAIL_UI = {
+  de: { copy: '📋 Text kopieren', reset: 'Standard', confirm: 'Alle Mail-Vorlagen (DE) auf die Standardtexte zurücksetzen?' },
+  en: { copy: '📋 Copy text', reset: 'Reset', confirm: 'Reset all email templates (EN) to the default texts?' }
+};
+const MAIL_DEFAULTS = [
+  { id: 'r1',
+    label: { de: 'Reminder 1 · nach 1 Std', en: 'Reminder 1 · after 1 h' },
+    subj: { de: 'Du hast etwas vergessen 👀', en: 'You forgot something 👀' },
+    body: { de: 'Hey {VORNAME},\n\ndein {PRODUKT} wartet noch in deinem Warenkorb. Wir haben ihn für dich reserviert – aber nicht ewig 😊\n\nJetzt abschließen 👉 luxestyle.ch\n\nDein LuxeStyle-Team 🤍',
+            en: 'Hey {VORNAME},\n\nyour {PRODUKT} is still waiting in your cart. We saved it for you – but not forever 😊\n\nComplete your order 👉 luxestyle.ch\n\nYour LuxeStyle team 🤍' } },
+  { id: 'r2',
+    label: { de: 'Reminder 2 · nach 24 Std (-10 %)', en: 'Reminder 2 · after 24 h (-10%)' },
+    subj: { de: '-10 % auf deinen Warenkorb 🎁', en: '-10% on your cart 🎁' },
+    body: { de: 'Hey {VORNAME},\n\nnoch unschlüssig? Hier sind 10 % Rabatt mit Code {CODE} – nur für kurze Zeit ⏳\n\nDein {PRODUKT} wartet 👉 luxestyle.ch\n\nBis gleich, dein LuxeStyle-Team 🤍',
+            en: 'Hey {VORNAME},\n\nstill thinking about it? Here\'s 10% off with code {CODE} – for a limited time only ⏳\n\nYour {PRODUKT} is waiting 👉 luxestyle.ch\n\nSee you soon, your LuxeStyle team 🤍' } },
+  { id: 'r3',
+    label: { de: 'Reminder 3 · nach 48 Std (Knappheit)', en: 'Reminder 3 · after 48 h (urgency)' },
+    subj: { de: 'Letzte Chance – fast ausverkauft 🔥', en: 'Last chance – almost sold out 🔥' },
+    body: { de: 'Hey {VORNAME},\n\ndein {PRODUKT} ist sehr gefragt und fast vergriffen. Dein 10 %-Code {CODE} gilt nur noch heute!\n\nJetzt sichern 👉 luxestyle.ch\n\nDein LuxeStyle-Team 🤍',
+            en: 'Hey {VORNAME},\n\nyour {PRODUKT} is in high demand and almost gone. Your 10% code {CODE} is valid today only!\n\nGrab it now 👉 luxestyle.ch\n\nYour LuxeStyle team 🤍' } }
+];
+function mailGetLang() {
+  try { const l = localStorage.getItem(MAIL_LANG_KEY); if (l === 'de' || l === 'en') return l; } catch (e) {}
+  return 'de';
+}
+function mailLoad() {
+  try { const r = localStorage.getItem(MAIL_KEY); if (r) { const m = JSON.parse(r) || {}; m.de = m.de || {}; m.en = m.en || {}; return m; } }
+  catch (e) { console.warn('Mail-Vorlagen konnten nicht geladen werden:', e); }
+  return { de: {}, en: {} };
+}
+function mailSave(map) {
+  try { localStorage.setItem(MAIL_KEY, JSON.stringify(map)); }
+  catch (e) { console.warn('Mail-Vorlagen konnten nicht gespeichert werden:', e); }
+}
+function mailRender() {
+  const grid = document.getElementById('mail-grid');
+  if (!grid) return;
+  const lang = mailGetLang();
+  const ui = MAIL_UI[lang];
+  const saved = mailLoad()[lang] || {};
+  grid.innerHTML = MAIL_DEFAULTS.map(m => {
+    const ov = saved[m.id] || {};
+    const subj = ov.subj != null ? ov.subj : m.subj[lang];
+    const body = ov.body != null ? ov.body : m.body[lang];
+    return '<div class="tt-reply">' +
+      '<div class="tt-reply-head"><span class="tt-reply-label">📧 ' + m.label[lang] + '</span></div>' +
+      '<div style="display:flex;gap:6px;align-items:center;">' +
+        '<input class="aff-input" style="flex:1;" data-msubj="' + m.id + '" value="' + affEsc(subj) + '" onchange="mailEdit(\'' + m.id + '\',\'subj\',this.value)">' +
+        '<button class="btn btn-sm" title="Betreff kopieren" onclick="mailCopy(\'' + m.id + '\',\'subj\')">📋</button>' +
+      '</div>' +
+      '<textarea rows="6" data-mbody="' + m.id + '" onchange="mailEdit(\'' + m.id + '\',\'body\',this.value)">' + affEsc(body) + '</textarea>' +
+      '<button class="btn btn-sm btn-primary" onclick="mailCopy(\'' + m.id + '\',\'body\')">' + ui.copy + '</button>' +
+    '</div>';
+  }).join('');
+  const lbl = document.getElementById('mail-reset-label'); if (lbl) lbl.textContent = ui.reset;
+  document.querySelectorAll('[data-mlang]').forEach(b => b.classList.toggle('ttf-active', b.getAttribute('data-mlang') === lang));
+}
+function mailCopy(id, field) {
+  const sel = field === 'subj' ? 'input[data-msubj="' : 'textarea[data-mbody="';
+  const el = document.querySelector('#mail-grid ' + sel + id + '"]');
+  if (el) copyCode(el.value);
+}
+function mailEdit(id, field, value) {
+  const lang = mailGetLang();
+  const map = mailLoad();
+  map[lang][id] = map[lang][id] || {};
+  map[lang][id][field] = value;
+  mailSave(map);
+}
+function mailSetLang(lang) {
+  try { localStorage.setItem(MAIL_LANG_KEY, lang); } catch (e) {}
+  mailRender();
+}
+function mailReset() {
+  const lang = mailGetLang();
+  if (!confirm(MAIL_UI[lang].confirm)) return;
+  const map = mailLoad();
+  map[lang] = {};
+  mailSave(map);
+  mailRender();
+}
+
+/* ===== Mode-Creatives (bilingual, localStorage) ===== */
+const CREATIVE_KEY = 'luxe_creative_v1';
+const CREATIVE_LANG_KEY = 'luxe_creative_lang_v1';
+const CREATIVE_UI = {
+  de: { copy: '📋 Caption', reset: 'Standard', confirm: 'Alle Creative-Captions (DE) zurücksetzen?' },
+  en: { copy: '📋 Caption', reset: 'Reset', confirm: 'Reset all creative captions (EN)?' }
+};
+const CREATIVE_DEFAULTS = [
+  { id: 'reel', fmt: { de: 'Story Reel · 9:16', en: 'Story Reel · 9:16' },
+    hook: { de: '„POV: dein Sommer-Outfit 2026 ist da"', en: '"POV: your summer outfit 2026 just arrived"' },
+    cap: { de: 'Sommer-Kollektion 2026 ☀️ Eleganz für jeden Tag. Jetzt -10 % mit Code WELCOME10 👉 luxestyle.ch\n#LuxeStyle #SommerMode #OOTD #SwissStyle',
+           en: 'Summer collection 2026 ☀️ Elegance for every day. Get -10% with code WELCOME10 👉 luxestyle.ch\n#LuxeStyle #SummerStyle #OOTD #SwissStyle' } },
+  { id: 'tryon', fmt: { de: 'Try-on Haul · 9:16', en: 'Try-on haul · 9:16' },
+    hook: { de: '„3 Looks, 1 Kollektion – welcher ist deiner?"', en: '"3 looks, 1 collection – which one is yours?"' },
+    cap: { de: 'Welcher Look ist dein Favorit? 😍 Die ganze Sommer-Kollektion gibt\'s mit -10 % (Code WELCOME10) 👉 luxestyle.ch\n#TryOnHaul #SommerMode #LuxeStyle',
+           en: 'Which look is your favorite? 😍 Shop the full summer collection with -10% (code WELCOME10) 👉 luxestyle.ch\n#TryOnHaul #SummerFashion #LuxeStyle' } },
+  { id: 'carousel', fmt: { de: 'Foto-Karussell · 4:5', en: 'Photo carousel · 4:5' },
+    hook: { de: 'Flatlay: 5 Must-haves für den Sommer', en: 'Flatlay: 5 summer must-haves' },
+    cap: { de: 'Diese 5 Teile dürfen diesen Sommer nicht fehlen ☀️ Swipe für deine Favoriten – -10 % mit WELCOME10 👉 luxestyle.ch\n#Flatlay #SommerEssentials #LuxeStyle',
+           en: 'These 5 pieces are summer essentials ☀️ Swipe for your favorites – -10% with WELCOME10 👉 luxestyle.ch\n#Flatlay #SummerEssentials #LuxeStyle' } },
+  { id: 'ugc', fmt: { de: 'UGC Testimonial · 9:16', en: 'UGC testimonial · 9:16' },
+    hook: { de: '„Ehrliche Meinung nach 2 Wochen tragen"', en: '"Honest review after 2 weeks of wearing it"' },
+    cap: { de: 'Echte Qualität, echtes Feedback 🤍 {PRODUKT} aus der Sommer-Kollektion. Mit Code WELCOME10 -10 % 👉 luxestyle.ch\n#UGC #Kundenstimme #LuxeStyle',
+           en: 'Real quality, real feedback 🤍 {PRODUKT} from the summer collection. -10% with code WELCOME10 👉 luxestyle.ch\n#UGC #CustomerReview #LuxeStyle' } },
+  { id: 'beforeafter', fmt: { de: 'Outfit-Transition · 9:16', en: 'Outfit transition · 9:16' },
+    hook: { de: '„Vom Büro zum Apéro – ein Outfit"', en: '"From office to evening – one outfit"' },
+    cap: { de: 'Ein Look, der alles mitmacht 💃 Style-Transition mit der Sommer-Kollektion. -10 % mit WELCOME10 👉 luxestyle.ch\n#OutfitTransition #DayToNight #LuxeStyle',
+           en: 'One look that does it all 💃 Style transition with the summer collection. -10% with WELCOME10 👉 luxestyle.ch\n#OutfitTransition #DayToNight #LuxeStyle' } }
+];
+function creativeGetLang() {
+  try { const l = localStorage.getItem(CREATIVE_LANG_KEY); if (l === 'de' || l === 'en') return l; } catch (e) {}
+  return 'de';
+}
+function creativeLoad() {
+  try { const r = localStorage.getItem(CREATIVE_KEY); if (r) { const m = JSON.parse(r) || {}; m.de = m.de || {}; m.en = m.en || {}; return m; } }
+  catch (e) { console.warn('Creatives konnten nicht geladen werden:', e); }
+  return { de: {}, en: {} };
+}
+function creativeSave(map) {
+  try { localStorage.setItem(CREATIVE_KEY, JSON.stringify(map)); }
+  catch (e) { console.warn('Creatives konnten nicht gespeichert werden:', e); }
+}
+function creativeRender() {
+  const grid = document.getElementById('creative-grid');
+  if (!grid) return;
+  const lang = creativeGetLang();
+  const ui = CREATIVE_UI[lang];
+  const saved = creativeLoad()[lang] || {};
+  grid.innerHTML = CREATIVE_DEFAULTS.map(c => {
+    const cap = saved[c.id] != null ? saved[c.id] : c.cap[lang];
+    return '<div class="tt-reply">' +
+      '<div class="tt-reply-head">' +
+        '<span class="tt-reply-label">🎬 ' + c.fmt[lang] + '</span>' +
+        '<button class="btn btn-sm btn-primary" onclick="creativeCopy(\'' + c.id + '\')">' + ui.copy + '</button>' +
+      '</div>' +
+      '<span class="tt-reply-q">' + c.hook[lang] + '</span>' +
+      '<textarea rows="5" data-cap="' + c.id + '" onchange="creativeEdit(\'' + c.id + '\', this.value)">' + affEsc(cap) + '</textarea>' +
+    '</div>';
+  }).join('');
+  const lbl = document.getElementById('creative-reset-label'); if (lbl) lbl.textContent = ui.reset;
+  document.querySelectorAll('[data-clang]').forEach(b => b.classList.toggle('ttf-active', b.getAttribute('data-clang') === lang));
+}
+function creativeCopy(id) {
+  const el = document.querySelector('#creative-grid textarea[data-cap="' + id + '"]');
+  if (el) copyCode(el.value);
+}
+function creativeEdit(id, value) {
+  const lang = creativeGetLang();
+  const map = creativeLoad();
+  map[lang][id] = value;
+  creativeSave(map);
+}
+function creativeSetLang(lang) {
+  try { localStorage.setItem(CREATIVE_LANG_KEY, lang); } catch (e) {}
+  creativeRender();
+}
+function creativeReset() {
+  const lang = creativeGetLang();
+  if (!confirm(CREATIVE_UI[lang].confirm)) return;
+  const map = creativeLoad();
+  map[lang] = {};
+  creativeSave(map);
+  creativeRender();
+}
+
 /* ===== TikTok Kommentar-Antworten / Comment replies (bilingual, localStorage) ===== */
 const TT_REPLY_KEY = 'luxe_tt_replies_v1';
 const TT_LANG_KEY = 'luxe_tt_lang_v1';
@@ -1531,6 +1776,9 @@ renderProducts();
 renderCSV();
 affInit();
 campInit();
+emailInit();
+mailRender();
+creativeRender();
 ttReplyRender();
 </script>
 
