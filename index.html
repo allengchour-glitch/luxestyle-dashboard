@@ -508,6 +508,27 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
         </div>
       </div>
 
+      <div class="profit-card" style="margin-top:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+          <strong style="font-size:13px;">📋 Pixel-Code · luxestyle.ch &lt;head&gt;</strong>
+          <button class="btn btn-sm btn-primary" onclick="campCopyPixel()">📋 Kopieren</button>
+        </div>
+        <textarea id="camp-pixel-code" readonly rows="8" style="width:100%;background:var(--bg-soft);border:0.5px solid var(--border);border-radius:6px;color:var(--text-primary);padding:8px 10px;font-family:Monaco,monospace;font-size:10px;line-height:1.4;resize:vertical;">&lt;!-- TikTok Pixel Code Start --&gt;
+&lt;script&gt;
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=[&quot;page&quot;,&quot;track&quot;,&quot;identify&quot;,&quot;instances&quot;,&quot;debug&quot;,&quot;on&quot;,&quot;off&quot;,&quot;once&quot;,&quot;ready&quot;,&quot;alias&quot;,&quot;group&quot;,&quot;enableCookie&quot;,&quot;disableCookie&quot;,&quot;holdConsent&quot;,&quot;revokeConsent&quot;,&quot;grantConsent&quot;],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i&lt;ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+var e=ttq._i[t]||[],n=0;n&lt;ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r=&quot;https://analytics.tiktok.com/i18n/pixel/events.js&quot;,o=n&amp;&amp;n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement(&quot;script&quot;)
+;n.type=&quot;text/javascript&quot;,n.async=!0,n.src=r+&quot;?sdkid=&quot;+e+&quot;&amp;lib=&quot;+t;e=document.getElementsByTagName(&quot;script&quot;)[0];e.parentNode.insertBefore(n,e)};
+
+
+  ttq.load(&#x27;D8EQE4JC77UAEKHUJCM0&#x27;);
+  ttq.page();
+}(window, document, &#x27;ttq&#x27;);
+&lt;/script&gt;
+&lt;!-- TikTok Pixel Code End --&gt;</textarea>
+        <p style="font-size:11px;color:var(--text-secondary);margin-top:6px;">In den <code>&lt;head&gt;</code> von <strong>luxestyle.ch</strong> einfügen – <em>nicht</em> in dieses Dashboard. Quelle: <code>snippets/tiktok-pixel-luxestyle-ch.html</code></p>
+      </div>
+
       <p style="font-size:11px;color:var(--text-secondary);margin-top:12px;">
         💡 <strong>Hinweis Pixel-Status:</strong> Im Settings-Tab ist Pixel <code>D85BAGJC77UF23S9UDH0</code> als aktiv geführt – das gehört zum <code>luxestyle.com.co</code>-Konto. Diese Kampagne läuft auf dem separaten Shop <code>luxestyle.ch</code> und braucht ein <em>eigenes</em> Pixel.
       </p>
@@ -1358,6 +1379,10 @@ function campInit() {
   document.querySelectorAll('#marketing input[data-camp]').forEach(box => {
     box.checked = !!steps[box.getAttribute('data-camp')];
   });
+}
+function campCopyPixel() {
+  const el = document.getElementById('camp-pixel-code');
+  if (el) copyCode(el.value);
 }
 
 /* ===== TikTok Kommentar-Antworten / Comment replies (bilingual, localStorage) ===== */
