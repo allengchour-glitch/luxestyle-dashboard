@@ -260,6 +260,7 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
     <button class="tab active" onclick="showTab(event, 'overview')">📊 Cockpit</button>
     <button class="tab" onclick="showTab(event, 'products')">📦 Shop</button>
     <button class="tab" onclick="showTab(event, 'marketing')">🚀 Marketing</button>
+    <button class="tab" onclick="showTab(event, 'affiliate')">🤝 Affiliate</button>
     <button class="tab" onclick="showTab(event, 'pipeline')">⚡ Pipeline</button>
     <button class="tab" onclick="showTab(event, 'launchpad')">🎯 Launch</button>
     <button class="tab" onclick="showTab(event, 'stats')">📈 Stats</button>
@@ -468,6 +469,116 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
           <div class="profit-row total profit"><span>Gewinn/Sale</span><span>CHF 22.50</span></div>
           <div class="profit-row total profit"><span>Monats-Gewinn</span><span>CHF 11,250</span></div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="affiliate">
+    <div class="alert alert-success">
+      <span style="font-size:18px;">🤝</span>
+      <div class="alert-content">
+        <h4>Programm „Standard Affiliate Commission" · AKTIV</h4>
+        <p>15 % Provision · 30-Tage-Cookie · PayPal · Coupon- + Link-Tracking · Sprache DE</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">Provision</div><div class="kpi-value">15 %</div><div class="kpi-sub">vom Bestellwert</div></div>
+      <div class="kpi"><div class="kpi-label">Cookie-Dauer</div><div class="kpi-value">30</div><div class="kpi-sub">Tage</div></div>
+      <div class="kpi"><div class="kpi-label">Auszahlung</div><div class="kpi-value">PayPal</div><div class="kpi-sub">aktiviert</div></div>
+      <div class="kpi"><div class="kpi-label">Min. Auszahlung</div><div class="kpi-value">CHF 30</div><div class="kpi-sub" style="color:var(--warning);">⚠ Growth-Plan</div></div>
+      <div class="kpi"><div class="kpi-label">Aktive Creator</div><div class="kpi-value" id="aff-kpi-creators">0</div><div class="kpi-sub">im Tracking</div></div>
+      <div class="kpi"><div class="kpi-label">Provision fällig</div><div class="kpi-value" id="aff-kpi-due">CHF 0</div><div class="kpi-sub">Summe (15 %)</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="section">
+        <div class="section-header"><div><span class="section-subtitle">UpPromote · Live</span><h2 class="section-title">Programm-Übersicht</h2></div></div>
+        <table class="table">
+          <thead><tr><th>Einstellung</th><th>Wert</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Provision</td><td>15 % vom Bestellwert</td><td><span style="color:var(--success);">✅ aktiv</span></td></tr>
+            <tr><td>Cookie-Dauer</td><td>30 Tage</td><td><span style="color:var(--success);">✅ konfiguriert</span></td></tr>
+            <tr><td>Tracking</td><td>Coupon-Code + Affiliate-Link</td><td><span style="color:var(--success);">✅ aktiv</span></td></tr>
+            <tr><td>Zahlungsmethode</td><td>PayPal</td><td><span style="color:var(--success);">✅ aktiviert</span></td></tr>
+            <tr><td>Programm-Status</td><td>Aktiv</td><td><span style="color:var(--success);">✅ live</span></td></tr>
+            <tr><td>Beschreibung / AGB</td><td>Deutsch · 15 %-Hinweis</td><td><span style="color:var(--success);">✅ gespeichert</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-header"><div><span class="section-subtitle">Für Stories / Bio der Creator</span><h2 class="section-title">Registrierungslink</h2></div></div>
+        <div class="profit-card">
+          <p style="font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Creator-Registrierung</p>
+          <div style="font-family:Monaco,monospace;font-size:13px;word-break:break-all;background:var(--bg-card);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:10px;margin-bottom:10px;">https://af.uppromote.com/au3j0y-hq</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-sm btn-primary" onclick="copyCode('https://af.uppromote.com/au3j0y-hq')">📋 Link kopieren</button>
+            <button class="btn btn-sm" onclick="window.open('https://af.uppromote.com/au3j0y-hq', '_blank')">→ UpPromote öffnen</button>
+          </div>
+          <p style="font-size:11px;color:var(--text-secondary);margin-top:10px;">Direkt in die DM-Vorlage einbauen oder in Creator-Bios/Stories teilen.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div><span class="section-subtitle">Coupon- + Link-Tracking · lokal gespeichert</span><h2 class="section-title">Creator-Tracking</h2></div>
+        <button class="btn btn-sm btn-primary" onclick="affAddCreator()">+ Creator hinzufügen</button>
+      </div>
+      <div style="overflow-x:auto;">
+      <table class="table">
+        <thead><tr><th>Creator</th><th>Coupon-Code</th><th>Verkäufe</th><th>Umsatz CHF</th><th>Provision (15 %)</th><th>Bonus</th><th>Status</th><th></th></tr></thead>
+        <tbody id="aff-creator-rows"></tbody>
+      </table>
+      </div>
+      <div class="grid-2" style="margin-top:12px;align-items:end;">
+        <div>
+          <input id="aff-new-name" class="aff-input" placeholder="Creator-Name (z.B. Anna)" style="width:100%;">
+        </div>
+        <div style="display:flex;gap:8px;">
+          <input id="aff-new-coupon" class="aff-input" placeholder="Coupon-Code (z.B. CREATOR-ANNA15)" style="flex:1;">
+          <button class="btn btn-sm btn-primary" onclick="affAddCreator()">Hinzufügen</button>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--text-secondary);margin-top:10px;">💡 Provision wird automatisch als 15 % vom Umsatz berechnet. Verkäufe/Umsatz/Status sind direkt in der Tabelle editierbar. Daten bleiben lokal im Browser gespeichert.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="section">
+        <div class="section-header">
+          <div><span class="section-subtitle">Outreach</span><h2 class="section-title">DM-Vorlage</h2></div>
+          <button class="btn btn-sm btn-primary" onclick="affCopyTemplate()">📋 Vorlage kopieren</button>
+        </div>
+        <textarea id="aff-dm-template" class="aff-input" rows="10" style="width:100%;font-size:12px;line-height:1.5;resize:vertical;">Hey [Name] 👋
+
+Wir lieben deinen Content! 🎬 LuxeStyle CH sucht Creator für eine Affiliate-Partnerschaft:
+
+✨ 15 % Provision auf jeden Verkauf über deinen Code/Link
+🍪 30 Tage Cookie – du bekommst auch spätere Käufe
+🎁 Schnellstart-Bonus: 20 % auf deine ersten 3 Verkäufe
+💸 Auszahlung via PayPal
+
+Dein persönlicher Code: {COUPON}
+Jetzt registrieren: https://af.uppromote.com/au3j0y-hq
+
+Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-top:8px;">Platzhalter <code>[Name]</code> und <code>{COUPON}</code> vor dem Senden ersetzen.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-header"><div><span class="section-subtitle">Nächste Schritte</span><h2 class="section-title">Checkliste</h2></div></div>
+        <label class="aff-step"><input type="checkbox" data-step="coupons" onchange="affToggleStep('coupons', this.checked)"> Coupons für die ersten Creator anlegen (Motivation → Coupons → Manage coupons), z.B. <code>CREATOR-ANNA15</code></label>
+        <label class="aff-step"><input type="checkbox" data-step="dm" onchange="affToggleStep('dm', this.checked)"> 5–10 Creator per DM anschreiben (Link + Vorlage oben)</label>
+        <label class="aff-step"><input type="checkbox" data-step="growth" onchange="affToggleStep('growth', this.checked)"> Optional: UpPromote Growth-Plan testen (14 Tage gratis) für CHF-30-Mindestauszahlung + 20 %-Bonus</label>
+      </div>
+    </div>
+
+    <div class="alert alert-warning">
+      <span style="font-size:18px;">⚠️</span>
+      <div class="alert-content">
+        <h4>Nur mit UpPromote Growth/Professional (~$21/Mt.)</h4>
+        <p><strong>Mindestauszahlung CHF 30</strong> und <strong>20 %-Schnellstart-Bonus (erste 3 Verkäufe)</strong> sind im Free-Plan nicht automatisierbar. Bis zum Upgrade: Creatorn vorab kommunizieren und manuell ab CHF 30 bzw. mit Bonus-Aufschlag auszahlen.</p>
       </div>
     </div>
   </div>
@@ -734,6 +845,15 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
   .tt-actions a { background: transparent; border: 0.5px solid var(--border); color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; font-size: 11px; text-decoration: none; transition: all 0.15s; }
   .tt-actions a:hover { border-color: var(--accent); color: var(--accent); }
   .tt-actions a.disabled { opacity: 0.35; pointer-events: none; }
+  .aff-input { background: var(--bg-card); border: 0.5px solid var(--border-strong); border-radius: var(--radius-sm); color: var(--text-primary); padding: 6px 10px; font-size: 12px; font-family: inherit; }
+  .aff-input:focus { outline: none; border-color: var(--accent); }
+  .aff-cell { background: transparent; border: 0.5px solid transparent; border-radius: 4px; color: var(--text-primary); padding: 4px 6px; font-size: 12px; font-family: inherit; width: 100%; }
+  .aff-cell:hover { border-color: var(--border); }
+  .aff-cell:focus { outline: none; border-color: var(--accent); background: var(--bg-card); }
+  .aff-step { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; padding: 8px 0; border-bottom: 0.5px solid var(--border); line-height: 1.5; cursor: pointer; }
+  .aff-step:last-child { border-bottom: none; }
+  .aff-step input { margin-top: 2px; accent-color: var(--accent); }
+  .aff-bonus { font-size: 10px; padding: 2px 8px; border-radius: 100px; background: rgba(239, 159, 39, 0.12); color: var(--warning); white-space: nowrap; }
   </style>
 
   <script>
@@ -818,7 +938,7 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
   })();
   </script>
 
-  <div class="footer">LuxeStyle CH · Dashboard v10.1 · 26.05.2026 · 26 Produkte · 8 Heroes · 17 Collections · 5 Klaviyo-Flows · 6 Coupons LIVE · 🎬+📘 Research · 23 Produkte +Bilder-Sweep · 42 Phasen · 99% Production-Ready</div>
+  <div class="footer">LuxeStyle CH · Dashboard v10.2 · 01.06.2026 · 26 Produkte · 8 Heroes · 17 Collections · 5 Klaviyo-Flows · 6 Coupons LIVE · 🤝 Affiliate-Tab · 🎬+📘 Research · 23 Produkte +Bilder-Sweep · 42 Phasen · 99% Production-Ready</div>
 
 </div>
 
@@ -1044,6 +1164,94 @@ function smartQuery(title) {
     .trim();
 }
 function copyCode(text) { navigator.clipboard.writeText(text).then(() => alert('📋 Kopiert: ' + text)); }
+
+/* ===== Affiliate-Tracking (localStorage) ===== */
+const AFF_KEY = 'luxe_affiliate_v1';
+const AFF_RATE = 0.15;
+function affLoad() {
+  try {
+    const raw = localStorage.getItem(AFF_KEY);
+    if (raw) { const s = JSON.parse(raw); s.creators = s.creators || []; s.steps = s.steps || {}; return s; }
+  } catch (e) { console.warn('Affiliate-State konnte nicht geladen werden:', e); }
+  return { creators: [], steps: {} };
+}
+function affSave(state) {
+  try { localStorage.setItem(AFF_KEY, JSON.stringify(state)); }
+  catch (e) { console.warn('Affiliate-State konnte nicht gespeichert werden:', e); }
+}
+function affEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function affRenderCreators() {
+  const state = affLoad();
+  const tbody = document.getElementById('aff-creator-rows');
+  if (!tbody) return;
+  if (!state.creators.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-tertiary);padding:18px;">Noch keine Creator – oben hinzufügen.</td></tr>';
+  } else {
+    tbody.innerHTML = state.creators.map(c => {
+      const provision = (Number(c.revenue) || 0) * AFF_RATE;
+      const bonus = (Number(c.sales) || 0) <= 3 ? '<span class="aff-bonus">20 % (Growth)</span>' : '–';
+      return '<tr>' +
+        '<td><input class="aff-cell" value="' + affEsc(c.name) + '" onchange="affEditCell(\'' + c.id + '\',\'name\',this.value)"></td>' +
+        '<td><input class="aff-cell" style="font-family:Monaco,monospace;" value="' + affEsc(c.coupon) + '" onchange="affEditCell(\'' + c.id + '\',\'coupon\',this.value)"></td>' +
+        '<td><input class="aff-cell" type="number" min="0" style="width:64px;" value="' + (Number(c.sales) || 0) + '" onchange="affEditCell(\'' + c.id + '\',\'sales\',this.value)"></td>' +
+        '<td><input class="aff-cell" type="number" min="0" step="0.01" style="width:84px;" value="' + (Number(c.revenue) || 0) + '" onchange="affEditCell(\'' + c.id + '\',\'revenue\',this.value)"></td>' +
+        '<td style="color:var(--success);font-weight:600;">CHF ' + provision.toFixed(2) + '</td>' +
+        '<td>' + bonus + '</td>' +
+        '<td><select class="aff-cell" onchange="affEditCell(\'' + c.id + '\',\'status\',this.value)">' +
+          ['Eingeladen', 'Aktiv', 'Pausiert'].map(s => '<option' + (c.status === s ? ' selected' : '') + '>' + s + '</option>').join('') +
+        '</select></td>' +
+        '<td><button class="btn btn-sm" title="Löschen" onclick="affDeleteCreator(\'' + c.id + '\')">🗑</button></td>' +
+      '</tr>';
+    }).join('');
+  }
+  const totalDue = state.creators.reduce((sum, c) => sum + (Number(c.revenue) || 0) * AFF_RATE, 0);
+  const kc = document.getElementById('aff-kpi-creators'); if (kc) kc.textContent = state.creators.length;
+  const kd = document.getElementById('aff-kpi-due'); if (kd) kd.textContent = 'CHF ' + totalDue.toFixed(0);
+}
+function affAddCreator() {
+  const nameEl = document.getElementById('aff-new-name');
+  const couponEl = document.getElementById('aff-new-coupon');
+  const name = (nameEl.value || '').trim();
+  const coupon = (couponEl.value || '').trim();
+  if (!name && !coupon) { alert('⚠️ Bitte Creator-Name oder Coupon-Code eingeben.'); return; }
+  const state = affLoad();
+  state.creators.push({ id: 'c' + Date.now(), name: name, coupon: coupon, sales: 0, revenue: 0, status: 'Eingeladen' });
+  affSave(state);
+  nameEl.value = ''; couponEl.value = '';
+  affRenderCreators();
+}
+function affDeleteCreator(id) {
+  const state = affLoad();
+  const c = state.creators.find(x => x.id === id);
+  if (!confirm('Creator "' + (c && c.name ? c.name : id) + '" löschen?')) return;
+  state.creators = state.creators.filter(x => x.id !== id);
+  affSave(state);
+  affRenderCreators();
+}
+function affEditCell(id, field, value) {
+  const state = affLoad();
+  const c = state.creators.find(x => x.id === id);
+  if (!c) return;
+  c[field] = (field === 'sales' || field === 'revenue') ? (Number(value) || 0) : value;
+  affSave(state);
+  affRenderCreators();
+}
+function affToggleStep(key, checked) {
+  const state = affLoad();
+  state.steps[key] = !!checked;
+  affSave(state);
+}
+function affCopyTemplate() {
+  const el = document.getElementById('aff-dm-template');
+  copyCode(el ? el.value : '');
+}
+function affInit() {
+  affRenderCreators();
+  const state = affLoad();
+  document.querySelectorAll('#affiliate input[data-step]').forEach(box => {
+    box.checked = !!state.steps[box.getAttribute('data-step')];
+  });
+}
 function fixModule(num) { alert('🔧 Token-Refresh Modul ' + num + '\n\n1. Make.com öffnen\n2. Modul ' + num + '\n3. Mapping leeren\n4. Token neu einfügen\n5. Speichern + Test'); }
 function launchProduct(name, price) {
   if (!confirm('Launch "' + name + '" für CHF ' + price.toFixed(2) + '?')) return;
@@ -1068,6 +1276,7 @@ function filterProducts() {
 
 renderProducts();
 renderCSV();
+affInit();
 </script>
 
 
