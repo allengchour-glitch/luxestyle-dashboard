@@ -295,6 +295,7 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
         <div class="kpi"><div class="kpi-label">Automation-Mails</div><div class="kpi-value" id="ck-mail-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
         <div class="kpi"><div class="kpi-label">TikTok-Antworten</div><div class="kpi-value" id="ck-reply-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
         <div class="kpi"><div class="kpi-label">Mode-Creatives</div><div class="kpi-value" id="ck-creative-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
+        <div class="kpi"><div class="kpi-label">Service-Antworten</div><div class="kpi-value" id="ck-service-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
         <button class="btn btn-sm" onclick="showTab(null,'affiliate')">🤝 Affiliate</button>
@@ -591,6 +592,19 @@ var e=ttq._i[t]||[],n=0;n&lt;ttq.methods.length;n++)ttq.setAndDefer(e,ttq.method
 
       <p style="font-size:12px;color:var(--text-secondary);margin:14px 0 10px;"><strong>Automation-Mails</strong> (Warenkorb · Willkommen · Nach-Kauf) · editierbar, 📋 kopiert Betreff oder Text. Platzhalter <code>{VORNAME}</code>, <code>{PRODUKT}</code>, <code>{CODE}</code> ersetzen.</p>
       <div class="grid-2" id="mail-grid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div><span class="section-subtitle">Support · E-Mail</span><h2 class="section-title">📨 Kundenservice-Antworten</h2></div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="ttf-btn ttf-active" data-svlang="de" onclick="serviceSetLang('de')">🇩🇪 DE</button>
+          <button class="ttf-btn" data-svlang="en" onclick="serviceSetLang('en')">🇬🇧 EN</button>
+          <button class="btn btn-sm" onclick="serviceReset()">↺ <span id="service-reset-label">Standard</span></button>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">Vorgefertigte Antworten auf typische Kundenfragen (Versand, Rückgabe, Bestellstatus …). 📋 kopiert Betreff oder Text. Editierbar &amp; lokal gespeichert.</p>
+      <div class="grid-2" id="service-grid"></div>
     </div>
 
     <div class="section">
@@ -1687,6 +1701,106 @@ function creativeReset() {
   creativeRender();
 }
 
+/* ===== Kundenservice-Antworten (bilingual, localStorage) ===== */
+const SERVICE_KEY = 'luxe_service_v1';
+const SERVICE_LANG_KEY = 'luxe_service_lang_v1';
+const SERVICE_UI = {
+  de: { copy: '📋 Text kopieren', reset: 'Standard', confirm: 'Alle Service-Antworten (DE) auf die Standardtexte zurücksetzen?' },
+  en: { copy: '📋 Copy text', reset: 'Reset', confirm: 'Reset all service replies (EN) to the default texts?' }
+};
+const SERVICE_DEFAULTS = [
+  { id: 'shipping', emoji: '🚚',
+    label: { de: 'Versand/Versandkosten', en: 'Shipping/cost' },
+    subj: { de: 'Re: Versandkosten', en: 'Re: Shipping fees' },
+    body: { de: 'Hallo,\n\nvielen Dank für deine Nachricht! Ab CHF 49 ist der Versand gratis (Code FREESHIP49). Unter CHF 49 fällt eine kleine Pauschale an, die transparent im Checkout angezeigt wird – keine versteckten Kosten.\n\nMelde dich gern, falls wir sonst helfen können.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nthank you for your message! Shipping is free for orders from CHF 49 (code FREESHIP49). Below CHF 49 a small flat fee applies, shown transparently at checkout – no hidden costs.\n\nLet us know if there\'s anything else we can help with.\n\nBest regards,\nThe LuxeStyle Team' } },
+  { id: 'returns', emoji: '🔁',
+    label: { de: 'Rückgabe/Umtausch', en: 'Returns/exchange' },
+    subj: { de: 'Re: Rückgabe', en: 'Re: Returns' },
+    body: { de: 'Hallo,\n\ndu kannst deine Bestellung innerhalb von 14 Tagen zurückgeben oder umtauschen – ungetragen und mit Etikett. Schreib uns einfach kurz deine Bestellnummer, dann senden wir dir die Rücksende-Infos.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nyou can return or exchange your order within 14 days – unworn and with tags attached. Just send us your order number and we\'ll share the return details.\n\nBest regards,\nThe LuxeStyle Team' } },
+  { id: 'orderstatus', emoji: '📦',
+    label: { de: 'Bestellstatus', en: 'Order status' },
+    subj: { de: 'Re: Deine Bestellung', en: 'Re: Your order' },
+    body: { de: 'Hallo,\n\ndanke für deine Geduld! Sobald deine Bestellung das Lager verlässt, erhältst du automatisch eine E-Mail mit Tracking-Nummer. Falls du mir deine Bestellnummer schickst, prüfe ich den Status gern direkt.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nthanks for your patience! As soon as your order leaves our warehouse, you\'ll automatically receive an email with a tracking number. Send me your order number and I\'m happy to check the status for you.\n\nBest regards,\nThe LuxeStyle Team' } },
+  { id: 'size', emoji: '📏',
+    label: { de: 'Größe/Passform', en: 'Size/fit' },
+    subj: { de: 'Re: Größe & Passform', en: 'Re: Size & fit' },
+    body: { de: 'Hallo,\n\nauf jeder Produktseite findest du eine Größentabelle. In der Regel passt die normale Konfektionsgröße. Wenn du mir sagst, welches Produkt und welche Maße, helfe ich dir gern bei der Wahl.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nyou\'ll find a size chart on each product page. It generally fits true to size. If you tell me which product and your measurements, I\'m happy to help you choose.\n\nBest regards,\nThe LuxeStyle Team' } },
+  { id: 'payment', emoji: '💳',
+    label: { de: 'Zahlungsarten', en: 'Payment methods' },
+    subj: { de: 'Re: Zahlungsmöglichkeiten', en: 'Re: Payment options' },
+    body: { de: 'Hallo,\n\nbei uns kannst du sicher und bequem bezahlen – u. a. mit Kreditkarte, TWINT und PayPal. Alle Optionen siehst du im Checkout. Deine Daten werden verschlüsselt übertragen.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nyou can pay securely and conveniently – including credit card, TWINT and PayPal. You\'ll see all options at checkout, and your data is transmitted encrypted.\n\nBest regards,\nThe LuxeStyle Team' } },
+  { id: 'thanks', emoji: '🤍',
+    label: { de: 'Dank / Allgemein', en: 'Thanks / general' },
+    subj: { de: 'Re: Deine Nachricht', en: 'Re: Your message' },
+    body: { de: 'Hallo,\n\nvielen Dank für deine Nachricht – wir freuen uns, von dir zu hören! 🤍 Wir melden uns so schnell wie möglich mit allen Infos.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nthank you for your message – we\'re glad to hear from you! 🤍 We\'ll get back to you as soon as possible with all the details.\n\nBest regards,\nThe LuxeStyle Team' } }
+];
+function serviceGetLang() {
+  try { const l = localStorage.getItem(SERVICE_LANG_KEY); if (l === 'de' || l === 'en') return l; } catch (e) {}
+  return 'de';
+}
+function serviceLoad() {
+  try { const r = localStorage.getItem(SERVICE_KEY); if (r) { const m = JSON.parse(r) || {}; m.de = m.de || {}; m.en = m.en || {}; return m; } }
+  catch (e) { console.warn('Service-Antworten konnten nicht geladen werden:', e); }
+  return { de: {}, en: {} };
+}
+function serviceSave(map) {
+  try { localStorage.setItem(SERVICE_KEY, JSON.stringify(map)); }
+  catch (e) { console.warn('Service-Antworten konnten nicht gespeichert werden:', e); }
+}
+function serviceRender() {
+  const grid = document.getElementById('service-grid');
+  if (!grid) return;
+  const lang = serviceGetLang();
+  const ui = SERVICE_UI[lang];
+  const saved = serviceLoad()[lang] || {};
+  grid.innerHTML = SERVICE_DEFAULTS.map(s => {
+    const ov = saved[s.id] || {};
+    const subj = ov.subj != null ? ov.subj : s.subj[lang];
+    const body = ov.body != null ? ov.body : s.body[lang];
+    return '<div class="tt-reply">' +
+      '<div class="tt-reply-head"><span class="tt-reply-label">' + s.emoji + ' ' + s.label[lang] + '</span></div>' +
+      '<div style="display:flex;gap:6px;align-items:center;">' +
+        '<input class="aff-input" style="flex:1;" data-svsubj="' + s.id + '" value="' + affEsc(subj) + '" onchange="serviceEdit(\'' + s.id + '\',\'subj\',this.value)">' +
+        '<button class="btn btn-sm" title="Betreff kopieren" onclick="serviceCopy(\'' + s.id + '\',\'subj\')">📋</button>' +
+      '</div>' +
+      '<textarea rows="6" data-svbody="' + s.id + '" onchange="serviceEdit(\'' + s.id + '\',\'body\',this.value)">' + affEsc(body) + '</textarea>' +
+      '<button class="btn btn-sm btn-primary" onclick="serviceCopy(\'' + s.id + '\',\'body\')">' + ui.copy + '</button>' +
+    '</div>';
+  }).join('');
+  const lbl = document.getElementById('service-reset-label'); if (lbl) lbl.textContent = ui.reset;
+  document.querySelectorAll('[data-svlang]').forEach(b => b.classList.toggle('ttf-active', b.getAttribute('data-svlang') === lang));
+}
+function serviceCopy(id, field) {
+  const sel = field === 'subj' ? 'input[data-svsubj="' : 'textarea[data-svbody="';
+  const el = document.querySelector('#service-grid ' + sel + id + '"]');
+  if (el) copyCode(el.value);
+}
+function serviceEdit(id, field, value) {
+  const lang = serviceGetLang();
+  const map = serviceLoad();
+  map[lang][id] = map[lang][id] || {};
+  map[lang][id][field] = value;
+  serviceSave(map);
+}
+function serviceSetLang(lang) {
+  try { localStorage.setItem(SERVICE_LANG_KEY, lang); } catch (e) {}
+  serviceRender();
+}
+function serviceReset() {
+  const lang = serviceGetLang();
+  if (!confirm(SERVICE_UI[lang].confirm)) return;
+  const map = serviceLoad();
+  map[lang] = {};
+  serviceSave(map);
+  serviceRender();
+}
+
 /* ===== Cockpit-Übersicht (aggregiert die Module live) ===== */
 function cockpitRender() {
   const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
@@ -1702,6 +1816,7 @@ function cockpitRender() {
   set('ck-mail-count', MAIL_DEFAULTS.length);
   set('ck-reply-count', TT_REPLY_DEFAULTS.length);
   set('ck-creative-count', CREATIVE_DEFAULTS.length);
+  set('ck-service-count', SERVICE_DEFAULTS.length);
 }
 
 /* ===== TikTok Kommentar-Antworten / Comment replies (bilingual, localStorage) ===== */
@@ -1870,6 +1985,7 @@ emailInit();
 mailRender();
 creativeRender();
 ttReplyRender();
+serviceRender();
 cockpitRender();
 </script>
 
