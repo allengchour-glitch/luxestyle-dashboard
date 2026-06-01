@@ -30,7 +30,8 @@ Tab-Wechsel über `showTab(event, 'id')`. Für Sprung-Links aus anderen Tabs: `s
 | E-Mail-Flow-Setup-Checkliste | `marketing` | `luxe_email_v1` | `emailInit` / `emailToggleStep` |
 | Automation-Mails (8×, DE/EN) | `marketing` | `luxe_mail_v1` (+ `luxe_mail_lang_v1`) | `mailRender` |
 | TikTok-Kommentar-Antworten (13×, DE/EN) | `content` | `luxe_tt_replies_v1` (+ `luxe_tt_lang_v1`) | `ttReplyRender` |
-| Mode-Creatives (5×, DE/EN) | `content` | `luxe_creative_v1` (+ `luxe_creative_lang_v1`) | `creativeRender` |
+| Mode-Creatives (DE/EN) | `content` | `luxe_creative_v1` (+ `luxe_creative_lang_v1`) | `creativeRender` |
+| Kundenservice-Antworten (DE/EN) | `marketing` | `luxe_service_v1` (+ `luxe_service_lang_v1`) | `serviceRender` |
 | Cockpit-Übersicht (aggregiert) | `overview` | — (liest die obigen) | `cockpitRender` |
 
 Alle Render-Funktionen werden am Ende des Haupt-`<script>` initial aufgerufen (Block direkt vor `</script>`).
