@@ -62,7 +62,8 @@ PY
 node --check /tmp/main.js
 python3 -c "h=open('index.html').read(); print('divs:',h.count('<div'),h.count('</div>'))"
 ```
-Erwartung: genau **2** Script-Blöcke, `node --check` ohne Fehler, `<div>`/`</div>` ausgeglichen.
+Erwartung: **3** Script-Blöcke (winziges Head-Theme-Init für Dark-Mode · Content-Tab · Haupt-Skript),
+`node --check` ohne Fehler (prüft den letzten/Haupt-Block), `<div>`/`</div>` ausgeglichen.
 Funktionaler Test: `index.html` im Browser öffnen — alles läuft client-seitig, Netlify nicht nötig.
 
 ## Git / Workflow
