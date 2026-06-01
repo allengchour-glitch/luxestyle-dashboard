@@ -23,6 +23,24 @@
   --radius: 12px;
   --radius-sm: 8px;
 }
+html[data-theme="dark"] {
+  --bg-page: #1a1714;
+  --bg-card: #241f1b;
+  --bg-soft: #2c2620;
+  --text-primary: #f4efe8;
+  --text-secondary: #c3b9ab;
+  --text-tertiary: #8f8576;
+  --accent: #c8a980;
+  --accent-dark: #b0916c;
+  --border: rgba(200, 169, 128, 0.18);
+  --border-strong: rgba(200, 169, 128, 0.34);
+  --success: #34c08c;
+  --danger: #f0764a;
+  --warning: #f2b54a;
+  --info: #5aa6e8;
+}
+html[data-theme="dark"] body { color: var(--text-primary); }
+html[data-theme="dark"] img { filter: brightness(0.92); }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-page); color: var(--text-primary); line-height: 1.5; font-size: 14px; -webkit-font-smoothing: antialiased; }
 .container { max-width: 1400px; margin: 0 auto; padding: 16px; }
@@ -252,6 +270,7 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
     </div>
     <div class="header-actions">
       <span class="status-pill">Live</span>
+      <button class="btn btn-sm" id="theme-toggle" title="Hell/Dunkel umschalten" onclick="toggleTheme()">🌙</button>
       <button class="btn btn-sm" onclick="window.open('https://luxestyle.com.co', '_blank')">🌐 Shop</button>
     </div>
   </div>
@@ -1810,6 +1829,25 @@ function serviceReset() {
   serviceRender();
 }
 
+/* ===== Dark-/Light-Mode (localStorage) ===== */
+const THEME_KEY = 'luxe_theme_v1';
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const b = document.getElementById('theme-toggle');
+  if (b) b.textContent = (t === 'dark') ? '☀️' : '🌙';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  applyTheme(next);
+}
+function themeInit() {
+  let t = 'light';
+  try { const s = localStorage.getItem(THEME_KEY); if (s === 'dark' || s === 'light') t = s; } catch (e) {}
+  applyTheme(t);
+}
+
 /* ===== Offene Live-Aufgaben (Browser/Admin, localStorage) ===== */
 const BRO_KEY = 'luxe_browser_v1';
 function broLoad() {
@@ -2016,6 +2054,7 @@ creativeRender();
 ttReplyRender();
 serviceRender();
 broInit();
+themeInit();
 cockpitRender();
 </script>
 
