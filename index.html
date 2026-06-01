@@ -451,8 +451,8 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
       <div class="alert alert-warning">
         <span style="font-size:18px;">⚠️</span>
         <div class="alert-content">
-          <h4>Blocker: TikTok-Pixel nicht aktiv (Konto „LuxeStyle CH Ads" · luxestyle.ch)</h4>
-          <p>Conversion-Kampagnen (Complete Payment) erfordern ein aktives Pixel. Bis dahin liegt die Kampagne als unvollständiger Entwurf vor – Optimierungsereignis, Creatives, Caption/CTA/URL/Identität konnten nicht gesetzt werden.</p>
+          <h4>Pixel-Code vorhanden – Installation auf luxestyle.ch ausstehend</h4>
+          <p>Pixel <code>D8EQE4JC77UAEKHUJCM0</code> ist erstellt (Snippet: <code>snippets/tiktok-pixel-luxestyle-ch.html</code>), muss aber noch im Storefront installiert & im Event-Manager als aktiv verifiziert werden. Erst danach lässt sich Complete Payment setzen und der Entwurf einreichen.</p>
         </div>
       </div>
 
@@ -466,7 +466,8 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
           <div class="profit-row"><span>Konto</span><span>LuxeStyle CH Ads</span></div>
           <div class="profit-row"><span>Kampagnen-ID</span><span style="font-family:Monaco,monospace;font-size:10px;">1866807185899746</span></div>
           <div class="profit-row"><span>Werbeziel</span><span>Verkäufe → Website</span></div>
-          <div class="profit-row"><span>Optimierung</span><span style="color:var(--warning);">⏳ Complete Payment (Pixel fehlt)</span></div>
+          <div class="profit-row"><span>Pixel (luxestyle.ch)</span><span style="font-family:Monaco,monospace;font-size:10px;">D8EQE4JC77UAEKHUJCM0</span></div>
+          <div class="profit-row"><span>Optimierung</span><span style="color:var(--warning);">⏳ Complete Payment (Pixel-Install offen)</span></div>
           <div class="profit-row"><span>Budget</span><span>CHF 20 / Tag</span></div>
           <div class="profit-row"><span>Gebotsstrategie</span><span>Höchstes Volumen</span></div>
           <div class="profit-row"><span>Platzierung</span><span>TikTok (inkl. Suche)</span></div>
@@ -488,7 +489,7 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
       <div class="grid-2" style="margin-top:12px;">
         <div class="section" style="margin-bottom:0;">
           <div class="section-header"><div><span class="section-subtitle">Manuell durch dich</span><h2 class="section-title">To-do · Einreichung</h2></div></div>
-          <label class="aff-step"><input type="checkbox" data-camp="pixel" onchange="campToggleStep('pixel', this.checked)"> TikTok-Pixel anlegen (Tools → Event-Manager) für <code>luxestyle.ch</code> & installieren (5–10 Min. bis aktiv)</label>
+          <label class="aff-step"><input type="checkbox" data-camp="pixel" onchange="campToggleStep('pixel', this.checked)"> Pixel <code>D8EQE4JC77UAEKHUJCM0</code> auf <code>luxestyle.ch</code> installieren (Snippet im Repo) & im Event-Manager als aktiv verifizieren (5–10 Min.)</label>
           <label class="aff-step"><input type="checkbox" data-camp="draft" onchange="campToggleStep('draft', this.checked)"> Entwurf weiterbearbeiten (Kampagnen-Manager → „Entwurf bearbeiten")</label>
           <label class="aff-step"><input type="checkbox" data-camp="event" onchange="campToggleStep('event', this.checked)"> Datenverbindung + Optimierungsereignis <strong>Complete Payment</strong> setzen</label>
           <label class="aff-step"><input type="checkbox" data-camp="creatives" onchange="campToggleStep('creatives', this.checked)"> 4 Creatives als separate Ads hochladen (story_reel.mp4, story_1/2/4.png)</label>
