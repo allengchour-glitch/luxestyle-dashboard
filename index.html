@@ -260,6 +260,7 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
     <button class="tab active" onclick="showTab(event, 'overview')">📊 Cockpit</button>
     <button class="tab" onclick="showTab(event, 'products')">📦 Shop</button>
     <button class="tab" onclick="showTab(event, 'marketing')">🚀 Marketing</button>
+    <button class="tab" onclick="showTab(event, 'affiliate')">🤝 Affiliate</button>
     <button class="tab" onclick="showTab(event, 'pipeline')">⚡ Pipeline</button>
     <button class="tab" onclick="showTab(event, 'launchpad')">🎯 Launch</button>
     <button class="tab" onclick="showTab(event, 'stats')">📈 Stats</button>
@@ -283,6 +284,23 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
       <div class="kpi"><div class="kpi-label">Discount Codes</div><div class="kpi-value">3+</div><div class="kpi-sub">WELCOME10·FREESHIP49·LAUNCH15</div></div>
       <div class="kpi"><div class="kpi-label">Policy Pages</div><div class="kpi-value">5/5</div><div class="kpi-sub up">Versand/Rückgabe/AGB/DS/Impressum</div></div>
       <div class="kpi"><div class="kpi-label">Plan Status</div><div class="kpi-value">●</div><div class="kpi-sub up">Basic CHF 1/Mt bis 18.08.</div></div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">Wachstums-Module · Live</span><h2 class="section-title">🚀 Marketing-Übersicht</h2></div></div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Affiliate-Creator</div><div class="kpi-value" id="ck-aff-creators">0</div><div class="kpi-sub">Provision: <span id="ck-aff-due">CHF 0</span></div></div>
+        <div class="kpi"><div class="kpi-label">Kampagne Sommer</div><div class="kpi-value" id="ck-camp-open">–</div><div class="kpi-sub">von 6 To-dos offen</div></div>
+        <div class="kpi"><div class="kpi-label">E-Mail-Setup</div><div class="kpi-value" id="ck-email-progress">0/6</div><div class="kpi-sub">Schritte erledigt</div></div>
+        <div class="kpi"><div class="kpi-label">Automation-Mails</div><div class="kpi-value" id="ck-mail-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
+        <div class="kpi"><div class="kpi-label">TikTok-Antworten</div><div class="kpi-value" id="ck-reply-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
+        <div class="kpi"><div class="kpi-label">Mode-Creatives</div><div class="kpi-value" id="ck-creative-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+        <button class="btn btn-sm" onclick="showTab(null,'affiliate')">🤝 Affiliate</button>
+        <button class="btn btn-sm" onclick="showTab(null,'marketing')">🎯 Kampagne &amp; E-Mail</button>
+        <button class="btn btn-sm" onclick="showTab(null,'content')">💬 Antworten &amp; Creatives</button>
+      </div>
     </div>
 
     <!-- Image-Polish-Pipeline Status (NEW 24.05.2026 22:00) -->
@@ -445,6 +463,137 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
     </div>
 
     <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">TikTok Ads · Entwurf</span><h2 class="section-title">🎯 Kampagnen</h2></div></div>
+
+      <div class="alert alert-warning">
+        <span style="font-size:18px;">⚠️</span>
+        <div class="alert-content">
+          <h4>Pixel-Code vorhanden – Installation auf luxestyle.ch ausstehend</h4>
+          <p>Pixel <code>D8EQE4JC77UAEKHUJCM0</code> ist erstellt (Snippet: <code>snippets/tiktok-pixel-luxestyle-ch.html</code>), muss aber noch im Storefront installiert & im Event-Manager als aktiv verifiziert werden. Erst danach lässt sich Complete Payment setzen und der Entwurf einreichen.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="profit-card">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+            <span style="font-size:18px;">🎵</span>
+            <strong style="font-size:14px;">LuxeStyle Mode CH – Sommer</strong>
+            <span style="font-size:9px;padding:2px 8px;border-radius:100px;background:rgba(239,159,39,0.15);color:var(--warning);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Entwurf</span>
+          </div>
+          <div class="profit-row"><span>Konto</span><span>LuxeStyle CH Ads</span></div>
+          <div class="profit-row"><span>Kampagnen-ID</span><span style="font-family:Monaco,monospace;font-size:10px;">1866807185899746</span></div>
+          <div class="profit-row"><span>Werbeziel</span><span>Verkäufe → Website</span></div>
+          <div class="profit-row"><span>Pixel (luxestyle.ch)</span><span style="font-family:Monaco,monospace;font-size:10px;">D8EQE4JC77UAEKHUJCM0</span></div>
+          <div class="profit-row"><span>Optimierung</span><span style="color:var(--warning);">⏳ Complete Payment (Pixel-Install offen)</span></div>
+          <div class="profit-row"><span>Budget</span><span>CHF 20 / Tag</span></div>
+          <div class="profit-row"><span>Gebotsstrategie</span><span>Höchstes Volumen</span></div>
+          <div class="profit-row"><span>Platzierung</span><span>TikTok (inkl. Suche)</span></div>
+          <div class="profit-row total"><span>Status</span><span style="color:var(--warning);">Entwurf · nicht eingereicht</span></div>
+        </div>
+
+        <div class="profit-card">
+          <p style="font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Ad-Set „Sommer" · Targeting</p>
+          <div class="profit-row"><span>Standort</span><span>🇨🇭 Schweiz</span></div>
+          <div class="profit-row"><span>Geschlecht</span><span>Weiblich</span></div>
+          <div class="profit-row"><span>Alter</span><span>18–24 & 25–34</span></div>
+          <div class="profit-row"><span>Sprache</span><span>Deutsch</span></div>
+          <div class="profit-row"><span>Interessen</span><span style="font-size:11px;text-align:right;">Accessoires · Online-Shopping · Beauty</span></div>
+          <div class="profit-row"><span>Creatives</span><span style="color:var(--warning);">4 wartend (Upload blockiert)</span></div>
+          <div class="profit-row total"><span>Code</span><span>WELCOME10 (-10 %)</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:12px;">
+        <div class="section" style="margin-bottom:0;">
+          <div class="section-header"><div><span class="section-subtitle">Manuell durch dich</span><h2 class="section-title">To-do · Einreichung</h2></div></div>
+          <label class="aff-step"><input type="checkbox" data-camp="pixel" onchange="campToggleStep('pixel', this.checked)"> Pixel <code>D8EQE4JC77UAEKHUJCM0</code> auf <code>luxestyle.ch</code> installieren (Snippet im Repo) & im Event-Manager als aktiv verifizieren (5–10 Min.)</label>
+          <label class="aff-step"><input type="checkbox" data-camp="draft" onchange="campToggleStep('draft', this.checked)"> Entwurf weiterbearbeiten (Kampagnen-Manager → „Entwurf bearbeiten")</label>
+          <label class="aff-step"><input type="checkbox" data-camp="event" onchange="campToggleStep('event', this.checked)"> Datenverbindung + Optimierungsereignis <strong>Complete Payment</strong> setzen</label>
+          <label class="aff-step"><input type="checkbox" data-camp="creatives" onchange="campToggleStep('creatives', this.checked)"> 4 Creatives als separate Ads hochladen (story_reel.mp4, story_1/2/4.png)</label>
+          <label class="aff-step"><input type="checkbox" data-camp="fields" onchange="campToggleStep('fields', this.checked)"> Caption, CTA „Jetzt einkaufen", URL & Identität <code>luxestyle</code> eintragen</label>
+          <label class="aff-step"><input type="checkbox" data-camp="submit" onchange="campToggleStep('submit', this.checked)"> Speichern & Einreichen</label>
+        </div>
+
+        <div class="section" style="margin-bottom:0;">
+          <div class="section-header"><div><span class="section-subtitle">Für die Ads · Copy/Paste</span><h2 class="section-title">Anzeigen-Texte</h2></div></div>
+          <div class="profit-row" style="align-items:flex-start;"><span>Caption</span><button class="btn btn-sm" onclick="copyCode('Sommer-Kollektion 2026. Eleganz für jeden Tag. Jetzt -10% mit Code WELCOME10')">📋</button></div>
+          <p style="font-size:12px;color:var(--text-secondary);margin:-4px 0 8px;">Sommer-Kollektion 2026. Eleganz für jeden Tag. Jetzt -10% mit Code WELCOME10</p>
+          <div class="profit-row"><span>CTA</span><span>Jetzt einkaufen</span></div>
+          <div class="profit-row"><span>Identität</span><span>luxestyle</span></div>
+          <div class="profit-row" style="align-items:flex-start;"><span>Ziel-URL</span><button class="btn btn-sm" onclick="copyCode('https://luxestyle.ch/collections/sommer?utm_source=tiktok&utm_medium=cpc&utm_campaign=mode_sommer&utm_content=set1')">📋</button></div>
+          <p style="font-size:10px;font-family:Monaco,monospace;color:var(--text-tertiary);margin-top:-4px;word-break:break-all;">https://luxestyle.ch/collections/sommer?utm_source=tiktok&utm_medium=cpc&utm_campaign=mode_sommer&utm_content=set1</p>
+        </div>
+      </div>
+
+      <div class="profit-card" style="margin-top:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+          <strong style="font-size:13px;">📋 Pixel-Code · luxestyle.ch &lt;head&gt;</strong>
+          <button class="btn btn-sm btn-primary" onclick="campCopyPixel()">📋 Kopieren</button>
+        </div>
+        <textarea id="camp-pixel-code" readonly rows="8" style="width:100%;background:var(--bg-soft);border:0.5px solid var(--border);border-radius:6px;color:var(--text-primary);padding:8px 10px;font-family:Monaco,monospace;font-size:10px;line-height:1.4;resize:vertical;">&lt;!-- TikTok Pixel Code Start --&gt;
+&lt;script&gt;
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=[&quot;page&quot;,&quot;track&quot;,&quot;identify&quot;,&quot;instances&quot;,&quot;debug&quot;,&quot;on&quot;,&quot;off&quot;,&quot;once&quot;,&quot;ready&quot;,&quot;alias&quot;,&quot;group&quot;,&quot;enableCookie&quot;,&quot;disableCookie&quot;,&quot;holdConsent&quot;,&quot;revokeConsent&quot;,&quot;grantConsent&quot;],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i&lt;ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+var e=ttq._i[t]||[],n=0;n&lt;ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r=&quot;https://analytics.tiktok.com/i18n/pixel/events.js&quot;,o=n&amp;&amp;n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement(&quot;script&quot;)
+;n.type=&quot;text/javascript&quot;,n.async=!0,n.src=r+&quot;?sdkid=&quot;+e+&quot;&amp;lib=&quot;+t;e=document.getElementsByTagName(&quot;script&quot;)[0];e.parentNode.insertBefore(n,e)};
+
+
+  ttq.load(&#x27;D8EQE4JC77UAEKHUJCM0&#x27;);
+  ttq.page();
+}(window, document, &#x27;ttq&#x27;);
+&lt;/script&gt;
+&lt;!-- TikTok Pixel Code End --&gt;</textarea>
+        <p style="font-size:11px;color:var(--text-secondary);margin-top:6px;">In den <code>&lt;head&gt;</code> von <strong>luxestyle.ch</strong> einfügen – <em>nicht</em> in dieses Dashboard. Quelle: <code>snippets/tiktok-pixel-luxestyle-ch.html</code></p>
+      </div>
+
+      <p style="font-size:11px;color:var(--text-secondary);margin-top:12px;">
+        💡 <strong>Hinweis Pixel-Status:</strong> Im Settings-Tab ist Pixel <code>D85BAGJC77UF23S9UDH0</code> als aktiv geführt – das gehört zum <code>luxestyle.com.co</code>-Konto. Diese Kampagne läuft auf dem separaten Shop <code>luxestyle.ch</code> und braucht ein <em>eigenes</em> Pixel.
+      </p>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div><span class="section-subtitle">E-Mail · Automationen</span><h2 class="section-title">📧 E-Mail-Flows</h2></div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="ttf-btn ttf-active" data-mlang="de" onclick="mailSetLang('de')">🇩🇪 DE</button>
+          <button class="ttf-btn" data-mlang="en" onclick="mailSetLang('en')">🇬🇧 EN</button>
+          <button class="btn btn-sm" onclick="mailReset()">↺ <span id="mail-reset-label">Standard</span></button>
+        </div>
+      </div>
+
+      <div class="alert alert-info">
+        <span style="font-size:18px;">💸</span>
+        <div class="alert-content">
+          <h4>Warenkorb-Abbrecher zuerst – höchster Umsatz-Hebel</h4>
+          <p>Läuft nach dem Einrichten passiv weiter. Gratis über Shopify Email oder Klaviyo. Code WELCOME10 (-10 %) ist als Anreiz eingebaut.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="profit-card">
+          <p style="font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Flow-Status</p>
+          <div class="profit-row"><span>🛒 Warenkorb-Abbrecher</span><span style="color:var(--warning);">⏳ Einrichten</span></div>
+          <div class="profit-row"><span>👋 Willkommens-Serie</span><span style="color:var(--info);">○ Vorlage bereit</span></div>
+          <div class="profit-row"><span>📦 Nach dem Kauf (Review)</span><span style="color:var(--info);">○ Vorlage bereit</span></div>
+          <div class="profit-row"><span>👀 Browse-Abbruch</span><span style="color:var(--info);">○ Vorlage bereit</span></div>
+          <div class="profit-row total"><span>🔁 Win-Back (60 Tage)</span><span style="color:var(--info);">○ Vorlage bereit</span></div>
+        </div>
+        <div class="section" style="margin-bottom:0;">
+          <div class="section-header"><div><span class="section-subtitle">Setup · Shopify / Klaviyo</span><h2 class="section-title">Checkliste</h2></div></div>
+          <label class="aff-step"><input type="checkbox" data-flow="provider" onchange="emailToggleStep('provider', this.checked)"> Shopify Email aktivieren <em>oder</em> Klaviyo verbinden</label>
+          <label class="aff-step"><input type="checkbox" data-flow="trigger" onchange="emailToggleStep('trigger', this.checked)"> Abandoned-Cart-Flow aktivieren (Trigger: Checkout abgebrochen)</label>
+          <label class="aff-step"><input type="checkbox" data-flow="timing" onchange="emailToggleStep('timing', this.checked)"> Timing setzen: 1 Std · 24 Std · 48 Std (3 Mails)</label>
+          <label class="aff-step"><input type="checkbox" data-flow="code" onchange="emailToggleStep('code', this.checked)"> Rabattcode <code>WELCOME10</code> (-10 %) in Mail 2 &amp; 3 einbinden</label>
+          <label class="aff-step"><input type="checkbox" data-flow="branding" onchange="emailToggleStep('branding', this.checked)"> Logo, Branding &amp; Abmelde-Footer prüfen</label>
+          <label class="aff-step"><input type="checkbox" data-flow="live" onchange="emailToggleStep('live', this.checked)"> Test-Mail senden &amp; Flow live schalten</label>
+        </div>
+      </div>
+
+      <p style="font-size:12px;color:var(--text-secondary);margin:14px 0 10px;"><strong>Automation-Mails</strong> (Warenkorb · Willkommen · Nach-Kauf) · editierbar, 📋 kopiert Betreff oder Text. Platzhalter <code>{VORNAME}</code>, <code>{PRODUKT}</code>, <code>{CODE}</code> ersetzen.</p>
+      <div class="grid-2" id="mail-grid"></div>
+    </div>
+
+    <div class="section">
       <div class="section-header"><div><span class="section-subtitle">3 Hero-Produkte</span><h2 class="section-title">Für TikTok-Ads</h2></div></div>
       <div class="product-grid" id="hero-marketing"><div class="product-card" onclick="showProductDetail('15403341447553')"><div class="product-image-wrapper"><img src="https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sfcf2c90de585492eb95bfc6dfb730791i.webp?v=1779481360" alt="Galaxy Aurora LED-Projektor" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=&quot;product-emoji-bg&quot;&gt;✨&lt;/div&gt;'"><span class="product-badge hero">🚀 Hero</span></div><div class="product-info"><div class="product-type">Tech</div><div class="product-title">Galaxy Aurora LED-Projektor</div><div class="product-price">CHF 19.90</div><div class="product-actions"><button class="action-btn" title="Im Shop ansehen" onclick="event.stopPropagation(); openShop('galaxy-aurora-led-projektor-360-sternenhimmel')">🌐</button><button class="action-btn" title="Bearbeiten" onclick="event.stopPropagation(); openAdmin('15403341447553')">✏️</button><button class="action-btn" title="AliExpress" onclick="event.stopPropagation(); window.open('https://aliexpress.com/item/galaxy-aurora', '_blank')">🛒</button><button class="action-btn" title="🎬 TikTok-Videos + Ads-Library (2 Tabs)" onclick="event.stopPropagation(); tiktokResearch('galaxy aurora star projector')">🎬</button><button class="action-btn" title="📘 Meta Ad Library (CH+DE · 2 Tabs)" onclick="event.stopPropagation(); metaAdsLibrary('galaxy aurora star projector')">📘</button></div></div></div><div class="product-card" onclick="showProductDetail('15403009704321')"><div class="product-image-wrapper"><img src="https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S87f9bd226faa442e8a030f289acaa68a0.webp?v=1779477435" alt="Mini Robo-Diffuser Auto" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=&quot;product-emoji-bg&quot;&gt;👽&lt;/div&gt;'"><span class="product-badge hero">🚀 Hero</span></div><div class="product-info"><div class="product-type">Auto</div><div class="product-title">Mini Robo-Diffuser Auto</div><div class="product-price">CHF 19.90</div><div class="product-actions"><button class="action-btn" title="Im Shop ansehen" onclick="event.stopPropagation(); openShop('mini-robo-diffuser-auto-ai-lichter-usb')">🌐</button><button class="action-btn" title="Bearbeiten" onclick="event.stopPropagation(); openAdmin('15403009704321')">✏️</button><button class="action-btn" title="AliExpress" onclick="event.stopPropagation(); window.open('https://aliexpress.com/item/mini-robo', '_blank')">🛒</button><button class="action-btn" title="🎬 TikTok-Videos + Ads-Library (2 Tabs)" onclick="event.stopPropagation(); tiktokResearch('mini robot car aroma diffuser')">🎬</button><button class="action-btn" title="📘 Meta Ad Library (CH+DE · 2 Tabs)" onclick="event.stopPropagation(); metaAdsLibrary('mini robot car aroma diffuser')">📘</button></div></div></div><div class="product-card" onclick="showProductDetail('15402998792577')"><div class="product-image-wrapper"><img src="https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S3044a6e3cefd48cbad8abdfff60bab60n.avif?v=1779464224" alt="Flame Diffuser 7 Farben" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=&quot;product-emoji-bg&quot;&gt;🔥&lt;/div&gt;'"><span class="product-badge hero">🚀 Hero</span></div><div class="product-info"><div class="product-type">Wohnen</div><div class="product-title">Flame Diffuser 7 Farben</div><div class="product-price">CHF 49.90</div><div class="product-actions"><button class="action-btn" title="Im Shop ansehen" onclick="event.stopPropagation(); openShop('flame-diffuser-7-farben-kamin-effekt')">🌐</button><button class="action-btn" title="Bearbeiten" onclick="event.stopPropagation(); openAdmin('15402998792577')">✏️</button><button class="action-btn" title="AliExpress" onclick="event.stopPropagation(); window.open('https://aliexpress.com/item/flame', '_blank')">🛒</button><button class="action-btn" title="🎬 TikTok-Videos + Ads-Library (2 Tabs)" onclick="event.stopPropagation(); tiktokResearch('flame fireplace diffuser humidifier')">🎬</button><button class="action-btn" title="📘 Meta Ad Library (CH+DE · 2 Tabs)" onclick="event.stopPropagation(); metaAdsLibrary('flame fireplace diffuser humidifier')">📘</button></div></div></div></div>
     </div>
@@ -468,6 +617,116 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
           <div class="profit-row total profit"><span>Gewinn/Sale</span><span>CHF 22.50</span></div>
           <div class="profit-row total profit"><span>Monats-Gewinn</span><span>CHF 11,250</span></div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="affiliate">
+    <div class="alert alert-success">
+      <span style="font-size:18px;">🤝</span>
+      <div class="alert-content">
+        <h4>Programm „Standard Affiliate Commission" · AKTIV</h4>
+        <p>15 % Provision · 30-Tage-Cookie · PayPal · Coupon- + Link-Tracking · Sprache DE</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-label">Provision</div><div class="kpi-value">15 %</div><div class="kpi-sub">vom Bestellwert</div></div>
+      <div class="kpi"><div class="kpi-label">Cookie-Dauer</div><div class="kpi-value">30</div><div class="kpi-sub">Tage</div></div>
+      <div class="kpi"><div class="kpi-label">Auszahlung</div><div class="kpi-value">PayPal</div><div class="kpi-sub">aktiviert</div></div>
+      <div class="kpi"><div class="kpi-label">Min. Auszahlung</div><div class="kpi-value">CHF 30</div><div class="kpi-sub" style="color:var(--warning);">⚠ Growth-Plan</div></div>
+      <div class="kpi"><div class="kpi-label">Aktive Creator</div><div class="kpi-value" id="aff-kpi-creators">0</div><div class="kpi-sub">im Tracking</div></div>
+      <div class="kpi"><div class="kpi-label">Provision fällig</div><div class="kpi-value" id="aff-kpi-due">CHF 0</div><div class="kpi-sub">Summe (15 %)</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="section">
+        <div class="section-header"><div><span class="section-subtitle">UpPromote · Live</span><h2 class="section-title">Programm-Übersicht</h2></div></div>
+        <table class="table">
+          <thead><tr><th>Einstellung</th><th>Wert</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Provision</td><td>15 % vom Bestellwert</td><td><span style="color:var(--success);">✅ aktiv</span></td></tr>
+            <tr><td>Cookie-Dauer</td><td>30 Tage</td><td><span style="color:var(--success);">✅ konfiguriert</span></td></tr>
+            <tr><td>Tracking</td><td>Coupon-Code + Affiliate-Link</td><td><span style="color:var(--success);">✅ aktiv</span></td></tr>
+            <tr><td>Zahlungsmethode</td><td>PayPal</td><td><span style="color:var(--success);">✅ aktiviert</span></td></tr>
+            <tr><td>Programm-Status</td><td>Aktiv</td><td><span style="color:var(--success);">✅ live</span></td></tr>
+            <tr><td>Beschreibung / AGB</td><td>Deutsch · 15 %-Hinweis</td><td><span style="color:var(--success);">✅ gespeichert</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <div class="section-header"><div><span class="section-subtitle">Für Stories / Bio der Creator</span><h2 class="section-title">Registrierungslink</h2></div></div>
+        <div class="profit-card">
+          <p style="font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Creator-Registrierung</p>
+          <div style="font-family:Monaco,monospace;font-size:13px;word-break:break-all;background:var(--bg-card);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:10px;margin-bottom:10px;">https://af.uppromote.com/au3j0y-hq</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-sm btn-primary" onclick="copyCode('https://af.uppromote.com/au3j0y-hq')">📋 Link kopieren</button>
+            <button class="btn btn-sm" onclick="window.open('https://af.uppromote.com/au3j0y-hq', '_blank')">→ UpPromote öffnen</button>
+          </div>
+          <p style="font-size:11px;color:var(--text-secondary);margin-top:10px;">Direkt in die DM-Vorlage einbauen oder in Creator-Bios/Stories teilen.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div><span class="section-subtitle">Coupon- + Link-Tracking · lokal gespeichert</span><h2 class="section-title">Creator-Tracking</h2></div>
+        <button class="btn btn-sm btn-primary" onclick="affAddCreator()">+ Creator hinzufügen</button>
+      </div>
+      <div style="overflow-x:auto;">
+      <table class="table">
+        <thead><tr><th>Creator</th><th>Coupon-Code</th><th>Verkäufe</th><th>Umsatz CHF</th><th>Provision (15 %)</th><th>Bonus</th><th>Status</th><th></th></tr></thead>
+        <tbody id="aff-creator-rows"></tbody>
+      </table>
+      </div>
+      <div class="grid-2" style="margin-top:12px;align-items:end;">
+        <div>
+          <input id="aff-new-name" class="aff-input" placeholder="Creator-Name (z.B. Anna)" style="width:100%;">
+        </div>
+        <div style="display:flex;gap:8px;">
+          <input id="aff-new-coupon" class="aff-input" placeholder="Coupon-Code (z.B. CREATOR-ANNA15)" style="flex:1;">
+          <button class="btn btn-sm btn-primary" onclick="affAddCreator()">Hinzufügen</button>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--text-secondary);margin-top:10px;">💡 Provision wird automatisch als 15 % vom Umsatz berechnet. Verkäufe/Umsatz/Status sind direkt in der Tabelle editierbar. Daten bleiben lokal im Browser gespeichert.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="section">
+        <div class="section-header">
+          <div><span class="section-subtitle">Outreach</span><h2 class="section-title">DM-Vorlage</h2></div>
+          <button class="btn btn-sm btn-primary" onclick="affCopyTemplate()">📋 Vorlage kopieren</button>
+        </div>
+        <textarea id="aff-dm-template" class="aff-input" rows="10" style="width:100%;font-size:12px;line-height:1.5;resize:vertical;">Hey [Name] 👋
+
+Wir lieben deinen Content! 🎬 LuxeStyle CH sucht Creator für eine Affiliate-Partnerschaft:
+
+✨ 15 % Provision auf jeden Verkauf über deinen Code/Link
+🍪 30 Tage Cookie – du bekommst auch spätere Käufe
+🎁 Schnellstart-Bonus: 20 % auf deine ersten 3 Verkäufe
+💸 Auszahlung via PayPal
+
+Dein persönlicher Code: {COUPON}
+Jetzt registrieren: https://af.uppromote.com/au3j0y-hq
+
+Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-top:8px;">Platzhalter <code>[Name]</code> und <code>{COUPON}</code> vor dem Senden ersetzen.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-header"><div><span class="section-subtitle">Nächste Schritte</span><h2 class="section-title">Checkliste</h2></div></div>
+        <label class="aff-step"><input type="checkbox" data-step="coupons" onchange="affToggleStep('coupons', this.checked)"> Coupons für die ersten Creator anlegen (Motivation → Coupons → Manage coupons), z.B. <code>CREATOR-ANNA15</code></label>
+        <label class="aff-step"><input type="checkbox" data-step="dm" onchange="affToggleStep('dm', this.checked)"> 5–10 Creator per DM anschreiben (Link + Vorlage oben)</label>
+        <label class="aff-step"><input type="checkbox" data-step="growth" onchange="affToggleStep('growth', this.checked)"> Optional: UpPromote Growth-Plan testen (14 Tage gratis) für CHF-30-Mindestauszahlung + 20 %-Bonus</label>
+      </div>
+    </div>
+
+    <div class="alert alert-warning">
+      <span style="font-size:18px;">⚠️</span>
+      <div class="alert-content">
+        <h4>Nur mit UpPromote Growth/Professional (~$21/Mt.)</h4>
+        <p><strong>Mindestauszahlung CHF 30</strong> und <strong>20 %-Schnellstart-Bonus (erste 3 Verkäufe)</strong> sind im Free-Plan nicht automatisierbar. Bis zum Upgrade: Creatorn vorab kommunizieren und manuell ab CHF 30 bzw. mit Bonus-Aufschlag auszahlen.</p>
       </div>
     </div>
   </div>
@@ -714,6 +973,32 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
         💡 Quelldatei: <code>tiktok_videos.json</code> · Skripte in <code>TIKTOK_SCRIPTS_TOP3.md</code>
       </p>
     </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div><span class="section-subtitle">CONTENT · TIKTOK</span><h2 class="section-title">💬 Kommentar-Antworten</h2></div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button class="ttf-btn ttf-active" data-lang="de" onclick="ttReplySetLang('de')">🇩🇪 DE</button>
+          <button class="ttf-btn" data-lang="en" onclick="ttReplySetLang('en')">🇬🇧 EN</button>
+          <button class="btn btn-sm" onclick="ttReplyReset()">↺ <span id="tt-reply-reset-label">Standard</span></button>
+        </div>
+      </div>
+      <p id="tt-reply-intro" style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">Fertige Antwort-Vorlagen für die häufigsten TikTok-Kommentare. Editierbar, Klick auf 📋 kopiert den Text. Änderungen bleiben lokal gespeichert. Platzhalter <code>{PRODUKT}</code> vor dem Senden ersetzen.</p>
+      <div class="grid-2" id="tt-reply-grid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div><span class="section-subtitle">CONTENT · ADS</span><h2 class="section-title">🎬 Mode-Creatives</h2></div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="ttf-btn ttf-active" data-clang="de" onclick="creativeSetLang('de')">🇩🇪 DE</button>
+          <button class="ttf-btn" data-clang="en" onclick="creativeSetLang('en')">🇬🇧 EN</button>
+          <button class="btn btn-sm" onclick="creativeReset()">↺ <span id="creative-reset-label">Standard</span></button>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">Hook + Caption-Bausteine für die Sommer-Kampagne (luxestyle.ch). 📋 kopiert die Caption. Editierbar &amp; lokal gespeichert. Platzhalter <code>{PRODUKT}</code> ersetzen.</p>
+      <div class="grid-2" id="creative-grid"></div>
+    </div>
   </div>
 
   <style>
@@ -734,6 +1019,21 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
   .tt-actions a { background: transparent; border: 0.5px solid var(--border); color: var(--text-secondary); padding: 4px 10px; border-radius: 4px; font-size: 11px; text-decoration: none; transition: all 0.15s; }
   .tt-actions a:hover { border-color: var(--accent); color: var(--accent); }
   .tt-actions a.disabled { opacity: 0.35; pointer-events: none; }
+  .aff-input { background: var(--bg-card); border: 0.5px solid var(--border-strong); border-radius: var(--radius-sm); color: var(--text-primary); padding: 6px 10px; font-size: 12px; font-family: inherit; }
+  .aff-input:focus { outline: none; border-color: var(--accent); }
+  .aff-cell { background: transparent; border: 0.5px solid transparent; border-radius: 4px; color: var(--text-primary); padding: 4px 6px; font-size: 12px; font-family: inherit; width: 100%; }
+  .aff-cell:hover { border-color: var(--border); }
+  .aff-cell:focus { outline: none; border-color: var(--accent); background: var(--bg-card); }
+  .aff-step { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; padding: 8px 0; border-bottom: 0.5px solid var(--border); line-height: 1.5; cursor: pointer; }
+  .aff-step:last-child { border-bottom: none; }
+  .aff-step input { margin-top: 2px; accent-color: var(--accent); }
+  .aff-bonus { font-size: 10px; padding: 2px 8px; border-radius: 100px; background: rgba(239, 159, 39, 0.12); color: var(--warning); white-space: nowrap; }
+  .tt-reply { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .tt-reply-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .tt-reply-label { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .tt-reply-q { font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.8px; }
+  .tt-reply textarea { width: 100%; background: var(--bg-soft); border: 0.5px solid var(--border); border-radius: 6px; color: var(--text-primary); padding: 8px 10px; font-size: 12px; line-height: 1.45; font-family: inherit; resize: vertical; }
+  .tt-reply textarea:focus { outline: none; border-color: var(--accent); background: var(--bg-card); }
   </style>
 
   <script>
@@ -818,7 +1118,7 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
   })();
   </script>
 
-  <div class="footer">LuxeStyle CH · Dashboard v10.1 · 26.05.2026 · 26 Produkte · 8 Heroes · 17 Collections · 5 Klaviyo-Flows · 6 Coupons LIVE · 🎬+📘 Research · 23 Produkte +Bilder-Sweep · 42 Phasen · 99% Production-Ready</div>
+  <div class="footer">LuxeStyle CH · Dashboard v10.2 · 01.06.2026 · 26 Produkte · 8 Heroes · 17 Collections · 5 Klaviyo-Flows · 6 Coupons LIVE · 🤝 Affiliate-Tab · 🎬+📘 Research · 23 Produkte +Bilder-Sweep · 42 Phasen · 99% Production-Ready</div>
 
 </div>
 
@@ -1044,6 +1344,502 @@ function smartQuery(title) {
     .trim();
 }
 function copyCode(text) { navigator.clipboard.writeText(text).then(() => alert('📋 Kopiert: ' + text)); }
+
+/* ===== Affiliate-Tracking (localStorage) ===== */
+const AFF_KEY = 'luxe_affiliate_v1';
+const AFF_RATE = 0.15;
+function affLoad() {
+  try {
+    const raw = localStorage.getItem(AFF_KEY);
+    if (raw) { const s = JSON.parse(raw); s.creators = s.creators || []; s.steps = s.steps || {}; return s; }
+  } catch (e) { console.warn('Affiliate-State konnte nicht geladen werden:', e); }
+  return { creators: [], steps: {} };
+}
+function affSave(state) {
+  try { localStorage.setItem(AFF_KEY, JSON.stringify(state)); }
+  catch (e) { console.warn('Affiliate-State konnte nicht gespeichert werden:', e); }
+}
+function affEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function affRenderCreators() {
+  const state = affLoad();
+  const tbody = document.getElementById('aff-creator-rows');
+  if (!tbody) return;
+  if (!state.creators.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-tertiary);padding:18px;">Noch keine Creator – oben hinzufügen.</td></tr>';
+  } else {
+    tbody.innerHTML = state.creators.map(c => {
+      const provision = (Number(c.revenue) || 0) * AFF_RATE;
+      const bonus = (Number(c.sales) || 0) <= 3 ? '<span class="aff-bonus">20 % (Growth)</span>' : '–';
+      return '<tr>' +
+        '<td><input class="aff-cell" value="' + affEsc(c.name) + '" onchange="affEditCell(\'' + c.id + '\',\'name\',this.value)"></td>' +
+        '<td><input class="aff-cell" style="font-family:Monaco,monospace;" value="' + affEsc(c.coupon) + '" onchange="affEditCell(\'' + c.id + '\',\'coupon\',this.value)"></td>' +
+        '<td><input class="aff-cell" type="number" min="0" style="width:64px;" value="' + (Number(c.sales) || 0) + '" onchange="affEditCell(\'' + c.id + '\',\'sales\',this.value)"></td>' +
+        '<td><input class="aff-cell" type="number" min="0" step="0.01" style="width:84px;" value="' + (Number(c.revenue) || 0) + '" onchange="affEditCell(\'' + c.id + '\',\'revenue\',this.value)"></td>' +
+        '<td style="color:var(--success);font-weight:600;">CHF ' + provision.toFixed(2) + '</td>' +
+        '<td>' + bonus + '</td>' +
+        '<td><select class="aff-cell" onchange="affEditCell(\'' + c.id + '\',\'status\',this.value)">' +
+          ['Eingeladen', 'Aktiv', 'Pausiert'].map(s => '<option' + (c.status === s ? ' selected' : '') + '>' + s + '</option>').join('') +
+        '</select></td>' +
+        '<td><button class="btn btn-sm" title="Löschen" onclick="affDeleteCreator(\'' + c.id + '\')">🗑</button></td>' +
+      '</tr>';
+    }).join('');
+  }
+  const totalDue = state.creators.reduce((sum, c) => sum + (Number(c.revenue) || 0) * AFF_RATE, 0);
+  const kc = document.getElementById('aff-kpi-creators'); if (kc) kc.textContent = state.creators.length;
+  const kd = document.getElementById('aff-kpi-due'); if (kd) kd.textContent = 'CHF ' + totalDue.toFixed(0);
+  if (typeof cockpitRender === 'function') cockpitRender();
+}
+function affAddCreator() {
+  const nameEl = document.getElementById('aff-new-name');
+  const couponEl = document.getElementById('aff-new-coupon');
+  const name = (nameEl.value || '').trim();
+  const coupon = (couponEl.value || '').trim();
+  if (!name && !coupon) { alert('⚠️ Bitte Creator-Name oder Coupon-Code eingeben.'); return; }
+  const state = affLoad();
+  state.creators.push({ id: 'c' + Date.now(), name: name, coupon: coupon, sales: 0, revenue: 0, status: 'Eingeladen' });
+  affSave(state);
+  nameEl.value = ''; couponEl.value = '';
+  affRenderCreators();
+}
+function affDeleteCreator(id) {
+  const state = affLoad();
+  const c = state.creators.find(x => x.id === id);
+  if (!confirm('Creator "' + (c && c.name ? c.name : id) + '" löschen?')) return;
+  state.creators = state.creators.filter(x => x.id !== id);
+  affSave(state);
+  affRenderCreators();
+}
+function affEditCell(id, field, value) {
+  const state = affLoad();
+  const c = state.creators.find(x => x.id === id);
+  if (!c) return;
+  c[field] = (field === 'sales' || field === 'revenue') ? (Number(value) || 0) : value;
+  affSave(state);
+  affRenderCreators();
+}
+function affToggleStep(key, checked) {
+  const state = affLoad();
+  state.steps[key] = !!checked;
+  affSave(state);
+}
+function affCopyTemplate() {
+  const el = document.getElementById('aff-dm-template');
+  copyCode(el ? el.value : '');
+}
+function affInit() {
+  affRenderCreators();
+  const state = affLoad();
+  document.querySelectorAll('#affiliate input[data-step]').forEach(box => {
+    box.checked = !!state.steps[box.getAttribute('data-step')];
+  });
+}
+
+/* ===== Kampagnen-To-do (localStorage) ===== */
+const CAMP_KEY = 'luxe_campaign_v1';
+function campLoad() {
+  try { const raw = localStorage.getItem(CAMP_KEY); if (raw) return JSON.parse(raw) || {}; }
+  catch (e) { console.warn('Kampagnen-Status konnte nicht geladen werden:', e); }
+  return {};
+}
+function campToggleStep(key, checked) {
+  const steps = campLoad();
+  steps[key] = !!checked;
+  try { localStorage.setItem(CAMP_KEY, JSON.stringify(steps)); }
+  catch (e) { console.warn('Kampagnen-Status konnte nicht gespeichert werden:', e); }
+  if (typeof cockpitRender === 'function') cockpitRender();
+}
+function campInit() {
+  const steps = campLoad();
+  document.querySelectorAll('#marketing input[data-camp]').forEach(box => {
+    box.checked = !!steps[box.getAttribute('data-camp')];
+  });
+}
+function campCopyPixel() {
+  const el = document.getElementById('camp-pixel-code');
+  if (el) copyCode(el.value);
+}
+
+/* ===== E-Mail-Flow Setup-Checkliste (localStorage) ===== */
+const EMAIL_KEY = 'luxe_email_v1';
+function emailLoad() {
+  try { const r = localStorage.getItem(EMAIL_KEY); if (r) return JSON.parse(r) || {}; }
+  catch (e) { console.warn('E-Mail-Status konnte nicht geladen werden:', e); }
+  return {};
+}
+function emailToggleStep(key, checked) {
+  const s = emailLoad();
+  s[key] = !!checked;
+  try { localStorage.setItem(EMAIL_KEY, JSON.stringify(s)); }
+  catch (e) { console.warn('E-Mail-Status konnte nicht gespeichert werden:', e); }
+  if (typeof cockpitRender === 'function') cockpitRender();
+}
+function emailInit() {
+  const s = emailLoad();
+  document.querySelectorAll('#marketing input[data-flow]').forEach(box => {
+    box.checked = !!s[box.getAttribute('data-flow')];
+  });
+}
+
+/* ===== Warenkorb-Abbrecher-Mails (bilingual, localStorage) ===== */
+const MAIL_KEY = 'luxe_mail_v1';
+const MAIL_LANG_KEY = 'luxe_mail_lang_v1';
+const MAIL_UI = {
+  de: { copy: '📋 Text kopieren', reset: 'Standard', confirm: 'Alle Mail-Vorlagen (DE) auf die Standardtexte zurücksetzen?' },
+  en: { copy: '📋 Copy text', reset: 'Reset', confirm: 'Reset all email templates (EN) to the default texts?' }
+};
+const MAIL_DEFAULTS = [
+  { id: 'r1',
+    label: { de: 'Reminder 1 · nach 1 Std', en: 'Reminder 1 · after 1 h' },
+    subj: { de: 'Du hast etwas vergessen 👀', en: 'You forgot something 👀' },
+    body: { de: 'Hey {VORNAME},\n\ndein {PRODUKT} wartet noch in deinem Warenkorb. Wir haben ihn für dich reserviert – aber nicht ewig 😊\n\nJetzt abschließen 👉 luxestyle.ch\n\nDein LuxeStyle-Team 🤍',
+            en: 'Hey {VORNAME},\n\nyour {PRODUKT} is still waiting in your cart. We saved it for you – but not forever 😊\n\nComplete your order 👉 luxestyle.ch\n\nYour LuxeStyle team 🤍' } },
+  { id: 'r2',
+    label: { de: 'Reminder 2 · nach 24 Std (-10 %)', en: 'Reminder 2 · after 24 h (-10%)' },
+    subj: { de: '-10 % auf deinen Warenkorb 🎁', en: '-10% on your cart 🎁' },
+    body: { de: 'Hey {VORNAME},\n\nnoch unschlüssig? Hier sind 10 % Rabatt mit Code {CODE} – nur für kurze Zeit ⏳\n\nDein {PRODUKT} wartet 👉 luxestyle.ch\n\nBis gleich, dein LuxeStyle-Team 🤍',
+            en: 'Hey {VORNAME},\n\nstill thinking about it? Here\'s 10% off with code {CODE} – for a limited time only ⏳\n\nYour {PRODUKT} is waiting 👉 luxestyle.ch\n\nSee you soon, your LuxeStyle team 🤍' } },
+  { id: 'r3',
+    label: { de: 'Reminder 3 · nach 48 Std (Knappheit)', en: 'Reminder 3 · after 48 h (urgency)' },
+    subj: { de: 'Letzte Chance – fast ausverkauft 🔥', en: 'Last chance – almost sold out 🔥' },
+    body: { de: 'Hey {VORNAME},\n\ndein {PRODUKT} ist sehr gefragt und fast vergriffen. Dein 10 %-Code {CODE} gilt nur noch heute!\n\nJetzt sichern 👉 luxestyle.ch\n\nDein LuxeStyle-Team 🤍',
+            en: 'Hey {VORNAME},\n\nyour {PRODUKT} is in high demand and almost gone. Your 10% code {CODE} is valid today only!\n\nGrab it now 👉 luxestyle.ch\n\nYour LuxeStyle team 🤍' } },
+  { id: 'w1',
+    label: { de: 'Willkommen · sofort', en: 'Welcome · instant' },
+    subj: { de: 'Willkommen bei LuxeStyle – 10 % für dich 🤍', en: 'Welcome to LuxeStyle – 10% for you 🤍' },
+    body: { de: 'Hey {VORNAME},\n\nschön, dass du da bist! 🤍 Als Willkommen schenken wir dir 10 % auf deine erste Bestellung mit Code {CODE}.\n\nEntdecke die Sommer-Kollektion 👉 luxestyle.ch\n\nDein LuxeStyle-Team',
+            en: 'Hey {VORNAME},\n\nso glad you\'re here! 🤍 As a welcome, here\'s 10% off your first order with code {CODE}.\n\nDiscover the summer collection 👉 luxestyle.ch\n\nYour LuxeStyle team' } },
+  { id: 'w2',
+    label: { de: 'Willkommen 2 · nach 3 Tagen', en: 'Welcome 2 · after 3 days' },
+    subj: { de: 'Unsere Bestseller – von Kundinnen geliebt 😍', en: 'Our bestsellers – loved by customers 😍' },
+    body: { de: 'Hey {VORNAME},\n\nnoch nicht das Richtige gefunden? Das sind unsere meistgeliebten Pieces diesen Sommer ☀️\n\nDein 10 %-Code {CODE} wartet noch 👉 luxestyle.ch\n\nDein LuxeStyle-Team 🤍',
+            en: 'Hey {VORNAME},\n\nhaven\'t found the right piece yet? These are our most-loved styles this summer ☀️\n\nYour 10% code {CODE} is still waiting 👉 luxestyle.ch\n\nYour LuxeStyle team 🤍' } },
+  { id: 'p1',
+    label: { de: 'Nach Kauf · Review (nach 7 Tagen)', en: 'Post-purchase · review (after 7 days)' },
+    subj: { de: 'Wie gefällt dir dein {PRODUKT}? ⭐', en: 'How do you like your {PRODUKT}? ⭐' },
+    body: { de: 'Hey {VORNAME},\n\nwir hoffen, du liebst deinen {PRODUKT} genauso wie wir 🤍 Magst du uns mit einer kurzen Bewertung helfen? Dauert nur 1 Minute.\n\nJetzt bewerten 👉 luxestyle.ch\n\nDanke & bis bald, dein LuxeStyle-Team',
+            en: 'Hey {VORNAME},\n\nwe hope you love your {PRODUKT} as much as we do 🤍 Would you mind leaving a quick review? It only takes a minute.\n\nLeave a review 👉 luxestyle.ch\n\nThanks & see you soon, your LuxeStyle team' } },
+  { id: 'b1',
+    label: { de: 'Browse-Abbruch · nach 4 Std', en: 'Browse abandon · after 4 h' },
+    subj: { de: 'Noch am Stöbern? 👀', en: 'Still browsing? 👀' },
+    body: { de: 'Hey {VORNAME},\n\nder {PRODUKT} hat dir gefallen, oder? 😊 Er wartet weiterhin auf dich – schau noch mal rein.\n\nZur Kollektion 👉 luxestyle.ch\n\nDein LuxeStyle-Team 🤍',
+            en: 'Hey {VORNAME},\n\nyou liked the {PRODUKT}, right? 😊 It\'s still here waiting for you – take another look.\n\nBack to the collection 👉 luxestyle.ch\n\nYour LuxeStyle team 🤍' } },
+  { id: 'wb1',
+    label: { de: 'Win-Back · nach 60 Tagen', en: 'Win-back · after 60 days' },
+    subj: { de: 'Wir vermissen dich 🤍 -10 % zurück', en: 'We miss you 🤍 -10% to come back' },
+    body: { de: 'Hey {VORNAME},\n\nlange nicht gesehen! 🤍 Als kleines Hallo schenken wir dir 10 % mit Code {CODE} auf deinen nächsten Einkauf.\n\nNeue Styles entdecken 👉 luxestyle.ch\n\nBis bald, dein LuxeStyle-Team',
+            en: 'Hey {VORNAME},\n\nlong time no see! 🤍 As a little hello, here\'s 10% off your next order with code {CODE}.\n\nDiscover new styles 👉 luxestyle.ch\n\nSee you soon, your LuxeStyle team' } }
+];
+function mailGetLang() {
+  try { const l = localStorage.getItem(MAIL_LANG_KEY); if (l === 'de' || l === 'en') return l; } catch (e) {}
+  return 'de';
+}
+function mailLoad() {
+  try { const r = localStorage.getItem(MAIL_KEY); if (r) { const m = JSON.parse(r) || {}; m.de = m.de || {}; m.en = m.en || {}; return m; } }
+  catch (e) { console.warn('Mail-Vorlagen konnten nicht geladen werden:', e); }
+  return { de: {}, en: {} };
+}
+function mailSave(map) {
+  try { localStorage.setItem(MAIL_KEY, JSON.stringify(map)); }
+  catch (e) { console.warn('Mail-Vorlagen konnten nicht gespeichert werden:', e); }
+}
+function mailRender() {
+  const grid = document.getElementById('mail-grid');
+  if (!grid) return;
+  const lang = mailGetLang();
+  const ui = MAIL_UI[lang];
+  const saved = mailLoad()[lang] || {};
+  grid.innerHTML = MAIL_DEFAULTS.map(m => {
+    const ov = saved[m.id] || {};
+    const subj = ov.subj != null ? ov.subj : m.subj[lang];
+    const body = ov.body != null ? ov.body : m.body[lang];
+    return '<div class="tt-reply">' +
+      '<div class="tt-reply-head"><span class="tt-reply-label">📧 ' + m.label[lang] + '</span></div>' +
+      '<div style="display:flex;gap:6px;align-items:center;">' +
+        '<input class="aff-input" style="flex:1;" data-msubj="' + m.id + '" value="' + affEsc(subj) + '" onchange="mailEdit(\'' + m.id + '\',\'subj\',this.value)">' +
+        '<button class="btn btn-sm" title="Betreff kopieren" onclick="mailCopy(\'' + m.id + '\',\'subj\')">📋</button>' +
+      '</div>' +
+      '<textarea rows="6" data-mbody="' + m.id + '" onchange="mailEdit(\'' + m.id + '\',\'body\',this.value)">' + affEsc(body) + '</textarea>' +
+      '<button class="btn btn-sm btn-primary" onclick="mailCopy(\'' + m.id + '\',\'body\')">' + ui.copy + '</button>' +
+    '</div>';
+  }).join('');
+  const lbl = document.getElementById('mail-reset-label'); if (lbl) lbl.textContent = ui.reset;
+  document.querySelectorAll('[data-mlang]').forEach(b => b.classList.toggle('ttf-active', b.getAttribute('data-mlang') === lang));
+}
+function mailCopy(id, field) {
+  const sel = field === 'subj' ? 'input[data-msubj="' : 'textarea[data-mbody="';
+  const el = document.querySelector('#mail-grid ' + sel + id + '"]');
+  if (el) copyCode(el.value);
+}
+function mailEdit(id, field, value) {
+  const lang = mailGetLang();
+  const map = mailLoad();
+  map[lang][id] = map[lang][id] || {};
+  map[lang][id][field] = value;
+  mailSave(map);
+}
+function mailSetLang(lang) {
+  try { localStorage.setItem(MAIL_LANG_KEY, lang); } catch (e) {}
+  mailRender();
+}
+function mailReset() {
+  const lang = mailGetLang();
+  if (!confirm(MAIL_UI[lang].confirm)) return;
+  const map = mailLoad();
+  map[lang] = {};
+  mailSave(map);
+  mailRender();
+}
+
+/* ===== Mode-Creatives (bilingual, localStorage) ===== */
+const CREATIVE_KEY = 'luxe_creative_v1';
+const CREATIVE_LANG_KEY = 'luxe_creative_lang_v1';
+const CREATIVE_UI = {
+  de: { copy: '📋 Caption', reset: 'Standard', confirm: 'Alle Creative-Captions (DE) zurücksetzen?' },
+  en: { copy: '📋 Caption', reset: 'Reset', confirm: 'Reset all creative captions (EN)?' }
+};
+const CREATIVE_DEFAULTS = [
+  { id: 'reel', fmt: { de: 'Story Reel · 9:16', en: 'Story Reel · 9:16' },
+    hook: { de: '„POV: dein Sommer-Outfit 2026 ist da"', en: '"POV: your summer outfit 2026 just arrived"' },
+    cap: { de: 'Sommer-Kollektion 2026 ☀️ Eleganz für jeden Tag. Jetzt -10 % mit Code WELCOME10 👉 luxestyle.ch\n#LuxeStyle #SommerMode #OOTD #SwissStyle',
+           en: 'Summer collection 2026 ☀️ Elegance for every day. Get -10% with code WELCOME10 👉 luxestyle.ch\n#LuxeStyle #SummerStyle #OOTD #SwissStyle' } },
+  { id: 'tryon', fmt: { de: 'Try-on Haul · 9:16', en: 'Try-on haul · 9:16' },
+    hook: { de: '„3 Looks, 1 Kollektion – welcher ist deiner?"', en: '"3 looks, 1 collection – which one is yours?"' },
+    cap: { de: 'Welcher Look ist dein Favorit? 😍 Die ganze Sommer-Kollektion gibt\'s mit -10 % (Code WELCOME10) 👉 luxestyle.ch\n#TryOnHaul #SommerMode #LuxeStyle',
+           en: 'Which look is your favorite? 😍 Shop the full summer collection with -10% (code WELCOME10) 👉 luxestyle.ch\n#TryOnHaul #SummerFashion #LuxeStyle' } },
+  { id: 'carousel', fmt: { de: 'Foto-Karussell · 4:5', en: 'Photo carousel · 4:5' },
+    hook: { de: 'Flatlay: 5 Must-haves für den Sommer', en: 'Flatlay: 5 summer must-haves' },
+    cap: { de: 'Diese 5 Teile dürfen diesen Sommer nicht fehlen ☀️ Swipe für deine Favoriten – -10 % mit WELCOME10 👉 luxestyle.ch\n#Flatlay #SommerEssentials #LuxeStyle',
+           en: 'These 5 pieces are summer essentials ☀️ Swipe for your favorites – -10% with WELCOME10 👉 luxestyle.ch\n#Flatlay #SummerEssentials #LuxeStyle' } },
+  { id: 'ugc', fmt: { de: 'UGC Testimonial · 9:16', en: 'UGC testimonial · 9:16' },
+    hook: { de: '„Ehrliche Meinung nach 2 Wochen tragen"', en: '"Honest review after 2 weeks of wearing it"' },
+    cap: { de: 'Echte Qualität, echtes Feedback 🤍 {PRODUKT} aus der Sommer-Kollektion. Mit Code WELCOME10 -10 % 👉 luxestyle.ch\n#UGC #Kundenstimme #LuxeStyle',
+           en: 'Real quality, real feedback 🤍 {PRODUKT} from the summer collection. -10% with code WELCOME10 👉 luxestyle.ch\n#UGC #CustomerReview #LuxeStyle' } },
+  { id: 'beforeafter', fmt: { de: 'Outfit-Transition · 9:16', en: 'Outfit transition · 9:16' },
+    hook: { de: '„Vom Büro zum Apéro – ein Outfit"', en: '"From office to evening – one outfit"' },
+    cap: { de: 'Ein Look, der alles mitmacht 💃 Style-Transition mit der Sommer-Kollektion. -10 % mit WELCOME10 👉 luxestyle.ch\n#OutfitTransition #DayToNight #LuxeStyle',
+           en: 'One look that does it all 💃 Style transition with the summer collection. -10% with WELCOME10 👉 luxestyle.ch\n#OutfitTransition #DayToNight #LuxeStyle' } },
+  { id: 'grwm', fmt: { de: 'GRWM · 9:16', en: 'GRWM · 9:16' },
+    hook: { de: '„Get ready with me – Sommer-Edition"', en: '"Get ready with me – summer edition"' },
+    cap: { de: 'GRWM für einen Sommertag ☀️ Outfit aus der neuen Kollektion. Sichere dir -10 % mit WELCOME10 👉 luxestyle.ch\n#GRWM #GetReadyWithMe #SommerMode #LuxeStyle',
+           en: 'GRWM for a summer day ☀️ Outfit from the new collection. Grab -10% with WELCOME10 👉 luxestyle.ch\n#GRWM #GetReadyWithMe #SummerFashion #LuxeStyle' } },
+  { id: 'unboxing', fmt: { de: 'Unboxing · 9:16', en: 'Unboxing · 9:16' },
+    hook: { de: '„Mein LuxeStyle-Paket ist da 📦"', en: '"My LuxeStyle parcel just arrived 📦"' },
+    cap: { de: 'Unboxing-Time! 📦✨ Schau, was in meinem {PRODUKT}-Paket steckt. Mit Code WELCOME10 -10 % 👉 luxestyle.ch\n#Unboxing #Haul #LuxeStyle #SommerMode',
+           en: 'Unboxing time! 📦✨ See what\'s inside my {PRODUKT} parcel. -10% with code WELCOME10 👉 luxestyle.ch\n#Unboxing #Haul #LuxeStyle #SummerFashion' } },
+  { id: 'drop', fmt: { de: 'Sale/Drop-Ankündigung · 9:16', en: 'Sale/Drop announcement · 9:16' },
+    hook: { de: '„Neuer Drop – nur solange der Vorrat reicht"', en: '"New drop – while stocks last"' },
+    cap: { de: '🚨 Neuer Sommer-Drop ist live! Schnell sein lohnt sich – -10 % mit WELCOME10 👉 luxestyle.ch\n#NewDrop #Sale #SommerMode #LuxeStyle',
+           en: '🚨 New summer drop is live! Be quick – -10% with WELCOME10 👉 luxestyle.ch\n#NewDrop #Sale #SummerFashion #LuxeStyle' } }
+];
+function creativeGetLang() {
+  try { const l = localStorage.getItem(CREATIVE_LANG_KEY); if (l === 'de' || l === 'en') return l; } catch (e) {}
+  return 'de';
+}
+function creativeLoad() {
+  try { const r = localStorage.getItem(CREATIVE_KEY); if (r) { const m = JSON.parse(r) || {}; m.de = m.de || {}; m.en = m.en || {}; return m; } }
+  catch (e) { console.warn('Creatives konnten nicht geladen werden:', e); }
+  return { de: {}, en: {} };
+}
+function creativeSave(map) {
+  try { localStorage.setItem(CREATIVE_KEY, JSON.stringify(map)); }
+  catch (e) { console.warn('Creatives konnten nicht gespeichert werden:', e); }
+}
+function creativeRender() {
+  const grid = document.getElementById('creative-grid');
+  if (!grid) return;
+  const lang = creativeGetLang();
+  const ui = CREATIVE_UI[lang];
+  const saved = creativeLoad()[lang] || {};
+  grid.innerHTML = CREATIVE_DEFAULTS.map(c => {
+    const cap = saved[c.id] != null ? saved[c.id] : c.cap[lang];
+    return '<div class="tt-reply">' +
+      '<div class="tt-reply-head">' +
+        '<span class="tt-reply-label">🎬 ' + c.fmt[lang] + '</span>' +
+        '<button class="btn btn-sm btn-primary" onclick="creativeCopy(\'' + c.id + '\')">' + ui.copy + '</button>' +
+      '</div>' +
+      '<span class="tt-reply-q">' + c.hook[lang] + '</span>' +
+      '<textarea rows="5" data-cap="' + c.id + '" onchange="creativeEdit(\'' + c.id + '\', this.value)">' + affEsc(cap) + '</textarea>' +
+    '</div>';
+  }).join('');
+  const lbl = document.getElementById('creative-reset-label'); if (lbl) lbl.textContent = ui.reset;
+  document.querySelectorAll('[data-clang]').forEach(b => b.classList.toggle('ttf-active', b.getAttribute('data-clang') === lang));
+}
+function creativeCopy(id) {
+  const el = document.querySelector('#creative-grid textarea[data-cap="' + id + '"]');
+  if (el) copyCode(el.value);
+}
+function creativeEdit(id, value) {
+  const lang = creativeGetLang();
+  const map = creativeLoad();
+  map[lang][id] = value;
+  creativeSave(map);
+}
+function creativeSetLang(lang) {
+  try { localStorage.setItem(CREATIVE_LANG_KEY, lang); } catch (e) {}
+  creativeRender();
+}
+function creativeReset() {
+  const lang = creativeGetLang();
+  if (!confirm(CREATIVE_UI[lang].confirm)) return;
+  const map = creativeLoad();
+  map[lang] = {};
+  creativeSave(map);
+  creativeRender();
+}
+
+/* ===== Cockpit-Übersicht (aggregiert die Module live) ===== */
+function cockpitRender() {
+  const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+  const aff = affLoad();
+  set('ck-aff-creators', aff.creators.length);
+  set('ck-aff-due', 'CHF ' + aff.creators.reduce((s, c) => s + (Number(c.revenue) || 0) * AFF_RATE, 0).toFixed(0));
+  const campKeys = ['pixel', 'draft', 'event', 'creatives', 'fields', 'submit'];
+  const camp = campLoad();
+  set('ck-camp-open', (campKeys.length - campKeys.filter(k => camp[k]).length) + '/' + campKeys.length);
+  const emailKeys = ['provider', 'trigger', 'timing', 'code', 'branding', 'live'];
+  const em = emailLoad();
+  set('ck-email-progress', emailKeys.filter(k => em[k]).length + '/' + emailKeys.length);
+  set('ck-mail-count', MAIL_DEFAULTS.length);
+  set('ck-reply-count', TT_REPLY_DEFAULTS.length);
+  set('ck-creative-count', CREATIVE_DEFAULTS.length);
+}
+
+/* ===== TikTok Kommentar-Antworten / Comment replies (bilingual, localStorage) ===== */
+const TT_REPLY_KEY = 'luxe_tt_replies_v1';
+const TT_LANG_KEY = 'luxe_tt_lang_v1';
+const TT_REPLY_DEFAULTS = [
+  { id: 'preis', emoji: '💰',
+    label: { de: 'Preis', en: 'Price' }, q: { de: '"Wie viel kostet das?"', en: '"How much is it?"' },
+    de: 'Hey! 😊 Den {PRODUKT} gibt\'s aktuell super günstig in unserem Shop – Link in der Bio 👉 luxestyle.com.co. Mit Code TIKTOK15 bekommst du 15 % Rabatt! 🎁',
+    en: 'Hey! 😊 The {PRODUKT} is available at a great price in our shop – link in bio 👉 luxestyle.com.co. Use code TIKTOK15 for 15 % off! 🎁' },
+  { id: 'kaufen', emoji: '🔗',
+    label: { de: 'Wo kaufen', en: 'Where to buy' }, q: { de: '"Wo bekomme ich das?"', en: '"Where can I get it?"' },
+    de: 'Den {PRODUKT} findest du direkt in unserem Shop 👉 luxestyle.com.co (Link in der Bio). Versand in die ganze Schweiz 🇨🇭📦',
+    en: 'You can find the {PRODUKT} right in our shop 👉 luxestyle.com.co (link in bio). We ship across Switzerland 🇨🇭📦' },
+  { id: 'versand', emoji: '🚚',
+    label: { de: 'Lieferzeit', en: 'Delivery time' }, q: { de: '"Wie lange dauert der Versand?"', en: '"How long does shipping take?"' },
+    de: 'Die Lieferung dauert in der Regel ein paar Werktage in die Schweiz 🇨🇭. Sobald deine Bestellung raus ist, bekommst du eine Tracking-Nummer 📦✨',
+    en: 'Delivery usually takes a few business days within Switzerland 🇨🇭. As soon as your order ships, you\'ll get a tracking number 📦✨' },
+  { id: 'schweiz', emoji: '🇨🇭',
+    label: { de: 'CH-Versand', en: 'Shipping' }, q: { de: '"Liefert ihr in die Schweiz?"', en: '"Do you ship to Switzerland?"' },
+    de: 'Ja klar! 🇨🇭 Wir versenden in die ganze Schweiz. Bestellen kannst du direkt über den Link in der Bio 👉 luxestyle.com.co',
+    en: 'Absolutely! 🇨🇭 We ship across all of Switzerland. Just order via the link in our bio 👉 luxestyle.com.co' },
+  { id: 'code', emoji: '🎟️',
+    label: { de: 'Rabattcode', en: 'Discount code' }, q: { de: '"Gibt\'s einen Code?"', en: '"Is there a code?"' },
+    de: 'Jaa! 🎉 Mit dem Code TIKTOK15 sparst du 15 % auf deine Bestellung. Einfach an der Kasse eingeben 👉 luxestyle.com.co',
+    en: 'Yes! 🎉 Use code TIKTOK15 to save 15 % on your order. Just enter it at checkout 👉 luxestyle.com.co' },
+  { id: 'echt', emoji: '✅',
+    label: { de: 'Seriös?', en: 'Legit?' }, q: { de: '"Ist das echt / kein Fake?"', en: '"Is this legit / not a scam?"' },
+    de: 'Zu 100 % echt 🙌 Wir sind ein Schweizer Shop mit echten Bewertungen und sicherem Checkout. Schau gerne selbst vorbei 👉 luxestyle.com.co 🇨🇭',
+    en: '100 % legit 🙌 We\'re a Swiss shop with real reviews and secure checkout. Feel free to see for yourself 👉 luxestyle.com.co 🇨🇭' },
+  { id: 'verfuegbar', emoji: '📦',
+    label: { de: 'Verfügbarkeit', en: 'Availability' }, q: { de: '"Ist das noch verfügbar?"', en: '"Is it still available?"' },
+    de: 'Ja, der {PRODUKT} ist auf Lager ✅ – aber er ist gerade sehr gefragt, also schnell sein 😅 Link in der Bio 👉 luxestyle.com.co',
+    en: 'Yes, the {PRODUKT} is in stock ✅ – but it\'s in high demand right now, so be quick 😅 Link in bio 👉 luxestyle.com.co' },
+  { id: 'garantie', emoji: '🔁',
+    label: { de: 'Garantie/Rückgabe', en: 'Returns/Warranty' }, q: { de: '"Was, wenn es kaputt ist?"', en: '"What if it arrives broken?"' },
+    de: 'Kein Stress 💛 Falls etwas nicht passt oder defekt ankommt, melde dich einfach bei uns – wir finden eine Lösung (Ersatz oder Erstattung). Dein Vertrauen ist uns wichtig! 🙌',
+    en: 'No worries 💛 If something\'s wrong or arrives damaged, just reach out – we\'ll sort it out (replacement or refund). Your trust means everything to us! 🙌' },
+  { id: 'skeptisch', emoji: '🤨',
+    label: { de: 'Skeptisch', en: 'Skeptical' }, q: { de: '"Bestimmt billiger China-Schrott"', en: '"Probably cheap junk"' },
+    de: 'Verstehen die Skepsis 😊 Deshalb: sicherer Checkout, echte Bewertungen und fairer Support aus der Schweiz 🇨🇭. Probier\'s aus – und wenn\'s nicht passt, kümmern wir uns drum 💛',
+    en: 'We get the skepticism 😊 That\'s why: secure checkout, real reviews and fair support from Switzerland 🇨🇭. Give it a try – and if it\'s not right, we\'ll take care of it 💛' },
+  { id: 'varianten', emoji: '🎨',
+    label: { de: 'Farben/Varianten', en: 'Colors/Variants' }, q: { de: '"Gibt es das in anderen Farben?"', en: '"Does it come in other colors?"' },
+    de: 'Ja! 🎨 Den {PRODUKT} gibt\'s in mehreren Varianten. Alle Farben & Optionen siehst du direkt auf der Produktseite 👉 luxestyle.com.co (Link in der Bio) ✨',
+    en: 'Yes! 🎨 The {PRODUKT} comes in several variants. You can see all colors & options right on the product page 👉 luxestyle.com.co (link in bio) ✨' },
+  { id: 'bundle', emoji: '📦',
+    label: { de: 'Bundle/Angebot', en: 'Bundle deal' }, q: { de: '"Gibt es ein Set / Angebot?"', en: '"Any bundle or deal?"' },
+    de: 'Klar! 📦 Wenn du mehrere nimmst, sparst du extra – und mit Code TIKTOK15 gibt\'s nochmal 15 % obendrauf 🎁 Schau dir die Bundles im Shop an 👉 luxestyle.com.co',
+    en: 'Of course! 📦 Buy more and save extra – plus an additional 15 % with code TIKTOK15 🎁 Check out the bundles in the shop 👉 luxestyle.com.co' },
+  { id: 'creator', emoji: '🤝',
+    label: { de: 'Creator/Affiliate', en: 'Become a creator' }, q: { de: '"Wie kann ich kooperieren?"', en: '"How can I collab?"' },
+    de: 'Mega, dass du Lust hast! 🤝 Wir haben ein Creator-Programm: 15 % Provision auf jeden Verkauf über deinen Code/Link. Hier registrieren 👉 af.uppromote.com/au3j0y-hq 💛',
+    en: 'Love that you\'re interested! 🤝 We have a creator program: 15 % commission on every sale via your code/link. Sign up here 👉 af.uppromote.com/au3j0y-hq 💛' },
+  { id: 'groesse', emoji: '📏',
+    label: { de: 'Größe/Passform', en: 'Size/Fit' }, q: { de: '"Fällt das groß oder klein aus?"', en: '"Does it run large or small?"' },
+    de: 'Gute Frage! 📏 Auf der Produktseite findest du eine Größentabelle – meist passt die normale Konfektionsgröße. Bei Unsicherheit hilft dir unser Support gern 👉 luxestyle.ch',
+    en: 'Great question! 📏 There\'s a size chart on the product page – it usually fits true to size. If you\'re unsure, our support is happy to help 👉 luxestyle.ch' },
+  { id: 'material', emoji: '🧵',
+    label: { de: 'Material/Qualität', en: 'Material/Quality' }, q: { de: '"Aus welchem Material ist das?"', en: '"What material is it made of?"' },
+    de: 'Alle Materialangaben stehen direkt auf der Produktseite 🧵 Wir achten auf angenehme, hochwertige Stoffe. Schau gern rein 👉 luxestyle.ch',
+    en: 'All material details are right on the product page 🧵 We focus on comfortable, high-quality fabrics. Take a look 👉 luxestyle.ch' },
+  { id: 'versandkosten', emoji: '💶',
+    label: { de: 'Versandkosten', en: 'Shipping cost' }, q: { de: '"Was kostet der Versand?"', en: '"How much is shipping?"' },
+    de: 'Ab CHF 49 ist der Versand gratis 🎉 (Code FREESHIP49). Darunter fällt eine kleine Pauschale an – siehst du an der Kasse 👉 luxestyle.ch',
+    en: 'Shipping is free from CHF 49 🎉 (code FREESHIP49). Below that a small flat fee applies – shown at checkout 👉 luxestyle.ch' },
+  { id: 'nachhaltig', emoji: '🌱',
+    label: { de: 'Nachhaltigkeit', en: 'Sustainability' }, q: { de: '"Ist das nachhaltig?"', en: '"Is it sustainable?"' },
+    de: 'Uns ist Qualität statt Wegwerf-Mode wichtig 🌱 Wir produzieren bewusst in kleineren Mengen und verschicken klimafreundlich aus der Schweiz 🇨🇭 Mehr 👉 luxestyle.ch',
+    en: 'We value quality over throwaway fashion 🌱 We produce mindfully in smaller batches and ship climate-friendly from Switzerland 🇨🇭 More 👉 luxestyle.ch' },
+  { id: 'lob', emoji: '❤️',
+    label: { de: 'Lob/Positiv', en: 'Praise/Positive' }, q: { de: 'Positiver Kommentar', en: 'Positive comment' },
+    de: 'Vielen Dank! 🥰🙏 Das freut uns mega. Schau gerne im Shop vorbei 👉 luxestyle.com.co – und folge uns für mehr 😍',
+    en: 'Thank you so much! 🥰🙏 That means a lot to us. Come check out the shop 👉 luxestyle.com.co – and follow us for more 😍' }
+];
+const TT_REPLY_UI = {
+  de: { intro: 'Fertige Antwort-Vorlagen für die häufigsten TikTok-Kommentare. Editierbar, Klick auf 📋 kopiert den Text. Änderungen bleiben lokal gespeichert. Platzhalter <code>{PRODUKT}</code> vor dem Senden ersetzen.', copy: '📋 Kopieren', reset: 'Standard', confirm: 'Alle Kommentar-Antworten (DE) auf die Standardtexte zurücksetzen?' },
+  en: { intro: 'Ready-to-use reply templates for the most common TikTok comments. Editable, click 📋 to copy. Changes are saved locally. Replace the <code>{PRODUKT}</code> placeholder before sending.', copy: '📋 Copy', reset: 'Reset', confirm: 'Reset all comment replies (EN) to the default texts?' }
+};
+function ttReplyGetLang() {
+  try { const l = localStorage.getItem(TT_LANG_KEY); if (l === 'de' || l === 'en') return l; } catch (e) {}
+  return 'de';
+}
+function ttReplyLoad() {
+  try {
+    const raw = localStorage.getItem(TT_REPLY_KEY);
+    if (raw) { const m = JSON.parse(raw) || {}; m.de = m.de || {}; m.en = m.en || {}; return m; }
+  } catch (e) { console.warn('TikTok-Antworten konnten nicht geladen werden:', e); }
+  return { de: {}, en: {} };
+}
+function ttReplySave(map) {
+  try { localStorage.setItem(TT_REPLY_KEY, JSON.stringify(map)); }
+  catch (e) { console.warn('TikTok-Antworten konnten nicht gespeichert werden:', e); }
+}
+function ttReplyRender() {
+  const grid = document.getElementById('tt-reply-grid');
+  if (!grid) return;
+  const lang = ttReplyGetLang();
+  const ui = TT_REPLY_UI[lang];
+  const saved = ttReplyLoad()[lang] || {};
+  grid.innerHTML = TT_REPLY_DEFAULTS.map(r => {
+    const text = saved[r.id] != null ? saved[r.id] : r[lang];
+    return '<div class="tt-reply">' +
+      '<div class="tt-reply-head">' +
+        '<span class="tt-reply-label">' + r.emoji + ' ' + r.label[lang] + '</span>' +
+        '<button class="btn btn-sm btn-primary" onclick="ttReplyCopy(\'' + r.id + '\')">' + ui.copy + '</button>' +
+      '</div>' +
+      '<span class="tt-reply-q">' + r.q[lang] + '</span>' +
+      '<textarea rows="4" data-reply="' + r.id + '" onchange="ttReplyEdit(\'' + r.id + '\', this.value)">' + affEsc(text) + '</textarea>' +
+    '</div>';
+  }).join('');
+  // UI-Texte + aktiven Sprach-Button aktualisieren
+  const intro = document.getElementById('tt-reply-intro'); if (intro) intro.innerHTML = ui.intro;
+  const resetLbl = document.getElementById('tt-reply-reset-label'); if (resetLbl) resetLbl.textContent = ui.reset;
+  document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('ttf-active', b.getAttribute('data-lang') === lang));
+}
+function ttReplySetLang(lang) {
+  try { localStorage.setItem(TT_LANG_KEY, lang); } catch (e) {}
+  ttReplyRender();
+}
+function ttReplyCopy(id) {
+  const el = document.querySelector('#tt-reply-grid textarea[data-reply="' + id + '"]');
+  if (el) copyCode(el.value);
+}
+function ttReplyEdit(id, value) {
+  const lang = ttReplyGetLang();
+  const map = ttReplyLoad();
+  map[lang][id] = value;
+  ttReplySave(map);
+}
+function ttReplyReset() {
+  const lang = ttReplyGetLang();
+  if (!confirm(TT_REPLY_UI[lang].confirm)) return;
+  const map = ttReplyLoad();
+  map[lang] = {};
+  ttReplySave(map);
+  ttReplyRender();
+}
 function fixModule(num) { alert('🔧 Token-Refresh Modul ' + num + '\n\n1. Make.com öffnen\n2. Modul ' + num + '\n3. Mapping leeren\n4. Token neu einfügen\n5. Speichern + Test'); }
 function launchProduct(name, price) {
   if (!confirm('Launch "' + name + '" für CHF ' + price.toFixed(2) + '?')) return;
@@ -1068,6 +1864,13 @@ function filterProducts() {
 
 renderProducts();
 renderCSV();
+affInit();
+campInit();
+emailInit();
+mailRender();
+creativeRender();
+ttReplyRender();
+cockpitRender();
 </script>
 
 
