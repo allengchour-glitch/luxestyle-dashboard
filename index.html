@@ -556,8 +556,8 @@ var e=ttq._i[t]||[],n=0;n&lt;ttq.methods.length;n++)ttq.setAndDefer(e,ttq.method
         <div class="profit-card">
           <p style="font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Flow-Status</p>
           <div class="profit-row"><span>🛒 Warenkorb-Abbrecher</span><span style="color:var(--warning);">⏳ Einrichten</span></div>
-          <div class="profit-row"><span>👋 Willkommens-Serie</span><span style="color:var(--text-tertiary);">○ Geplant</span></div>
-          <div class="profit-row"><span>📦 Nach dem Kauf (Review)</span><span style="color:var(--text-tertiary);">○ Geplant</span></div>
+          <div class="profit-row"><span>👋 Willkommens-Serie</span><span style="color:var(--info);">○ Vorlage bereit</span></div>
+          <div class="profit-row"><span>📦 Nach dem Kauf (Review)</span><span style="color:var(--info);">○ Vorlage bereit</span></div>
           <div class="profit-row"><span>👀 Browse-Abbruch</span><span style="color:var(--text-tertiary);">○ Optional</span></div>
           <div class="profit-row total"><span>🔁 Win-Back (60 Tage)</span><span style="color:var(--text-tertiary);">○ Optional</span></div>
         </div>
@@ -572,7 +572,7 @@ var e=ttq._i[t]||[],n=0;n&lt;ttq.methods.length;n++)ttq.setAndDefer(e,ttq.method
         </div>
       </div>
 
-      <p style="font-size:12px;color:var(--text-secondary);margin:14px 0 10px;"><strong>Warenkorb-Abbrecher-Mails</strong> · editierbar, 📋 kopiert Betreff oder Text. Platzhalter <code>{VORNAME}</code>, <code>{PRODUKT}</code>, <code>{CODE}</code> ersetzen.</p>
+      <p style="font-size:12px;color:var(--text-secondary);margin:14px 0 10px;"><strong>Automation-Mails</strong> (Warenkorb · Willkommen · Nach-Kauf) · editierbar, 📋 kopiert Betreff oder Text. Platzhalter <code>{VORNAME}</code>, <code>{PRODUKT}</code>, <code>{CODE}</code> ersetzen.</p>
       <div class="grid-2" id="mail-grid"></div>
     </div>
 
@@ -1482,7 +1482,22 @@ const MAIL_DEFAULTS = [
     label: { de: 'Reminder 3 · nach 48 Std (Knappheit)', en: 'Reminder 3 · after 48 h (urgency)' },
     subj: { de: 'Letzte Chance – fast ausverkauft 🔥', en: 'Last chance – almost sold out 🔥' },
     body: { de: 'Hey {VORNAME},\n\ndein {PRODUKT} ist sehr gefragt und fast vergriffen. Dein 10 %-Code {CODE} gilt nur noch heute!\n\nJetzt sichern 👉 luxestyle.ch\n\nDein LuxeStyle-Team 🤍',
-            en: 'Hey {VORNAME},\n\nyour {PRODUKT} is in high demand and almost gone. Your 10% code {CODE} is valid today only!\n\nGrab it now 👉 luxestyle.ch\n\nYour LuxeStyle team 🤍' } }
+            en: 'Hey {VORNAME},\n\nyour {PRODUKT} is in high demand and almost gone. Your 10% code {CODE} is valid today only!\n\nGrab it now 👉 luxestyle.ch\n\nYour LuxeStyle team 🤍' } },
+  { id: 'w1',
+    label: { de: 'Willkommen · sofort', en: 'Welcome · instant' },
+    subj: { de: 'Willkommen bei LuxeStyle – 10 % für dich 🤍', en: 'Welcome to LuxeStyle – 10% for you 🤍' },
+    body: { de: 'Hey {VORNAME},\n\nschön, dass du da bist! 🤍 Als Willkommen schenken wir dir 10 % auf deine erste Bestellung mit Code {CODE}.\n\nEntdecke die Sommer-Kollektion 👉 luxestyle.ch\n\nDein LuxeStyle-Team',
+            en: 'Hey {VORNAME},\n\nso glad you\'re here! 🤍 As a welcome, here\'s 10% off your first order with code {CODE}.\n\nDiscover the summer collection 👉 luxestyle.ch\n\nYour LuxeStyle team' } },
+  { id: 'w2',
+    label: { de: 'Willkommen 2 · nach 3 Tagen', en: 'Welcome 2 · after 3 days' },
+    subj: { de: 'Unsere Bestseller – von Kundinnen geliebt 😍', en: 'Our bestsellers – loved by customers 😍' },
+    body: { de: 'Hey {VORNAME},\n\nnoch nicht das Richtige gefunden? Das sind unsere meistgeliebten Pieces diesen Sommer ☀️\n\nDein 10 %-Code {CODE} wartet noch 👉 luxestyle.ch\n\nDein LuxeStyle-Team 🤍',
+            en: 'Hey {VORNAME},\n\nhaven\'t found the right piece yet? These are our most-loved styles this summer ☀️\n\nYour 10% code {CODE} is still waiting 👉 luxestyle.ch\n\nYour LuxeStyle team 🤍' } },
+  { id: 'p1',
+    label: { de: 'Nach Kauf · Review (nach 7 Tagen)', en: 'Post-purchase · review (after 7 days)' },
+    subj: { de: 'Wie gefällt dir dein {PRODUKT}? ⭐', en: 'How do you like your {PRODUKT}? ⭐' },
+    body: { de: 'Hey {VORNAME},\n\nwir hoffen, du liebst deinen {PRODUKT} genauso wie wir 🤍 Magst du uns mit einer kurzen Bewertung helfen? Dauert nur 1 Minute.\n\nJetzt bewerten 👉 luxestyle.ch\n\nDanke & bis bald, dein LuxeStyle-Team',
+            en: 'Hey {VORNAME},\n\nwe hope you love your {PRODUKT} as much as we do 🤍 Would you mind leaving a quick review? It only takes a minute.\n\nLeave a review 👉 luxestyle.ch\n\nThanks & see you soon, your LuxeStyle team' } }
 ];
 function mailGetLang() {
   try { const l = localStorage.getItem(MAIL_LANG_KEY); if (l === 'de' || l === 'en') return l; } catch (e) {}
