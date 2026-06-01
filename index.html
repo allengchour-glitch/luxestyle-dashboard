@@ -1107,7 +1107,6 @@ Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
       const prod     = __ttVideos.filter(v => v.status === 'in_production').length;
       const live     = __ttVideos.filter(v => v.status === 'live').length;
       const views    = __ttVideos.reduce((s, v) => s + (v.metrics && v.metrics.views || 0), 0);
-      const sv = id => { const el = document.getElementById(id); if (el) el.textContent = arguments[1] !== undefined ? arguments[1] : ''; };
       const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
       set('tt-stat-scripts', scripted);
       set('tt-stat-prod', prod);
@@ -1348,7 +1347,7 @@ function showProductDetail(id) {
     '<div style="display:flex;gap:4px;flex-wrap:wrap;margin:12px 0;">' + p.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>' +
     '<div class="profit-card" style="margin-bottom:16px;">' +
       '<div class="profit-row"><span>Verkaufspreis</span><span><strong>CHF ' + p.price.toFixed(2) + '</strong></span></div>' +
-      '<div class="profit-row"><span>Einkauf Ali (Ø)</span><span>CHF ' + p.aliPrice.toFixed(2) + '</span></div>' +
+      '<div class="profit-row"><span>Einkauf Ali (Ø)</span><span>CHF ' + (p.aliPrice || 0).toFixed(2) + '</span></div>' +
       '<div class="profit-row"><span>Marge</span><span style="color:var(--success);">CHF ' + margin.toFixed(2) + ' (' + marginPct + '%)</span></div>' +
       '<div class="profit-row total profit"><span>Gewinn nach Ads</span><span>CHF ' + Math.max(0, margin - 12).toFixed(2) + '</span></div>' +
     '</div>' +
