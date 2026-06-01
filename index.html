@@ -286,6 +286,23 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
       <div class="kpi"><div class="kpi-label">Plan Status</div><div class="kpi-value">●</div><div class="kpi-sub up">Basic CHF 1/Mt bis 18.08.</div></div>
     </div>
 
+    <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">Wachstums-Module · Live</span><h2 class="section-title">🚀 Marketing-Übersicht</h2></div></div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Affiliate-Creator</div><div class="kpi-value" id="ck-aff-creators">0</div><div class="kpi-sub">Provision: <span id="ck-aff-due">CHF 0</span></div></div>
+        <div class="kpi"><div class="kpi-label">Kampagne Sommer</div><div class="kpi-value" id="ck-camp-open">–</div><div class="kpi-sub">von 6 To-dos offen</div></div>
+        <div class="kpi"><div class="kpi-label">E-Mail-Setup</div><div class="kpi-value" id="ck-email-progress">0/6</div><div class="kpi-sub">Schritte erledigt</div></div>
+        <div class="kpi"><div class="kpi-label">Automation-Mails</div><div class="kpi-value" id="ck-mail-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
+        <div class="kpi"><div class="kpi-label">TikTok-Antworten</div><div class="kpi-value" id="ck-reply-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
+        <div class="kpi"><div class="kpi-label">Mode-Creatives</div><div class="kpi-value" id="ck-creative-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+        <button class="btn btn-sm" onclick="showTab(null,'affiliate')">🤝 Affiliate</button>
+        <button class="btn btn-sm" onclick="showTab(null,'marketing')">🎯 Kampagne &amp; E-Mail</button>
+        <button class="btn btn-sm" onclick="showTab(null,'content')">💬 Antworten &amp; Creatives</button>
+      </div>
+    </div>
+
     <!-- Image-Polish-Pipeline Status (NEW 24.05.2026 22:00) -->
     <div class="section" style="background:linear-gradient(135deg,#fef9f3,#f8f1e6);border:1px solid #D4B896;margin-bottom:20px;">
       <div class="section-header">
@@ -1370,6 +1387,7 @@ function affRenderCreators() {
   const totalDue = state.creators.reduce((sum, c) => sum + (Number(c.revenue) || 0) * AFF_RATE, 0);
   const kc = document.getElementById('aff-kpi-creators'); if (kc) kc.textContent = state.creators.length;
   const kd = document.getElementById('aff-kpi-due'); if (kd) kd.textContent = 'CHF ' + totalDue.toFixed(0);
+  if (typeof cockpitRender === 'function') cockpitRender();
 }
 function affAddCreator() {
   const nameEl = document.getElementById('aff-new-name');
@@ -1428,6 +1446,7 @@ function campToggleStep(key, checked) {
   steps[key] = !!checked;
   try { localStorage.setItem(CAMP_KEY, JSON.stringify(steps)); }
   catch (e) { console.warn('Kampagnen-Status konnte nicht gespeichert werden:', e); }
+  if (typeof cockpitRender === 'function') cockpitRender();
 }
 function campInit() {
   const steps = campLoad();
@@ -1452,6 +1471,7 @@ function emailToggleStep(key, checked) {
   s[key] = !!checked;
   try { localStorage.setItem(EMAIL_KEY, JSON.stringify(s)); }
   catch (e) { console.warn('E-Mail-Status konnte nicht gespeichert werden:', e); }
+  if (typeof cockpitRender === 'function') cockpitRender();
 }
 function emailInit() {
   const s = emailLoad();
@@ -1655,6 +1675,23 @@ function creativeReset() {
   creativeRender();
 }
 
+/* ===== Cockpit-Übersicht (aggregiert die Module live) ===== */
+function cockpitRender() {
+  const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+  const aff = affLoad();
+  set('ck-aff-creators', aff.creators.length);
+  set('ck-aff-due', 'CHF ' + aff.creators.reduce((s, c) => s + (Number(c.revenue) || 0) * AFF_RATE, 0).toFixed(0));
+  const campKeys = ['pixel', 'draft', 'event', 'creatives', 'fields', 'submit'];
+  const camp = campLoad();
+  set('ck-camp-open', (campKeys.length - campKeys.filter(k => camp[k]).length) + '/' + campKeys.length);
+  const emailKeys = ['provider', 'trigger', 'timing', 'code', 'branding', 'live'];
+  const em = emailLoad();
+  set('ck-email-progress', emailKeys.filter(k => em[k]).length + '/' + emailKeys.length);
+  set('ck-mail-count', MAIL_DEFAULTS.length);
+  set('ck-reply-count', TT_REPLY_DEFAULTS.length);
+  set('ck-creative-count', CREATIVE_DEFAULTS.length);
+}
+
 /* ===== TikTok Kommentar-Antworten / Comment replies (bilingual, localStorage) ===== */
 const TT_REPLY_KEY = 'luxe_tt_replies_v1';
 const TT_LANG_KEY = 'luxe_tt_lang_v1';
@@ -1805,6 +1842,7 @@ emailInit();
 mailRender();
 creativeRender();
 ttReplyRender();
+cockpitRender();
 </script>
 
 
