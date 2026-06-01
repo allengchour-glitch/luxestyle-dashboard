@@ -829,9 +829,13 @@ Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
     <div class="section">
       <div class="section-header">
         <div><span class="section-subtitle">CONTENT · TIKTOK</span><h2 class="section-title">💬 Kommentar-Antworten</h2></div>
-        <button class="btn btn-sm" onclick="ttReplyReset()">↺ Standard wiederherstellen</button>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button class="ttf-btn ttf-active" data-lang="de" onclick="ttReplySetLang('de')">🇩🇪 DE</button>
+          <button class="ttf-btn" data-lang="en" onclick="ttReplySetLang('en')">🇬🇧 EN</button>
+          <button class="btn btn-sm" onclick="ttReplyReset()">↺ <span id="tt-reply-reset-label">Standard</span></button>
+        </div>
       </div>
-      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">Fertige Antwort-Vorlagen für die häufigsten TikTok-Kommentare. Editierbar, Klick auf 📋 kopiert den Text. Änderungen bleiben lokal gespeichert. Platzhalter <code>{PRODUKT}</code> vor dem Senden ersetzen.</p>
+      <p id="tt-reply-intro" style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">Fertige Antwort-Vorlagen für die häufigsten TikTok-Kommentare. Editierbar, Klick auf 📋 kopiert den Text. Änderungen bleiben lokal gespeichert. Platzhalter <code>{PRODUKT}</code> vor dem Senden ersetzen.</p>
       <div class="grid-2" id="tt-reply-grid"></div>
     </div>
   </div>
@@ -1268,26 +1272,65 @@ function affInit() {
   });
 }
 
-/* ===== TikTok Kommentar-Antworten (localStorage) ===== */
+/* ===== TikTok Kommentar-Antworten / Comment replies (bilingual, localStorage) ===== */
 const TT_REPLY_KEY = 'luxe_tt_replies_v1';
+const TT_LANG_KEY = 'luxe_tt_lang_v1';
 const TT_REPLY_DEFAULTS = [
-  { id: 'preis', emoji: '💰', label: 'Preis', q: '"Wie viel kostet das?"', text: 'Hey! 😊 Den {PRODUKT} gibt\'s aktuell super günstig in unserem Shop – Link in der Bio 👉 luxestyle.com.co. Mit Code TIKTOK15 bekommst du 15 % Rabatt! 🎁' },
-  { id: 'kaufen', emoji: '🔗', label: 'Wo kaufen', q: '"Wo bekomme ich das?"', text: 'Den {PRODUKT} findest du direkt in unserem Shop 👉 luxestyle.com.co (Link in der Bio). Versand in die ganze Schweiz 🇨🇭📦' },
-  { id: 'versand', emoji: '🚚', label: 'Lieferzeit', q: '"Wie lange dauert der Versand?"', text: 'Die Lieferung dauert in der Regel ein paar Werktage in die Schweiz 🇨🇭. Sobald deine Bestellung raus ist, bekommst du eine Tracking-Nummer 📦✨' },
-  { id: 'schweiz', emoji: '🇨🇭', label: 'CH-Versand', q: '"Liefert ihr in die Schweiz?"', text: 'Ja klar! 🇨🇭 Wir versenden in die ganze Schweiz. Bestellen kannst du direkt über den Link in der Bio 👉 luxestyle.com.co' },
-  { id: 'code', emoji: '🎟️', label: 'Rabattcode', q: '"Gibt\'s einen Code?"', text: 'Jaa! 🎉 Mit dem Code TIKTOK15 sparst du 15 % auf deine Bestellung. Einfach an der Kasse eingeben 👉 luxestyle.com.co' },
-  { id: 'echt', emoji: '✅', label: 'Seriös?', q: '"Ist das echt / kein Fake?"', text: 'Zu 100 % echt 🙌 Wir sind ein Schweizer Shop mit echten Bewertungen und sicherem Checkout. Schau gerne selbst vorbei 👉 luxestyle.com.co 🇨🇭' },
-  { id: 'verfuegbar', emoji: '📦', label: 'Verfügbarkeit', q: '"Ist das noch verfügbar?"', text: 'Ja, der {PRODUKT} ist auf Lager ✅ – aber er ist gerade sehr gefragt, also schnell sein 😅 Link in der Bio 👉 luxestyle.com.co' },
-  { id: 'garantie', emoji: '🔁', label: 'Garantie/Rückgabe', q: '"Was, wenn es kaputt ist?"', text: 'Kein Stress 💛 Falls etwas nicht passt oder defekt ankommt, melde dich einfach bei uns – wir finden eine Lösung (Ersatz oder Erstattung). Dein Vertrauen ist uns wichtig! 🙌' },
-  { id: 'skeptisch', emoji: '🤨', label: 'Skeptisch', q: '"Bestimmt billiger China-Schrott"', text: 'Verstehen die Skepsis 😊 Deshalb: sicherer Checkout, echte Bewertungen und fairer Support aus der Schweiz 🇨🇭. Probier\'s aus – und wenn\'s nicht passt, kümmern wir uns drum 💛' },
-  { id: 'lob', emoji: '❤️', label: 'Lob/Positiv', q: 'Positiver Kommentar', text: 'Vielen Dank! 🥰🙏 Das freut uns mega. Schau gerne im Shop vorbei 👉 luxestyle.com.co – und folge uns für mehr 😍' }
+  { id: 'preis', emoji: '💰',
+    label: { de: 'Preis', en: 'Price' }, q: { de: '"Wie viel kostet das?"', en: '"How much is it?"' },
+    de: 'Hey! 😊 Den {PRODUKT} gibt\'s aktuell super günstig in unserem Shop – Link in der Bio 👉 luxestyle.com.co. Mit Code TIKTOK15 bekommst du 15 % Rabatt! 🎁',
+    en: 'Hey! 😊 The {PRODUKT} is available at a great price in our shop – link in bio 👉 luxestyle.com.co. Use code TIKTOK15 for 15 % off! 🎁' },
+  { id: 'kaufen', emoji: '🔗',
+    label: { de: 'Wo kaufen', en: 'Where to buy' }, q: { de: '"Wo bekomme ich das?"', en: '"Where can I get it?"' },
+    de: 'Den {PRODUKT} findest du direkt in unserem Shop 👉 luxestyle.com.co (Link in der Bio). Versand in die ganze Schweiz 🇨🇭📦',
+    en: 'You can find the {PRODUKT} right in our shop 👉 luxestyle.com.co (link in bio). We ship across Switzerland 🇨🇭📦' },
+  { id: 'versand', emoji: '🚚',
+    label: { de: 'Lieferzeit', en: 'Delivery time' }, q: { de: '"Wie lange dauert der Versand?"', en: '"How long does shipping take?"' },
+    de: 'Die Lieferung dauert in der Regel ein paar Werktage in die Schweiz 🇨🇭. Sobald deine Bestellung raus ist, bekommst du eine Tracking-Nummer 📦✨',
+    en: 'Delivery usually takes a few business days within Switzerland 🇨🇭. As soon as your order ships, you\'ll get a tracking number 📦✨' },
+  { id: 'schweiz', emoji: '🇨🇭',
+    label: { de: 'CH-Versand', en: 'Shipping' }, q: { de: '"Liefert ihr in die Schweiz?"', en: '"Do you ship to Switzerland?"' },
+    de: 'Ja klar! 🇨🇭 Wir versenden in die ganze Schweiz. Bestellen kannst du direkt über den Link in der Bio 👉 luxestyle.com.co',
+    en: 'Absolutely! 🇨🇭 We ship across all of Switzerland. Just order via the link in our bio 👉 luxestyle.com.co' },
+  { id: 'code', emoji: '🎟️',
+    label: { de: 'Rabattcode', en: 'Discount code' }, q: { de: '"Gibt\'s einen Code?"', en: '"Is there a code?"' },
+    de: 'Jaa! 🎉 Mit dem Code TIKTOK15 sparst du 15 % auf deine Bestellung. Einfach an der Kasse eingeben 👉 luxestyle.com.co',
+    en: 'Yes! 🎉 Use code TIKTOK15 to save 15 % on your order. Just enter it at checkout 👉 luxestyle.com.co' },
+  { id: 'echt', emoji: '✅',
+    label: { de: 'Seriös?', en: 'Legit?' }, q: { de: '"Ist das echt / kein Fake?"', en: '"Is this legit / not a scam?"' },
+    de: 'Zu 100 % echt 🙌 Wir sind ein Schweizer Shop mit echten Bewertungen und sicherem Checkout. Schau gerne selbst vorbei 👉 luxestyle.com.co 🇨🇭',
+    en: '100 % legit 🙌 We\'re a Swiss shop with real reviews and secure checkout. Feel free to see for yourself 👉 luxestyle.com.co 🇨🇭' },
+  { id: 'verfuegbar', emoji: '📦',
+    label: { de: 'Verfügbarkeit', en: 'Availability' }, q: { de: '"Ist das noch verfügbar?"', en: '"Is it still available?"' },
+    de: 'Ja, der {PRODUKT} ist auf Lager ✅ – aber er ist gerade sehr gefragt, also schnell sein 😅 Link in der Bio 👉 luxestyle.com.co',
+    en: 'Yes, the {PRODUKT} is in stock ✅ – but it\'s in high demand right now, so be quick 😅 Link in bio 👉 luxestyle.com.co' },
+  { id: 'garantie', emoji: '🔁',
+    label: { de: 'Garantie/Rückgabe', en: 'Returns/Warranty' }, q: { de: '"Was, wenn es kaputt ist?"', en: '"What if it arrives broken?"' },
+    de: 'Kein Stress 💛 Falls etwas nicht passt oder defekt ankommt, melde dich einfach bei uns – wir finden eine Lösung (Ersatz oder Erstattung). Dein Vertrauen ist uns wichtig! 🙌',
+    en: 'No worries 💛 If something\'s wrong or arrives damaged, just reach out – we\'ll sort it out (replacement or refund). Your trust means everything to us! 🙌' },
+  { id: 'skeptisch', emoji: '🤨',
+    label: { de: 'Skeptisch', en: 'Skeptical' }, q: { de: '"Bestimmt billiger China-Schrott"', en: '"Probably cheap junk"' },
+    de: 'Verstehen die Skepsis 😊 Deshalb: sicherer Checkout, echte Bewertungen und fairer Support aus der Schweiz 🇨🇭. Probier\'s aus – und wenn\'s nicht passt, kümmern wir uns drum 💛',
+    en: 'We get the skepticism 😊 That\'s why: secure checkout, real reviews and fair support from Switzerland 🇨🇭. Give it a try – and if it\'s not right, we\'ll take care of it 💛' },
+  { id: 'lob', emoji: '❤️',
+    label: { de: 'Lob/Positiv', en: 'Praise/Positive' }, q: { de: 'Positiver Kommentar', en: 'Positive comment' },
+    de: 'Vielen Dank! 🥰🙏 Das freut uns mega. Schau gerne im Shop vorbei 👉 luxestyle.com.co – und folge uns für mehr 😍',
+    en: 'Thank you so much! 🥰🙏 That means a lot to us. Come check out the shop 👉 luxestyle.com.co – and follow us for more 😍' }
 ];
+const TT_REPLY_UI = {
+  de: { intro: 'Fertige Antwort-Vorlagen für die häufigsten TikTok-Kommentare. Editierbar, Klick auf 📋 kopiert den Text. Änderungen bleiben lokal gespeichert. Platzhalter <code>{PRODUKT}</code> vor dem Senden ersetzen.', copy: '📋 Kopieren', reset: 'Standard', confirm: 'Alle Kommentar-Antworten (DE) auf die Standardtexte zurücksetzen?' },
+  en: { intro: 'Ready-to-use reply templates for the most common TikTok comments. Editable, click 📋 to copy. Changes are saved locally. Replace the <code>{PRODUKT}</code> placeholder before sending.', copy: '📋 Copy', reset: 'Reset', confirm: 'Reset all comment replies (EN) to the default texts?' }
+};
+function ttReplyGetLang() {
+  try { const l = localStorage.getItem(TT_LANG_KEY); if (l === 'de' || l === 'en') return l; } catch (e) {}
+  return 'de';
+}
 function ttReplyLoad() {
   try {
     const raw = localStorage.getItem(TT_REPLY_KEY);
-    if (raw) return JSON.parse(raw) || {};
+    if (raw) { const m = JSON.parse(raw) || {}; m.de = m.de || {}; m.en = m.en || {}; return m; }
   } catch (e) { console.warn('TikTok-Antworten konnten nicht geladen werden:', e); }
-  return {};
+  return { de: {}, en: {} };
 }
 function ttReplySave(map) {
   try { localStorage.setItem(TT_REPLY_KEY, JSON.stringify(map)); }
@@ -1296,31 +1339,45 @@ function ttReplySave(map) {
 function ttReplyRender() {
   const grid = document.getElementById('tt-reply-grid');
   if (!grid) return;
-  const saved = ttReplyLoad();
+  const lang = ttReplyGetLang();
+  const ui = TT_REPLY_UI[lang];
+  const saved = ttReplyLoad()[lang] || {};
   grid.innerHTML = TT_REPLY_DEFAULTS.map(r => {
-    const text = saved[r.id] != null ? saved[r.id] : r.text;
+    const text = saved[r.id] != null ? saved[r.id] : r[lang];
     return '<div class="tt-reply">' +
       '<div class="tt-reply-head">' +
-        '<span class="tt-reply-label">' + r.emoji + ' ' + r.label + '</span>' +
-        '<button class="btn btn-sm btn-primary" onclick="ttReplyCopy(\'' + r.id + '\')">📋 Kopieren</button>' +
+        '<span class="tt-reply-label">' + r.emoji + ' ' + r.label[lang] + '</span>' +
+        '<button class="btn btn-sm btn-primary" onclick="ttReplyCopy(\'' + r.id + '\')">' + ui.copy + '</button>' +
       '</div>' +
-      '<span class="tt-reply-q">' + r.q + '</span>' +
+      '<span class="tt-reply-q">' + r.q[lang] + '</span>' +
       '<textarea rows="4" data-reply="' + r.id + '" onchange="ttReplyEdit(\'' + r.id + '\', this.value)">' + affEsc(text) + '</textarea>' +
     '</div>';
   }).join('');
+  // UI-Texte + aktiven Sprach-Button aktualisieren
+  const intro = document.getElementById('tt-reply-intro'); if (intro) intro.innerHTML = ui.intro;
+  const resetLbl = document.getElementById('tt-reply-reset-label'); if (resetLbl) resetLbl.textContent = ui.reset;
+  document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('ttf-active', b.getAttribute('data-lang') === lang));
+}
+function ttReplySetLang(lang) {
+  try { localStorage.setItem(TT_LANG_KEY, lang); } catch (e) {}
+  ttReplyRender();
 }
 function ttReplyCopy(id) {
   const el = document.querySelector('#tt-reply-grid textarea[data-reply="' + id + '"]');
   if (el) copyCode(el.value);
 }
 function ttReplyEdit(id, value) {
+  const lang = ttReplyGetLang();
   const map = ttReplyLoad();
-  map[id] = value;
+  map[lang][id] = value;
   ttReplySave(map);
 }
 function ttReplyReset() {
-  if (!confirm('Alle Kommentar-Antworten auf die Standardtexte zurücksetzen?')) return;
-  ttReplySave({});
+  const lang = ttReplyGetLang();
+  if (!confirm(TT_REPLY_UI[lang].confirm)) return;
+  const map = ttReplyLoad();
+  map[lang] = {};
+  ttReplySave(map);
   ttReplyRender();
 }
 function fixModule(num) { alert('🔧 Token-Refresh Modul ' + num + '\n\n1. Make.com öffnen\n2. Modul ' + num + '\n3. Mapping leeren\n4. Token neu einfügen\n5. Speichern + Test'); }
