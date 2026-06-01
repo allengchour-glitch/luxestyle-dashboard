@@ -87,3 +87,15 @@ Läuft über In-Admin-Tools / MCP, NICHT im Dashboard-Code:
 - **Bild-Lektion:** Shopify-Produktbilder müssen **< 25 MP** sein, sonst Fehler „Mediendatei konnte nicht
   verarbeitet werden". Adobe-Stock-**Free**-Collection taugt für Platzhalter (0 Credits, kommerziell nutzbar) —
   große Assets (>25 MP) vorher herunterskalieren (z. B. `image_crop_and_resize`).
+
+## 🎨 Brand-Bildsprache (WICHTIG — User-Vorgabe)
+Visuals/Reels: **premium, clean, lifestyle, Fokus aufs Produkt.** **Vermeiden:** billig wirkende Generic-Stock-Clips
+(Massen-Schuhe/Brillen/Kleider, generische Model-Stockclips) — alles, was nach Billig-Dropshipping aussieht.
+Hochwertige, ästhetische Optik. (In `content/revid-render-payloads.json` als `stylePrompt` + `quality:ultra` hinterlegt.)
+
+## 🎬 Content-/Reel-Automation (`content/`)
+- `reels-schedule.csv` (14T) · `-30d.csv` · `-90.csv` (3×/Tag, Mix Herren/Schmuck/US/Tech) · `reel-posting-plan*.md`
+- `revid-prompts.md` (Script-Prompts je Produkt) · `revid-render-payloads.json` (16 fertige v3-render-Payloads, Premium-Settings)
+- `revid-api-usage.md` · `makecom-autopost-blueprint.md`
+- **Revid.ai:** Plan Growth ($39, 2 000 Credits). API `POST https://www.revid.ai/api/public/v3/render` (Header `key` oder `Bearer`), MCP `https://www.revid.ai/api/mcp`. Egress aus Sandbox funktioniert. **API-Key nötig** (im Revid-Konto erstellen). Generieren kostet Credits → klein starten.
+- **Make.com:** Org 7603352 · Team 1667409 · Zone **eu1** (Verbindung flaky → Retries). Connections vorhanden: **Shopify, YouTube, Gmail, Buffer**. **Buffer** = Multi-Plattform-Posting (TikTok/IG/Threads/YT). API-Token authentifiziert, aber **OAuth-Connections + Szenario-Aufbau gehören in die Make-UI** (Browser-Claude). API-Key war im Chat exponiert → rotieren.
