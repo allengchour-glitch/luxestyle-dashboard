@@ -327,6 +327,9 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
     <div class="section">
       <div class="section-header"><div><span class="section-subtitle">In-Admin · Browser/DSers</span><h2 class="section-title">🌐 Offene Live-Aufgaben</h2></div></div>
       <p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Diese Schritte laufen nur im Admin/Browser (keine API). Haken bleiben gespeichert.</p>
+      <div class="alert alert-success" style="margin-bottom:10px;"><span style="font-size:16px;">🌍</span><div class="alert-content"><h4>International live</h4><p>8 Märkte aktiv (CH·DACH·US·UK·FR·IT·EU·Global) · 4 Sprachen · Versand „Rest of World" (CHF 15) · Bundle-Rabatt 2+ −10 % aktiv.</p></div></div>
+      <label class="aff-step"><input type="checkbox" data-bro="tax" onchange="broToggleStep('tax', this.checked)"> <strong>Steuern/VAT:</strong> EU-IOSS + UK-VAT konfigurieren (Einstellungen → Steuern und Zölle) — rechtliche Pflicht</label>
+      <label class="aff-step"><input type="checkbox" data-bro="currency" onchange="broToggleStep('currency', this.checked)"> <strong>Währungen:</strong> Multi-Currency (GBP/EUR/USD) via Shopify Payments prüfen + .99-Rundung</label>
       <label class="aff-step"><input type="checkbox" data-bro="tiktok" onchange="broToggleStep('tiktok', this.checked)"> <strong>TikTok-Anzeige:</strong> Optimierungsereignis „Complete Payment" + 4 Creatives → veröffentlichen</label>
       <label class="aff-step"><input type="checkbox" data-bro="klaviyo" onchange="broToggleStep('klaviyo', this.checked)"> <strong>Klaviyo-Flows:</strong> 18 Templates den Automationen zuweisen (Cart/Welcome/Post-Purchase/Win-Back) + dynamischer Warenkorb-Block → aktivieren</label>
       <label class="aff-step"><input type="checkbox" data-bro="dsers" onchange="broToggleStep('dsers', this.checked)"> <strong>DSers-Mapping:</strong> Supplier-Optimizer für die 5 Produkte (Versandzeit USA → Rating → Preis)</label>
