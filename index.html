@@ -558,8 +558,8 @@ var e=ttq._i[t]||[],n=0;n&lt;ttq.methods.length;n++)ttq.setAndDefer(e,ttq.method
           <div class="profit-row"><span>🛒 Warenkorb-Abbrecher</span><span style="color:var(--warning);">⏳ Einrichten</span></div>
           <div class="profit-row"><span>👋 Willkommens-Serie</span><span style="color:var(--info);">○ Vorlage bereit</span></div>
           <div class="profit-row"><span>📦 Nach dem Kauf (Review)</span><span style="color:var(--info);">○ Vorlage bereit</span></div>
-          <div class="profit-row"><span>👀 Browse-Abbruch</span><span style="color:var(--text-tertiary);">○ Optional</span></div>
-          <div class="profit-row total"><span>🔁 Win-Back (60 Tage)</span><span style="color:var(--text-tertiary);">○ Optional</span></div>
+          <div class="profit-row"><span>👀 Browse-Abbruch</span><span style="color:var(--info);">○ Vorlage bereit</span></div>
+          <div class="profit-row total"><span>🔁 Win-Back (60 Tage)</span><span style="color:var(--info);">○ Vorlage bereit</span></div>
         </div>
         <div class="section" style="margin-bottom:0;">
           <div class="section-header"><div><span class="section-subtitle">Setup · Shopify / Klaviyo</span><h2 class="section-title">Checkliste</h2></div></div>
@@ -1497,7 +1497,17 @@ const MAIL_DEFAULTS = [
     label: { de: 'Nach Kauf · Review (nach 7 Tagen)', en: 'Post-purchase · review (after 7 days)' },
     subj: { de: 'Wie gefällt dir dein {PRODUKT}? ⭐', en: 'How do you like your {PRODUKT}? ⭐' },
     body: { de: 'Hey {VORNAME},\n\nwir hoffen, du liebst deinen {PRODUKT} genauso wie wir 🤍 Magst du uns mit einer kurzen Bewertung helfen? Dauert nur 1 Minute.\n\nJetzt bewerten 👉 luxestyle.ch\n\nDanke & bis bald, dein LuxeStyle-Team',
-            en: 'Hey {VORNAME},\n\nwe hope you love your {PRODUKT} as much as we do 🤍 Would you mind leaving a quick review? It only takes a minute.\n\nLeave a review 👉 luxestyle.ch\n\nThanks & see you soon, your LuxeStyle team' } }
+            en: 'Hey {VORNAME},\n\nwe hope you love your {PRODUKT} as much as we do 🤍 Would you mind leaving a quick review? It only takes a minute.\n\nLeave a review 👉 luxestyle.ch\n\nThanks & see you soon, your LuxeStyle team' } },
+  { id: 'b1',
+    label: { de: 'Browse-Abbruch · nach 4 Std', en: 'Browse abandon · after 4 h' },
+    subj: { de: 'Noch am Stöbern? 👀', en: 'Still browsing? 👀' },
+    body: { de: 'Hey {VORNAME},\n\nder {PRODUKT} hat dir gefallen, oder? 😊 Er wartet weiterhin auf dich – schau noch mal rein.\n\nZur Kollektion 👉 luxestyle.ch\n\nDein LuxeStyle-Team 🤍',
+            en: 'Hey {VORNAME},\n\nyou liked the {PRODUKT}, right? 😊 It\'s still here waiting for you – take another look.\n\nBack to the collection 👉 luxestyle.ch\n\nYour LuxeStyle team 🤍' } },
+  { id: 'wb1',
+    label: { de: 'Win-Back · nach 60 Tagen', en: 'Win-back · after 60 days' },
+    subj: { de: 'Wir vermissen dich 🤍 -10 % zurück', en: 'We miss you 🤍 -10% to come back' },
+    body: { de: 'Hey {VORNAME},\n\nlange nicht gesehen! 🤍 Als kleines Hallo schenken wir dir 10 % mit Code {CODE} auf deinen nächsten Einkauf.\n\nNeue Styles entdecken 👉 luxestyle.ch\n\nBis bald, dein LuxeStyle-Team',
+            en: 'Hey {VORNAME},\n\nlong time no see! 🤍 As a little hello, here\'s 10% off your next order with code {CODE}.\n\nDiscover new styles 👉 luxestyle.ch\n\nSee you soon, your LuxeStyle team' } }
 ];
 function mailGetLang() {
   try { const l = localStorage.getItem(MAIL_LANG_KEY); if (l === 'de' || l === 'en') return l; } catch (e) {}
