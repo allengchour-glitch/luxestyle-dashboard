@@ -70,6 +70,7 @@ Funktionaler Test: `index.html` im Browser öffnen — alles läuft client-seiti
 - Entwicklungs-Branch: `claude/blissful-albattani-wUQZV`. Push mit `git push -u origin <branch>`.
 - **PR #1** (Affiliate · Kampagne · E-Mail-Flows · TikTok-Antworten · Creatives · Cockpit) ist **gemergt** (squash → `main`).
 - **PR #2** (Draft) — Kundenservice-Antworten-Modul. Nach dem Push immer einen (Draft-)PR sicherstellen.
+- **PR #20** (Ready for review) — Reel-/Ad-Pipeline + finale TikTok-Ad „Sommer 2026" (`content/ads/`, Handoff `BROWSER_CLAUDE_TIKTOK_AD.md`, Manifest/Rezepte in `content/`). Stand 2026-06-02.
 - Footer-Versionsstring in `index.html` (Suche `class="footer"`) bei größeren Änderungen mitziehen.
 
 ## Externer Projekt-Stand (außerhalb des Repos · Juni 2026)
