@@ -116,3 +116,30 @@ Captions blenden automatisch animiert ein (Fade). Reihenfolge: **Hook → Items 
 - **Keine Fremdmarken-Logos** im Bild/Clip (Markenrecht).
 - Reviews-/Claim-Angaben müssen stimmen.
 - Bezahlte TikTok-Ads: keine Trending-Pop-Songs (nur Commercial Music Library / eigener Bed).
+
+---
+
+# 📤 TikTok-Ad-Upload (`tiktok_upload.py`)
+
+Lädt ein fertiges Reel/Video (z.B. aus `build_reel.py`) in den **TikTok Ads Manager**
+(Creative Library des Werbekontos) per **TikTok Marketing API** — nur Standardbibliothek.
+
+**ENV (nichts committen):**
+```bash
+export TIKTOK_ACCESS_TOKEN=...      # genehmigte TikTok-for-Business-App
+export TIKTOK_ADVERTISER_ID=...     # Werbekonto-ID
+```
+**Nutzung:**
+```bash
+python tiktok_upload.py reel.mp4 --name "LuxeStyle Sommer A"   # lokale Datei
+python tiktok_upload.py --url https://cdn.../reel.mp4 --name "Sommer B"
+python tiktok_upload.py reel.mp4 --cover cover.jpg             # + Cover-Bild
+python tiktok_upload.py --list                                # Videos im Konto
+```
+Gibt die **video_id** zurück → danach im Ads Manager als Ad-Creative wählen (oder via
+Campaign-/AdGroup-/Ad-Endpoints schalten). Pixel `D8EQE4JC77UAEKHUJCM0`, Optimierung *Complete Payment*.
+
+**End-to-End:** `build_reel.py … --out reel.mp4`  →  `tiktok_upload.py reel.mp4`.
+
+> Token/Advertiser-ID müssen einmalig im TikTok-Developer-/Business-Portal (Browser) erstellt
+> bzw. die App genehmigt werden. A/B: `build_reel` erzeugt `_A/_B` → beide hochladen, im Ads Manager gegeneinander testen.
