@@ -39,6 +39,43 @@ python build_reel.py sample_reel.json --out sommer_ad.mp4
 - ffmpeg kommt automatisch über `imageio-ffmpeg` (kein separater Download nötig).
 - Font wird automatisch gefunden (Arial/Segoe). Sonst: `set LUXE_FONT=C:\Windows\Fonts\arialbd.ttf`.
 
+## Shopify-Auto-Modus (kein Manifest nötig)
+Statt jedes Bild/Preis von Hand: **nur Handles oder einen Filter** angeben – das Tool zieht
+**Titel, Preis & Bild selbst per Admin-API**.
+
+**ENV setzen** (Token NICHT committen):
+```bash
+# Linux/macOS
+export SHOPIFY_STORE=xxxx.myshopify.com
+export SHOPIFY_ADMIN_TOKEN=shpat_xxx
+# Windows
+set SHOPIFY_STORE=xxxx.myshopify.com
+set SHOPIFY_ADMIN_TOKEN=shpat_xxx
+```
+**CLI:**
+```bash
+python build_reel.py --shopify handle1,handle2,handle3 --out reel.mp4
+python build_reel.py --shopify-query "tag:sommer-2026 AND status:active" --limit 6
+python build_reel.py sample_shopify_auto.json
+```
+**Filter (`shopify.query`)** = native Shopify-Suchsyntax, u.a.:
+`tag:sommer-2026` · `product_type:Damen-Kleid` · `vendor:LuxeStyle` · `status:active` ·
+`price:<=30` · `title:Kleid` · Kombi mit `AND`/`OR`/`NOT`.
+**Weitere `shopify`-Optionen:** `limit`, `sort` (created/price/title/best), `reverse`,
+`only_published` (überspringt nicht gelistete automatisch), `img` (Bildindex),
+`price_format` (`"{cur} {price}"`), `default_dur`, `exclude` (Handles), `handles` (statt query).
+Nicht-published Produkte werden **automatisch übersprungen** (kein „nicht kaufbar" in der Ad).
+
+## A/B-Hooks (mehrere Varianten für Ad-Tests)
+`hooks` als Liste → das Tool baut den Body **einmal** und erzeugt pro Hook eine Datei
+(`out_A.mp4`, `out_B.mp4`, …). Hook als Objekt `{title,sub,dur,src}` oder Kurzform `"Titel|Sub"`.
+```json
+"hooks": [
+  {"title":"SOMMER-SALE","sub":"-10% WELCOME10"},
+  {"title":"NEU: SOMMER-DROP","sub":"ab CHF 22.90"}
+]
+```
+
 ## TikTok-Premium-Features (v2)
 Optionale Top-Level-Keys im Manifest:
 | Key | Wirkung |
