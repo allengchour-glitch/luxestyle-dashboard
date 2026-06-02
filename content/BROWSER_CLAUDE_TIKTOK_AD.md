@@ -4,8 +4,9 @@
 produziert; das Klicken in TikTok Ads Manager / Buffer / DSers passiert hier (Browser).
 
 ## 1) Asset
-- **Video:** `content/ads/LuxeStyle_TikTok_AD_Sommer2026.mp4` (9:16, 1080×1920, 14,2s, yuv420p, lizenzfreie Musik)
+- **Video:** `content/ads/LuxeStyle_TikTok_AD_Sommer2026.mp4` (PRO-Version, 9:16, 1080×1920, 15,9s, yuv420p, lizenzfreie Musik)
 - **Poster:** `content/ads/LuxeStyle_TikTok_AD_Sommer2026_poster.jpg`
+- **Aufbau (PRO):** Hook „SOMMER-SALE −10% WELCOME10" (Sek.1) → Kleider/Schmuck/Tasche/Diffuser (abwechselnde slide/fade-Transitions) → Social-Proof ★★★★★ „Über 50 Bewertungen" → CTA-Endcard. Hellere/pulsierende Musik.
 - Inhalt (alle **per Shopify-API verifiziert**: active, published, Preis stimmt): Sommerkleid Schwarz (kurz, 32.90) · Mini-Kleid Rüschen Rot/Türkis/Weiss (29.90) · Ohrring-Set 925 (**22.90**) · Damen-Armband Edelstahl (24.90) · Crossbody-Bag Vegan (34.90) · Flame Diffuser (49.90) → CTA WELCOME10.
 - **18K Gold-Schmuck-Set wurde bewusst ENTFERNT** (siehe unten) — kann später wieder rein, sobald published + Mapping gefixt.
 
@@ -40,3 +41,10 @@ produziert; das Klicken in TikTok Ads Manager / Buffer / DSers passiert hier (Br
 ## Hinweis zu Foto-/Markenrechten
 - Uhr-Demo („SEA-GULL"-Logo) wurde **bewusst weggelassen** (Fremdmarke). Keine Fremdlogos in der Ad.
 - Englische Version (für US-Market, USD-Preise) kann Claude Code auf Wunsch erstellen.
+
+## 6) Performance-Feedback & Empfehlungen (für bessere Resultate)
+- **Wahrheits-Check:** „Über 50 Bewertungen" nur lassen, wenn auf `luxestyle.ch` wirklich vorhanden (Loox). Sonst Zahl anpassen/entfernen.
+- **Grösster Hebel = echtes UGC:** 10-Sek-Handyvideo mit echter Person (Try-on/Unboxing, gesprochen) performt auf TikTok deutlich besser als die Slideshow. Idealerweise über Creator/Affiliate-Programm.
+- **Skalierung:** zusätzlich kategorie-spezifische Ads (nur Kleider / nur Schmuck) → schärfere Zielgruppe, tieferer CPM.
+- **Echte Kundenfotos** (Loox-UGC) statt Stock-Model-Bilder erhöhen Trust.
+- **Musik:** Bed ist lizenzfrei. Für organische Posts zusätzlich Trending-Sound; in bezahlten Ads nur Commercial Music Library.

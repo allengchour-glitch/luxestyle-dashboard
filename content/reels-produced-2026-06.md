@@ -22,7 +22,7 @@ Dateien wurden dem User als Download geliefert (nicht im Repo, da grosse Binarie
   - Flüssig-Fix: Kleider als Standbild + linearer Ken-Burns (kein Slow-Mo-Ruckeln), Zoom in 2×-Präzision.
 
 ## Finale TikTok-Ad (ad-safe, nur echte Produkte)
-- **`content/ads/LuxeStyle_TikTok_AD_Sommer2026.mp4`** (14,2s) + Poster. Handoff: `BROWSER_CLAUDE_TIKTOK_AD.md`.
+- **`content/ads/LuxeStyle_TikTok_AD_Sommer2026.mp4`** (PRO, 15,9s; Hook + Social-Proof + variable Transitions + hellere Musik) + Poster. Handoff: `BROWSER_CLAUDE_TIKTOK_AD.md`.
 - Nur **API-verifizierte** echte, active+published Produkte mit korrektem Preis: Sommerkleid Schwarz (kurz) · Mini-Kleid Rot/Türkis/Weiss · Ohrring-Set 925 (22.90) · Damen-Armband · Crossbody-Bag Vegan · Flame Diffuser → CTA WELCOME10.
 - Defekte gefixt: Ohrring-Preis 29.90→**22.90**; **18K Gold-Set entfernt** (war `publishedAt:null` + DSers-Mapping falsch). Inventar = kein Blocker (tracking aus = immer verkaufbar).
 - Ad-safe: Text in TikTok-Safe-Zone (oben/Mitte), lizenzfreie Musik, **kein Fremdlogo** (Uhr „SEA-GULL" bewusst weggelassen).
