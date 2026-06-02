@@ -39,6 +39,21 @@ python build_reel.py sample_reel.json --out sommer_ad.mp4
 - ffmpeg kommt automatisch über `imageio-ffmpeg` (kein separater Download nötig).
 - Font wird automatisch gefunden (Arial/Segoe). Sonst: `set LUXE_FONT=C:\Windows\Fonts\arialbd.ttf`.
 
+## TikTok-Premium-Features (v2)
+Optionale Top-Level-Keys im Manifest:
+| Key | Wirkung |
+|---|---|
+| `hook` | `{src,title,sub,dur}` – Auto-Opener: grosser Hook-Text über einem Produktbild (Sek.1, stark fürs Halten der Zuschauer) |
+| `socialproof` | `{stars,title,sub,foot,dur}` – Karte mit gezeichneten ★-Sternen (vor der End-Card) |
+| `progress_bar` | `true`/`false` – Story-Fortschrittsbalken oben (Default an, wenn ffmpeg `drawbox` kann) |
+| `price_badge` | `true`/`false` – Preis als gold gefüllte Pille statt schlichtem Text |
+| `accent` | Markenfarbe als Hex (z.B. `#C9A24B`) – färbt Linien/Badge/Progress/Sterne |
+| `music` | `"upbeat"` (hell, pulsierend) · `"calm"` (ruhiger Pad) · `false` (stumm) |
+| `transition` | Crossfade-Dauer s (Default 0.3); Transitions wechseln automatisch (fade/slide/dissolve) |
+| `endcard_dur` | Länge der CTA-End-Card |
+
+Captions blenden automatisch animiert ein (Fade). Reihenfolge: **Hook → Items → Social-Proof → End-Card**.
+
 ## Manifest-Felder (siehe `sample_reel.json`)
 | Feld | Bedeutung |
 |---|---|
