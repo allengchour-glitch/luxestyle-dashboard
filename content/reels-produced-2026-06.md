@@ -21,6 +21,11 @@ Dateien wurden dem User als Download geliefert (nicht im Repo, da grosse Binarie
   6. End-Card (WELCOME10)
   - Flüssig-Fix: Kleider als Standbild + linearer Ken-Burns (kein Slow-Mo-Ruckeln), Zoom in 2×-Präzision.
 
+## Finale TikTok-Ad (ad-safe, nur echte Produkte)
+- **`content/ads/LuxeStyle_TikTok_AD_Sommer2026.mp4`** (15,7s) + Poster. Handoff: `BROWSER_CLAUDE_TIKTOK_AD.md`.
+- Nur echte, aktive Shop-Produkte mit Preis: Sommerkleid Schwarz (kurz) · Mini-Kleid Rot/Türkis/Weiss · 18K Gold Schmuck-Set · Ohrring-Set 925 · Damen-Armband · Crossbody-Bag Vegan · Flame Diffuser → CTA WELCOME10.
+- Ad-safe: Text in TikTok-Safe-Zone (oben/Mitte), lizenzfreie Musik, **kein Fremdlogo** (Uhr „SEA-GULL" bewusst weggelassen).
+
 ## Offene Punkte / To-do
 - ⚠️ **Savanna/Brise** (und weitere Ad-Kleider) als echte, lieferbare Produkte bestätigen, bevor beworben.
 - ⚠️ DSers-Mapping prüfen: „Waterproof 18K Gold Jewelry Set" war auf „Magnetic Clothes Clip" gemappt (falsch).
