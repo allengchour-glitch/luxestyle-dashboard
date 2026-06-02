@@ -1,0 +1,26 @@
+{
+  "brand": "LuxeStyle",
+  "code": "WELCOME10",
+  "domain": "luxestyle.ch",
+  "accent": "#C9A24B",
+  "music": "upbeat",
+  "price_badge": true,
+  "progress_bar": true,
+  "transition": 0.3,
+  "endcard_dur": 2.6,
+  "out": "luxestyle_reel.mp4",
+  "_hinweis": "src = lokaler Pfad ODER http(s)-URL (Shopify-CDN). type:video braucht ss. Nur echte, published Produkte mit korrektem Preis bewerben (per Shopify-API verifizieren). Bild-URLs/Preise: siehe ../shopify-product-videos.json & ../revid-custom-media-recipe.md.",
+  "hook": {
+    "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/9ca046cc-64e5-4d66-8efc-3d515669012d.jpg?v=1780316551",
+    "title": "SOMMER-SALE", "sub": "-10% mit Code WELCOME10", "dur": 2.0
+  },
+  "items": [
+    { "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/4f4b2bd3-c234-4f29-b557-2313f914292c.jpg?v=1780317021", "title": "Sommerkleid Schwarz", "sub": "CHF 32.90", "dur": 1.7, "zoom": "in" },
+    { "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S9936c050b5a34999a361ab97343c1665r.webp?v=1779812948", "title": "Ohrring-Set 925", "sub": "CHF 22.90", "dur": 1.7, "zoom": "out", "fgw": 1700 },
+    { "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sa1ffd92efaa04c978c234541873ea883z.webp?v=1779792749", "title": "Crossbody-Bag Vegan", "sub": "CHF 34.90", "dur": 1.7, "zoom": "in", "fgw": 1500 }
+  ],
+  "socialproof": {
+    "stars": 5, "title": "Über 50 Bewertungen", "sub": "Versand aus der Schweiz",
+    "foot": "wasserfest · anlauffrei · hypoallergen", "dur": 1.8
+  }
+}

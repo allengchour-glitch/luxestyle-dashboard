@@ -70,6 +70,7 @@ Funktionaler Test: `index.html` im Browser öffnen — alles läuft client-seiti
 - Entwicklungs-Branch: `claude/blissful-albattani-wUQZV`. Push mit `git push -u origin <branch>`.
 - **PR #1** (Affiliate · Kampagne · E-Mail-Flows · TikTok-Antworten · Creatives · Cockpit) ist **gemergt** (squash → `main`).
 - **PR #2** (Draft) — Kundenservice-Antworten-Modul. Nach dem Push immer einen (Draft-)PR sicherstellen.
+- **PR #20** (Ready for review) — Reel-/Ad-Pipeline + finale TikTok-Ad „Sommer 2026" (`content/ads/`, Handoff `BROWSER_CLAUDE_TIKTOK_AD.md`, Manifest/Rezepte in `content/`). Stand 2026-06-02.
 - Footer-Versionsstring in `index.html` (Suche `class="footer"`) bei größeren Änderungen mitziehen.
 
 ## Externer Projekt-Stand (außerhalb des Repos · Juni 2026)
@@ -97,5 +98,9 @@ Hochwertige, ästhetische Optik. (In `content/revid-render-payloads.json` als `s
 - `reels-schedule.csv` (14T) · `-30d.csv` · `-90.csv` (3×/Tag, Mix Herren/Schmuck/US/Tech) · `reel-posting-plan*.md`
 - `revid-prompts.md` (Script-Prompts je Produkt) · `revid-render-payloads.json` (16 fertige v3-render-Payloads, Premium-Settings)
 - `revid-api-usage.md` · `makecom-autopost-blueprint.md`
+- `tools/build_reel.py` (v3) — **Automatisierungs-Tool**: JSON/CLI → fertiges TikTok-Premium-9:16-Reel/Ad. Features: **Shopify-Auto-Modus** (`--shopify handles` / `--shopify-query 'tag:..'` → zieht Titel/Preis/Bild per Admin-API, ENV `SHOPIFY_STORE`+`SHOPIFY_ADMIN_TOKEN`, überspringt nicht-published), **A/B-Hooks** (mehrere Varianten → `_A/_B`), Hook-/Social-Proof-Karten, animierte Captions, Story-Progress-Bar, Preis-Badge, Musik-Moods, Markenfarbe. Cross-platform. Doku: `tools/README.md`.
+- `tools/tiktok_upload.py` — lädt fertige Reels per **TikTok Marketing API** in den Ads Manager (Creative Library). ENV `TIKTOK_ACCESS_TOKEN`+`TIKTOK_ADVERTISER_ID`. `python tiktok_upload.py reel.mp4` (oder `--url`, `--list`). Pipeline: build_reel.py → tiktok_upload.py.
+- `shopify-product-videos.json` (17 echte Shop-Videos: 13 Produkt-Demos + 4 fertige 9:16-Ads, per Admin-API gefunden) · `revid-custom-media-recipe.md` (echte Fotos/Videos statt Stock via `media.type:custom`) · `reel-build-recipe-ffmpeg.md` (lokale 9:16-Montage; ffmpeg-Build **ohne drawtext** → Text als PNG-Overlay) · `reels-produced-2026-06.md` (Log)
+- **Reel-Learnings (2026-06):** Für **produkttreue** Reels echte Shop-Assets nutzen (Stock = nur Lookalike). Flüssiger Ken-Burns = Standbild in 2×-Auflösung + linearer `zoompan` (kein `setpts`-Slow-Mo → ruckelt). Manche Demo-Clips zeigen Fremdmarken/Lieferantentexte → croppen. Ad-Kleider («Savanna», «Brise» …) sind KI-Ad-Konzepte → erst als echtes Produkt bestätigen.
 - **Revid.ai:** Plan Growth ($39, 2 000 Credits). API `POST https://www.revid.ai/api/public/v3/render` (Header `key` oder `Bearer`), MCP `https://www.revid.ai/api/mcp`. Egress aus Sandbox funktioniert. **API-Key nötig** (im Revid-Konto erstellen). Generieren kostet Credits → klein starten.
 - **Make.com:** Org 7603352 · Team 1667409 · Zone **eu1** (Verbindung flaky → Retries). Connections vorhanden: **Shopify, YouTube, Gmail, Buffer**. **Buffer** = Multi-Plattform-Posting (TikTok/IG/Threads/YT). API-Token authentifiziert, aber **OAuth-Connections + Szenario-Aufbau gehören in die Make-UI** (Browser-Claude). API-Key war im Chat exponiert → rotieren.
