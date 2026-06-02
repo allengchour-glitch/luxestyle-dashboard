@@ -34,18 +34,25 @@ def first_existing(paths):
         if p and os.path.exists(p): return p
     return None
 
-WORDMARK_FONT = first_existing([
+# Font-Kandidaten – cross-platform (Linux / Windows / macOS). ENV LUXE_FONT überschreibt.
+_WIN = os.environ.get("WINDIR", "C:\\Windows")
+_FONT_CANDIDATES = [
+    os.environ.get("LUXE_FONT"),
     "/mnt/skills/examples/canvas-design/canvas-fonts/BigShoulders-Bold.ttf",
     "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-])
-BODY_FONT = first_existing([
-    "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-    "/mnt/skills/examples/canvas-design/canvas-fonts/BigShoulders-Bold.ttf",
-])
-if not (WORDMARK_FONT and BODY_FONT):
-    sys.exit("Keine TTF-Font gefunden (Liberation/DejaVu installieren).")
+    os.path.join(_WIN, "Fonts", "arialbd.ttf"),   # Windows: Arial Bold
+    os.path.join(_WIN, "Fonts", "segoeuib.ttf"),  # Windows: Segoe UI Bold
+    os.path.join(_WIN, "Fonts", "arial.ttf"),
+    "/System/Library/Fonts/Supplemental/Arial Bold.ttf",  # macOS
+    "/Library/Fonts/Arial.ttf",
+    "/System/Library/Fonts/Helvetica.ttc",
+]
+WORDMARK_FONT = first_existing(_FONT_CANDIDATES)
+BODY_FONT = WORDMARK_FONT
+if not WORDMARK_FONT:
+    sys.exit("Keine TTF-Font gefunden. Setze Umgebungsvariable LUXE_FONT auf eine .ttf "
+             "(z.B. set LUXE_FONT=C:\\Windows\\Fonts\\arialbd.ttf) oder installiere DejaVu/Liberation.")
 
 FF = find_ffmpeg()
 W, H = 1080, 1920

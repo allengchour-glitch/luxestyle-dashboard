@@ -23,6 +23,22 @@ python3 build_reel.py sample_reel.json
 python3 build_reel.py sample_reel.json --out sommer_ad.mp4
 ```
 
+
+
+## Windows-Schnellstart (PowerShell)
+Die Datei liegt **im Repo**, nicht in `C:\Users\...`. Erst Repo holen, dann im Tool-Ordner ausführen:
+```powershell
+pip install Pillow imageio-ffmpeg
+git clone https://github.com/allengchour-glitch/luxestyle-dashboard.git
+cd luxestyle-dashboard
+git checkout claude/blissful-albattani-wUQZV
+cd content\tools
+python build_reel.py sample_reel.json --out sommer_ad.mp4
+```
+- Auf Windows meist `python` statt `python3`.
+- ffmpeg kommt automatisch über `imageio-ffmpeg` (kein separater Download nötig).
+- Font wird automatisch gefunden (Arial/Segoe). Sonst: `set LUXE_FONT=C:\Windows\Fonts\arialbd.ttf`.
+
 ## Manifest-Felder (siehe `sample_reel.json`)
 | Feld | Bedeutung |
 |---|---|
