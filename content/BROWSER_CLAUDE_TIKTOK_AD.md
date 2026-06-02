@@ -4,15 +4,16 @@
 produziert; das Klicken in TikTok Ads Manager / Buffer / DSers passiert hier (Browser).
 
 ## 1) Asset
-- **Video:** `content/ads/LuxeStyle_TikTok_AD_Sommer2026.mp4` (9:16, 1080×1920, 15,7s, yuv420p, lizenzfreie Musik)
+- **Video:** `content/ads/LuxeStyle_TikTok_AD_Sommer2026.mp4` (9:16, 1080×1920, 14,2s, yuv420p, lizenzfreie Musik)
 - **Poster:** `content/ads/LuxeStyle_TikTok_AD_Sommer2026_poster.jpg`
-- Inhalt (alle echte, aktive Shop-Produkte mit Preis): Sommerkleid Schwarz (kurz) · Mini-Kleid Rüschen Rot/Türkis/Weiss (29.90) · 18K Gold Schmuck-Set (24.90) · Ohrring-Set 925 (29.90) · Damen-Armband Edelstahl (24.90) · Crossbody-Bag Vegan (34.90) · Flame Diffuser → CTA WELCOME10.
+- Inhalt (alle **per Shopify-API verifiziert**: active, published, Preis stimmt): Sommerkleid Schwarz (kurz, 32.90) · Mini-Kleid Rüschen Rot/Türkis/Weiss (29.90) · Ohrring-Set 925 (**22.90**) · Damen-Armband Edelstahl (24.90) · Crossbody-Bag Vegan (34.90) · Flame Diffuser (49.90) → CTA WELCOME10.
+- **18K Gold-Schmuck-Set wurde bewusst ENTFERNT** (siehe unten) — kann später wieder rein, sobald published + Mapping gefixt.
 
-## 2) ⚠️ ZUERST erledigen (sonst Ad-Ablehnung / „ausverkauft" / Fehllieferung)
-1. **Inventar > 0** für alle beworbenen Produkte (Shopify/DSers Bestand+Tracking).
-2. **18K-Gold-Schmuck-Set: DSers-Mapping korrigieren** — war fälschlich auf „4pcs Magnetic Clothes Clip" gemappt. Auf echten 18K-Edelstahl-Schmuck-Lieferanten umstellen.
-3. **Preise** im Video (32.90 / 29.90 / 24.90 / 34.90) gegen Shop abgleichen.
-4. Produkte im **Market CH** (und ggf. US) **published**.
+## 2) Status der Pre-Launch-Checks (Shopify-API geprüft, Stand 2026-06-02)
+- ✅ **Inventar: KEIN Blocker.** Alle Produkte haben `inventory tracking = aus` → in Shopify **immer verkaufbar**, auch bei Anzeige „0".
+- ✅ **Preise im Video stimmen** mit dem Shop überein (Ohrring-Set wurde von 29.90 auf korrekte **22.90** gefixt).
+- ✅ **Beworbene Produkte sind active + published** (CH).
+- ⏳ **Nur falls 18K Gold-Set später beworben werden soll:** (a) Produkt **publishen** (`publishedAt` war `null`), (b) **DSers-Mapping fixen** (war fälschlich „4pcs Magnetic Clothes Clip" → echter 18K-Edelstahl-Lieferant). Dann sagt Claude Code Bescheid und baut es wieder ein.
 
 ## 3) Organisch posten (Buffer)
 - Kanäle: TikTok (+ optional IG Reels / Threads).
