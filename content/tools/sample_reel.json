@@ -1,0 +1,15 @@
+{
+  "brand": "LuxeStyle",
+  "code": "WELCOME10",
+  "domain": "luxestyle.ch",
+  "music": true,
+  "transition": 0.3,
+  "endcard_dur": 2.6,
+  "out": "luxestyle_reel.mp4",
+  "_hinweis": "src = lokaler Pfad ODER http(s)-URL (z.B. Shopify-CDN). type:video braucht ss (Startsekunde). Bild-URLs/Preise via Shopify-Admin-API holen (siehe content/shopify-product-videos.json & revid-custom-media-recipe.md). Nur echte, published Produkte mit korrektem Preis bewerben!",
+  "items": [
+    { "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/4f4b2bd3-c234-4f29-b557-2313f914292c.jpg?v=1780317021", "title": "Sommerkleid Schwarz", "sub": "tailliert & elegant · CHF 32.90", "dur": 1.8, "zoom": "in" },
+    { "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S9936c050b5a34999a361ab97343c1665r.webp?v=1779812948", "title": "Ohrring-Set 925", "sub": "Zirkonia · CHF 22.90", "dur": 1.8, "zoom": "out", "fgw": 1700 },
+    { "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sa1ffd92efaa04c978c234541873ea883z.webp?v=1779792749", "title": "Crossbody-Bag Vegan", "sub": "Sommer-Tasche · CHF 34.90", "dur": 1.8, "zoom": "in", "fgw": 1500 }
+  ]
+}
