@@ -278,6 +278,30 @@ def build_body(items, cfg, wd, accent, badge):
     segs.append(eo); durs.append(ed)
     return segs, durs
 
+def synth_voice(text, out_wav, model_path=None):
+    """Gratis deutsche Stimme via piper-tts (lokal, kein API). Gibt True/False."""
+    try:
+        import wave
+        from piper import PiperVoice
+    except Exception:
+        sys.stderr.write("  ! Voiceover übersprungen: piper-tts fehlt (pip install piper-tts).\n"); return False
+    model = model_path or os.environ.get("LUXE_PIPER_VOICE")
+    if not model:
+        import glob
+        cands = []
+        for d in (os.path.dirname(os.path.abspath(__file__)), "/tmp/piper_voice", os.getcwd()):
+            cands += sorted(glob.glob(os.path.join(d, "*.onnx")))
+        model = cands[0] if cands else None
+    if not (model and os.path.exists(model)):
+        sys.stderr.write("  ! Voiceover übersprungen: keine piper-Stimme (.onnx). Setze LUXE_PIPER_VOICE oder 'voice_model'.\n"); return False
+    try:
+        v = PiperVoice.load(model)
+        with wave.open(out_wav, "wb") as wf:
+            v.synthesize_wav(text, wf)
+        return os.path.exists(out_wav)
+    except Exception as e:
+        sys.stderr.write("  ! Voiceover-Fehler: %s\n" % e); return False
+
 def assemble(hook_seg, hook_dur, body_segs, body_durs, cfg, accent, out_path):
     segs = ([hook_seg] if hook_seg else []) + body_segs
     durs = ([hook_dur] if hook_seg else []) + body_durs
@@ -298,14 +322,29 @@ def assemble(hook_seg, hook_dur, body_segs, body_durs, cfg, accent, out_path):
     vchain = "[0:v]setsar=1"
     if progress: vchain += ",drawbox=x=0:y=0:w='iw*min(t/%.2f\\,1)':h=10:color=%s@0.9:t=fill" % (total, ac)
     vchain += ",format=yuv420p[v]"
+
+    # Optional gratis Voiceover (piper) + Musik-Bed; Musik wird unter der Stimme geduckt
+    vo = None
+    if cfg.get("voiceover"):
+        vo = montage + ".vo.wav"
+        if not synth_voice(cfg["voiceover"], vo, cfg.get("voice_model")): vo = None
+    mus = None
     if mood:
-        mus = montage + ".wav"; music_bed(total, mood, mus)
-        run(["-i", montage, "-i", mus, "-filter_complex", vchain, "-map", "[v]", "-map", "1:a",
-             "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p", "-movflags", "+faststart",
-             "-c:a", "aac", "-b:a", "192k", "-shortest", out_path])
+        mus = montage + ".mus.wav"; music_bed(total, mood, mus)
+
+    enc = ["-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p", "-movflags", "+faststart"]
+    ins = ["-i", montage]
+    if mus: ins += ["-i", mus]
+    if vo:  ins += ["-i", vo]
+    if mus and vo:
+        af = vchain + ";[1:a]volume=0.4[m];[2:a]volume=1.0[v2];[m][v2]amix=inputs=2:duration=first:normalize=0[a]"
+        run(ins + ["-filter_complex", af, "-map", "[v]", "-map", "[a]", *enc, "-c:a", "aac", "-b:a", "192k", "-shortest", out_path])
+    elif vo:
+        run(ins + ["-filter_complex", vchain, "-map", "[v]", "-map", "1:a", *enc, "-c:a", "aac", "-b:a", "192k", "-shortest", out_path])
+    elif mus:
+        run(ins + ["-filter_complex", vchain, "-map", "[v]", "-map", "1:a", *enc, "-c:a", "aac", "-b:a", "192k", "-shortest", out_path])
     else:
-        run(["-i", montage, "-filter_complex", vchain, "-map", "[v]", "-r", "30",
-             "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p", "-movflags", "+faststart", out_path])
+        run(ins + ["-filter_complex", vchain, "-map", "[v]", "-r", "30", *enc, out_path])
     return total
 
 def norm_hook(h):

@@ -91,6 +91,24 @@ Optionale Top-Level-Keys im Manifest:
 
 Captions blenden automatisch animiert ein (Fade). Reihenfolge: **Hook → Items → Social-Proof → End-Card**.
 
+## Voiceover (gratis, lokal — piper-tts)
+Optionaler **deutscher Sprecher** ohne API/Cloud, direkt unter die Musik gemischt (Musik wird
+automatisch geduckt: Stimme 1.0 / Musik 0.4). Lokal über **piper-tts**, kein Account, keine Credits.
+
+| Key | Wirkung |
+|---|---|
+| `voiceover` | Sprechertext (DE). Wird synthetisiert und über das Video gelegt. |
+| `voice_model` | Optional: Pfad zur `.onnx`-Stimme. Sonst `LUXE_PIPER_VOICE` oder erste `*.onnx` im Tool-Ordner/`/tmp/piper_voice`/CWD. |
+
+**Setup:**
+```bash
+pip install piper-tts
+# eine deutsche Stimme laden (huggingface rhasspy/piper-voices), z.B.:
+#   de_DE-thorsten-medium.onnx (+ .onnx.json) nach ./ oder /tmp/piper_voice legen
+export LUXE_PIPER_VOICE=/pfad/de_DE-thorsten-medium.onnx   # Windows: $env:LUXE_PIPER_VOICE="..."
+```
+Fehlt piper oder die Stimme, wird der Voiceover **sauber übersprungen** (Reel baut trotzdem, nur Musik).
+
 ## Manifest-Felder (siehe `sample_reel.json`)
 | Feld | Bedeutung |
 |---|---|
@@ -161,3 +179,28 @@ in der Redirect-URL steht `?auth_code=XXXX` (nur ~10 Min gültig).
 
 **Scope-Hinweis:** Der Upload-Endpoint `/file/video/ad/upload/` braucht den Scope
 **Creative Management**. Fehlt er → Fehler `40001` (Token neu mit diesem Scope generieren).
+
+---
+
+# 📊 TikTok-Analyse (`tiktok_analyze.py`)
+
+Zieht **öffentliche** Engagement-Daten eines TikTok-Profils (Default `@luxestyle.ch`) — **ohne
+API-Key, ohne Login** — via `yt-dlp` und schreibt JSON + Markdown-Report: Views/Likes/Comments,
+Ø Engagement-Rate, **Top-Videos**, **Hashtag-Performance**, **beste Posting-Zeiten** (Wochentag/Stunde)
+und **Hook-Ranking** (Caption-Anfang). Damit sieht man, was zieht → Input für die nächsten Reels
+(`build_reel.py`-Hooks) und den Posting-Plan (`../reels-schedule.csv`).
+
+> Portiert aus dem Schwester-Repo **aban-news-landing** (`tools/tiktok_analyze.py`), Default auf
+> `@luxestyle.ch` angepasst.
+
+**Setup:** `pip install -U yt-dlp`
+
+**Nutzung:**
+```bash
+python tiktok_analyze.py                       # @luxestyle.ch, 30 neueste
+python tiktok_analyze.py --user @anderer.shop  # Konkurrenz-Analyse
+python tiktok_analyze.py --max 60 --out reports/
+# Falls "Unable to extract secondary user ID": eine Video-URL als Seed mitgeben
+python tiktok_analyze.py --seed-video https://www.tiktok.com/@luxestyle.ch/video/XXXX
+```
+Output: `reports/tiktok_luxestyle.ch_<datum>.json` + `.md`. Bricht der TikTok-Extractor → `pip install -U yt-dlp`.
