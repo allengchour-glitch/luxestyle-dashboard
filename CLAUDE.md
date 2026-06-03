@@ -11,6 +11,20 @@ HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 - [ ] **Ohrring-Set-Preis** = CHF 22.90 (nicht 29.90) — in Creatives korrekt halten.
 - [ ] TikTok-Kampagne `luxestyle.ch`: Optimierungsereignis **Complete Payment** aktivieren + Creatives veröffentlichen.
 
+## 🎯 Aktueller Stand & Fokus (für die nächste Session · 2026-06-03)
+- **Fertige Reels liegen in `content/ads/`** (alle 9:16, CHF, ad-/postbar):
+  `LuxeStyle_Mix_Reel_Sommer.mp4` (EU-Mix, 9 Produkte) · `LuxeStyle_EU_Hero_Reel.mp4` (Gold-Set+Diffuser+Lampe) ·
+  `LuxeStyle_Herren_Reel.mp4` · `LuxeStyle_TikTok_AD_Sommer2026.mp4` (PRO mit Hook+Social-Proof).
+- **Reel-Tools:** `content/tools/build_reel.py` (v3, Shopify-Auto + A/B), `tiktok_upload.py`, `get_token.py`. Doku `content/tools/README.md`.
+- **🎯 User-Fokus JETZT = erster Kunde** (User-Vorgabe „warten, zuerst 1 Kunde haben"): **nicht mehr Reels bauen**, sondern:
+  1. **Ein** Reel **organisch** auf TikTok posten (Trending-Sound + Link in Bio), 1×/Tag dranbleiben.
+  2. **Warmes Netzwerk** (WhatsApp/Story) + Code `WELCOME10`.
+  3. **Checkout selbst testen** (CH-Adresse, Pixel feuert?).
+  4. Bezahlte Ad erst, wenn TikTok-Token (Scope Creative Management) steht — Upload via `tiktok_upload.py` ODER MP4 manuell in `ads.tiktok.com` ziehen.
+- **US-Hero-Reel offen:** erst in DSers die **Supplier-Fotos** der 3 Hero-Produkte → Shopify pushen (`content/DSERS_MAPPING_FIX.md`), dann „US-Reel bauen" (Multi-Bilder, ggf. USD).
+- **Posten/Ads/DSers/TikTok-Portal = NICHT per API für Claude Code** → Browser-Claude / User-Hand.
+
+
 ## Wichtigste Fakten
 - **Eine Datei zählt:** `index.html` enthält praktisch das gesamte Dashboard (HTML + CSS + JS inline).
 - **Kein Backend für eigene Daten** → alle benutzerpflegbaren Daten liegen im **`localStorage`** des Browsers.
