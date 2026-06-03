@@ -5,7 +5,6 @@ HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 
 ## ⚠️ Offene To-dos / Sicherheit (ZUERST LESEN · Stand 2026-06-02)
 - [ ] **TikTok-Access-Token rotieren** — wurde im Chat exponiert (Token + Advertiser-ID `7646349875793182738`). Neuen Token mit Scope **Creative Management** generieren (sonst Upload-Fehler 40001).
-- [ ] **Make.com-API-Key rotieren** — war ebenfalls im Chat exponiert.
 - [ ] **DSers-Mapping fixen:** „Waterproof 18K Gold Jewelry Set" war fälschlich auf „4pcs Magnetic Clothes Clip" gemappt → echten 18K-Lieferanten setzen.
 - [x] **Counterfeit-/IP-Risiko:** Herren Sommer-Set (POLO), Gym-Shirt (Superman), Tracksuit (Wasserzeichen) **archiviert** (2026-06-03). Restliches Herren-Apparel noch sichten.
 - [~] **US/Summer publishen:** Rain Cloud Diffuser + Sunset Lamp **published** (Onlineshop+TikTok, 2026-06-03). **18K Gold-Set bleibt unpublished** bis DSers-Mapping gefixt.
