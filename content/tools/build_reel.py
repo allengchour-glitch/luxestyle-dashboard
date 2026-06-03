@@ -240,16 +240,36 @@ def seg_card(png, dur, out, zoom=False):
              "[0:v]scale=1080:1920,format=yuv420p[v]", "-map", "[v]", "-r", "30", "-c:v", "libx264", "-preset", "medium", "-crf", "19", out])
 
 def music_bed(total, mood, out):
+    """Synthetischer, lizenzfreier Beat (eigen -> ad-safe): Kick + Bass + Akkord-Pad
+    + Hi-Hats, Akkordfolge Am–F–C–G. upbeat = treibend, calm = soft."""
+    d = total + 0.3
+    # Akkord-Wurzel je 2s-Takt über 8s (Am=110, F=87.31, C=130.81, G=98)
+    root = r"if(lt(mod(t\,8)\,2)\,110\,if(lt(mod(t\,8)\,4)\,87.31\,if(lt(mod(t\,8)\,6)\,130.81\,98)))"
     if mood == "calm":
-        fr, trem, lp, vol = [110, 164.81, 220, 277.18], "tremolo=f=0.15:d=0.5", 1400, 0.16
+        beat = 0.6667  # ~90 BPM
+        kick = "sin(2*PI*55*t)*exp(-7*mod(t\\,%.4f))*0.55" % beat
+        bass = "sin(2*PI*(%s)*t)*0.42*(0.5+0.5*exp(-4*mod(t\\,%.4f)))" % (root, beat)
+        pad  = "(sin(2*PI*(%s)*2*t)+sin(2*PI*(%s)*3*t))*0.10" % (root, root)
+        pad_trem, hat_vol, master_lp, vol = 2.0, 0.0, 6500, 0.22
     else:
-        fr, trem, lp, vol = [130.81, 164.81, 196.0, 261.63], "tremolo=f=2.0:d=0.6", 1900, 0.2
-    ins = []
-    for f in fr: ins += ["-f", "lavfi", "-i", "sine=frequency=%s:duration=%.2f" % (f, total+0.3)]
-    run(ins + ["-filter_complex",
-        "[0:a][1:a][2:a][3:a]amix=inputs=4:duration=longest,%s,lowpass=f=%d,aecho=0.8:0.7:55:0.25,volume=%s,"
-        "afade=t=in:st=0:d=1,afade=t=out:st=%.2f:d=2[a]" % (trem, lp, vol, max(0.1, total-1.8)),
-        "-map", "[a]", "-c:a", "pcm_s16le", out])
+        beat = 0.5     # 120 BPM
+        kick = "sin(2*PI*55*t)*exp(-9*mod(t\\,%.4f))*0.9" % beat
+        bass = "sin(2*PI*(%s)*t)*0.5*(0.55+0.45*exp(-6*mod(t\\,%.4f)))" % (root, beat)
+        pad  = "(sin(2*PI*(%s)*2*t)+sin(2*PI*(%s)*3*t))*0.07" % (root, root)
+        pad_trem, hat_vol, master_lp, vol = 4.0, 0.06, 9000, 0.24
+    ins = [
+        "-f", "lavfi", "-i", "aevalsrc=%s:d=%.2f:s=44100" % (kick, d),
+        "-f", "lavfi", "-i", "aevalsrc=%s:d=%.2f:s=44100" % (bass, d),
+        "-f", "lavfi", "-i", "aevalsrc=%s:d=%.2f:s=44100" % (pad, d),
+        "-f", "lavfi", "-i", "anoisesrc=color=white:duration=%.2f:sample_rate=44100" % d,
+    ]
+    fade_out = max(0.1, total - 1.8)
+    fc = ("[0:a]volume=1[k];[1:a]volume=1[b];[2:a]tremolo=f=%.1f:d=0.5[p];"
+          "[3:a]highpass=f=6500,tremolo=f=8:d=0.9,volume=%.3f[h];"
+          "[k][b][p][h]amix=inputs=4:duration=longest:normalize=0,"
+          "lowpass=f=%d,volume=%.3f,afade=t=in:st=0:d=0.8,afade=t=out:st=%.2f:d=2[a]"
+          % (pad_trem, hat_vol, master_lp, vol, fade_out))
+    run(ins + ["-filter_complex", fc, "-map", "[a]", "-c:a", "pcm_s16le", out])
 
 TRANS = ["fade", "slideleft", "slideright", "dissolve", "slideup", "smoothleft", "fade", "slideright"]
 
