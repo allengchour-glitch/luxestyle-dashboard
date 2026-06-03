@@ -16,7 +16,7 @@ name: LuxeStyle Auto-Reels (stündlich)
 
 on:
   schedule:
-    - cron: "0 * * * *"   # jede volle Stunde (UTC). Bei Bedarf entschärfen, z.B. "0 */3 * * *".
+    - cron: "0 */3 * * *"   # alle 3 Stunden (UTC). Stündlich = "0 * * * *". Täglich = "0 9 * * *".
   workflow_dispatch:
     inputs:
       count:
@@ -68,7 +68,7 @@ jobs:
           git add content/reports/ 2>/dev/null || true
           if ! git diff --cached --quiet; then
             git commit -m "auto: TikTok-Analyse + Lauf-Log [skip ci]"
-            git push
+            git push || echo "Push übersprungen (z.B. Branch-Schutz) — Report liegt im Artefakt-Lauf."
           else
             echo "Keine Report-Änderung."
           fi
