@@ -16,3 +16,11 @@ Admin → **Produkte** → Produkt öffnen → **Status: Entwurf** → Speichern
 ## Automatisch (sobald Shopify-API wieder erreichbar)
 Claude/Tool kann `bulk-update-product-status` → DRAFT für die obigen Handles ausführen.
 Hinweis: weitere CJ-Apparel-Bilder mit Fremdmarken können existieren → ganzes Herren-Apparel-Sortiment sichten.
+
+---
+## ✅ ERLEDIGT 2026-06-02 (von Claude via Shopify-API)
+Alle 3 auf **ARCHIVED** gesetzt (offline, reversibel):
+- `gid://shopify/Product/15413245772161` — Herren Sommer-Set (POLO) ✅
+- `gid://shopify/Product/15413245837697` — Herren Gym-Shirt (Superman) ✅
+- `gid://shopify/Product/15413245739393` — Herren Tracksuit-Set (Wasserzeichen) ✅
+Endgültiges Löschen optional im Admin. Restliches Herren-Apparel-Sortiment noch auf weitere Fremdmarken sichten.
