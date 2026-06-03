@@ -16,7 +16,7 @@ name: LuxeStyle Auto-Reels (stündlich)
 
 on:
   schedule:
-    - cron: "0 */3 * * *"   # alle 3 Stunden (UTC). Stündlich = "0 * * * *". Täglich = "0 9 * * *".
+    - cron: "0 */8 * * *"   # alle 8 Stunden (UTC) = 3 Reports/Tag. Häufiger: "0 */3 * * *".
   workflow_dispatch:
     inputs:
       count:

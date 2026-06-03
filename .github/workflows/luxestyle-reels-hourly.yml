@@ -11,8 +11,8 @@ name: LuxeStyle Reels stündlich (Telegram)
 # Ohne Secrets schlägt der Post-Schritt sauber fehl (kein Kanal konfiguriert).
 
 on:
-  schedule:
-    - cron: "0 * * * *"   # stündlich (UTC). Ruhiger: "0 */3 * * *". Täglich: "0 17 * * *".
+  # Kein Auto-Takt mehr (User-Wunsch: nur 8h-Report, kein Video-Spam).
+  # Bei Bedarf wieder aktivieren: schedule: - cron: "0 */8 * * *"
   workflow_dispatch:
     inputs:
       index:
