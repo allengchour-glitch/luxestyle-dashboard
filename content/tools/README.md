@@ -186,6 +186,38 @@ in der Redirect-URL steht `?auth_code=XXXX` (nur ~10 Min gültig).
 
 ---
 
+# 🚀 Komplette Anzeige anlegen (`tiktok_campaign.py`)
+
+Legt **Kampagne → Ad Group → Ad** in einem Rutsch per **TikTok Marketing API** an — erspart das
+Durchklicken im Ads Manager (genau der Flow, der zuletzt den **DPA-/„Set a bid price"-Fehler** warf).
+
+**Warum das die Fehler löst:**
+- Ziel **`WEB_CONVERSIONS` (Website)** statt Katalog → **kein** `DpaAudienceTypeRender`-Fehler.
+- Bid **`BID_TYPE_NO_BID` = Lowest Cost / Maximum Delivery** → **kein Target-CPA nötig** (löst „Set a bid price").
+- Erstellt alles **PAUSIERT** (`operation_status=DISABLE`) → du prüfst und schaltest selbst scharf (kein versehentliches Ausgeben). Mit `--live` sofort aktiv.
+
+**LuxeStyle-Defaults (alle per CLI überschreibbar):** Pixel `D8EQE4JC77UAEKHUJCM0` · Optimierung
+`ADD_TO_CART` (wenig-Daten-freundlich; später `COMPLETE_PAYMENT`) · Schweiz · DE+FR · alle Alter ·
+CHF 20/Tag · nur TikTok-Placement · CTA `SHOP_NOW` · Landing `luxestyle.ch`.
+
+**ENV:** `TIKTOK_ACCESS_TOKEN` (Scopes **Ads Management** + **Creative Management**) + `TIKTOK_ADVERTISER_ID`.
+
+```bash
+# Ein Befehl: Video hochladen + komplette (pausierte) Anzeige bauen
+python tiktok_campaign.py --video ../ads/LuxeStyle_Sommer_AdSafe.mp4
+# Vorschau ohne API:
+python tiktok_campaign.py --video ../ads/LuxeStyle_Sommer_AdSafe.mp4 --dry-run
+# Mit bereits hochgeladenem Video + Complete Payment + höherem Budget:
+python tiktok_campaign.py --video-id 123456 --event COMPLETE_PAYMENT --budget 30
+# Sofort scharf schalten:
+python tiktok_campaign.py --video ../ads/LuxeStyle_Sommer_AdSafe.mp4 --live
+```
+Pipeline: `build_reel.py` → `tiktok_campaign.py` (lädt Video selbst hoch via `tiktok_upload.py`).
+Hinweis: TikTok ändert Enums/Pflichtfelder je API-Version — bei Fehlern die zurückgegebene
+`message` lesen; Felder via CLI-Flags anpassen.
+
+---
+
 # 📊 TikTok-Analyse (`tiktok_analyze.py`)
 
 Zieht **öffentliche** Engagement-Daten eines TikTok-Profils (Default `@luxestyle.ch`) — **ohne
