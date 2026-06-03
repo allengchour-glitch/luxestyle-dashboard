@@ -288,7 +288,42 @@ python social_post.py --text "Sommer-Drop ✨" --link https://luxestyle.ch # eig
 python social_post.py --video ../ads/LuxeStyle_Mix_Reel_Sommer.mp4 --dry-run
 ```
 Reels < 50 MB (Telegram-Bot-Limit) — alle `content/ads/*.mp4` liegen drunter.
-**Hinweis:** TikTok-Upload/Kommentar bleibt Hand-Arbeit (kein offener Posting-Endpoint).
+
+---
+
+# 📲 TikTok-Profil + Instagram posten (organisch, eigene Tools)
+
+Posten auf **TikTok-Profil** und **Instagram-Reels** — eigene Gratis-Tools (stdlib), kein Make/Buffer.
+Beide Plattformen brauchen **einmalig** eine OAuth-Freigabe (nur der Konto-Inhaber); danach autonom.
+
+### `tiktok_post.py` — TikTok Content Posting API (organisch)
+- `--draft` (Default, **kein Audit nötig**): lädt das Reel in deine **TikTok-Entwürfe** → in der App 1× „Posten" (öffentlich). Scope `video.upload`.
+- `--direct` (erst **nach 2–4-Wochen-App-Audit**): postet sofort öffentlich. Scope `video.publish`.
+- ENV `TIKTOK_OPEN_ACCESS_TOKEN` (via `get_open_token.py tiktok`). FILE_UPLOAD, kein Domain-Verify.
+```bash
+python tiktok_post.py ../ads/LuxeStyle_Sommer_AdSafe.mp4            # Entwurf
+python tiktok_post.py ../ads/x.mp4 --direct --title "… #luxestyle"  # nach Audit
+```
+
+### `instagram_post.py` — Instagram Graph API (Reels)
+- Braucht **IG-Business-Konto + verknüpfte FB-Seite** + Long-Lived-Token. Video als **öffentliche URL**
+  (GitHub-Raw der committeten Reels). Flow: Container → Status → publish.
+- ENV `IG_USER_ID` + `IG_ACCESS_TOKEN` (via `get_open_token.py meta`).
+```bash
+python instagram_post.py --reel LuxeStyle_Sommer_AdSafe.mp4 --caption "… 10% mit WELCOME10 #luxestyle"
+```
+
+### `get_open_token.py` — OAuth-Helfer
+`python get_open_token.py tiktok` (Login-Kit auth_code→Token) · `python get_open_token.py meta`
+(Short→Long-Lived-Token + listet IG-Business-IDs).
+
+### `post_next_reel.py` — Multi-Kanal-Rotation
+Postet 1 rotierendes Reel (Index = Stunde, Captions aus `captions.json`) auf **alle Kanäle mit Token**:
+Telegram (Video) · TikTok (Entwurf) · Instagram (Reel). Kanäle ohne Token = sauber übersprungen.
+Lauf über **`.github/workflows/luxestyle-social.yml`** (2×/Tag, Secrets s. Workflow-Kopf).
+
+**Ehrliche Grenzen:** TikTok öffentlich voll-auto erst nach Audit (vorher Entwurf + 1 Tipp); IG erst nach
+Business+FB-Setup. Tracking-Pixel ≠ Posting-Token.
 
 ---
 

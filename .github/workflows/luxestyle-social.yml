@@ -1,0 +1,47 @@
+name: LuxeStyle Social (TikTok + Instagram + Telegram)
+
+# Postet 1–2×/Tag ein rotierendes ad-safe Reel auf alle Kanäle, deren Secret gesetzt ist.
+# Jeder Kanal wird sauber übersprungen, wenn sein Token fehlt (kein Fehl-Run).
+#
+# ⚠️ Geplante Workflows laufen nur auf dem Default-Branch (main) -> erst nach Merge aktiv.
+# Vorher/jederzeit manuell über "Run workflow".
+#
+# Secrets (Repo -> Settings -> Secrets and variables -> Actions), je nach Bedarf:
+#   TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID         (Telegram, Video)
+#   TIKTOK_OPEN_ACCESS_TOKEN                       (TikTok-Entwurf; via get_open_token.py tiktok)
+#   IG_USER_ID + IG_ACCESS_TOKEN                   (Instagram-Reel; via get_open_token.py meta)
+#
+# TikTok = Entwurf (du tippst in der App 1x „Posten"), bis die App den TikTok-Audit hat.
+# Instagram = direkt veröffentlicht (Business-Konto + FB-Seite nötig).
+
+on:
+  schedule:
+    - cron: "0 10,17 * * *"   # 2×/Tag (10:00 & 17:00 UTC). Seltener: "0 17 * * *".
+  workflow_dispatch:
+    inputs:
+      index:
+        description: "Reel-Index erzwingen (leer = nach Stunde)"
+        required: false
+        default: ""
+
+concurrency:
+  group: luxestyle-social
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Reel auf TikTok + Instagram + Telegram posten
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TIKTOK_OPEN_ACCESS_TOKEN: ${{ secrets.TIKTOK_OPEN_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          REEL_INDEX: ${{ github.event.inputs.index }}
+        run: python content/tools/post_next_reel.py

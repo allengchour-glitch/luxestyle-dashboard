@@ -1,48 +1,59 @@
 #!/usr/bin/env python3
 """
-Postet **1 von 6 ad-safe Reels** (rotierend nach Stunde) als **Video** auf Telegram
-via social_post.py. Für die stündliche GitHub-Action (luxestyle-reels-hourly.yml).
+Multi-Kanal-Poster: postet **1 rotierendes ad-safe Reel** (Index = Stunde) auf alle
+Kanäle, deren Token gesetzt sind — sonst sauber übersprungen.
 
-Rotation: Reel-Index = aktuelle UTC-Stunde mod 6 (oder ENV REEL_INDEX). So kommt
-jede Stunde ein anderes der 6 Reels; nach 6 h beginnt der Zyklus von vorn.
+  • Telegram  (TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID)      -> social_post.py  (Video)
+  • TikTok    (TIKTOK_OPEN_ACCESS_TOKEN)                   -> tiktok_post.py  (Entwurf, 1x App-Tipp)
+  • Instagram (IG_USER_ID + IG_ACCESS_TOKEN)               -> instagram_post.py (Reel, GitHub-Raw-URL)
 
-Kanal: Telegram (einziger offener Auto-Post-Weg). TikTok/IG bleiben Hand-Upload
-bzw. Buffer (siehe content/BROWSER_CLAUDE_BUFFER_POSTING.md).
-
-ENV: TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID (als Secret, nie im Chat/Git).
+Reels + Captions kommen aus captions.json (Rotation = Reihenfolge dort).
+Für die GitHub-Action (luxestyle-social.yml / luxestyle-reels-hourly.yml).
+ENV REEL_INDEX erzwingt einen festen Index (sonst UTC-Stunde mod N).
 """
-import os, subprocess, sys
+import os, json, subprocess, sys
 from datetime import datetime, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ADS = os.path.normpath(os.path.join(HERE, "..", "ads"))
+DOMAIN = "https://luxestyle.ch"
 
-REELS = [
-    ("LuxeStyle_Sommer_AdSafe.mp4", "Sommer-Mix"),
-    ("LuxeStyle_FuerSie_AdSafe.mp4", "Für Sie – Schmuck & Accessoires"),
-    ("LuxeStyle_Tech_AdSafe.mp4", "Tech & Gadgets"),
-    ("LuxeStyle_Wellness_AdSafe.mp4", "Wellness & Zuhause"),
-    ("LuxeStyle_Reise_AdSafe.mp4", "Sommer & Reise"),
-    ("LuxeStyle_Geschenke_Ihn_AdSafe.mp4", "Geschenke für Ihn"),
-]
-
-if not (os.environ.get("TELEGRAM_BOT_TOKEN") and os.environ.get("TELEGRAM_CHAT_ID")):
-    print("⏭️  Übersprungen: TELEGRAM_BOT_TOKEN/CHAT_ID nicht gesetzt "
-          "(Repo-Secrets ergänzen, dann postet die Action stündlich).")
-    sys.exit(0)
+with open(os.path.join(HERE, "captions.json"), encoding="utf-8") as f:
+    REELS = json.load(f)["reels"]
 
 env_idx = os.environ.get("REEL_INDEX")
 idx = (int(env_idx) if env_idx not in (None, "") else datetime.now(timezone.utc).hour) % len(REELS)
-fname, theme = REELS[idx]
+r = REELS[idx]
+fname, theme, caption = r["file"], r["theme"], r["caption"]
 path = os.path.join(ADS, fname)
 if not os.path.exists(path):
     sys.exit("Reel fehlt: " + path)
 
-text = ("✨ LuxeStyle – %s\n"
-        "Premium aus der Schweiz 🇨🇭 · 10%% mit Code WELCOME10 🛍️\n"
-        "#luxestyle #swissmade #schweiz #sommer2026 #shopping #geschenkidee" % theme)
+print("→ Reel #%d: %s (%s)" % (idx, fname, theme))
+py = sys.executable
+done, skipped = [], []
 
-print("→ Poste Reel #%d: %s (%s)" % (idx, fname, theme))
-rc = subprocess.call([sys.executable, os.path.join(HERE, "social_post.py"),
-                      "--video", path, "--text", text, "--link", "https://luxestyle.ch"])
-sys.exit(rc)
+# 1) Telegram (Video)
+if os.environ.get("TELEGRAM_BOT_TOKEN") and os.environ.get("TELEGRAM_CHAT_ID"):
+    rc = subprocess.call([py, os.path.join(HERE, "social_post.py"),
+                          "--video", path, "--text", caption, "--link", DOMAIN])
+    (done if rc == 0 else skipped).append("telegram")
+else:
+    skipped.append("telegram(kein Token)")
+
+# 2) TikTok (Entwurf -> in der App 1x posten)
+if os.environ.get("TIKTOK_OPEN_ACCESS_TOKEN"):
+    rc = subprocess.call([py, os.path.join(HERE, "tiktok_post.py"), path])
+    (done if rc == 0 else skipped).append("tiktok-draft")
+else:
+    skipped.append("tiktok(kein Token)")
+
+# 3) Instagram (Reel via GitHub-Raw-URL)
+if os.environ.get("IG_USER_ID") and os.environ.get("IG_ACCESS_TOKEN"):
+    rc = subprocess.call([py, os.path.join(HERE, "instagram_post.py"),
+                          "--reel", fname, "--caption", caption])
+    (done if rc == 0 else skipped).append("instagram")
+else:
+    skipped.append("instagram(kein Token)")
+
+print("✓ gepostet:", ", ".join(done) or "—", "| übersprungen:", ", ".join(skipped) or "—")
