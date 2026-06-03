@@ -204,3 +204,34 @@ python tiktok_analyze.py --max 60 --out reports/
 python tiktok_analyze.py --seed-video https://www.tiktok.com/@luxestyle.ch/video/XXXX
 ```
 Output: `reports/tiktok_luxestyle.ch_<datum>.json` + `.md`. Bricht der TikTok-Extractor → `pip install -U yt-dlp`.
+
+---
+
+# 📣 Posten (`social_post.py`)
+
+Postet ein **Reel** (oder Text+Link) **gratis** auf Telegram & Co. — kein Make/Zapier, nur
+Standardbibliothek. Mit `--video` wird das Reel **selbst** hochgeladen (Telegram `sendVideo` /
+Discord File-Upload), sonst nur Caption + Shop-Link.
+
+> Portiert/erweitert aus aban-news `social/post.py` (dort nur Text) → hier mit Video-Upload + LuxeStyle-Default-Caption.
+
+**Kanäle** (je per ENV-Secret aktiviert; nicht gesetzt = übersprungen — **nichts in den Chat schreiben!**):
+| ENV | Kanal |
+|---|---|
+| `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` | Telegram (Kanal `@name` oder numerische ID) |
+| `DISCORD_WEBHOOK_URL` | Discord |
+| `PUBLISH_WEBHOOK_URL` | generischer Webhook → Make/n8n/Zapier → IG/X/LinkedIn |
+
+**Telegram-Setup (einmalig):** @BotFather → `/newbot` → Token = `TELEGRAM_BOT_TOKEN`; Bot als Admin in
+den Kanal; Kanalname `@meinkanal` (oder numerische ID) = `TELEGRAM_CHAT_ID`.
+
+**Nutzung:**
+```bash
+export TELEGRAM_BOT_TOKEN=123456:ABC...   # Windows: $env:TELEGRAM_BOT_TOKEN="..."
+export TELEGRAM_CHAT_ID=@luxestyle
+python social_post.py --video ../ads/LuxeStyle_EU_Hero_Reel.mp4          # Reel + Default-Caption
+python social_post.py --text "Sommer-Drop ✨" --link https://luxestyle.ch # eigener Text
+python social_post.py --video ../ads/LuxeStyle_Mix_Reel_Sommer.mp4 --dry-run
+```
+Reels < 50 MB (Telegram-Bot-Limit) — alle `content/ads/*.mp4` liegen drunter.
+**Hinweis:** TikTok-Upload/Kommentar bleibt Hand-Arbeit (kein offener Posting-Endpoint).
