@@ -1,0 +1,74 @@
+name: LuxeStyle Auto-Reels (stündlich)
+
+# Baut stündlich ein frisches, abwechselndes Reel aus dem Produkt-Pool,
+# wertet die öffentliche TikTok-Performance aus (Lernen) und postet einen
+# Text-Status (KEIN Video) auf Telegram. Das Reel-Video wird als Artefakt
+# bereitgestellt (manueller TikTok-Upload). Reels werden NICHT ins Repo committet.
+#
+# WICHTIG: Geplante Workflows (cron) laufen nur auf dem Default-Branch (main).
+# -> Der Stunden-Takt startet erst, wenn dieser Branch nach main gemergt ist.
+# Vorher/jederzeit manuell testbar über "Run workflow" (workflow_dispatch).
+#
+# Secrets (Repo -> Settings -> Secrets and variables -> Actions):
+#   TELEGRAM_BOT_TOKEN  (NEUER, rotierter Token – nicht der aus dem Chat!)
+#   TELEGRAM_CHAT_ID     (@kanal oder numerische ID)
+# Ohne Secrets baut der Lauf trotzdem das Reel + Analyse, überspringt nur das Posten.
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"   # alle 3 Stunden (UTC). Stündlich = "0 * * * *". Täglich = "0 9 * * *".
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "Produkte pro Reel"
+        required: false
+        default: "4"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: luxestyle-auto
+  cancel-in-progress: false
+
+jobs:
+  build-and-post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Abhängigkeiten
+        run: pip install --quiet Pillow imageio-ffmpeg yt-dlp
+
+      - name: Auto-Zyklus (bauen + lernen + Text-Status)
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python content/tools/auto_cycle.py \
+            --count "${{ github.event.inputs.count || '4' }}" \
+            --analyze
+
+      - name: Reel als Artefakt hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: luxestyle-reel-${{ github.run_id }}
+          path: content/ads/auto/*.mp4
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Lern-Report + Lauf-Log committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/reports/ 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "auto: TikTok-Analyse + Lauf-Log [skip ci]"
+            git push || echo "Push übersprungen (z.B. Branch-Schutz) — Report liegt im Artefakt-Lauf."
+          else
+            echo "Keine Report-Änderung."
+          fi

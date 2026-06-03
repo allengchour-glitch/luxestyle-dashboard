@@ -3,6 +3,28 @@
 Internes Single-Page-Dashboard für den Dropshipping-/Mode-Shop **LuxeStyle**. Statisches
 HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 
+## ⚠️ Offene To-dos / Sicherheit (ZUERST LESEN · Stand 2026-06-02)
+- [ ] **TikTok-Access-Token rotieren** — wurde im Chat exponiert (Token + Advertiser-ID `7646349875793182738`). Neuen Token mit Scope **Creative Management** generieren (sonst Upload-Fehler 40001).
+- [x] **DSers-Mapping gefixt** (2026-06-03): 18K Gold-Set → echter Lieferant **DIEYURO 316L Set** (Gold=B612, Silver=N1725), Cost ~CHF 1.75–3.95. Anleitung: `content/DSERS_MAPPING_FIX.md`.
+- [x] **Counterfeit-/IP-Risiko:** Herren Sommer-Set (POLO), Gym-Shirt (Superman), Tracksuit (Wasserzeichen) **archiviert** (2026-06-03). Restliches Herren-Apparel noch sichten.
+- [x] **US/Summer published** (Onlineshop+TikTok, 2026-06-03): Rain Cloud Diffuser · Sunset Lamp · **18K Gold-Set** (nach DSers-Fix) — alle live & kaufbar.
+- [ ] **Ohrring-Set-Preis** = CHF 22.90 (nicht 29.90) — in Creatives korrekt halten.
+- [ ] TikTok-Kampagne `luxestyle.ch`: Optimierungsereignis **Complete Payment** aktivieren + Creatives veröffentlichen.
+
+## 🎯 Aktueller Stand & Fokus (für die nächste Session · 2026-06-03)
+- **Fertige Reels liegen in `content/ads/`** (alle 9:16, CHF, ad-/postbar):
+  `LuxeStyle_Mix_Reel_Sommer.mp4` (EU-Mix, 9 Produkte) · `LuxeStyle_EU_Hero_Reel.mp4` (Gold-Set+Diffuser+Lampe) ·
+  `LuxeStyle_Herren_Reel.mp4` · `LuxeStyle_TikTok_AD_Sommer2026.mp4` (PRO mit Hook+Social-Proof).
+- **Reel-Tools:** `content/tools/build_reel.py` (v3, Shopify-Auto + A/B), `tiktok_upload.py`, `get_token.py`. Doku `content/tools/README.md`.
+- **🎯 User-Fokus JETZT = erster Kunde** (User-Vorgabe „warten, zuerst 1 Kunde haben"): **nicht mehr Reels bauen**, sondern:
+  1. **Ein** Reel **organisch** auf TikTok posten (Trending-Sound + Link in Bio), 1×/Tag dranbleiben.
+  2. **Warmes Netzwerk** (WhatsApp/Story) + Code `WELCOME10`.
+  3. **Checkout selbst testen** (CH-Adresse, Pixel feuert?).
+  4. Bezahlte Ad erst, wenn TikTok-Token (Scope Creative Management) steht — Upload via `tiktok_upload.py` ODER MP4 manuell in `ads.tiktok.com` ziehen.
+- **US-Hero-Reel offen:** erst in DSers die **Supplier-Fotos** der 3 Hero-Produkte → Shopify pushen (`content/DSERS_MAPPING_FIX.md`), dann „US-Reel bauen" (Multi-Bilder, ggf. USD).
+- **Posten/Ads/DSers/TikTok-Portal = NICHT per API für Claude Code** → Browser-Claude / User-Hand.
+
+
 ## Wichtigste Fakten
 - **Eine Datei zählt:** `index.html` enthält praktisch das gesamte Dashboard (HTML + CSS + JS inline).
 - **Kein Backend für eigene Daten** → alle benutzerpflegbaren Daten liegen im **`localStorage`** des Browsers.
@@ -98,9 +120,22 @@ Hochwertige, ästhetische Optik. (In `content/revid-render-payloads.json` als `s
 - `reels-schedule.csv` (14T) · `-30d.csv` · `-90.csv` (3×/Tag, Mix Herren/Schmuck/US/Tech) · `reel-posting-plan*.md`
 - `revid-prompts.md` (Script-Prompts je Produkt) · `revid-render-payloads.json` (16 fertige v3-render-Payloads, Premium-Settings)
 - `revid-api-usage.md` · `makecom-autopost-blueprint.md`
-- `tools/build_reel.py` (v3) — **Automatisierungs-Tool**: JSON/CLI → fertiges TikTok-Premium-9:16-Reel/Ad. Features: **Shopify-Auto-Modus** (`--shopify handles` / `--shopify-query 'tag:..'` → zieht Titel/Preis/Bild per Admin-API, ENV `SHOPIFY_STORE`+`SHOPIFY_ADMIN_TOKEN`, überspringt nicht-published), **A/B-Hooks** (mehrere Varianten → `_A/_B`), Hook-/Social-Proof-Karten, animierte Captions, Story-Progress-Bar, Preis-Badge, Musik-Moods, Markenfarbe. Cross-platform. Doku: `tools/README.md`.
-- `tools/tiktok_upload.py` — lädt fertige Reels per **TikTok Marketing API** in den Ads Manager (Creative Library). ENV `TIKTOK_ACCESS_TOKEN`+`TIKTOK_ADVERTISER_ID`. `python tiktok_upload.py reel.mp4` (oder `--url`, `--list`). Pipeline: build_reel.py → tiktok_upload.py.
+- `tools/build_reel.py` (v3) — **Automatisierungs-Tool**: JSON/CLI → fertiges TikTok-Premium-9:16-Reel/Ad. Features: **Shopify-Auto-Modus** (`--shopify handles` / `--shopify-query 'tag:..'` → zieht Titel/Preis/Bild per Admin-API, ENV `SHOPIFY_STORE`+`SHOPIFY_ADMIN_TOKEN`, überspringt nicht-published), **A/B-Hooks** (mehrere Varianten → `_A/_B`), **gratis DE-Voiceover** (Keys `voiceover`+`voice_model`, lokal via **piper-tts**, unter geduckte Musik gemischt — keine API/Credits; `pip install piper-tts` + `.onnx`-Stimme über `LUXE_PIPER_VOICE`), Hook-/Social-Proof-Karten, animierte Captions, Story-Progress-Bar, Preis-Badge, Musik-Moods, Markenfarbe. Cross-platform. Doku: `tools/README.md`.
+- `tools/tiktok_upload.py` — lädt fertige Reels per **TikTok Marketing API** in den Ads Manager (Creative Library). ENV `TIKTOK_ACCESS_TOKEN`+`TIKTOK_ADVERTISER_ID`. `python tiktok_upload.py reel.mp4` (oder `--url`, `--list`). Pipeline: build_reel.py → tiktok_upload.py. `tools/get_token.py` holt den Access-Token (OAuth auth_code→token; braucht App-Scope **Creative Management**, sonst Fehler 40001).
+- `tools/tiktok_analyze.py` — **TikTok-Performance-Analyse** öffentlicher Profile (Default `@luxestyle.ch`) **ohne API/Login** via `yt-dlp` → JSON+MD-Report (Views/Engagement, Top-Videos, Hashtag-Performance, beste Posting-Zeiten, Hook-Ranking). `pip install -U yt-dlp`; `python tiktok_analyze.py` (portiert aus aban-news, Default angepasst). Liefert Daten für Hooks/Posting-Plan.
+- `tools/social_post.py` — **gratis Posten** (Reel via `--video` ODER Text) auf **Telegram** (sendVideo), Discord, generischer Webhook. Nur stdlib, kein Make/Zapier. ENV `TELEGRAM_BOT_TOKEN`+`TELEGRAM_CHAT_ID` (NIE im Chat — als Secret setzen!). `python social_post.py --video ../ads/LuxeStyle_EU_Hero_Reel.mp4`. Aus aban-news `social/post.py` erweitert (Video-Upload). **TikTok bleibt Hand-Upload** (kein offener Endpoint). **Bot existiert:** @LuxestyleCHbot (Token war im Chat exponiert → rotieren!).
+- `tools/product_pool.json` + `tools/auto_cycle.py` + `.github/workflows/luxestyle-auto.yml` — **Stunden-Automation**: rotiert je Lauf einen frischen Produkt-Mix aus dem Pool (echte published Shopify-Produkte, CHF) → baut Reel (`build_reel.py`) → **lernt** aus dem neuesten `tiktok_analyze`-Report (Top-Hashtags/Hook) → postet **Text-Status (KEIN Video)** auf Telegram. Reels = GitHub-Artefakt (nicht ins Repo), nur Lern-Report/Log wird committet. ⚠️ cron läuft **erst nach Merge nach `main`** (geplante Workflows nur auf Default-Branch); vorher per `workflow_dispatch`. Secrets `TELEGRAM_BOT_TOKEN`+`TELEGRAM_CHAT_ID` im Repo setzen. Takt via cron entschärfbar (`0 */3 * * *`).
 - `shopify-product-videos.json` (17 echte Shop-Videos: 13 Produkt-Demos + 4 fertige 9:16-Ads, per Admin-API gefunden) · `revid-custom-media-recipe.md` (echte Fotos/Videos statt Stock via `media.type:custom`) · `reel-build-recipe-ffmpeg.md` (lokale 9:16-Montage; ffmpeg-Build **ohne drawtext** → Text als PNG-Overlay) · `reels-produced-2026-06.md` (Log)
 - **Reel-Learnings (2026-06):** Für **produkttreue** Reels echte Shop-Assets nutzen (Stock = nur Lookalike). Flüssiger Ken-Burns = Standbild in 2×-Auflösung + linearer `zoompan` (kein `setpts`-Slow-Mo → ruckelt). Manche Demo-Clips zeigen Fremdmarken/Lieferantentexte → croppen. Ad-Kleider («Savanna», «Brise» …) sind KI-Ad-Konzepte → erst als echtes Produkt bestätigen.
 - **Revid.ai:** Plan Growth ($39, 2 000 Credits). API `POST https://www.revid.ai/api/public/v3/render` (Header `key` oder `Bearer`), MCP `https://www.revid.ai/api/mcp`. Egress aus Sandbox funktioniert. **API-Key nötig** (im Revid-Konto erstellen). Generieren kostet Credits → klein starten.
 - **Make.com:** Org 7603352 · Team 1667409 · Zone **eu1** (Verbindung flaky → Retries). Connections vorhanden: **Shopify, YouTube, Gmail, Buffer**. **Buffer** = Multi-Plattform-Posting (TikTok/IG/Threads/YT). API-Token authentifiziert, aber **OAuth-Connections + Szenario-Aufbau gehören in die Make-UI** (Browser-Claude). API-Key war im Chat exponiert → rotieren.
+
+## 🔗 Schwester-Repo `aban-news-landing` — Tools wiederverwenden (User-Freigabe)
+Öffentliches Repo `allengchour-glitch/aban-news-landing` → **per `git clone` les-/nutzbar** (kein MCP-Scope nötig):
+`git clone --depth 1 https://github.com/allengchour-glitch/aban-news-landing.git /tmp/aban`.
+**Für LuxeStyle direkt nützlich (bei Bedarf adaptieren, ENV/Secrets bleiben raus aus Git):**
+- `social/post.py` — **Mehrkanal-Publisher** (Discord/Telegram/Mastodon + generischer `PUBLISH_WEBHOOK_URL` → Make/n8n → LinkedIn/X/IG). Löst das „Posten"-Problem ohne native APIs.
+- `video-prototypes/` (+ `XTTS-SETUP.md`) — lokales TTS-Setup. **Umgesetzt:** statt XTTS (zu schwer: 1.8 GB torch) → **piper-tts** gewählt & in `build_reel.py` integriert (`voiceover`-Key, gratis DE-Stimme).
+- `tools/tiktok_analyze.py` — TikTok-Performance-Analyse. **Bereits nach `content/tools/tiktok_analyze.py` portiert** (Default `@luxestyle.ch`).
+- `tools/daily_improvement_scan.py`, `tools/board.py`, `tools/link_checker.py`, `tools/brand-voice-linter.py` — Automations-/QA-Bausteine.
+- `.github/workflows/*` — Muster für geplante GitHub-Action-Automationen (Build/Audit/Suggest).

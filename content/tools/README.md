@@ -91,6 +91,24 @@ Optionale Top-Level-Keys im Manifest:
 
 Captions blenden automatisch animiert ein (Fade). Reihenfolge: **Hook → Items → Social-Proof → End-Card**.
 
+## Voiceover (gratis, lokal — piper-tts)
+Optionaler **deutscher Sprecher** ohne API/Cloud, direkt unter die Musik gemischt (Musik wird
+automatisch geduckt: Stimme 1.0 / Musik 0.4). Lokal über **piper-tts**, kein Account, keine Credits.
+
+| Key | Wirkung |
+|---|---|
+| `voiceover` | Sprechertext (DE). Wird synthetisiert und über das Video gelegt. |
+| `voice_model` | Optional: Pfad zur `.onnx`-Stimme. Sonst `LUXE_PIPER_VOICE` oder erste `*.onnx` im Tool-Ordner/`/tmp/piper_voice`/CWD. |
+
+**Setup:**
+```bash
+pip install piper-tts
+# eine deutsche Stimme laden (huggingface rhasspy/piper-voices), z.B.:
+#   de_DE-thorsten-medium.onnx (+ .onnx.json) nach ./ oder /tmp/piper_voice legen
+export LUXE_PIPER_VOICE=/pfad/de_DE-thorsten-medium.onnx   # Windows: $env:LUXE_PIPER_VOICE="..."
+```
+Fehlt piper oder die Stimme, wird der Voiceover **sauber übersprungen** (Reel baut trotzdem, nur Musik).
+
 ## Manifest-Felder (siehe `sample_reel.json`)
 | Feld | Bedeutung |
 |---|---|
@@ -143,3 +161,105 @@ Campaign-/AdGroup-/Ad-Endpoints schalten). Pixel `D8EQE4JC77UAEKHUJCM0`, Optimie
 
 > Token/Advertiser-ID müssen einmalig im TikTok-Developer-/Business-Portal (Browser) erstellt
 > bzw. die App genehmigt werden. A/B: `build_reel` erzeugt `_A/_B` → beide hochladen, im Ads Manager gegeneinander testen.
+
+
+---
+
+# 🔑 TikTok Access-Token holen (`get_token.py`)
+
+Tauscht **app_id + secret + auth_code** gegen einen **access_token** (TikTok Marketing API OAuth)
+und zeigt die **advertiser_ids** + Scopes. Interaktiv (Secret-Eingabe unsichtbar):
+```bash
+python get_token.py            # fragt App ID, Secret, auth_code ab
+python get_token.py --app-id 123 --secret abc --auth-code xyz
+```
+**Voraussetzung (Browser, einmalig):** business-api.tiktok.com/portal → deine App → Scopes
+**Ad Account Management** + **Creative Management** aktivieren → App **autorisieren** →
+in der Redirect-URL steht `?auth_code=XXXX` (nur ~10 Min gültig).
+
+**Scope-Hinweis:** Der Upload-Endpoint `/file/video/ad/upload/` braucht den Scope
+**Creative Management**. Fehlt er → Fehler `40001` (Token neu mit diesem Scope generieren).
+
+---
+
+# 📊 TikTok-Analyse (`tiktok_analyze.py`)
+
+Zieht **öffentliche** Engagement-Daten eines TikTok-Profils (Default `@luxestyle.ch`) — **ohne
+API-Key, ohne Login** — via `yt-dlp` und schreibt JSON + Markdown-Report: Views/Likes/Comments,
+Ø Engagement-Rate, **Top-Videos**, **Hashtag-Performance**, **beste Posting-Zeiten** (Wochentag/Stunde)
+und **Hook-Ranking** (Caption-Anfang). Damit sieht man, was zieht → Input für die nächsten Reels
+(`build_reel.py`-Hooks) und den Posting-Plan (`../reels-schedule.csv`).
+
+> Portiert aus dem Schwester-Repo **aban-news-landing** (`tools/tiktok_analyze.py`), Default auf
+> `@luxestyle.ch` angepasst.
+
+**Setup:** `pip install -U yt-dlp`
+
+**Nutzung:**
+```bash
+python tiktok_analyze.py                       # @luxestyle.ch, 30 neueste
+python tiktok_analyze.py --user @anderer.shop  # Konkurrenz-Analyse
+python tiktok_analyze.py --max 60 --out reports/
+# Falls "Unable to extract secondary user ID": eine Video-URL als Seed mitgeben
+python tiktok_analyze.py --seed-video https://www.tiktok.com/@luxestyle.ch/video/XXXX
+```
+Output: `reports/tiktok_luxestyle.ch_<datum>.json` + `.md`. Bricht der TikTok-Extractor → `pip install -U yt-dlp`.
+
+---
+
+# 📣 Posten (`social_post.py`)
+
+Postet ein **Reel** (oder Text+Link) **gratis** auf Telegram & Co. — kein Make/Zapier, nur
+Standardbibliothek. Mit `--video` wird das Reel **selbst** hochgeladen (Telegram `sendVideo` /
+Discord File-Upload), sonst nur Caption + Shop-Link.
+
+> Portiert/erweitert aus aban-news `social/post.py` (dort nur Text) → hier mit Video-Upload + LuxeStyle-Default-Caption.
+
+**Kanäle** (je per ENV-Secret aktiviert; nicht gesetzt = übersprungen — **nichts in den Chat schreiben!**):
+| ENV | Kanal |
+|---|---|
+| `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` | Telegram (Kanal `@name` oder numerische ID) |
+| `DISCORD_WEBHOOK_URL` | Discord |
+| `PUBLISH_WEBHOOK_URL` | generischer Webhook → Make/n8n/Zapier → IG/X/LinkedIn |
+
+**Telegram-Setup (einmalig):** @BotFather → `/newbot` → Token = `TELEGRAM_BOT_TOKEN`; Bot als Admin in
+den Kanal; Kanalname `@meinkanal` (oder numerische ID) = `TELEGRAM_CHAT_ID`.
+
+**Nutzung:**
+```bash
+export TELEGRAM_BOT_TOKEN=123456:ABC...   # Windows: $env:TELEGRAM_BOT_TOKEN="..."
+export TELEGRAM_CHAT_ID=@luxestyle
+python social_post.py --video ../ads/LuxeStyle_EU_Hero_Reel.mp4          # Reel + Default-Caption
+python social_post.py --text "Sommer-Drop ✨" --link https://luxestyle.ch # eigener Text
+python social_post.py --video ../ads/LuxeStyle_Mix_Reel_Sommer.mp4 --dry-run
+```
+Reels < 50 MB (Telegram-Bot-Limit) — alle `content/ads/*.mp4` liegen drunter.
+**Hinweis:** TikTok-Upload/Kommentar bleibt Hand-Arbeit (kein offener Posting-Endpoint).
+
+---
+
+# 🔁 Stunden-Automation (`auto_cycle.py` + GitHub-Action)
+
+Vollautomatischer Loop: **bauen → lernen → Text-Status posten**, ohne dass jede Stunde ein Video in
+Telegram landet.
+
+**`product_pool.json`** — kuratierter Pool echter, aktiver, published Produkte (Live aus Shopify, CHF,
+quer durch alle Kategorien). Quelle für die Rotation.
+
+**`auto_cycle.py`** — ein Lauf:
+1. **Rotiert** einen frischen Mix aus dem Pool (Offset = Stunden seit Epoch → jede Stunde *andere* Gegenstände).
+2. **Baut** daraus via `build_reel.py` ein Premium-9:16-Reel (alternierende Musik/Hooks).
+3. **Lernt**: liest den neuesten `content/reports/tiktok_*.json` (von `tiktok_analyze.py`) und übernimmt
+   Top-Hashtags + bestperformenden Hook in die nächste Caption.
+4. **Postet einen Text-Status** (KEIN Video) via `social_post.py` — das Reel-Video bleibt Datei/Artefakt
+   für den manuellen TikTok-Upload.
+```bash
+python auto_cycle.py --count 4 --analyze        # ein Zyklus (mit Analyse)
+python auto_cycle.py --no-post --offset 7       # nur bauen, fester Mix (Test)
+```
+
+**`.github/workflows/luxestyle-auto.yml`** — `cron: "0 * * * *"` (stündlich) + manuell (`workflow_dispatch`).
+Baut das Reel (→ **Artefakt**, nicht ins Repo), committet nur den kleinen Lern-Report/Lauf-Log.
+- ⚠️ **Geplante Workflows laufen nur auf dem Default-Branch** → der Stunden-Takt startet erst **nach Merge nach `main`**. Vorher per „Run workflow" testbar.
+- Secrets im Repo setzen (NICHT im Chat): `TELEGRAM_BOT_TOKEN` (rotierter Token!) + `TELEGRAM_CHAT_ID`. Ohne Secrets baut der Lauf trotzdem, postet nur nicht.
+- Takt entschärfen: cron z.B. auf `"0 */3 * * *"` (alle 3 h) ändern.

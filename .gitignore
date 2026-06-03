@@ -30,3 +30,11 @@ desktop.ini
 # Build
 dist/
 build/
+
+# Python
+__pycache__/
+*.pyc
+
+# Auto-generierte Reels (Artefakte der Stunden-Automation; nicht ins Repo)
+content/ads/auto/
+*.cfg.json
