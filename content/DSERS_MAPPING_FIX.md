@@ -23,3 +23,21 @@ auf „4pcs Magnetic Clothes Clip" gemappt → Kunde bekäme Wäscheklammern sta
 (Onlineshop + TikTok), wie bei Diffuser & Lampe.
 
 **Hinweis:** Erst nach korrektem Mapping bewerben — sonst Fehllieferung + Reklamationen + Ad-Risiko.
+
+---
+## 📸 Supplier-Bilder nach Shopify pushen (für bessere Reels)
+Ziel: Die 3 US/Summer-Produkte (Gold-Set, Rain Cloud Diffuser, Sunset Lamp) haben je nur **1 Bild**.
+Mehr echte Fotos vom Lieferanten holen:
+
+**In DSers (Browser):**
+1. **app.dsers.com** → Store luxestyle.ch → **Meine Produkte**.
+2. Produkt öffnen (z.B. 18K Gold-Set / Rain Cloud Diffuser / Sunset Lamp).
+3. Tab **„Bilder" / „Images"** (im Produkt-Edit) → die gewünschten **Supplier-Fotos anhaken**.
+4. **„Push to Shopify" / „Mit Shopify synchronisieren"** klicken.
+5. Pro Produkt wiederholen.
+
+→ Danach hat jedes Produkt mehrere echte Fotos in Shopify. **Dann Claude Code Bescheid geben**
+(„US-Reel bauen") → baut das US/Summer-Reel mit echten Multi-Bildern (Tool `build_reel.py`,
+`--shopify-query "tag:US AND tag:Summer 2026"`).
+
+Alternativ ohne Warten: Claude kann ein Reel aus dem 1 Hi-Res-Bild je Produkt per Multi-Crop-Ken-Burns bauen.
