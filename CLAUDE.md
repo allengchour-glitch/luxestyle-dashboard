@@ -5,9 +5,9 @@ HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 
 ## ⚠️ Offene To-dos / Sicherheit (ZUERST LESEN · Stand 2026-06-02)
 - [ ] **TikTok-Access-Token rotieren** — wurde im Chat exponiert (Token + Advertiser-ID `7646349875793182738`). Neuen Token mit Scope **Creative Management** generieren (sonst Upload-Fehler 40001).
-- [ ] **DSers-Mapping fixen:** „Waterproof 18K Gold Jewelry Set" war fälschlich auf „4pcs Magnetic Clothes Clip" gemappt → echten 18K-Lieferanten setzen.
+- [x] **DSers-Mapping gefixt** (2026-06-03): 18K Gold-Set → echter Lieferant **DIEYURO 316L Set** (Gold=B612, Silver=N1725), Cost ~CHF 1.75–3.95. Anleitung: `content/DSERS_MAPPING_FIX.md`.
 - [x] **Counterfeit-/IP-Risiko:** Herren Sommer-Set (POLO), Gym-Shirt (Superman), Tracksuit (Wasserzeichen) **archiviert** (2026-06-03). Restliches Herren-Apparel noch sichten.
-- [~] **US/Summer publishen:** Rain Cloud Diffuser + Sunset Lamp **published** (Onlineshop+TikTok, 2026-06-03). **18K Gold-Set bleibt unpublished** bis DSers-Mapping gefixt.
+- [x] **US/Summer published** (Onlineshop+TikTok, 2026-06-03): Rain Cloud Diffuser · Sunset Lamp · **18K Gold-Set** (nach DSers-Fix) — alle live & kaufbar.
 - [ ] **Ohrring-Set-Preis** = CHF 22.90 (nicht 29.90) — in Creatives korrekt halten.
 - [ ] TikTok-Kampagne `luxestyle.ch`: Optimierungsereignis **Complete Payment** aktivieren + Creatives veröffentlichen.
 
