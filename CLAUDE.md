@@ -3,6 +3,15 @@
 Internes Single-Page-Dashboard für den Dropshipping-/Mode-Shop **LuxeStyle**. Statisches
 HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 
+## ⚠️ Offene To-dos / Sicherheit (ZUERST LESEN · Stand 2026-06-02)
+- [ ] **TikTok-Access-Token rotieren** — wurde im Chat exponiert (Token + Advertiser-ID `7646349875793182738`). Neuen Token mit Scope **Creative Management** generieren (sonst Upload-Fehler 40001).
+- [ ] **Make.com-API-Key rotieren** — war ebenfalls im Chat exponiert.
+- [ ] **DSers-Mapping fixen:** „Waterproof 18K Gold Jewelry Set" war fälschlich auf „4pcs Magnetic Clothes Clip" gemappt → echten 18K-Lieferanten setzen.
+- [ ] **Counterfeit-/IP-Risiko im Shop prüfen:** einige CJ-Herren-Apparel-Fotos zeigen Fremdmarken (POLO/Ralph-Lauren-Reiter, Superman) bzw. Lieferanten-Wasserzeichen → NICHT bewerben/verkaufen, aus dem Shop nehmen.
+- [ ] **US/Summer-Produkte publishen:** Rain Cloud Diffuser, Sunset Lamp, 18K Gold-Set stehen auf `publishedAt:null` → nicht kaufbar, dürfen nicht beworben werden (blockiert die englische US-Ad).
+- [ ] **Ohrring-Set-Preis** = CHF 22.90 (nicht 29.90) — in Creatives korrekt halten.
+- [ ] TikTok-Kampagne `luxestyle.ch`: Optimierungsereignis **Complete Payment** aktivieren + Creatives veröffentlichen.
+
 ## Wichtigste Fakten
 - **Eine Datei zählt:** `index.html` enthält praktisch das gesamte Dashboard (HTML + CSS + JS inline).
 - **Kein Backend für eigene Daten** → alle benutzerpflegbaren Daten liegen im **`localStorage`** des Browsers.
