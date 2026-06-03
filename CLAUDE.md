@@ -7,8 +7,8 @@ HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 - [ ] **TikTok-Access-Token rotieren** — wurde im Chat exponiert (Token + Advertiser-ID `7646349875793182738`). Neuen Token mit Scope **Creative Management** generieren (sonst Upload-Fehler 40001).
 - [ ] **Make.com-API-Key rotieren** — war ebenfalls im Chat exponiert.
 - [ ] **DSers-Mapping fixen:** „Waterproof 18K Gold Jewelry Set" war fälschlich auf „4pcs Magnetic Clothes Clip" gemappt → echten 18K-Lieferanten setzen.
-- [ ] **Counterfeit-/IP-Risiko im Shop prüfen:** einige CJ-Herren-Apparel-Fotos zeigen Fremdmarken (POLO/Ralph-Lauren-Reiter, Superman) bzw. Lieferanten-Wasserzeichen → NICHT bewerben/verkaufen, aus dem Shop nehmen.
-- [ ] **US/Summer-Produkte publishen:** Rain Cloud Diffuser, Sunset Lamp, 18K Gold-Set stehen auf `publishedAt:null` → nicht kaufbar, dürfen nicht beworben werden (blockiert die englische US-Ad).
+- [x] **Counterfeit-/IP-Risiko:** Herren Sommer-Set (POLO), Gym-Shirt (Superman), Tracksuit (Wasserzeichen) **archiviert** (2026-06-03). Restliches Herren-Apparel noch sichten.
+- [~] **US/Summer publishen:** Rain Cloud Diffuser + Sunset Lamp **published** (Onlineshop+TikTok, 2026-06-03). **18K Gold-Set bleibt unpublished** bis DSers-Mapping gefixt.
 - [ ] **Ohrring-Set-Preis** = CHF 22.90 (nicht 29.90) — in Creatives korrekt halten.
 - [ ] TikTok-Kampagne `luxestyle.ch`: Optimierungsereignis **Complete Payment** aktivieren + Creatives veröffentlichen.
 
