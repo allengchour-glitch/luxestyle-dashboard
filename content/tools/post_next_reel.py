@@ -26,6 +26,11 @@ REELS = [
     ("LuxeStyle_Geschenke_Ihn_AdSafe.mp4", "Geschenke für Ihn"),
 ]
 
+if not (os.environ.get("TELEGRAM_BOT_TOKEN") and os.environ.get("TELEGRAM_CHAT_ID")):
+    print("⏭️  Übersprungen: TELEGRAM_BOT_TOKEN/CHAT_ID nicht gesetzt "
+          "(Repo-Secrets ergänzen, dann postet die Action stündlich).")
+    sys.exit(0)
+
 env_idx = os.environ.get("REEL_INDEX")
 idx = (int(env_idx) if env_idx not in (None, "") else datetime.now(timezone.utc).hour) % len(REELS)
 fname, theme = REELS[idx]
