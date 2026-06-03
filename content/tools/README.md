@@ -129,11 +129,15 @@ Fehlt piper oder die Stimme, wird der Voiceover **sauber übersprungen** (Reel b
 Über die **Shopify-Admin-API** (GraphQL `media`/`priceRangeV2`), siehe
 `../shopify-product-videos.json` und `../revid-custom-media-recipe.md`.
 
-## ⚠️ Wichtig (Ad-Compliance)
+## ⚠️ Wichtig (Ad-Compliance — TikTok lehnt sonst ab!)
 - Nur **echte, published Produkte** mit **korrektem Preis** bewerben (vorher per API verifizieren).
-- **Keine Fremdmarken-Logos** im Bild/Clip (Markenrecht).
-- Reviews-/Claim-Angaben müssen stimmen.
+- **Keine unbelegten Bewertungs-/Sterne-Claims** im Video („5.0 ★", „56 Bewertungen"). `socialproof` nur mit belegbaren Zahlen, sonst weglassen — **kein Default-Social-Proof mehr** (entfernt).
+- **Keine Health-/Wirkungs-Claims**: „anlauffrei", „hypoallergen", „wasserfest", „Anti-Aging" → raus.
+- **Keine restricted Produkte** (Beauty mit Wirkversprechen: Serum/Wimpernserum/Augencreme) in Ads — im `product_pool.json` als `"ad_restricted": true` markieren (wird übersprungen).
+- **Rabatt nur wenn aktiv** (`WELCOME10` gilt). **Keine Fremdmarken-Logos/Wasserzeichen** (Markenrecht).
+- **Landing Page**: Preis = Ad, Seite lädt, Impressum/Rückgabe vorhanden.
 - Bezahlte TikTok-Ads: keine Trending-Pop-Songs (nur Commercial Music Library / eigener Bed).
+- Ablehnung → genauen Grund pro Creative (Ad-Ebene) lesen + **Appeal**. Ad-safe Beispiele: `../ads/LuxeStyle_Sommer_AdSafe.mp4`, `LuxeStyle_Geschenke_Ihn_AdSafe.mp4`.
 
 ---
 

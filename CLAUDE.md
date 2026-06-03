@@ -25,6 +25,19 @@ HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 - **Posten/Ads/DSers/TikTok-Portal = NICHT per API für Claude Code** → Browser-Claude / User-Hand.
 
 
+## ⚖️ TikTok-Ad-Compliance (ZUERST LESEN bei Reels/Ads · Stand 2026-06-03)
+**Kontext:** Eine TikTok-Ad wurde abgelehnt („Review not approved · ad creatives rejected"). Diese Regeln **immer** einhalten, damit Creatives durchkommen — gilt für `build_reel.py`, `auto_cycle.py` und jede Ad:
+- **KEINE unbelegten Bewertungs-/Sterne-Claims** im Video (z.B. „5.0 ★", „Über 50 Bewertungen", „56 Reviews"). Social-Proof-Karte nur mit **belegbaren** Zahlen — im Zweifel weglassen. (Default-Social-Proof wurde aus `build_reel.py` entfernt; `auto_cycle.py` baut keine Claim-Karte mehr.)
+- **KEINE Health-/Wirkungs-Claims**: „anlauffrei", „hypoallergen", „wasserfest", „Anti-Aging", „anti-bakteriell" etc. → raus aus Captions/Karten.
+- **KEINE restricted Produkte in Ads**: Beauty mit Wirkversprechen (Anti-Aging-Serum, Wimpernserum, Augencreme), Health/Medical. Im `product_pool.json` mit `"ad_restricted": true` markiert → `auto_cycle.pick_mix` überspringt sie.
+- **Rabatt nur wenn echt aktiv**: `WELCOME10` muss im Shop wirklich gelten (tut es). „-10%" sonst weglassen.
+- **Keine Fremdmarken/Logos/Wasserzeichen** im Bild (Lieferantenfotos prüfen) — Markenrecht.
+- **Landing Page muss matchen**: Preis in Ad = Preis im Shop, Seite lädt, Impressum + Rückgabe/Kontakt vorhanden.
+- **Saubere Optik, wenig Text**, kein „shocking/before-after", keine reißerischen Claims.
+- **Musik**: nur lizenzfreier eigener Bed / Commercial Music Library (kein Trending-Pop in Paid Ads). Unser synthetischer Bed = ok.
+- **Bei Ablehnung**: pro Creative den **genauen Grund** im Ads Manager lesen (Ad-Ebene) + **Appeal/Einspruch** (oft im 2. Durchgang frei). Ad-Sachen laufen über User-Hand/Browser-Claude.
+- **Ad-safe Beispiel-Reels** (ohne Claims, nur Produkt+Preis+Code): `content/ads/LuxeStyle_Sommer_AdSafe.mp4` · `LuxeStyle_Geschenke_Ihn_AdSafe.mp4`.
+
 ## Wichtigste Fakten
 - **Eine Datei zählt:** `index.html` enthält praktisch das gesamte Dashboard (HTML + CSS + JS inline).
 - **Kein Backend für eigene Daten** → alle benutzerpflegbaren Daten liegen im **`localStorage`** des Browsers.

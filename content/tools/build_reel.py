@@ -268,7 +268,7 @@ def build_body(items, cfg, wd, accent, badge):
     sp = cfg.get("socialproof")
     if sp:
         png = os.path.join(wd, "proof.png")
-        card_proof(sp.get("stars", 5), sp.get("title", "Über 50 Bewertungen"), sp.get("sub", "Versand aus der Schweiz"),
+        card_proof(sp.get("stars", 5), sp.get("title", "Versand aus der Schweiz"), sp.get("sub", "Versand aus der Schweiz"),
                    sp.get("foot", ""), accent, png)
         o = os.path.join(wd, "proof.mp4"); seg_card(png, float(sp.get("dur", 1.8)), o, zoom=True)
         segs.append(o); durs.append(float(sp.get("dur", 1.8))); print("  social-proof ok")
@@ -402,8 +402,8 @@ def main():
         if a.shopify: sp["handles"] = [h.strip() for h in a.shopify.split(",") if h.strip()]
         if a.shopify_query: sp["query"] = a.shopify_query
         sp.setdefault("limit", a.limit); cfg["shopify"] = sp
-        cfg.setdefault("socialproof", {"stars": 5, "title": "Über 50 Bewertungen",
-                                       "sub": "Versand aus der Schweiz", "foot": "wasserfest · anlauffrei · hypoallergen"})
+        # Ad-safe: KEIN Default-Social-Proof (Bewertungs-/Health-Claims müssen belegt sein).
+        # Wer eine Bewertungs-Karte will, gibt "socialproof" explizit im Manifest an.
         cfg.setdefault("hook", {"title": "SOMMER-SALE", "sub": "-10% mit Code WELCOME10"})
         cfg.setdefault("price_badge", True)
     if not cfg.get("items") and not cfg.get("shopify"):
