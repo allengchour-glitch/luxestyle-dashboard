@@ -1,0 +1,40 @@
+name: LuxeStyle Reels stündlich (Telegram)
+
+# Postet jede Stunde 1 der 6 ad-safe Reels (rotierend) als Video auf Telegram.
+# TikTok/IG haben keinen Auto-Endpoint -> dort über Buffer (content/BROWSER_CLAUDE_BUFFER_POSTING.md).
+#
+# ⚠️ Geplante Workflows laufen nur auf dem Default-Branch (main) -> erst nach Merge aktiv.
+# Vorher/jederzeit manuell über "Run workflow".
+#
+# Secrets (Repo -> Settings -> Secrets and variables -> Actions):
+#   TELEGRAM_BOT_TOKEN  (NEUER, rotierter Token!)  ·  TELEGRAM_CHAT_ID  (@kanal oder ID)
+# Ohne Secrets schlägt der Post-Schritt sauber fehl (kein Kanal konfiguriert).
+
+on:
+  # Kein Auto-Takt mehr (User-Wunsch: nur 8h-Report, kein Video-Spam).
+  # Bei Bedarf wieder aktivieren: schedule: - cron: "0 */8 * * *"
+  workflow_dispatch:
+    inputs:
+      index:
+        description: "Reel-Index 0–5 erzwingen (leer = nach Stunde)"
+        required: false
+        default: ""
+
+concurrency:
+  group: luxestyle-reels-hourly
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Reel auf Telegram posten
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          REEL_INDEX: ${{ github.event.inputs.index }}
+        run: python content/tools/post_next_reel.py

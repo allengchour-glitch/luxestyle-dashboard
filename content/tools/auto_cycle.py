@@ -78,7 +78,9 @@ def latest_report():
 
 
 def pick_mix(products, count, offset):
-    """Fortlaufender, wrappender Ausschnitt -> jede Stunde ein anderer Mix."""
+    """Fortlaufender, wrappender Ausschnitt -> jede Stunde ein anderer Mix.
+    Ad-restricted Produkte (z.B. Beauty mit Health-Claims) werden ausgeschlossen."""
+    products = [p for p in products if not p.get("ad_restricted")]
     n = len(products)
     count = min(count, n)
     idx = [(offset + i) % n for i in range(count)]
@@ -96,8 +98,8 @@ def build_reel(mix, music, hook, out_path):
              "dur": 1.8, "zoom": ("in" if i % 2 == 0 else "out"), "fgw": p.get("fgw", 1600)}
             for i, p in enumerate(mix)
         ],
-        "socialproof": {"stars": 5, "title": "5.0 ★ · 56 Bewertungen",
-                        "sub": "Versand aus der Schweiz", "foot": "anlauffrei · hypoallergen", "dur": 1.7},
+        # Ad-safe: KEINE Bewertungs-/Health-Claim-Karte (TikTok lehnt unbelegte Claims ab).
+        # Reihenfolge bleibt Hook -> Produkte -> End-Card (Marke + WELCOME10 + Domain).
     }
     cfg_path = out_path + ".cfg.json"
     with open(cfg_path, "w", encoding="utf-8") as f:
