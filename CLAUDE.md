@@ -126,3 +126,13 @@ Hochwertige, ästhetische Optik. (In `content/revid-render-payloads.json` als `s
 - **Reel-Learnings (2026-06):** Für **produkttreue** Reels echte Shop-Assets nutzen (Stock = nur Lookalike). Flüssiger Ken-Burns = Standbild in 2×-Auflösung + linearer `zoompan` (kein `setpts`-Slow-Mo → ruckelt). Manche Demo-Clips zeigen Fremdmarken/Lieferantentexte → croppen. Ad-Kleider («Savanna», «Brise» …) sind KI-Ad-Konzepte → erst als echtes Produkt bestätigen.
 - **Revid.ai:** Plan Growth ($39, 2 000 Credits). API `POST https://www.revid.ai/api/public/v3/render` (Header `key` oder `Bearer`), MCP `https://www.revid.ai/api/mcp`. Egress aus Sandbox funktioniert. **API-Key nötig** (im Revid-Konto erstellen). Generieren kostet Credits → klein starten.
 - **Make.com:** Org 7603352 · Team 1667409 · Zone **eu1** (Verbindung flaky → Retries). Connections vorhanden: **Shopify, YouTube, Gmail, Buffer**. **Buffer** = Multi-Plattform-Posting (TikTok/IG/Threads/YT). API-Token authentifiziert, aber **OAuth-Connections + Szenario-Aufbau gehören in die Make-UI** (Browser-Claude). API-Key war im Chat exponiert → rotieren.
+
+## 🔗 Schwester-Repo `aban-news-landing` — Tools wiederverwenden (User-Freigabe)
+Öffentliches Repo `allengchour-glitch/aban-news-landing` → **per `git clone` les-/nutzbar** (kein MCP-Scope nötig):
+`git clone --depth 1 https://github.com/allengchour-glitch/aban-news-landing.git /tmp/aban`.
+**Für LuxeStyle direkt nützlich (bei Bedarf adaptieren, ENV/Secrets bleiben raus aus Git):**
+- `social/post.py` — **Mehrkanal-Publisher** (Discord/Telegram/Mastodon + generischer `PUBLISH_WEBHOOK_URL` → Make/n8n → LinkedIn/X/IG). Löst das „Posten"-Problem ohne native APIs.
+- `video-prototypes/` (+ `XTTS-SETUP.md`) — **lokales TTS (XTTS)** → deutsche Voiceover für Reels **ohne Revid-Credits**; Video-Makefile/Scripts/Cues.
+- `tools/tiktok_analyze.py` — TikTok-Performance-Analyse (für Ad-/Reel-Auswertung).
+- `tools/daily_improvement_scan.py`, `tools/board.py`, `tools/link_checker.py`, `tools/brand-voice-linter.py` — Automations-/QA-Bausteine.
+- `.github/workflows/*` — Muster für geplante GitHub-Action-Automationen (Build/Audit/Suggest).
