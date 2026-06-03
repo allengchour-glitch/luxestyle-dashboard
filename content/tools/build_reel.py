@@ -343,28 +343,38 @@ def assemble(hook_seg, hook_dur, body_segs, body_durs, cfg, accent, out_path):
     if progress: vchain += ",drawbox=x=0:y=0:w='iw*min(t/%.2f\\,1)':h=10:color=%s@0.9:t=fill" % (total, ac)
     vchain += ",format=yuv420p[v]"
 
-    # Optional gratis Voiceover (piper) + Musik-Bed; Musik wird unter der Stimme geduckt
+    # Audio: Voiceover (vorgefertigte Datei z.B. ElevenLabs ODER gratis piper) +
+    # Musik-Bed (vorgefertigte Datei z.B. ElevenLabs-KI-Musik ODER synthetischer Bed).
+    # Musik wird unter der Stimme geduckt.
+    wdir = os.path.dirname(montage)
     vo = None
-    if cfg.get("voiceover"):
-        vo = montage + ".vo.wav"
+    if cfg.get("voiceover_file"):
+        vo = fetch(cfg["voiceover_file"], wdir)            # vorgefertigte Stimme (z.B. ElevenLabs)
+    elif cfg.get("voiceover"):
+        vo = montage + ".vo.wav"                           # gratis piper-Synthese
         if not synth_voice(cfg["voiceover"], vo, cfg.get("voice_model")): vo = None
     mus = None
-    if mood:
-        mus = montage + ".mus.wav"; music_bed(total, mood, mus)
+    if cfg.get("music_file"):
+        mus = fetch(cfg["music_file"], wdir)               # vorgefertigte KI-Musik (z.B. ElevenLabs)
+    elif mood:
+        mus = montage + ".mus.wav"; music_bed(total, mood, mus)  # synthetischer Bed
 
     enc = ["-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p", "-movflags", "+faststart"]
     ins = ["-i", montage]
-    if mus: ins += ["-i", mus]
-    if vo:  ins += ["-i", vo]
-    if mus and vo:
-        af = vchain + ";[1:a]volume=0.4[m];[2:a]volume=1.0[v2];[m][v2]amix=inputs=2:duration=first:normalize=0[a]"
-        run(ins + ["-filter_complex", af, "-map", "[v]", "-map", "[a]", *enc, "-c:a", "aac", "-b:a", "192k", "-shortest", out_path])
+    aud = ""
+    if mus and vo:           # Musik unter Stimme geduckt
+        ins += ["-i", mus, "-i", vo]
+        aud = ";[1:a]volume=0.4[m];[2:a]volume=1.0[v2];[m][v2]amix=inputs=2:duration=longest:normalize=0,apad[a]"
     elif vo:
-        run(ins + ["-filter_complex", vchain, "-map", "[v]", "-map", "1:a", *enc, "-c:a", "aac", "-b:a", "192k", "-shortest", out_path])
+        ins += ["-i", vo]; aud = ";[1:a]apad[a]"
     elif mus:
-        run(ins + ["-filter_complex", vchain, "-map", "[v]", "-map", "1:a", *enc, "-c:a", "aac", "-b:a", "192k", "-shortest", out_path])
+        ins += ["-i", mus]; aud = ";[1:a]apad[a]"
+    dur = ["-t", "%.2f" % total]   # feste Videolänge -> Audio nie zu kurz/lang
+    if aud:
+        run(ins + ["-filter_complex", vchain + aud, "-map", "[v]", "-map", "[a]",
+                   *enc, "-c:a", "aac", "-b:a", "192k", *dur, out_path])
     else:
-        run(ins + ["-filter_complex", vchain, "-map", "[v]", "-r", "30", *enc, out_path])
+        run(ins + ["-filter_complex", vchain, "-map", "[v]", "-r", "30", *enc, *dur, out_path])
     return total
 
 def norm_hook(h):

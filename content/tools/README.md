@@ -109,6 +109,24 @@ export LUXE_PIPER_VOICE=/pfad/de_DE-thorsten-medium.onnx   # Windows: $env:LUXE_
 ```
 Fehlt piper oder die Stimme, wird der Voiceover **sauber übersprungen** (Reel baut trotzdem, nur Musik).
 
+## Premium-Audio: ElevenLabs KI-Stimme & KI-Musik (`eleven_audio.py`)
+Statt piper/Synth: **echte KI-Stimme** und **KI-Musik** von ElevenLabs (Paid-Plan = kommerziell
+lizenziert → ad-safe). Erzeugt MP3s, die `build_reel.py` über zwei neue Keys nutzt:
+
+| build_reel-Key | Wirkung |
+|---|---|
+| `voiceover_file` | vorgefertigte Stimme (MP3/WAV, lokal/URL) → überschreibt piper |
+| `music_file` | vorgefertigte Musik (MP3/WAV) → überschreibt synthetischen Bed |
+
+**ENV:** `ELEVENLABS_API_KEY` (elevenlabs.io → Profil → API Keys; als Secret, nie im Chat).
+```bash
+python eleven_audio.py voices                                   # Voice-IDs anzeigen
+python eleven_audio.py tts --text "Entdecke LuxeStyle…" --out vo.mp3
+python eleven_audio.py music --prompt "upbeat premium fashion, soft beat" --dur 12 --out bed.mp3
+# dann im Manifest: "voiceover_file":"vo.mp3" und/oder "music_file":"bed.mp3"
+```
+⚠️ Verbraucht ElevenLabs-Credits → sparsam testen. Audio wird automatisch auf Reel-Länge gepadded.
+
 ## Manifest-Felder (siehe `sample_reel.json`)
 | Feld | Bedeutung |
 |---|---|
