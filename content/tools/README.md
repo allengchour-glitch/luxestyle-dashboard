@@ -143,3 +143,21 @@ Campaign-/AdGroup-/Ad-Endpoints schalten). Pixel `D8EQE4JC77UAEKHUJCM0`, Optimie
 
 > Token/Advertiser-ID müssen einmalig im TikTok-Developer-/Business-Portal (Browser) erstellt
 > bzw. die App genehmigt werden. A/B: `build_reel` erzeugt `_A/_B` → beide hochladen, im Ads Manager gegeneinander testen.
+
+
+---
+
+# 🔑 TikTok Access-Token holen (`get_token.py`)
+
+Tauscht **app_id + secret + auth_code** gegen einen **access_token** (TikTok Marketing API OAuth)
+und zeigt die **advertiser_ids** + Scopes. Interaktiv (Secret-Eingabe unsichtbar):
+```bash
+python get_token.py            # fragt App ID, Secret, auth_code ab
+python get_token.py --app-id 123 --secret abc --auth-code xyz
+```
+**Voraussetzung (Browser, einmalig):** business-api.tiktok.com/portal → deine App → Scopes
+**Ad Account Management** + **Creative Management** aktivieren → App **autorisieren** →
+in der Redirect-URL steht `?auth_code=XXXX` (nur ~10 Min gültig).
+
+**Scope-Hinweis:** Der Upload-Endpoint `/file/video/ad/upload/` braucht den Scope
+**Creative Management**. Fehlt er → Fehler `40001` (Token neu mit diesem Scope generieren).
