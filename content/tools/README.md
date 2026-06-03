@@ -235,3 +235,31 @@ python social_post.py --video ../ads/LuxeStyle_Mix_Reel_Sommer.mp4 --dry-run
 ```
 Reels < 50 MB (Telegram-Bot-Limit) — alle `content/ads/*.mp4` liegen drunter.
 **Hinweis:** TikTok-Upload/Kommentar bleibt Hand-Arbeit (kein offener Posting-Endpoint).
+
+---
+
+# 🔁 Stunden-Automation (`auto_cycle.py` + GitHub-Action)
+
+Vollautomatischer Loop: **bauen → lernen → Text-Status posten**, ohne dass jede Stunde ein Video in
+Telegram landet.
+
+**`product_pool.json`** — kuratierter Pool echter, aktiver, published Produkte (Live aus Shopify, CHF,
+quer durch alle Kategorien). Quelle für die Rotation.
+
+**`auto_cycle.py`** — ein Lauf:
+1. **Rotiert** einen frischen Mix aus dem Pool (Offset = Stunden seit Epoch → jede Stunde *andere* Gegenstände).
+2. **Baut** daraus via `build_reel.py` ein Premium-9:16-Reel (alternierende Musik/Hooks).
+3. **Lernt**: liest den neuesten `content/reports/tiktok_*.json` (von `tiktok_analyze.py`) und übernimmt
+   Top-Hashtags + bestperformenden Hook in die nächste Caption.
+4. **Postet einen Text-Status** (KEIN Video) via `social_post.py` — das Reel-Video bleibt Datei/Artefakt
+   für den manuellen TikTok-Upload.
+```bash
+python auto_cycle.py --count 4 --analyze        # ein Zyklus (mit Analyse)
+python auto_cycle.py --no-post --offset 7       # nur bauen, fester Mix (Test)
+```
+
+**`.github/workflows/luxestyle-auto.yml`** — `cron: "0 * * * *"` (stündlich) + manuell (`workflow_dispatch`).
+Baut das Reel (→ **Artefakt**, nicht ins Repo), committet nur den kleinen Lern-Report/Lauf-Log.
+- ⚠️ **Geplante Workflows laufen nur auf dem Default-Branch** → der Stunden-Takt startet erst **nach Merge nach `main`**. Vorher per „Run workflow" testbar.
+- Secrets im Repo setzen (NICHT im Chat): `TELEGRAM_BOT_TOKEN` (rotierter Token!) + `TELEGRAM_CHAT_ID`. Ohne Secrets baut der Lauf trotzdem, postet nur nicht.
+- Takt entschärfen: cron z.B. auf `"0 */3 * * *"` (alle 3 h) ändern.
