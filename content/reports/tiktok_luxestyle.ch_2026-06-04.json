@@ -1,6 +1,30 @@
 {
   "videos": [
     {
+      "id": "7647542257586933014",
+      "url": "https://www.tiktok.com/@luxestyle.ch/video/7647542257586933014",
+      "uploader": "luxestyle.ch",
+      "upload_date": "2026-06-04T14:10:01+00:00",
+      "weekday": "Thu",
+      "hour_utc": 14,
+      "duration_s": 8,
+      "description": "Für ihn: Echtleder, das bleibt. 🤎 LuxeStyle – aus der Schweiz 🇨🇭 -10% mit WELCOME10 #luxestyle #herren #leder #swissmade #fyp ",
+      "hashtags": [
+        "luxestyle",
+        "herren",
+        "leder",
+        "swissmade",
+        "fyp"
+      ],
+      "mentions": [],
+      "views": 266,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0,
+      "engagement_rate": 0.0,
+      "music": "FEEL THE GROOVE"
+    },
+    {
       "id": "7647476103476563203",
       "url": "https://www.tiktok.com/@luxestyle.ch/video/7647476103476563203",
       "uploader": "luxestyle.ch",
@@ -17,7 +41,7 @@
         "foryou"
       ],
       "mentions": [],
-      "views": 127,
+      "views": 266,
       "likes": 0,
       "comments": 0,
       "shares": 0,
@@ -35,11 +59,11 @@
       "description": "Produkt-Captions + Preise: Sommershirt «Breeze» · CHF 24.90 → Leinenhose «Lino» · CHF 29.90 → Strickshirt «Riviera» · CHF 24.90 → Leder-Slipper · CHF 54.90 → Herren-Ring «Vintage» · CHF 16.90 → Sonnenbrille polarisiert · CHF 16.90 Social-Proof: ★★★★★ „Über 50 Bewertungen\" · „Versand aus der Schweiz\"",
       "hashtags": [],
       "mentions": [],
-      "views": 7,
+      "views": 8,
       "likes": 3,
       "comments": 0,
       "shares": 0,
-      "engagement_rate": 0.4286,
+      "engagement_rate": 0.375,
       "music": "Originalton - Luxestyle.ch"
     },
     {
@@ -78,11 +102,11 @@
         "EmClimaUltraLeve"
       ],
       "mentions": [],
-      "views": 16,
+      "views": 18,
       "likes": 1,
       "comments": 0,
       "shares": 0,
-      "engagement_rate": 0.0625,
+      "engagement_rate": 0.0556,
       "music": "snowfall"
     },
     {
@@ -101,11 +125,11 @@
         "ootd"
       ],
       "mentions": [],
-      "views": 40,
+      "views": 41,
       "likes": 1,
       "comments": 0,
       "shares": 0,
-      "engagement_rate": 0.025,
+      "engagement_rate": 0.0244,
       "music": "I'll Never Let You Go"
     },
     {
@@ -170,7 +194,7 @@
         "fashionschweiz"
       ],
       "mentions": [],
-      "views": 24,
+      "views": 25,
       "likes": 0,
       "comments": 0,
       "shares": 0,
@@ -216,7 +240,7 @@
         "ootd"
       ],
       "mentions": [],
-      "views": 4,
+      "views": 5,
       "likes": 0,
       "comments": 0,
       "shares": 0,
@@ -284,11 +308,11 @@
         "fashionschweiz"
       ],
       "mentions": [],
-      "views": 36,
+      "views": 37,
       "likes": 1,
       "comments": 0,
       "shares": 0,
-      "engagement_rate": 0.0278,
+      "engagement_rate": 0.027,
       "music": "Originalton - luxestyle"
     },
     {
@@ -384,19 +408,19 @@
     }
   ],
   "report": {
-    "video_count": 16,
+    "video_count": 17,
     "uploader": "luxestyle.ch",
     "totals": {
-      "views": 2897,
+      "views": 3309,
       "likes": 15,
       "comments": 0,
       "shares": 0
     },
     "averages": {
-      "views": 181,
-      "views_median": 37,
-      "engagement_rate": 0.0386,
-      "duration_s": 14.6
+      "views": 194,
+      "views_median": 38,
+      "engagement_rate": 0.0326,
+      "duration_s": 14.2
     },
     "top_by_views": [
       {
@@ -424,8 +448,14 @@
         "caption": "Sommer-Schuhe 👟 von Sandale bis Loafer – für jeden Look #schuhe #shoetok #sommerschuhe #fashionschweiz "
       },
       {
+        "url": "https://www.tiktok.com/@luxestyle.ch/video/7647542257586933014",
+        "views": 266,
+        "likes": 0,
+        "caption": "Für ihn: Echtleder, das bleibt. 🤎 LuxeStyle – aus der Schweiz 🇨🇭 -10% mit WELCOME10 #luxestyle #herren #leder #swissmade"
+      },
+      {
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7647476103476563203",
-        "views": 127,
+        "views": 266,
         "likes": 0,
         "caption": "Sound & Tech, kabellos 🎧 LuxeStyle CH 🇨🇭 -10% mit WELCOME10 #luxestyle #tech #gadgets #fyp #foryou "
       },
@@ -437,7 +467,7 @@
       },
       {
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7646665330655235350",
-        "views": 40,
+        "views": 41,
         "likes": 1,
         "caption": "Taschen 2026 👜 ab CHF 16 – Schultertasche, Denim & Clutch #bagtok #taschen #accessoires #ootd "
       },
@@ -449,15 +479,9 @@
       },
       {
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7646534055915310358",
-        "views": 36,
+        "views": 37,
         "likes": 1,
         "caption": "CHF 32 statt CHF 200 – gleicher Look 👀 Code WELCOME10 = -10% 🛍️ #schweizmode #ootdschweiz #sommerkleid #fashionschweiz"
-      },
-      {
-        "url": "https://www.tiktok.com/@luxestyle.ch/video/7646534235242777878",
-        "views": 35,
-        "likes": 0,
-        "caption": "Sommer-Kollektion 2026 ✨ Eleganz für jeden Tag. -10% mit Code WELCOME10 #schweizmode #sommermode #ootd"
       }
     ],
     "top_by_engagement": [
@@ -479,48 +503,48 @@
         "tag": "schweizmode",
         "uses": 7,
         "avg_views": 136,
-        "avg_engagement": 0.0135
+        "avg_engagement": 0.0134
       },
       {
         "tag": "ootdschweiz",
         "uses": 5,
         "avg_views": 183,
-        "avg_engagement": 0.0189
+        "avg_engagement": 0.0187
+      },
+      {
+        "tag": "fyp",
+        "uses": 4,
+        "avg_views": 497,
+        "avg_engagement": 0.0016
+      },
+      {
+        "tag": "luxestyle",
+        "uses": 4,
+        "avg_views": 497,
+        "avg_engagement": 0.0016
       },
       {
         "tag": "fashionschweiz",
         "uses": 4,
-        "avg_views": 274,
-        "avg_engagement": 0.0073
+        "avg_views": 275,
+        "avg_engagement": 0.0071
       },
       {
         "tag": "sommerkleid",
         "uses": 4,
-        "avg_views": 213,
-        "avg_engagement": 0.0073
+        "avg_views": 214,
+        "avg_engagement": 0.0071
       },
       {
         "tag": "ootd",
         "uses": 4,
-        "avg_views": 25,
-        "avg_engagement": 0.0063
+        "avg_views": 26,
+        "avg_engagement": 0.0061
       },
       {
         "tag": "foryou",
         "uses": 3,
-        "avg_views": 527,
-        "avg_engagement": 0.0021
-      },
-      {
-        "tag": "luxestyle",
-        "uses": 3,
-        "avg_views": 527,
-        "avg_engagement": 0.0021
-      },
-      {
-        "tag": "fyp",
-        "uses": 3,
-        "avg_views": 527,
+        "avg_views": 574,
         "avg_engagement": 0.0021
       },
       {
@@ -530,13 +554,13 @@
         "avg_engagement": 0.0217
       },
       {
-        "tag": "luxestylech",
+        "tag": "premiumlifestyle",
         "uses": 2,
         "avg_views": 728,
         "avg_engagement": 0.0032
       },
       {
-        "tag": "premiumlifestyle",
+        "tag": "luxestylech",
         "uses": 2,
         "avg_views": 728,
         "avg_engagement": 0.0032
@@ -550,8 +574,8 @@
       {
         "tag": "accessoires",
         "uses": 2,
-        "avg_views": 22,
-        "avg_engagement": 0.0125
+        "avg_views": 23,
+        "avg_engagement": 0.0122
       },
       {
         "tag": "swissfashion",
@@ -572,19 +596,13 @@
         "avg_engagement": 0.0037
       },
       {
-        "tag": "aromatherapyathome",
-        "uses": 1,
-        "avg_views": 1085,
-        "avg_engagement": 0.0037
-      },
-      {
-        "tag": "premiumwellness",
-        "uses": 1,
-        "avg_views": 1085,
-        "avg_engagement": 0.0037
-      },
-      {
         "tag": "aroma",
+        "uses": 1,
+        "avg_views": 1085,
+        "avg_engagement": 0.0037
+      },
+      {
+        "tag": "aromatherapie",
         "uses": 1,
         "avg_views": 1085,
         "avg_engagement": 0.0037
@@ -602,13 +620,19 @@
         "avg_engagement": 0.0037
       },
       {
+        "tag": "premiumwellness",
+        "uses": 1,
+        "avg_views": 1085,
+        "avg_engagement": 0.0037
+      },
+      {
         "tag": "aestheticroom",
         "uses": 1,
         "avg_views": 1085,
         "avg_engagement": 0.0037
       },
       {
-        "tag": "aromatherapie",
+        "tag": "aromatherapyathome",
         "uses": 1,
         "avg_views": 1085,
         "avg_engagement": 0.0037
@@ -620,19 +644,7 @@
         "avg_engagement": 0.0027
       },
       {
-        "tag": "automaticwatch",
-        "uses": 1,
-        "avg_views": 371,
-        "avg_engagement": 0.0027
-      },
-      {
-        "tag": "diverwatch",
-        "uses": 1,
-        "avg_views": 371,
-        "avg_engagement": 0.0027
-      },
-      {
-        "tag": "premiumwatch",
+        "tag": "timepiece",
         "uses": 1,
         "avg_views": 371,
         "avg_engagement": 0.0027
@@ -644,7 +656,7 @@
         "avg_engagement": 0.0027
       },
       {
-        "tag": "timepiece",
+        "tag": "swisswatch",
         "uses": 1,
         "avg_views": 371,
         "avg_engagement": 0.0027
@@ -654,13 +666,25 @@
         "uses": 1,
         "avg_views": 371,
         "avg_engagement": 0.0027
+      },
+      {
+        "tag": "automaticwatch",
+        "uses": 1,
+        "avg_views": 371,
+        "avg_engagement": 0.0027
+      },
+      {
+        "tag": "premiumwatch",
+        "uses": 1,
+        "avg_views": 371,
+        "avg_engagement": 0.0027
       }
     ],
     "weekday_post_counts": {
       "Tue": 8,
       "Mon": 5,
-      "Wed": 2,
-      "Thu": 1
+      "Thu": 2,
+      "Wed": 2
     },
     "hour_utc_post_counts": {
       "2": 1,
@@ -669,21 +693,28 @@
       "9": 1,
       "12": 1,
       "13": 2,
+      "14": 1,
       "20": 3,
       "21": 1,
       "23": 1
     },
     "hooks": [
       {
+        "hook": "Für ihn: Echtleder, das bleibt. 🤎 LuxeSt…",
+        "views": 266,
+        "engagement_rate": 0.0,
+        "url": "https://www.tiktok.com/@luxestyle.ch/video/7647542257586933014"
+      },
+      {
         "hook": "Sound & Tech, kabellos 🎧 LuxeStyle CH 🇨🇭…",
-        "views": 127,
+        "views": 266,
         "engagement_rate": 0.0,
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7647476103476563203"
       },
       {
         "hook": "Produkt-Captions + Preise: Sommershirt «…",
-        "views": 7,
-        "engagement_rate": 0.4286,
+        "views": 8,
+        "engagement_rate": 0.375,
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7646790362790563095"
       },
       {
@@ -694,14 +725,14 @@
       },
       {
         "hook": "Luxestyle.ch #EmClimaUltraLeve ",
-        "views": 16,
-        "engagement_rate": 0.0625,
+        "views": 18,
+        "engagement_rate": 0.0556,
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7646671226676497686"
       },
       {
         "hook": "Taschen 2026 👜 ab CHF 16 – Schultertasch…",
-        "views": 40,
-        "engagement_rate": 0.025,
+        "views": 41,
+        "engagement_rate": 0.0244,
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7646665330655235350"
       },
       {
@@ -718,7 +749,7 @@
       },
       {
         "hook": "5 Sommerkleider unter CHF 40 ☀️ Welches …",
-        "views": 24,
+        "views": 25,
         "engagement_rate": 0.0,
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7646540314768952598"
       },
@@ -730,7 +761,7 @@
       },
       {
         "hook": "Sommer-Accessoires ab CHF 18 ✨ Sonnenbri…",
-        "views": 4,
+        "views": 5,
         "engagement_rate": 0.0,
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7646541051489996035"
       },
@@ -748,8 +779,8 @@
       },
       {
         "hook": "CHF 32 statt CHF 200 – gleicher Look 👀 C…",
-        "views": 36,
-        "engagement_rate": 0.0278,
+        "views": 37,
+        "engagement_rate": 0.027,
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7646534055915310358"
       },
       {
