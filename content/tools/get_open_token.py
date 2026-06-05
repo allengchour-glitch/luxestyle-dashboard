@@ -81,22 +81,37 @@ def meta():
 
 
 def threads():
-    """Threads-API: Short-Lived -> Long-Lived (60 Tage) + Threads-User-ID via /me."""
+    """Threads-API OAuth (kompletter Flow): auth_code -> Short-Lived -> Long-Lived (~60 Tage) + User-ID.
+
+    Vorher im Browser:
+      1) In der App (Use-Case 'Auf Threads API zugreifen') eine Redirect-Callback-URL
+         registrieren, z.B. https://luxestyle.ch/  (exakt so, mit Slash).
+      2) Authorize-URL oeffnen (eingeloggt als @luxestyle.ch):
+         https://threads.net/oauth/authorize?client_id=<THREADS_APP_ID>
+           &redirect_uri=https://luxestyle.ch/&scope=threads_basic,threads_content_publish&response_type=code
+      3) 'Autorisieren' -> Browser landet auf https://luxestyle.ch/?code=XXXX#_
+         -> den Wert nach ?code= bis vor #_ kopieren.
+    """
+    app_id = input("Threads App ID: ").strip()
     secret = getpass("Threads App Secret (versteckt): ").strip()
-    short = input("Short-Lived Threads-Token (aus dem App-Dashboard 'Generate token'): ").strip()
+    redirect = input("Redirect-URI (exakt wie registriert, z.B. https://luxestyle.ch/): ").strip()
+    code = input("auth_code (aus Redirect ?code=... , ohne #_ ): ").strip().rstrip("#_")
+    # 1) auth_code -> Short-Lived
+    sh = _post_form("https://graph.threads.net/oauth/access_token", {
+        "client_id": app_id, "client_secret": secret, "grant_type": "authorization_code",
+        "redirect_uri": redirect, "code": code})
+    if sh.get("_http_error") or not sh.get("access_token"):
+        sys.exit("Code->Token fehlgeschlagen: " + json.dumps(sh)[:600])
+    short = sh["access_token"]; uid = sh.get("user_id")
+    # 2) Short-Lived -> Long-Lived (~60 Tage)
     ll = _get("https://graph.threads.net/access_token?" + urllib.parse.urlencode({
         "grant_type": "th_exchange_token", "client_secret": secret, "access_token": short}))
     if ll.get("_http_error") or not ll.get("access_token"):
         sys.exit("Long-Lived-Tausch fehlgeschlagen: " + json.dumps(ll)[:600])
     tok = ll["access_token"]
-    print("\n✅ Long-Lived Threads-Token (gültig ~60 Tage):\n", tok)
-    me = _get("https://graph.threads.net/v1.0/me?" + urllib.parse.urlencode({
-        "fields": "id,username", "access_token": tok}))
-    uid = me.get("id")
-    print("\nThreads-Konto:", "@" + me.get("username", "?"), "· THREADS_USER_ID:", uid or "(nicht gefunden)")
-    print("\nSetze als GitHub-Secrets:")
-    print("  THREADS_ACCESS_TOKEN=<Token oben>")
-    print("  THREADS_USER_ID=%s" % (uid or "<die ID>"))
+    print("\nOK - Long-Lived Threads-Token (gueltig ~60 Tage):\n", tok)
+    print("\nTHREADS_USER_ID:", uid or "(wird beim Posten via /me geholt)")
+    print("\nAls GitHub-Secret setzen: THREADS_ACCESS_TOKEN=<Token oben>")
 
 
 def main():
