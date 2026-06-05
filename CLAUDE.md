@@ -27,6 +27,19 @@ HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 - **Shop aufgeräumt (2026-06-04/05):** Collection **„Strand & Bademode"** (`strand-bademode`) angelegt → Bademode bleibt verkaufbar, aber **aus Ads raushalten** (Adult-Flag kommt vom Ad-Creative/Text, nicht vom Katalog). 2 Strand-Cardigans reaktiviert (ACTIVE). Polka-Dot-Kleid „Daisy" umbenannt (Deep-V-Wording raus).
 - **Bios** für IG/TikTok/Threads/Facebook geschrieben (DE, mit `WELCOME10` + `luxestyle.ch`) — User trägt sie manuell ein.
 
+### Session-Update 2026-06-05 (Teil 2 — Posting LIVE auf Threads/IG/FB, IDs)
+- **Posten per API funktioniert jetzt real** (über kurzlebige Graph-Explorer-Token bzw. Threads-Long-Lived-Token, die der User generiert und in den Chat gibt; Claude tauscht/postet lokal):
+  - **Threads:** live gepostet (Reels + Bilder). Threads-App-ID `27222757947358241`. Threads-User-ID `27478723925090794`.
+  - **Instagram:** IG-Business-ID **`17841480560863361`** (@luxestyle.ch). Reels via `video_url`, Bilder via `image_url` (Graph API `/{ig}/media` → `media_publish`). Scope `instagram_content_publish`.
+  - **Facebook-Seite LuxeStyle CH = ID `1049840534888592`.** Posten braucht **`pages_manage_posts`** (NICHT `pages_manage_metadata`!). Reel via `/{page}/videos file_url`, Fotos via `/{page}/photos url`. Seiten-Token aus `/me/accounts`.
+- **MEDIEN-HOSTING (wichtig):** Repo ist **privat** → GitHub-Raw-URLs gehen NICHT für Threads/IG/FB. **Öffentliche Shopify-CDN-URLs nutzen.** Fertige 9:16-Ad-Videos liegen auf der CDN (siehe `content/shopify-product-videos.json`, Typ `fertige-ad-9:16`). **Bilder müssen JPG sein** (kein WebP) für Threads/IG.
+- **Autopilot:** `content/tools/threads_auto_image.py` + Workflow `luxestyle-threads.yml` (2×/Tag auf `main`) postet rotierend 9:16-Reels (CDN) + Produktbilder. **Läuft selbst, sobald `THREADS_ACCESS_TOKEN` als Secret gesetzt ist** — Claude kann Secrets NICHT schreiben und Token NICHT anzeigen (Sicherheitsblock), dieser eine Schritt bleibt User-Hand.
+- **Brand-Assets öffentlich auf Shopify-CDN** (für Handy-Download/Profile): `…/files/LuxeStyle_FB_Titelbild.png` + `…/files/LuxeStyle_Profilbild.png`. FB-Titelbild = `content/brand/LuxeStyle_FB_Titelbild.png`.
+- **3–4 doppelte FB-„luxestyle"-Seiten** (IDs 2753403131698821, 1009159934884793, 1489200295389447) — **echte = LuxeStyle CH `1049840534888592`**. Duplikate später zusammenlegen/löschen (sonst zersplittern Follower; User sieht Posts „nicht", weil er Doppel-Seite ansieht).
+- **Counterfeit-Risiko:** „**PureMax**"-Reel (Ohrringe, Fremdmarke) auf IG-Profil → entfernen (IG-Graph-API kann Posts NICHT löschen → manuell in der App).
+- **Video-Qualität (User-Feedback):** Reels **flüssiger** bauen — Standbild in 2× Auflösung, **linearer Zoom (kein setpts-Slow-Mo)**, 30 fps. „Schlottert" sonst.
+- **get_open_token.py threads** = kompletter OAuth (auth_code → short → long). Threads-**Tester** muss in App-Rollen hinzugefügt + via Instagram angenommen werden, sonst „user has not accepted the invite".
+
 ## 🎯 Aktueller Stand & Fokus (für die nächste Session · 2026-06-03)
 - **Fertige Reels liegen in `content/ads/`** (alle 9:16, CHF, ad-/postbar):
   `LuxeStyle_Mix_Reel_Sommer.mp4` (EU-Mix, 9 Produkte) · `LuxeStyle_EU_Hero_Reel.mp4` (Gold-Set+Diffuser+Lampe) ·
