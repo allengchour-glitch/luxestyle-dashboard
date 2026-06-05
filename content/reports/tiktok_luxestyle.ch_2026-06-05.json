@@ -17,7 +17,7 @@
         "fyp"
       ],
       "mentions": [],
-      "views": 266,
+      "views": 267,
       "likes": 0,
       "comments": 0,
       "shares": 0,
@@ -41,7 +41,7 @@
         "foryou"
       ],
       "mentions": [],
-      "views": 266,
+      "views": 267,
       "likes": 0,
       "comments": 0,
       "shares": 0,
@@ -365,7 +365,7 @@
         "aromatherapyathome"
       ],
       "mentions": [],
-      "views": 1085,
+      "views": 1087,
       "likes": 4,
       "comments": 0,
       "shares": 0,
@@ -411,7 +411,7 @@
     "video_count": 17,
     "uploader": "luxestyle.ch",
     "totals": {
-      "views": 3309,
+      "views": 3313,
       "likes": 15,
       "comments": 0,
       "shares": 0
@@ -425,7 +425,7 @@
     "top_by_views": [
       {
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7644558954634235158",
-        "views": 1085,
+        "views": 1087,
         "likes": 4,
         "caption": "🌿 Aromatherapie für große Räume — Spa zu Hause. Smart Diffuser XXL · 200m² Abdeckung · Bluetooth · App-gesteuert · wasse"
       },
@@ -449,13 +449,13 @@
       },
       {
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7647542257586933014",
-        "views": 266,
+        "views": 267,
         "likes": 0,
         "caption": "Für ihn: Echtleder, das bleibt. 🤎 LuxeStyle – aus der Schweiz 🇨🇭 -10% mit WELCOME10 #luxestyle #herren #leder #swissmade"
       },
       {
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7647476103476563203",
-        "views": 266,
+        "views": 267,
         "likes": 0,
         "caption": "Sound & Tech, kabellos 🎧 LuxeStyle CH 🇨🇭 -10% mit WELCOME10 #luxestyle #tech #gadgets #fyp #foryou "
       },
@@ -487,7 +487,7 @@
     "top_by_engagement": [
       {
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7644558954634235158",
-        "views": 1085,
+        "views": 1087,
         "engagement_rate": 0.0037,
         "caption": "🌿 Aromatherapie für große Räume — Spa zu Hause. Smart Diffuser XXL · 200m² Abdeckung · Bluetooth · App-gesteuert · wasse"
       },
@@ -512,15 +512,15 @@
         "avg_engagement": 0.0187
       },
       {
-        "tag": "fyp",
+        "tag": "luxestyle",
         "uses": 4,
-        "avg_views": 497,
+        "avg_views": 498,
         "avg_engagement": 0.0016
       },
       {
-        "tag": "luxestyle",
+        "tag": "fyp",
         "uses": 4,
-        "avg_views": 497,
+        "avg_views": 498,
         "avg_engagement": 0.0016
       },
       {
@@ -544,7 +544,7 @@
       {
         "tag": "foryou",
         "uses": 3,
-        "avg_views": 574,
+        "avg_views": 575,
         "avg_engagement": 0.0021
       },
       {
@@ -554,21 +554,21 @@
         "avg_engagement": 0.0217
       },
       {
-        "tag": "premiumlifestyle",
+        "tag": "swisspremium",
         "uses": 2,
-        "avg_views": 728,
+        "avg_views": 729,
         "avg_engagement": 0.0032
       },
       {
         "tag": "luxestylech",
         "uses": 2,
-        "avg_views": 728,
+        "avg_views": 729,
         "avg_engagement": 0.0032
       },
       {
-        "tag": "swisspremium",
+        "tag": "premiumlifestyle",
         "uses": 2,
-        "avg_views": 728,
+        "avg_views": 729,
         "avg_engagement": 0.0032
       },
       {
@@ -584,73 +584,67 @@
         "avg_engagement": 0.0
       },
       {
-        "tag": "wellness",
-        "uses": 1,
-        "avg_views": 1085,
-        "avg_engagement": 0.0037
-      },
-      {
-        "tag": "spaathome",
-        "uses": 1,
-        "avg_views": 1085,
-        "avg_engagement": 0.0037
-      },
-      {
-        "tag": "aroma",
-        "uses": 1,
-        "avg_views": 1085,
-        "avg_engagement": 0.0037
-      },
-      {
         "tag": "aromatherapie",
         "uses": 1,
-        "avg_views": 1085,
+        "avg_views": 1087,
+        "avg_engagement": 0.0037
+      },
+      {
+        "tag": "wellness",
+        "uses": 1,
+        "avg_views": 1087,
         "avg_engagement": 0.0037
       },
       {
         "tag": "luxurylife",
         "uses": 1,
-        "avg_views": 1085,
+        "avg_views": 1087,
         "avg_engagement": 0.0037
       },
       {
         "tag": "smartdiffuser",
         "uses": 1,
-        "avg_views": 1085,
+        "avg_views": 1087,
         "avg_engagement": 0.0037
       },
       {
-        "tag": "premiumwellness",
+        "tag": "spaathome",
         "uses": 1,
-        "avg_views": 1085,
-        "avg_engagement": 0.0037
-      },
-      {
-        "tag": "aestheticroom",
-        "uses": 1,
-        "avg_views": 1085,
+        "avg_views": 1087,
         "avg_engagement": 0.0037
       },
       {
         "tag": "aromatherapyathome",
         "uses": 1,
-        "avg_views": 1085,
+        "avg_views": 1087,
         "avg_engagement": 0.0037
       },
       {
+        "tag": "aroma",
+        "uses": 1,
+        "avg_views": 1087,
+        "avg_engagement": 0.0037
+      },
+      {
+        "tag": "aestheticroom",
+        "uses": 1,
+        "avg_views": 1087,
+        "avg_engagement": 0.0037
+      },
+      {
+        "tag": "premiumwellness",
+        "uses": 1,
+        "avg_views": 1087,
+        "avg_engagement": 0.0037
+      },
+      {
+        "tag": "premiumwatch",
+        "uses": 1,
+        "avg_views": 371,
+        "avg_engagement": 0.0027
+      },
+      {
         "tag": "watchoftheday",
-        "uses": 1,
-        "avg_views": 371,
-        "avg_engagement": 0.0027
-      },
-      {
-        "tag": "timepiece",
-        "uses": 1,
-        "avg_views": 371,
-        "avg_engagement": 0.0027
-      },
-      {
-        "tag": "watchaddict",
         "uses": 1,
         "avg_views": 371,
         "avg_engagement": 0.0027
@@ -662,7 +656,7 @@
         "avg_engagement": 0.0027
       },
       {
-        "tag": "luxurywatch",
+        "tag": "diverwatch",
         "uses": 1,
         "avg_views": 371,
         "avg_engagement": 0.0027
@@ -674,7 +668,13 @@
         "avg_engagement": 0.0027
       },
       {
-        "tag": "premiumwatch",
+        "tag": "sapphire",
+        "uses": 1,
+        "avg_views": 371,
+        "avg_engagement": 0.0027
+      },
+      {
+        "tag": "timepiece",
         "uses": 1,
         "avg_views": 371,
         "avg_engagement": 0.0027
@@ -701,13 +701,13 @@
     "hooks": [
       {
         "hook": "Für ihn: Echtleder, das bleibt. 🤎 LuxeSt…",
-        "views": 266,
+        "views": 267,
         "engagement_rate": 0.0,
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7647542257586933014"
       },
       {
         "hook": "Sound & Tech, kabellos 🎧 LuxeStyle CH 🇨🇭…",
-        "views": 266,
+        "views": 267,
         "engagement_rate": 0.0,
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7647476103476563203"
       },
@@ -791,7 +791,7 @@
       },
       {
         "hook": "🌿 Aromatherapie für große Räume — Spa zu…",
-        "views": 1085,
+        "views": 1087,
         "engagement_rate": 0.0037,
         "url": "https://www.tiktok.com/@luxestyle.ch/video/7644558954634235158"
       },
