@@ -1,2 +1,4 @@
 - 20260603_1932 · offset 494587 · calm · Herren Lederarmband Anker · Aroma Diffuser Bambus 500ml · Damen-Armband Edelstahl · Smartwatch Pro AMOLED · LuxeStyle_auto_20260603_1932.mp4
 - 20260604_1137 · offset 494603 · calm · Crossbody-Bag Vegan · Flame Diffuser Premium · Himalaya Salzkristall-Lampe · Galaxy Aurora LED-Projektor · LuxeStyle_auto_20260604_1137.mp4
+- 20260604_2157 · offset 494613 · calm · Slim Wallet Echtleder · Herrenuhr Edelstahl · Retro Sonnenbrille Polarisiert · Jade Roller & Gua Sha Set · LuxeStyle_auto_20260604_2157.mp4
+- 20260605_1153 · offset 494627 · calm · Galaxy Aurora LED-Projektor · Bluetooth Speaker 360° · Bart-Pflegeset Premium · Damen Portemonnaie XL Leder · LuxeStyle_auto_20260605_1153.mp4
