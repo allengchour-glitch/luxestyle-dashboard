@@ -14,6 +14,19 @@ HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 - [x] **TikTok-Ad-Ablehnung diagnostiziert (2026-06-04):** 2 Gründe — (1) **„Adult Supplies/Services" (CH)** = Fehlalarm, vermutlich zu viel Haut/Bademode/Model-Close-ups → produktfokussierte Creatives nutzen + Einspruch „fashion brand"; (2) **„Counterfeit" (US/GB/FR…)** = Marken-Look-Produkt (wahrsch. **Pandora-artiges Charm-Armband**, „anlauffrei"-Post) → Produkt entfernen/ersetzen, Fotos ohne Logos. Fix-Creatives gebaut: `content/ads/LuxeStyle_AdClean_*.mp4` (6×, produktfokus, keine Haut/Claims/Marken-Look) via `tools/build_ad_clean.py`.
 - [ ] **Meta-Pixel LuxeStyle CH** = `1676528663551701` (Conversion-Tracking, NICHT Posting). TikTok-Pixel `D8EQE4JC77UAEKHUJCM0` meldet **Missing events** (Page view/Add to cart/Purchase fehlen) → Events Builder/Custom Code nachziehen.
 
+### Session-Update 2026-06-05 (organisches Posten, Token, Ad-Ablehnung, Brand-Assets)
+- **KOMMUNIKATIONS-PRÄFERENZ (User):** In Assistant-Antworten **KEINE Emojis** verwenden. (Emojis im Produkt/Shop/Collection-Titeln sind ok.)
+- **Organisches Auto-Posten gebaut & live, aber blockiert durch fehlenden Token:**
+  - `content/tools/threads_post.py` (NEU) = Threads-API (`graph.threads.net`, Container→Status→publish, Video/Foto/Text). 4. Kanal in `post_next_reel.py` (Telegram+TikTok+Instagram+Threads). Workflow `.github/workflows/luxestyle-social.yml` ist **auf `main` aktiv & geplant** (cron 2×/Tag 10:00/17:00 UTC = 12:00/19:00 CH) + `workflow_dispatch` (Input `index` = Reel aus `captions.json`). Postet automatisch, **sobald** ein gültiger Token gesetzt ist.
+  - **WICHTIG App-Secret ≠ Access-Token:** Mehrere Fehlversuche, weil im Secret der **App-Geheimcode** (32 Hex, z.B. `b3bbb…`) statt eines **Access-Tokens** lag → Meta: `code 190 "Cannot parse access token"`. Echter Token = lang (100+ Zeichen). **Immer vorher im Token-Debugger prüfen** (`developers.facebook.com/tools/debug/accesstoken/`), erst dann ins Secret.
+  - **Secrets-Status:** `IG_ACCESS_TOKEN` enthält aktuell einen **ungültigen** Wert; `THREADS_ACCESS_TOKEN`/TikTok/Telegram **nicht gesetzt**. Workflow hat Fallback `THREADS_ACCESS_TOKEN || IG_ACCESS_TOKEN`.
+  - **Threads-Konto @luxestyle.ch war 2026-06-05 gesperrt** (suspended), Einspruch → wieder **online**. Token bleibt offen = **Laptop-OAuth-Job** (`threads.net/oauth/authorize?client_id=<THREADS_APP_ID 27222757947358241>&redirect_uri=https://luxestyle.ch/&scope=threads_basic,threads_content_publish&response_type=code` → Code → `get_open_token.py threads`).
+  - **Grenze:** Claude Code kann **nicht selbst posten** (kein Konto-Login, kann Secrets nicht lesen). Zuverlässig = **manuell** (Reels liegen in `content/ads/`, Captions in `captions.json`). Per API nur, wenn gültiger Token als GitHub-Secret gesetzt ist.
+- **TikTok-Ad-Ablehnung — ECHTER Grund (2026-06-05):** „Adult content" wegen **Text** in der Anzeige: **„69%"** und **„TURDAY"** (aus „Saturday") werden als veiled sexual references geflaggt (Region CH). **Fix = diese Strings entfernen** (keine „69"-Zahl, Wochentage ausschreiben/weglassen) → neu einreichen. **NICHT** Bademode/Landing-Page. Gilt generell: Zahlen/Wörter meiden, die als Anspielung lesbar sind.
+- **Brand-Assets erstellt (`content/brand/`):** `LuxeStyle_Profilbild.png` (+ `_rund.png`, 1080²) & `LuxeStyle_AppIcon_1024.png` (Taupe/Cream Wordmark + LS-Monogramm) — für Social-Profile + Meta-App-Symbol.
+- **Shop aufgeräumt (2026-06-04/05):** Collection **„Strand & Bademode"** (`strand-bademode`) angelegt → Bademode bleibt verkaufbar, aber **aus Ads raushalten** (Adult-Flag kommt vom Ad-Creative/Text, nicht vom Katalog). 2 Strand-Cardigans reaktiviert (ACTIVE). Polka-Dot-Kleid „Daisy" umbenannt (Deep-V-Wording raus).
+- **Bios** für IG/TikTok/Threads/Facebook geschrieben (DE, mit `WELCOME10` + `luxestyle.ch`) — User trägt sie manuell ein.
+
 ## 🎯 Aktueller Stand & Fokus (für die nächste Session · 2026-06-03)
 - **Fertige Reels liegen in `content/ads/`** (alle 9:16, CHF, ad-/postbar):
   `LuxeStyle_Mix_Reel_Sommer.mp4` (EU-Mix, 9 Produkte) · `LuxeStyle_EU_Hero_Reel.mp4` (Gold-Set+Diffuser+Lampe) ·
@@ -37,6 +50,7 @@ HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 - **Keine Fremdmarken/Logos/Wasserzeichen** im Bild (Lieferantenfotos prüfen) — Markenrecht.
 - **Landing Page muss matchen**: Preis in Ad = Preis im Shop, Seite lädt, Impressum + Rückgabe/Kontakt vorhanden.
 - **Saubere Optik, wenig Text**, kein „shocking/before-after", keine reißerischen Claims.
+- **KEINE als Anspielung lesbaren Zahlen/Wörter** (TikTok-Ablehnung 2026-06-05 „Adult content"): konkret **„69%"** und **„TURDAY"** (aus „Saturday") wurden als veiled sexual references geflaggt. → Statt „69%" andere Rabattzahl nehmen; Wochentage/Wörter, die zerschnitten anstößig wirken, ausschreiben oder weglassen. Gilt für Anzeigentext UND eingebrannten Video-Text.
 - **Musik**: nur lizenzfreier eigener Bed / Commercial Music Library (kein Trending-Pop in Paid Ads). Unser synthetischer Bed = ok.
 - **Bei Ablehnung**: pro Creative den **genauen Grund** im Ads Manager lesen (Ad-Ebene) + **Appeal/Einspruch** (oft im 2. Durchgang frei). Ad-Sachen laufen über User-Hand/Browser-Claude.
 - **Ad-safe Beispiel-Reels** (ohne Claims, nur Produkt+Preis+Code): `content/ads/LuxeStyle_Sommer_AdSafe.mp4` · `LuxeStyle_Geschenke_Ihn_AdSafe.mp4`.

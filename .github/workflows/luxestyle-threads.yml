@@ -1,0 +1,37 @@
+name: LuxeStyle Threads (Bild-Auto-Post)
+
+# Postet 2x/Tag ein rotierendes Produktbild auf Threads (@luxestyle.ch).
+# Bilder statt Video: das Repo ist privat, Threads kann private Repo-Videos nicht laden;
+# Shopify-CDN-Bilder sind oeffentlich und funktionieren.
+#
+# Voraussetzung: Secret THREADS_ACCESS_TOKEN (Long-Lived). Ohne Secret wird sauber uebersprungen.
+# Geplante Workflows laufen nur auf dem Default-Branch (main).
+
+on:
+  schedule:
+    - cron: "0 10,17 * * *"   # 12:00 & 19:00 CH (10:00/17:00 UTC)
+  workflow_dispatch:
+    inputs:
+      post_index:
+        description: "Eintrag erzwingen (leer = nach Zeit)"
+        required: false
+        default: ""
+
+concurrency:
+  group: luxestyle-threads
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Threads-Bildpost
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+          POST_INDEX: ${{ github.event.inputs.post_index }}
+        run: python content/tools/threads_auto_image.py
