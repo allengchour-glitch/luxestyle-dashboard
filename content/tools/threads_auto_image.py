@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """
-LuxeStyle Threads-Auto-Poster (BILDER) — Threads API (graph.threads.net).
+LuxeStyle Threads-Auto-Poster — Threads API (graph.threads.net).
 
-Postet 1 rotierendes, ad-safe Produktbild (oeffentliche Shopify-CDN-URL) als
-Threads-Post. Bilder statt Video, weil das Repo privat ist (Threads kann
-private GitHub-Raw-Videos nicht laden) — Shopify-CDN-Bilder sind oeffentlich.
+Postet 1 rotierenden Beitrag (REEL/Video oder Bild) auf Threads. Medien liegen
+auf der **oeffentlichen Shopify-CDN** (Repo ist privat -> GitHub-Raw geht nicht).
 
 ENV (nie committen):
   THREADS_ACCESS_TOKEN   (Long-Lived, Scope threads_content_publish)
@@ -18,28 +17,29 @@ import os, json, time, sys, urllib.request, urllib.parse, urllib.error
 from datetime import datetime, timezone
 
 GT = "https://graph.threads.net"
-CDN = "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/"
+IMG = "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/"
+VID = "https://cdn.shopify.com/videos/c/vp/"
 
-# (Bilddatei auf Shopify-CDN, Caption) — saubere, ad-safe Produktbilder
+# Rotierende Beitraege: fertige 9:16-Reels (Video) + saubere Produktbilder.
 POSTS = [
-    ("fa7f66fa-bf2d-4800-835e-2e3fe6984427.jpg",
-     "Klassisch & elegant: das aermellose Sommerkleid ✨ Premium aus der Schweiz. "
-     "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #sommer2026 #swissmade #ootd"),
-    ("c6efdee1-e741-4788-b96b-b5a96095e3d9.jpg",
-     "Verspielt in den Sommer \U0001F338 Mini-Kleid mit Rueschen. "
-     "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #sommerlook #fashion #swissmade"),
-    ("dc7ee2ce-fcc5-4f61-8622-ab04356f6cd7.jpg",
-     "Beach-ready \U0001F334 Maxikleid «Bali», luftig & leicht. "
-     "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #strandlook #sommer2026 #boho"),
-    ("6a966077-7211-437d-b80c-d6025f44ba18.jpg",
-     "Boho-Vibes ☀️ Kleid «Ibiza» aus Baumwoll-Leinen. "
-     "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #boho #sommerlook #swissmade"),
-    ("3136e619-9947-4d5f-8248-707c65d055d2.jpg",
-     "Leicht & schulterfrei: «Brise» fuer laue Sommerabende. "
-     "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #ootd #sommer2026 #fashion"),
-    ("b4da0d58-e760-4691-b348-9dc4a3d13722.jpg",
-     "Retro-Sandalen mit Komfort-Sohle \U0001F461 Dein Sommer-Begleiter. "
-     "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #accessoires #sommer2026 #swissmade"),
+    {"type": "VIDEO", "url": VID + "9ba0c3f017ad486a902be4fc5ff3f215/9ba0c3f017ad486a902be4fc5ff3f215.HD-1080p-2.5Mbps-85362926.mp4",
+     "cap": "LuxeStyle Sommer 2026 ✨ Highlights aus der Schweiz – Mode, Schmuck & mehr \U0001F1E8\U0001F1ED "
+            "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #sommer2026 #swissmade #fashion #reels"},
+    {"type": "IMAGE", "url": IMG + "fa7f66fa-bf2d-4800-835e-2e3fe6984427.jpg",
+     "cap": "Klassisch & elegant: das aermellose Sommerkleid. Premium aus der Schweiz. "
+            "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #sommer2026 #ootd #swissmade"},
+    {"type": "VIDEO", "url": VID + "5637452c09574c2e8b296f40c5155fbf/5637452c09574c2e8b296f40c5155fbf.HD-1080p-2.5Mbps-85361886.mp4",
+     "cap": "Unsere Bestseller \U0001F3C6 LuxeStyle Top-10 aus der Schweiz. "
+            "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #bestseller #swissmade #sommer2026"},
+    {"type": "IMAGE", "url": IMG + "6a966077-7211-437d-b80c-d6025f44ba18.jpg",
+     "cap": "Boho-Vibes ☀️ Kleid «Ibiza» aus Baumwoll-Leinen. "
+            "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #boho #sommerlook #swissmade"},
+    {"type": "VIDEO", "url": VID + "284fe922e443486da17bf1797d1867dc/284fe922e443486da17bf1797d1867dc.HD-1080p-2.5Mbps-85361887.mp4",
+     "cap": "Schau dich um \U0001F6CD️ LuxeStyle – Premium-Lifestyle aus der Schweiz. "
+            "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #shopping #swissmade #sommer2026"},
+    {"type": "IMAGE", "url": IMG + "b4da0d58-e760-4691-b348-9dc4a3d13722.jpg",
+     "cap": "Retro-Sandalen mit Komfort-Sohle \U0001F461 Dein Sommer-Begleiter. "
+            "-10% mit Code WELCOME10 → luxestyle.ch #luxestyle #accessoires #sommer2026 #swissmade"},
 ]
 
 
@@ -80,17 +80,18 @@ def main():
     else:
         now = datetime.now(timezone.utc)
         idx = (now.timetuple().tm_yday * 2 + (0 if now.hour < 14 else 1)) % len(POSTS)
-    fname, caption = POSTS[idx]
-    image_url = CDN + fname
-    print("Threads-Bildpost #%d: %s" % (idx, fname))
+    p = POSTS[idx]
+    print("Threads-Auto #%d (%s)" % (idx, p["type"]))
 
-    c, err = jpost(GT + "/v1.0/%s/threads" % uid,
-                   {"media_type": "IMAGE", "image_url": image_url, "text": caption, "access_token": tok})
+    params = {"media_type": p["type"], "text": p["cap"], "access_token": tok}
+    params["video_url" if p["type"] == "VIDEO" else "image_url"] = p["url"]
+    c, err = jpost(GT + "/v1.0/%s/threads" % uid, params)
     if err:
         sys.exit("Container-Fehler: " + err)
     cid = c["id"]
-    for _ in range(20):
-        time.sleep(3)
+    tries = 45 if p["type"] == "VIDEO" else 20
+    for _ in range(tries):
+        time.sleep(4)
         st, e = jget(GT + "/v1.0/%s?" % cid + urllib.parse.urlencode({"fields": "status", "access_token": tok}))
         if st and st.get("status") == "FINISHED":
             break
