@@ -3,3 +3,4 @@
 - 20260604_2157 · offset 494613 · calm · Slim Wallet Echtleder · Herrenuhr Edelstahl · Retro Sonnenbrille Polarisiert · Jade Roller & Gua Sha Set · LuxeStyle_auto_20260604_2157.mp4
 - 20260605_1153 · offset 494627 · calm · Galaxy Aurora LED-Projektor · Bluetooth Speaker 360° · Bart-Pflegeset Premium · Damen Portemonnaie XL Leder · LuxeStyle_auto_20260605_1153.mp4
 - 20260605_2113 · offset 494637 · calm · Jade Roller & Gua Sha Set · Seiden-Kissenbezug 100% Seide · Herren Lederarmband Anker · Aroma Diffuser Bambus 500ml · LuxeStyle_auto_20260605_2113.mp4
+- 20260606_0914 · offset 494649 · calm · Bluetooth Speaker 360° · Bart-Pflegeset Premium · Damen Portemonnaie XL Leder · XL Strandtuch Bio-Baumwolle · LuxeStyle_auto_20260606_0914.mp4
