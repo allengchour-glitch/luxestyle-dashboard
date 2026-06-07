@@ -1,32 +1,32 @@
 # TikTok-Analyse — @luxestyle.ch
 
-_Generiert: 2026-06-07T10:15:46.778285+00:00_
+_Generiert: 2026-06-07T20:46:36.344464+00:00_
 
 ## Übersicht
 
 - Videos analysiert: **19**
-- Gesamt-Views: **4,169**
-- Gesamt-Likes: **44**
-- Gesamt-Comments: **0**
+- Gesamt-Views: **4,239**
+- Gesamt-Likes: **53**
+- Gesamt-Comments: **1**
 - Gesamt-Shares: **0**
-- Ø Views / Video: **219** (Median 58)
-- Ø Engagement-Rate: **3.53%**
+- Ø Views / Video: **223** (Median 59)
+- Ø Engagement-Rate: **4.07%**
 - Ø Videolänge: **13.5s**
 
 ## Top 10 nach Views
 
 | Views | Likes | Caption | URL |
 |---:|---:|---|---|
-| 1,095 | 5 | 🌿 Aromatherapie für große Räume — Spa zu Hause. Smart Diffuser XXL · 200m² Abdeckung · Bluetooth · App-gesteuert · wasse | https://www.tiktok.com/@luxestyle.ch/video/7644558954634235158 |
-| 781 | 2 | CHF 32 statt CHF 200 – gleicher Look 👀 Code WELCOME10 = -10% 🛍️ #schweizmode #ootdschweiz #sommerkleid #fashionschweiz | https://www.tiktok.com/@luxestyle.ch/video/7646533327716879638 |
-| 379 | 2 | 🇨🇭 Diese Schweizer Diver-Watch kostet 80% weniger als ein Rolex — selbes Werk, selbes Saphirglas, anderes Label. 200m wa | https://www.tiktok.com/@luxestyle.ch/video/7644548380072463638 |
-| 308 | 2 | Für sie ✨ Schmuck & Accessoires – LuxeStyle CH 🇨🇭 -10% mit WELCOME10 #luxestyle #schmuck #geschenkidee #fyp  | https://www.tiktok.com/@luxestyle.ch/video/7647878859551018262 |
-| 301 | 3 | Zuhause runterkommen 🕯️ Diffuser & Co. – LuxeStyle CH 🇨🇭 -10% mit WELCOME10 #luxestyle #wellness #homedecor #fyp  | https://www.tiktok.com/@luxestyle.ch/video/7647895795831770390 |
-| 292 | 2 | Für ihn: Echtleder, das bleibt. 🤎 LuxeStyle – aus der Schweiz 🇨🇭 -10% mit WELCOME10 #luxestyle #herren #leder #swissmade | https://www.tiktok.com/@luxestyle.ch/video/7647542257586933014 |
-| 289 | 2 | Sound & Tech, kabellos 🎧 LuxeStyle CH 🇨🇭 -10% mit WELCOME10 #luxestyle #tech #gadgets #fyp #foryou  | https://www.tiktok.com/@luxestyle.ch/video/7647476103476563203 |
-| 277 | 2 | Sommer-Schuhe 👟 von Sandale bis Loafer – für jeden Look #schuhe #shoetok #sommerschuhe #fashionschweiz  | https://www.tiktok.com/@luxestyle.ch/video/7646664980170951958 |
-| 73 | 5 | NEU eingetroffen: Sommer 2026 🆕 Frische Looks im Shop. -10% mit WELCOME10 #schweizmode #newin #sommermode #ootdschweiz | https://www.tiktok.com/@luxestyle.ch/video/7646541541447617814 |
-| 58 | 3 | Taschen 2026 👜 ab CHF 16 – Schultertasche, Denim & Clutch #bagtok #taschen #accessoires #ootd  | https://www.tiktok.com/@luxestyle.ch/video/7646665330655235350 |
+| 1,098 | 5 | 🌿 Aromatherapie für große Räume — Spa zu Hause. Smart Diffuser XXL · 200m² Abdeckung · Bluetooth · App-gesteuert · wasse | https://www.tiktok.com/@luxestyle.ch/video/7644558954634235158 |
+| 783 | 2 | CHF 32 statt CHF 200 – gleicher Look 👀 Code WELCOME10 = -10% 🛍️ #schweizmode #ootdschweiz #sommerkleid #fashionschweiz | https://www.tiktok.com/@luxestyle.ch/video/7646533327716879638 |
+| 381 | 2 | 🇨🇭 Diese Schweizer Diver-Watch kostet 80% weniger als ein Rolex — selbes Werk, selbes Saphirglas, anderes Label. 200m wa | https://www.tiktok.com/@luxestyle.ch/video/7644548380072463638 |
+| 318 | 3 | Für sie ✨ Schmuck & Accessoires – LuxeStyle CH 🇨🇭 -10% mit WELCOME10 #luxestyle #schmuck #geschenkidee #fyp  | https://www.tiktok.com/@luxestyle.ch/video/7647878859551018262 |
+| 309 | 4 | Zuhause runterkommen 🕯️ Diffuser & Co. – LuxeStyle CH 🇨🇭 -10% mit WELCOME10 #luxestyle #wellness #homedecor #fyp  | https://www.tiktok.com/@luxestyle.ch/video/7647895795831770390 |
+| 297 | 3 | Für ihn: Echtleder, das bleibt. 🤎 LuxeStyle – aus der Schweiz 🇨🇭 -10% mit WELCOME10 #luxestyle #herren #leder #swissmade | https://www.tiktok.com/@luxestyle.ch/video/7647542257586933014 |
+| 293 | 3 | Sound & Tech, kabellos 🎧 LuxeStyle CH 🇨🇭 -10% mit WELCOME10 #luxestyle #tech #gadgets #fyp #foryou  | https://www.tiktok.com/@luxestyle.ch/video/7647476103476563203 |
+| 280 | 2 | Sommer-Schuhe 👟 von Sandale bis Loafer – für jeden Look #schuhe #shoetok #sommerschuhe #fashionschweiz  | https://www.tiktok.com/@luxestyle.ch/video/7646664980170951958 |
+| 75 | 5 | NEU eingetroffen: Sommer 2026 🆕 Frische Looks im Shop. -10% mit WELCOME10 #schweizmode #newin #sommermode #ootdschweiz | https://www.tiktok.com/@luxestyle.ch/video/7646541541447617814 |
+| 59 | 3 | Taschen 2026 👜 ab CHF 16 – Schultertasche, Denim & Clutch #bagtok #taschen #accessoires #ootd  | https://www.tiktok.com/@luxestyle.ch/video/7646665330655235350 |
 
 ## Top 10 nach Engagement-Rate (≥500 Views)
 
@@ -37,36 +37,36 @@ _Generiert: 2026-06-07T10:15:46.778285+00:00_
 
 | Tag | Verwendet | Ø Views | Ø Engagement |
 |---|---:|---:|---:|
-| #schweizmode | 7 | 150 | 3.29% |
-| #fyp | 6 | 444 | 0.67% |
-| #luxestyle | 6 | 444 | 0.67% |
-| #ootdschweiz | 5 | 197 | 3.24% |
-| #fashionschweiz | 4 | 285 | 2.01% |
-| #sommerkleid | 4 | 225 | 2.53% |
-| #ootd | 4 | 39 | 3.71% |
-| #foryou | 3 | 587 | 0.56% |
-| #sommermode | 3 | 44 | 4.91% |
-| #swisspremium | 2 | 737 | 0.49% |
-| #luxestylech | 2 | 737 | 0.49% |
-| #premiumlifestyle | 2 | 737 | 0.49% |
-| #wellness | 2 | 698 | 0.73% |
-| #schmuck | 2 | 179 | 1.32% |
-| #accessoires | 2 | 40 | 4.86% |
-| #swissfashion | 2 | 27 | 4.17% |
-| #aromatherapie | 1 | 1,095 | 0.46% |
-| #spaathome | 1 | 1,095 | 0.46% |
-| #aromatherapyathome | 1 | 1,095 | 0.46% |
-| #luxurylife | 1 | 1,095 | 0.46% |
-| #smartdiffuser | 1 | 1,095 | 0.46% |
-| #premiumwellness | 1 | 1,095 | 0.46% |
-| #aroma | 1 | 1,095 | 0.46% |
-| #aestheticroom | 1 | 1,095 | 0.46% |
-| #watchaddict | 1 | 379 | 0.53% |
-| #automaticwatch | 1 | 379 | 0.53% |
-| #diverwatch | 1 | 379 | 0.53% |
-| #luxurywatch | 1 | 379 | 0.53% |
-| #swisswatch | 1 | 379 | 0.53% |
-| #watchoftheday | 1 | 379 | 0.53% |
+| #schweizmode | 7 | 151 | 3.56% |
+| #luxestyle | 6 | 449 | 0.93% |
+| #fyp | 6 | 449 | 0.93% |
+| #ootdschweiz | 5 | 199 | 3.64% |
+| #fashionschweiz | 4 | 287 | 2.56% |
+| #sommerkleid | 4 | 227 | 3.04% |
+| #ootd | 4 | 41 | 3.61% |
+| #foryou | 3 | 590 | 0.67% |
+| #sommermode | 3 | 49 | 6.79% |
+| #luxestylech | 2 | 739 | 0.49% |
+| #swisspremium | 2 | 739 | 0.49% |
+| #premiumlifestyle | 2 | 739 | 0.49% |
+| #wellness | 2 | 703 | 0.88% |
+| #schmuck | 2 | 184 | 1.63% |
+| #accessoires | 2 | 40 | 4.81% |
+| #swissfashion | 2 | 32 | 7.08% |
+| #spaathome | 1 | 1,098 | 0.46% |
+| #luxurylife | 1 | 1,098 | 0.46% |
+| #smartdiffuser | 1 | 1,098 | 0.46% |
+| #aestheticroom | 1 | 1,098 | 0.46% |
+| #premiumwellness | 1 | 1,098 | 0.46% |
+| #aromatherapie | 1 | 1,098 | 0.46% |
+| #aroma | 1 | 1,098 | 0.46% |
+| #aromatherapyathome | 1 | 1,098 | 0.46% |
+| #premiumwatch | 1 | 381 | 0.52% |
+| #diverwatch | 1 | 381 | 0.52% |
+| #watchaddict | 1 | 381 | 0.52% |
+| #sapphire | 1 | 381 | 0.52% |
+| #automaticwatch | 1 | 381 | 0.52% |
+| #luxurywatch | 1 | 381 | 0.52% |
 
 ## Posting-Pattern
 
@@ -78,22 +78,22 @@ _Generiert: 2026-06-07T10:15:46.778285+00:00_
 
 | Views | Eng. % | Hook |
 |---:|---:|---|
-| 1,095 | 0.46% | 🌿 Aromatherapie für große Räume — Spa zu… |
-| 781 | 0.26% | CHF 32 statt CHF 200 – gleicher Look 👀 C… |
-| 379 | 0.53% | 🇨🇭 Diese Schweizer Diver-Watch kostet 80… |
-| 308 | 0.65% | Für sie ✨ Schmuck & Accessoires – LuxeSt… |
-| 301 | 1.00% | Zuhause runterkommen 🕯️ Diffuser & Co. –… |
-| 292 | 0.68% | Für ihn: Echtleder, das bleibt. 🤎 LuxeSt… |
-| 289 | 0.69% | Sound & Tech, kabellos 🎧 LuxeStyle CH 🇨🇭… |
-| 277 | 0.72% | Sommer-Schuhe 👟 von Sandale bis Loafer –… |
-| 73 | 6.85% | NEU eingetroffen: Sommer 2026 🆕 Frische … |
-| 58 | 5.17% | Taschen 2026 👜 ab CHF 16 – Schultertasch… |
+| 1,098 | 0.46% | 🌿 Aromatherapie für große Räume — Spa zu… |
+| 783 | 0.26% | CHF 32 statt CHF 200 – gleicher Look 👀 C… |
+| 381 | 0.52% | 🇨🇭 Diese Schweizer Diver-Watch kostet 80… |
+| 318 | 1.26% | Für sie ✨ Schmuck & Accessoires – LuxeSt… |
+| 309 | 1.29% | Zuhause runterkommen 🕯️ Diffuser & Co. –… |
+| 297 | 1.01% | Für ihn: Echtleder, das bleibt. 🤎 LuxeSt… |
+| 293 | 1.02% | Sound & Tech, kabellos 🎧 LuxeStyle CH 🇨🇭… |
+| 280 | 0.71% | Sommer-Schuhe 👟 von Sandale bis Loafer –… |
+| 75 | 6.67% | NEU eingetroffen: Sommer 2026 🆕 Frische … |
+| 59 | 5.08% | Taschen 2026 👜 ab CHF 16 – Schultertasch… |
 | 50 | 2.00% | Schmuck ab CHF 14 ✨ wasserfest & anlauff… |
-| 45 | 4.44% | CHF 32 statt CHF 200 – gleicher Look 👀 C… |
-| 43 | 2.33% | Sommer-Kollektion 2026 ✨ Eleganz für jed… |
-| 38 | 2.63% | 5 Sommerkleider unter CHF 40 ☀️ Welches … |
-| 36 | 2.78% | Welches ist deins – 1, 2 oder 3? 👀 Komme… |
-| 35 | 8.57% | Luxestyle.ch #EmClimaUltraLeve  |
-| 29 | 17.24% | Produkt-Captions + Preise: Sommershirt «… |
+| 47 | 4.26% | CHF 32 statt CHF 200 – gleicher Look 👀 C… |
+| 46 | 2.17% | Sommer-Kollektion 2026 ✨ Eleganz für jed… |
+| 43 | 9.30% | Luxestyle.ch #EmClimaUltraLeve  |
+| 40 | 5.00% | 5 Sommerkleider unter CHF 40 ☀️ Welches … |
+| 38 | 2.63% | Welches ist deins – 1, 2 oder 3? 👀 Komme… |
+| 34 | 17.65% | Produkt-Captions + Preise: Sommershirt «… |
+| 26 | 11.54% | Strand-Looks 2026 🌊 Bist du ready für de… |
 | 22 | 4.55% | Sommer-Accessoires ab CHF 18 ✨ Sonnenbri… |
-| 18 | 5.56% | Strand-Looks 2026 🌊 Bist du ready für de… |
