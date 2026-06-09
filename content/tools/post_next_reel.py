@@ -7,6 +7,7 @@ Kanäle, deren Token gesetzt sind — sonst sauber übersprungen.
   • TikTok    (TIKTOK_OPEN_ACCESS_TOKEN)                   -> tiktok_post.py  (Entwurf, 1x App-Tipp)
   • Instagram (IG_USER_ID + IG_ACCESS_TOKEN)               -> instagram_post.py (Reel, GitHub-Raw-URL)
   • Threads   (THREADS_ACCESS_TOKEN [+ THREADS_USER_ID])   -> threads_post.py  (Video, GitHub-Raw-URL)
+  • Facebook  (FB_PAGE_ACCESS_TOKEN | META_ACCESS_TOKEN)   -> facebook_post.py (Seite, öffentl. URL)
 
 Reels + Captions kommen aus captions.json (Rotation = Reihenfolge dort).
 Für die GitHub-Action (luxestyle-social.yml / luxestyle-reels-hourly.yml).
@@ -64,5 +65,13 @@ if os.environ.get("THREADS_ACCESS_TOKEN"):
     (done if rc == 0 else skipped).append("threads")
 else:
     skipped.append("threads(kein Token)")
+
+# 5) Facebook-Seite (Video via öffentliche URL)
+if os.environ.get("FB_PAGE_ACCESS_TOKEN") or os.environ.get("META_ACCESS_TOKEN"):
+    rc = subprocess.call([py, os.path.join(HERE, "facebook_post.py"),
+                          "--reel", fname, "--message", caption])
+    (done if rc == 0 else skipped).append("facebook")
+else:
+    skipped.append("facebook(kein Token)")
 
 print("✓ gepostet:", ", ".join(done) or "—", "| übersprungen:", ", ".join(skipped) or "—")
