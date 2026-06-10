@@ -96,6 +96,14 @@ HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 
 **D) Sonstiges aus dieser Session.** Browser-Automation live verifiziert (Playwright/Chrome, `--ignore-https-errors` gegen Proxy, Netz=Full, Chrome via `npx playwright install --with-deps chrome`); Mobile-/Desktop-Screenshots + Hover-/Preis-Checks gegen den Draft gefahren. Branch **`claude/kind-bardeen-xxkpsq`**, **PR #31** (Browser-MCP + Dashboard-Politur + FB-Tooling). Git-Klassifizierer hatte `.mcp.json`-Commit zunächst blockiert (Self-Modification), nach User-Freigabe gepusht.
 
+### Session-Update 2026-06-09 (Teil 3 — Wachstums-Audit: Checkout/Pixel/Klaviyo live geprüft)
+- **Checkout funktioniert (live getestet):** Cart-Permalink → `/checkouts/cn/…`, Shop Pay/PayPal/Google Pay, Kontakt/Liefer/Versand laden, Rabattcode-Feld da. **E-Mail-Opt-in im Checkout ist VORAB angehakt** → Käufer-Mails fließen in Liste/Flows. (Cloud-IP = US → `de-us`/USD; Funktion trotzdem bestätigt.)
+- **Tracking-Pixel feuern ALLE** (Netzwerk-Mitschnitt): **Meta-Pixel `1676528663551701`** (fbevents + signals-config, `fbq`=function), **TikTok** (Shopify-Web-Pixel `analytics.tiktok.com/.../shopify_pixel`), **Google/GA** (gtag). → Die alte „Missing events"-To-do ist **überholt**, Tracking steht.
+- **Klaviyo-Audit:** **10 Flows LIVE** (Welcome DE+EN, Abandoned Cart, Abandoned Checkout, Win-Back ×2, Post-Purchase ×2, VIP), 3 Entwürfe (Birthday + 2× Klaviyo-Default). Shopify-Integration verbunden (Placed-Order-Metrik `W7XTVD`). **ABER: „Email List" = 1 Profil, „Newsletter Subscribers" = 0, Flow-Report 90 T. = LEER.** → Die E-Mail-Maschine ist fertig; es fehlt **Publikum**.
+- **Signup-LEAK gefunden:** Auf luxestyle.ch ist **KEIN Klaviyo-Onsite-Snippet/Popup aktiv** (nur Theme-Footer-Feld). Darum 1 Abonnent. Fix = Klaviyo-Onsite an + WELCOME10-Popup (Anleitung `content/KLAVIYO_CAPTURE_SETUP.md`). **Dubletten** aufräumen: 3 Welcome-Flows + Abandoned Cart UND Checkout parallel → je einen, sonst Doppel-Mailing. „Email List" ist Double-Opt-in.
+- **STRATEGIE-FAZIT:** Storefront + Checkout + Pixel + Flows **sind bereit** — der **einzige** Engpass ist **Traffic + Capture + erster Verkauf**. Hebel: (1) warmes Netzwerk mit WELCOME10 = erste Sales; (2) organisch posten (Reels in `content/ads/`, Plan `content/POSTING_PLAN_7TAGE.md`); (3) Klaviyo-Popup live. **Nicht** weiter an Technik/Flows polieren — die ist fertig.
+- **Neue Docs (committet):** `content/POSTING_PLAN_7TAGE.md` (7-Tage-Reel-Plan, Tag 1 = `LuxeStyle_NeuDamen_AdSafe.mp4`), `content/KLAVIYO_CAPTURE_SETUP.md` (Onsite+Popup+Dedupe).
+
 ## 🎯 Aktueller Stand & Fokus (für die nächste Session · 2026-06-03)
 - **Fertige Reels liegen in `content/ads/`** (alle 9:16, CHF, ad-/postbar):
   `LuxeStyle_Mix_Reel_Sommer.mp4` (EU-Mix, 9 Produkte) · `LuxeStyle_EU_Hero_Reel.mp4` (Gold-Set+Diffuser+Lampe) ·
