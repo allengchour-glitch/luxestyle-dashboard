@@ -102,8 +102,9 @@ def load_subscribers(path, edition):
 
 
 def unsub_token(email):
+    # Schema MUSS zum Cloudflare-Worker + aban_welcome.py passen: HMAC("unsub:"+email), 24 hex.
     secret = os.environ.get("UNSUB_SECRET", "CHANGE_ME").encode()
-    return hmac.new(secret, email.lower().encode(), hashlib.sha256).hexdigest()[:24]
+    return hmac.new(secret, ("unsub:" + email.lower()).encode(), hashlib.sha256).hexdigest()[:24]
 
 
 def unsub_link(email):
