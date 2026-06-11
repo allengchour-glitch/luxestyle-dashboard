@@ -114,6 +114,18 @@ HTML/CSS/JS, kein Build-Step, Deploy über Netlify.
 - **Startseite-Upgrade = Theme-Editor (nicht API):** `templates/index.json` (~30 KB) enthält die Produktkarten-Blöcke der 4 Listen → **nicht sicher per API reproduzierbar** (vereinfachen bricht die Produktsektionen). Hero-Overlay/Headline = 2 Klicks im Editor; Trust-Streifen = `snippets/luxe-trust-strip.liquid` (Custom-Liquid-Section unter den Hero ziehen). Hero-CTA `/collections/sommer` = 200 (ok).
 - **FAZIT:** Funnel komplett gebaut (Conversion+Capture+Distribution+Landing). Einziger Engpass = **Traffic**. Nicht weiter Technik bauen → **veröffentlichen + posten + warmes Netzwerk** (`TODO_ABEND.md`).
 
+### Session-Update 2026-06-11 (PR #31 GEMERGT → alles auf `main`)
+- **PR #31 ist gemergt** (squash → `main`, Commit `a3f5bd3`). Branch `claude/kind-bardeen-xxkpsq` (war Draft → ready → merged). Inhalt jetzt auf dem Default-Branch:
+  - **Browser-Connector `.mcp.json`** (Playwright MCP, headless/isolated/`--ignore-https-errors`) + `scripts/install_browser.sh` + `content/tools/BROWSER_MCP_SETUP.md`. → Greift in **künftigen** Cloud-Sessions, sobald die 2 User-Schalter stehen: Umgebungs-**Network=Full/Custom** + Chromium installiert (Setup-Skript-Feld ODER `bash scripts/install_browser.sh`).
+  - Dashboard-CSS-Politur (`index.html`), FB-Tooling (`facebook_post.py`/`facebook_token.py`/`fb-token-helper.html`/`FB_TOKEN_SETUP.md`), CDN-Poster (`post_next_reel.py` + `captions.json` `cdn_reels`), E-Mail-Popup (`snippets/luxe-email-popup.liquid`), Trust-Strip (`snippets/luxe-trust-strip.liquid`), Link-in-Bio-Doku, `POSTING_PLAN_7TAGE.md`, `KLAVIYO_CAPTURE_SETUP.md`, `TODO_ABEND.md`.
+- **WICHTIG — geplante Workflows jetzt aktiv auf `main`:** `luxestyle-social.yml` (+ `luxestyle-auto.yml`/`luxestyle-threads.yml`) laufen per cron, **sobald** die jeweiligen Secrets gesetzt sind; ohne Token wird jeder Kanal sauber übersprungen (kein Fehler). Posting-Tempo bewusst niedrig halten (Spam-/Sperr-Risiko, Konten frisch).
+- **Offene MANUELLE User-To-dos (unverändert, kein Code mehr nötig — nur Klicks, Reihenfolge=Wirkung, siehe `TODO_ABEND.md`):**
+  1. Theme **`187533001089`** veröffentlichen → PDP-Optik + prominenter Preis + Swatch-Schalter + kleineres Mobile-Menü + **E-Mail-Popup** live (Live/MAIN = `187478475137`).
+  2. `FB_PAGE_ACCESS_TOKEN` (+ `META_ACCESS_TOKEN`) als GitHub-Secret in **luxestyle-dashboard** setzen (Tool: `content/tools/fb-token-helper.html`) → Auto-Poster scharf. Optional auch `THREADS_ACCESS_TOKEN`.
+  3. Social-Bios auf **`luxestyle.ch/pages/links`** umstellen + erstes Reel posten (Tag-1 = `LuxeStyle_NeuDamen_AdSafe.mp4`, Plan `content/POSTING_PLAN_7TAGE.md`).
+  4. Warmes Netzwerk (20–30 Leute, WhatsApp/Story, **WELCOME10**) = erste Verkäufe.
+- **Strategie unverändert:** Technik/Funnel = fertig & verifiziert (Checkout, Pixel, 10 Klaviyo-Flows, WELCOME10, Storefront/PDP, Popup, Auto-Poster). **Einziger Engpass = Traffic + Capture + erster Verkauf.** NICHT weiter Technik polieren.
+
 ## 🎯 Aktueller Stand & Fokus (für die nächste Session · 2026-06-03)
 - **Fertige Reels liegen in `content/ads/`** (alle 9:16, CHF, ad-/postbar):
   `LuxeStyle_Mix_Reel_Sommer.mp4` (EU-Mix, 9 Produkte) · `LuxeStyle_EU_Hero_Reel.mp4` (Gold-Set+Diffuser+Lampe) ·
