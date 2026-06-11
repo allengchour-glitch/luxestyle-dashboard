@@ -1,4 +1,22 @@
-# Worker-Deploy in 6 Kommandos (Wrangler-CLI)
+# Worker deployen — zwei Wege
+
+## A) Nur genehmigen (empfohlen, ohne Terminal, vom Handy)
+Der Workflow `.github/workflows/aban-worker-deploy.yml` deployt den Worker selbst.
+Deine Aufgabe = nur Secrets setzen + auf „Run" tippen:
+
+1. Cloudflare-**API-Token** erstellen (My Profile → API Tokens → Create → Vorlage **„Edit Cloudflare Workers"**;
+   bei *Zone Resources* die Zone `abannews.com` waehlen; zusaetzlich Permission **Zone → DNS → Edit**).
+2. Im Repo unter **Settings → Secrets and variables → Actions** setzen:
+   `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` (Dashboard → Workers, rechts), `UNSUB_SECRET`,
+   `RESEND_API_KEY`, `MAIL_FROM`, `ADMIN_KEY`.
+3. **Actions → „aban — Worker deploy" → Run workflow.** Der Lauf legt KV an, setzt die Secrets,
+   provisioniert `api.abannews.com` (DNS+Zertifikat automatisch via custom_domain) und deployt.
+
+Danach melde ich mich mit dem Live-Test. Fertig.
+
+---
+
+## B) Selbst per Wrangler-CLI (am Rechner)
 
 Statt Copy-Paste im Cloudflare-Dashboard: der Worker geht per CLI live. Das Einzige, was du
 beisteuern musst, ist **ein Login** (`wrangler login` öffnet den Browser zu deinem Cloudflare-Konto)

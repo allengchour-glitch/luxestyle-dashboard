@@ -6,15 +6,15 @@ main = "../aban-cloudflare-worker.js"
 compatibility_date = "2024-11-01"
 workers_dev = true
 
-# KV: ID wird beim Setup eingetragen (npm run kv:create gibt sie aus).
+# KV: ID wird beim Deploy automatisch eingesetzt (ci-deploy.sh ersetzt REPLACE_WITH_KV_ID).
 kv_namespaces = [
   { binding = "ABAN_SUBS", id = "REPLACE_WITH_KV_ID" }
 ]
 
-# Eigene API-Subdomain statt Pfade der Hauptseite -> kein Routing-Konflikt mit abannews.com
-# (dort faengt eine 301-Regel /subscribe ab). DNS: A/AAAA-Eintrag "api" (proxied) anlegen.
+# Eigene API-Subdomain als CUSTOM DOMAIN -> Cloudflare legt DNS + Zertifikat automatisch an
+# (kein manueller DNS-Eintrag noetig, kein Routing-Konflikt mit der Hauptseite).
 routes = [
-  { pattern = "api.abannews.com/*", zone_name = "abannews.com" },
+  { pattern = "api.abannews.com", custom_domain = true },
 ]
 
 # Oeffentliche Variablen (keine Secrets!). Secrets via `wrangler secret put` (siehe README).
