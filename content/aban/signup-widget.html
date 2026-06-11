@@ -38,9 +38,10 @@
     var email=(inp.value||"").trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ show("Bitte eine gueltige E-Mail eingeben.",false); return; }
     btn.disabled=true; btn.textContent="…";
+    var ref=new URLSearchParams(location.search).get("ref")||"";
     fetch(box.getAttribute("data-endpoint"),{
       method:"POST", headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({email:email, source:"website"})
+      body:JSON.stringify({email:email, source:"website", ref:ref})
     }).then(function(r){ return r.ok? r.json().catch(function(){return {};}) : Promise.reject(r); })
       .then(function(){
         f.style.display="none";

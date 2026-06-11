@@ -123,7 +123,8 @@
     var email=(inp.value||"").trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ show("Bitte eine gültige E-Mail eingeben.",false); return; }
     btn.disabled=true; btn.textContent="…";
-    fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,source:"landing"})})
+    var ref=new URLSearchParams(location.search).get("ref")||"";
+    fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,source:"landing",ref:ref})})
       .then(function(r){ if(!r.ok) throw 0; f.style.display="none";
         show("Fast geschafft! Bitte bestätige die Anmeldung in der E-Mail, die wir dir gerade geschickt haben.",true); })
       .catch(function(){ show("Hat nicht geklappt — bitte später erneut.",false); btn.disabled=false; btn.textContent="Kostenlos abonnieren"; });

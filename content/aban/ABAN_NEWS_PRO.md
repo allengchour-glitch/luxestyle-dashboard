@@ -114,6 +114,18 @@ aus Worker, `aban_send.py` und `aban_welcome.py` sind gegenseitig gültig. Setze
 Ablauf: Widget → Worker `/subscribe` → Bestätigungsmail → Klick `/confirm` → aktiv + Welcome-Mail.
 Liste per `/export?key=ADMIN_KEY` als CSV ziehen → `aban_send.py --list`.
 
+## Referral-Wachstums-Loop (Morning-Brew-Mechanik)
+
+Eingebaut im Worker — jeder bestätigte Abonnent bekommt `abannews.com/?ref=CODE`. Wer andere wirbt,
+schaltet **Pro gratis** frei: **3** Werbungen → 1 Monat · **10** → 3 Monate · **25** → 12 Monate.
+
+- Widget/Landing senden `?ref=` automatisch mit (`/subscribe`).
+- Bei `/confirm` wird dem Werber die Empfehlung gutgeschrieben + bei Meilenstein Pro aktiviert (+ Glückwunsch-Mail).
+- `/status?e=&t=` zeigt Stand, Share-Link und nächsten Meilenstein. Welcome-Mail enthält Link + Status.
+- `/export` markiert Werber mit aktivem `pro_until` als `pro` → `aban_send.py` sendet ihnen die Pro-Edition.
+
+Selbstverstärkend: mehr Abonnenten → mehr Werber → mehr Abonnenten. Kostet nichts (Pro ist digital).
+
 ## Wachstum / Analytics
 
 - **UTM-Tags** auf allen Links (`utm_source=abannews…`) → Klicks über die Site-Analytik (Cloudflare/GA), ohne Infra.
