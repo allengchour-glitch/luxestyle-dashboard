@@ -50,3 +50,4 @@ content/aban/subscribers.csv
 content/aban/out/preview.png
 content/aban/__pycache__/
 .env.aban
+content/aban/out/*_preview.png
