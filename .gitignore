@@ -44,3 +44,9 @@ test-results/
 playwright-report/
 .playwright/
 *.har
+
+# aban news Pro — echte Abonnentenliste & Secrets/Previews NIE committen
+content/aban/subscribers.csv
+content/aban/out/preview.png
+content/aban/__pycache__/
+.env.aban
