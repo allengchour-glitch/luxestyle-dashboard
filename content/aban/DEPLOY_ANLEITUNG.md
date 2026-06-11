@@ -35,11 +35,13 @@ Der Worker nimmt Anmeldungen, macht Double-Opt-in, verschickt Bestätigung/Welco
    - `MAIL_FROM` = `aban news <news@abannews.com>`
    - `ADMIN_KEY` = ein zweites Geheimnis (für den Listen-Export)
    - optional `SITE` = `https://abannews.com`
-5. **Routen** (damit abannews.com/... auf den Worker zeigt): Worker → Settings → **Triggers → Routes** →
-   `abannews.com/subscribe`, `/confirm`, `/status`, `/abmelden`, `/export` hinzufügen.
-   (Voraussetzung: abannews.com liegt als Zone in deinem Cloudflare-Konto — tut es.)
+5. **Eigene API-Subdomain** (verhindert Konflikt mit der Hauptseite, die `/subscribe` per 301 abfängt):
+   - DNS → Eintrag `api` anlegen: Typ `AAAA`, Name `api`, Inhalt `100::`, **Proxied (orange Wolke)**.
+   - Worker → Settings → **Triggers → Routes** → **eine** Route: `api.abannews.com/*` (Zone `abannews.com`).
+   - Variable hinzufügen: `API_BASE = https://api.abannews.com`.
 
-**Test:** `https://abannews.com/subscribe` im Browser → sollte „aban news subscribe service" zeigen.
+**Test:** `https://api.abannews.com/subscribe` (GET) → „aban news subscribe service".
+Die Endpunkte sind dann `api.abannews.com/subscribe|confirm|status|abmelden|export`.
 
 ---
 

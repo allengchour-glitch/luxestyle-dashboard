@@ -46,7 +46,8 @@ export default {
 };
 
 // ----------------------------------------------------------------- Helpers
-function site(env) { return env.SITE || "https://abannews.com"; }
+function site(env) { return env.SITE || "https://abannews.com"; }       // oeffentliche Seite (Landing, Share-Link)
+function api(env) { return env.API_BASE || "https://api.abannews.com"; } // Worker-Routen (subscribe/confirm/status/abmelden)
 function json(o, s = 200) { return new Response(JSON.stringify(o), { status: s, headers: { "Content-Type": "application/json", ...CORS } }); }
 function isEmail(s) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s || ""); }
 function pageHtml(title, body) {
@@ -106,7 +107,7 @@ async function subscribe(req, env) {
   if (existing && existing.status === "active") return json({ ok: true, status: "already" });
   const t = await token(env.UNSUB_SECRET, "confirm", e);
   await env.ABAN_SUBS.put(e, JSON.stringify({ status: "pending", referred_by: ref || null, ts: Date.now() }));
-  const link = `${site(env)}/confirm?e=${encodeURIComponent(e)}&t=${t}`;
+  const link = `${api(env)}/confirm?e=${encodeURIComponent(e)}&t=${t}`;
   await sendMail(env, e, "Bitte bestaetige deine aban-news-Anmeldung", confirmMail(link));
   return json({ ok: true, status: "pending" });
 }
@@ -129,8 +130,8 @@ async function confirm(url, env) {
   const ut = await token(env.UNSUB_SECRET, "unsub", e);
   const st = await token(env.UNSUB_SECRET, "status", e);
   const share = `${site(env)}/?ref=${code}`;
-  const statusLink = `${site(env)}/status?e=${encodeURIComponent(e)}&t=${st}`;
-  await sendMail(env, e, "Willkommen bei aban news", welcomeMail(share, statusLink, `${site(env)}/abmelden?e=${encodeURIComponent(e)}&t=${ut}`));
+  const statusLink = `${api(env)}/status?e=${encodeURIComponent(e)}&t=${st}`;
+  await sendMail(env, e, "Willkommen bei aban news", welcomeMail(share, statusLink, `${api(env)}/abmelden?e=${encodeURIComponent(e)}&t=${ut}`));
   return pageHtml("Bestaetigt", `<h2 style="color:#10131a;font-family:Georgia,serif">Anmeldung bestaetigt</h2>
     <p style="color:#3a4150">Willkommen bei aban news. Deine erste Ausgabe kommt morgen frueh.</p>
     <div style="background:#faf7f2;border-radius:12px;padding:16px;margin:16px 0">
