@@ -11,17 +11,14 @@ kv_namespaces = [
   { binding = "ABAN_SUBS", id = "REPLACE_WITH_KV_ID" }
 ]
 
-# Routen auf der eigenen Domain. Erfordert, dass abannews.com als Cloudflare-Zone aktiv ist.
-# Vor dem ersten Deploy ggf. auskommentieren und nur ueber *.workers.dev testen.
+# Eigene API-Subdomain statt Pfade der Hauptseite -> kein Routing-Konflikt mit abannews.com
+# (dort faengt eine 301-Regel /subscribe ab). DNS: A/AAAA-Eintrag "api" (proxied) anlegen.
 routes = [
-  { pattern = "abannews.com/subscribe", zone_name = "abannews.com" },
-  { pattern = "abannews.com/confirm",   zone_name = "abannews.com" },
-  { pattern = "abannews.com/status",    zone_name = "abannews.com" },
-  { pattern = "abannews.com/abmelden",  zone_name = "abannews.com" },
-  { pattern = "abannews.com/export",    zone_name = "abannews.com" },
+  { pattern = "api.abannews.com/*", zone_name = "abannews.com" },
 ]
 
 # Oeffentliche Variablen (keine Secrets!). Secrets via `wrangler secret put` (siehe README).
 # MUSS am Ende stehen: alles nach einem [table]-Header gehoert zu dieser Tabelle.
 [vars]
 SITE = "https://abannews.com"
+API_BASE = "https://api.abannews.com"

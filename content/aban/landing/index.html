@@ -114,7 +114,7 @@
 
 <script>
 (function(){
-  var ENDPOINT="https://abannews.com/subscribe"; // = Cloudflare-Worker /subscribe
+  var ENDPOINT="https://api.abannews.com/subscribe"; // = Cloudflare-Worker /subscribe (eigene API-Subdomain, kein Routing-Konflikt)
   var f=document.getElementById("aban-f"), inp=document.getElementById("aban-email");
   var msg=document.getElementById("aban-msg"), btn=document.getElementById("aban-go");
   function show(t,ok){ msg.textContent=t; msg.style.color=ok?"#0b5":"#d6452b"; msg.style.display="block"; }
