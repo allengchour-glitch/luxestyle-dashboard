@@ -60,6 +60,7 @@ except Exception:
 
 UA = "Mozilla/5.0 (aban-news-pro/1.1; +https://abannews.com)"
 BRAND = {"name": "aban news", "accent": "#0b5", "dark": "#10131a", "url": "https://abannews.com"}
+HERE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Kuratierte Quellen je Thema: (Anzeigename, Feed-URL, Gewicht 1-3).
 # Gewicht = Qualitaet/DACH-Relevanz; fliesst ins Ranking ein. (Stand 2026-06, live geprueft.)
@@ -458,12 +459,30 @@ def reading_time(items):
     return max(2, round(words / 200))
 
 
+# ----------------------------------------------------------------------------- Partner / Affiliate
+def load_partners(path):
+    """Affiliate-/Partner-Slots aus JSON (optional). Fehlt die Datei -> keine Anzeige."""
+    try:
+        data = json.load(open(path, encoding="utf-8"))
+        return [p for p in data.get("partners", []) if p.get("url") and p.get("name")]
+    except Exception:
+        return None
+
+
+def pick_partner(partners, lead_topic, day_index):
+    """Themenpassenden Partner waehlen (lead_topic bevorzugt), je Tag rotierend."""
+    if not partners:
+        return None
+    pref = [p for p in partners if p.get("topic") in (lead_topic, "any")] or partners
+    return pref[day_index % len(pref)]
+
+
 # ----------------------------------------------------------------------------- Render
 def _datestr():
     return datetime.now(timezone.utc).astimezone().strftime("%d.%m.%Y")
 
 
-def render_md(items, pick, insight, market, mins, cta=None):
+def render_md(items, pick, insight, market, mins, cta=None, ad=None):
     L = ["# aban news — KI & Krypto Daily", "", "_%s · in %d Minuten auf dem Laufenden_" % (_datestr(), mins), ""]
     if market:
         L += ["**Markt:** Bitcoin %s · Ethereum %s" % (market["btc_str"], market["eth_str"]), ""]
@@ -473,20 +492,23 @@ def render_md(items, pick, insight, market, mins, cta=None):
         L += ["> **aban Pick — %s:** [%s](%s)  " % (pick["label"], pick["title"], pick["link"]),
               "> %s" % pick["why"], ""]
     cur = None
-    for it in items:
+    for n, it in enumerate(items):
         head = "KI" if it["topic"] == "ki" else "Krypto"
         if head != cur:
             cur = head; L += ["", "## %s" % head, ""]
         L += ["### [%s](%s)" % (it["title"], utm(it["link"])), "*%s*" % it["source"], "",
               it.get("summary") or extractive_summary(it), "",
               "**Was es bedeutet:** %s" % it.get("meaning", ""), ""]
+        if ad and n == 1:  # Anzeige mittig zwischen den Stories
+            L += ["> _%s_ · **%s** — %s [%s](%s)" % (ad.get("label", "Anzeige"), ad["name"],
+                                                     ad.get("blurb", ""), ad.get("cta", "Mehr"), ad["url"]), ""]
     if cta:
         L += ["---", "**%s** — [%s](%s)" % (cta["title"], cta["button"], cta["url"]), cta.get("sub", ""), ""]
     L += ["---", "Taeglich von **aban news** · [abonnieren](%s)" % BRAND["url"]]
     return "\n".join(L)
 
 
-def render_txt(items, pick, insight, market, mins, cta=None):
+def render_txt(items, pick, insight, market, mins, cta=None, ad=None):
     L = ["aban news — KI & Krypto Daily", "%s · in %d Minuten" % (_datestr(), mins), ""]
     if market:
         L += ["Markt: BTC %s | ETH %s" % (market["btc_str"], market["eth_str"]), ""]
@@ -499,13 +521,16 @@ def render_txt(items, pick, insight, market, mins, cta=None):
               "   Quelle: %s | %s" % (it["source"], utm(it["link"])),
               "   %s" % (it.get("summary") or extractive_summary(it)),
               "   Was es bedeutet: %s" % it.get("meaning", ""), ""]
+    if ad:
+        L += ["[%s] %s — %s  %s: %s" % (ad.get("label", "Anzeige"), ad["name"], ad.get("blurb", ""),
+                                        ad.get("cta", "Mehr"), ad["url"]), ""]
     if cta:
         L += ["--", "%s: %s  %s" % (cta["title"], cta["button"], cta["url"]), ""]
     L += ["--", "Taeglich von aban news · %s" % BRAND["url"]]
     return "\n".join(L)
 
 
-def render_html(items, pick, insight, market, mins, cta=None):
+def render_html(items, pick, insight, market, mins, cta=None, ad=None):
     a, dark = BRAND["accent"], BRAND["dark"]
     esc = lambda s: html.escape(s or "")
     market_html = ""
@@ -543,6 +568,15 @@ def render_html(items, pick, insight, market, mins, cta=None):
                      '<a href="%s" style="display:block;font:700 17px/1.3 Georgia,serif;color:#fff;text-decoration:none;margin:8px 0 6px">%s</a>'
                      '<div style="font:400 13px/1.5 -apple-system,Segoe UI,sans-serif;color:#dff7e8">%s</div></div></td></tr>'
                      % (dark, esc(pick["label"]), esc(pick["link"]), esc(pick["title"]), esc(pick["why"])))
+    ad_html = ""
+    if ad:
+        ad_html = ('<tr><td style="padding:8px 28px 14px"><div style="background:#fbf9f4;border:1px solid #ece3d3;border-radius:12px;padding:16px 18px">'
+                   '<div style="font:700 10px -apple-system,Segoe UI,sans-serif;letter-spacing:1.5px;text-transform:uppercase;color:#b39a6b;margin-bottom:6px">%s</div>'
+                   '<a href="%s" style="font:700 16px Georgia,serif;color:%s;text-decoration:none">%s</a>'
+                   '<div style="font:400 14px/1.5 -apple-system,Segoe UI,sans-serif;color:#3a4150;margin:4px 0 8px">%s</div>'
+                   '<a href="%s" style="display:inline-block;background:%s;color:#fff;font:700 13px -apple-system,Segoe UI,sans-serif;text-decoration:none;padding:9px 18px;border-radius:7px">%s</a>'
+                   '</div></td></tr>' % (esc(ad.get("label", "Anzeige")), esc(ad["url"]), dark, esc(ad["name"]),
+                                         esc(ad.get("blurb", "")), esc(ad["url"]), a, esc(ad.get("cta", "Mehr"))))
     cta_html = ""
     if cta:
         cta_html = ('<tr><td style="padding:18px 28px"><div style="border:2px solid %s;border-radius:12px;padding:18px 20px;text-align:center">'
@@ -560,12 +594,12 @@ def render_html(items, pick, insight, market, mins, cta=None):
         '<tr><td style="background:%s;padding:24px 28px">'
         '<div style="font:800 22px/1 -apple-system,Segoe UI,sans-serif;color:#fff">aban<span style="color:%s">news</span></div>'
         '<div style="font:400 13px/1 -apple-system,Segoe UI,sans-serif;color:#aeb6c4;margin-top:6px">KI & Krypto · %s · in %d Minuten auf dem Laufenden</div>'
-        '</td></tr>%s%s%s%s%s'
+        '</td></tr>%s%s%s%s%s%s'
         '<tr><td style="padding:24px 28px;background:#fafbfc;text-align:center">'
         '<div style="font:400 13px/1.5 -apple-system,Segoe UI,sans-serif;color:#8a93a3">Taeglich kuratiert von <b>aban news</b>.</div>'
         '<a href="%s" style="display:inline-block;margin-top:12px;background:%s;color:#fff;font:700 14px -apple-system,Segoe UI,sans-serif;text-decoration:none;padding:11px 22px;border-radius:8px">Jetzt abonnieren</a>'
         '</td></tr></table></td></tr></table></body></html>'
-    ) % (dark, a, _datestr(), mins, market_html, insight_html, pick_html, "".join(rows), cta_html, utm(BRAND["url"], "footer"), a)
+    ) % (dark, a, _datestr(), mins, market_html, insight_html, pick_html, "".join(rows), ad_html, cta_html, utm(BRAND["url"], "footer"), a)
 
 
 # ----------------------------------------------------------------------------- Feeds-Check
@@ -600,6 +634,9 @@ def main():
     ap.add_argument("--edition", default="pro", choices=["pro", "free", "both"],
                     help="pro=voller Digest (Default), free=Teaser Top-N + Pro-CTA, both=beide")
     ap.add_argument("--free-count", type=int, default=5, help="Stories in der Free-Edition (Default 5)")
+    ap.add_argument("--partners", default=os.path.join(HERE_DIR, "partners.json"),
+                    help="Affiliate-/Partner-JSON (Default partners.json; fehlt = keine Anzeige)")
+    ap.add_argument("--no-ads", action="store_true", help="Anzeigen-/Affiliate-Block aus")
     ap.add_argument("--model", default=os.environ.get("ABAN_LLM_MODEL", "claude-haiku-4-5-20251001"),
                     help="LLM-Modell fuer die Veredelung (ENV ABAN_LLM_MODEL)")
     args = ap.parse_args()
@@ -668,11 +705,19 @@ def main():
     stamp = now.astimezone().strftime("%Y-%m-%d")
     pro_url = os.environ.get("ABAN_PRO_URL", "https://abannews.com/pro")
 
+    ad = None
+    if not args.no_ads:
+        partners = load_partners(args.partners)
+        lead_topic = ranked[0]["topic"] if ranked else "ki"
+        ad = pick_partner(partners, lead_topic, now.timetuple().tm_yday)
+        if ad:
+            print("  Anzeige: %s (%s)" % (ad["name"], ad.get("topic", "any")))
+
     def write_edition(its, suffix, cta):
         base = os.path.join(args.out, "aban-%s%s" % (stamp, suffix))
-        open(base + ".html", "w", encoding="utf-8").write(render_html(its, pick, insight, market, mins, cta))
-        open(base + ".md", "w", encoding="utf-8").write(render_md(its, pick, insight, market, mins, cta))
-        open(base + ".txt", "w", encoding="utf-8").write(render_txt(its, pick, insight, market, mins, cta))
+        open(base + ".html", "w", encoding="utf-8").write(render_html(its, pick, insight, market, mins, cta, ad))
+        open(base + ".md", "w", encoding="utf-8").write(render_md(its, pick, insight, market, mins, cta, ad))
+        open(base + ".txt", "w", encoding="utf-8").write(render_txt(its, pick, insight, market, mins, cta, ad))
         json.dump({"date": stamp, "edition": "free" if suffix else "pro", "generated": now.isoformat(),
                    "llm": used_llm, "minutes": mins, "insight": insight, "market": market, "pick": pick,
                    "items": [{k: (v.isoformat() if isinstance(v, datetime) else v)
