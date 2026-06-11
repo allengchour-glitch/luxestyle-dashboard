@@ -52,3 +52,5 @@ content/aban/__pycache__/
 .env.aban
 content/aban/out/*_preview.png
 content/aban/partners.json
+content/aban/deploy/node_modules/
+content/aban/deploy/.wrangler/
