@@ -66,7 +66,17 @@ jobs:
             --edition both \
             --max "${{ github.event.inputs.max || '8' }}" \
             --hours "${{ github.event.inputs.hours || '30' }}"
-          python aban_archive.py
+
+      - name: Wochen-Deep-Dive (sonntags, Pro-exklusiv)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ABAN_DEEPDIVE_MODEL: ${{ secrets.ABAN_DEEPDIVE_MODEL }}
+        run: |
+          cd content/aban
+          if [ "$(date -u +%u)" = "7" ]; then python aban_deepdive.py; else echo "Kein Sonntag — kein Deep-Dive."; fi
+
+      - name: Archiv aktualisieren
+        run: cd content/aban && python aban_archive.py
 
       - name: Abonnentenliste aus Secret (optional)
         if: ${{ secrets.ABAN_SUBSCRIBERS != '' }}
