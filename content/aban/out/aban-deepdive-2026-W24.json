@@ -1,0 +1,52 @@
+{
+  "week": "2026-W24",
+  "theme": "Bitcoin",
+  "terms": [
+    "bitcoin",
+    "openai",
+    "anthropic",
+    "milliarden",
+    "dollar",
+    "preiskampf"
+  ],
+  "llm": false,
+  "based_on": 8,
+  "generated": "2026-06-11T21:42:00.595356+00:00",
+  "sources": [
+    {
+      "title": "KI-Preiskampf: OpenAI soll ChatGPT-Preise drastisch senken wollen – Anthropic könnte folgen",
+      "link": "https://t3n.de/news/openai-chatgpt-preise-anthropic-1747290/?utm_source=rss&utm_medium=newsFeed&utm_campaign=newsFeed",
+      "source": "t3n"
+    },
+    {
+      "title": "Preiskampf zwischen OpenAI und Anthropic: Tokens könnten günstiger werden",
+      "link": "https://the-decoder.de/preiskampf-zwischen-openai-und-anthropic-tokens-koennten-guenstiger-werden/",
+      "source": "The Decoder"
+    },
+    {
+      "title": "Bitcoin ETFs verlieren 2,1 Milliarden US-Dollar allein im laufenden Juni",
+      "link": "https://www.btc-echo.de/schlagzeilen/bitcoin-etfs-verlieren-21-milliarden-us-dollar-232314/",
+      "source": "BTC-ECHO"
+    },
+    {
+      "title": "Jeff Bezos' KI-Startup Prometheus sammelt 12 Milliarden Dollar ein",
+      "link": "https://the-decoder.de/jeff-bezos-ki-startup-prometheus-sammelt-12-milliarden-dollar-ein/",
+      "source": "The Decoder"
+    },
+    {
+      "title": "Liquidierung? Nakamoto verkauft 600 Bitcoin, um Schulden zu tilgen",
+      "link": "https://www.blocktrainer.de/blog/nakamoto-verkauft-600-bitcoin",
+      "source": "Blocktrainer"
+    },
+    {
+      "title": "Bitcoin-Analyse: Steht die finale Kapitulation noch bevor?",
+      "link": "https://www.btc-echo.de/news/bitcoin-analyse-steht-die-finale-kapitulation-noch-bevor-232267/",
+      "source": "BTC-ECHO"
+    },
+    {
+      "title": "Wie Riot seinen Wandel mit Bitcoin finanziert",
+      "link": "https://www.btc-echo.de/news/wie-riot-seinen-wandel-mit-bitcoin-finanziert-232194/",
+      "source": "BTC-ECHO"
+    }
+  ]
+}

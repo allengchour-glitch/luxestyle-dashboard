@@ -11,8 +11,9 @@ sie und pflegt ein öffentliches Archiv. **Reine Standardbibliothek** + optional
 |---|---|
 | `aban_news_pro.py` | **Engine:** Feeds → Digest (HTML/MD/TXT/JSON), Markt-Snapshot, Insight, Pick, Editionen |
 | `aban_send.py` | **Versand:** SMTP, multipart, List-Unsubscribe, Editionen, Dry-Run-Default |
+| `aban_deepdive.py` | **Wochen-Deep-Dive (Pro-exklusiv):** Thema der Woche + Langanalyse aus den 7-Tage-Ausgaben |
 | `aban_archive.py` | **Archiv:** Übersichtsseite (`out/index.html`) aus allen Ausgaben = SEO-Motor |
-| `.github/workflows/aban-news.yml` | **Automation:** täglich 07:00 CH bauen + (optional) versenden + Archiv committen |
+| `.github/workflows/aban-news.yml` | **Automation:** täglich 07:00 CH bauen + (optional) versenden + sonntags Deep-Dive + Archiv committen |
 
 ## Schnellstart
 
@@ -75,6 +76,17 @@ python aban_send.py --send                  # echter Versand an alle Aktiven
 
 Abonnenten-CSV (`subscribers.csv`, **.gitignore't**), Header `email,edition,status,joined`.
 Vorlage: `subscribers.sample.csv`. Pflicht: `List-Unsubscribe` + One-Click + sichtbarer Link.
+
+## Wochen-Deep-Dive (`aban_deepdive.py`) — stärkstes Pro-Argument
+
+```bash
+python aban_deepdive.py            # letzte 7 Tage, Thema der Woche, Langanalyse
+python aban_deepdive.py --topic ki # nur KI
+```
+Liest die 7-Tage-Ausgaben, erkennt das **Thema der Woche** und schreibt einen strukturierten
+deutschen Deep-Dive (mit `ANTHROPIC_API_KEY` LLM-veredelt, sonst Fallback). Pro-exklusiv —
+das wiederkehrende Argument, Pro zu abonnieren. ENV `ABAN_DEEPDIVE_MODEL` (Default starkes Claude-Modell).
+Im Workflow läuft er automatisch **sonntags**.
 
 ## Monetarisierung (Pro-Tier, ohne Backend)
 
