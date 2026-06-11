@@ -1,24 +1,35 @@
-# LuxeStyle · To-do heute Abend (Stand 2026-06-09)
+# LuxeStyle · Heute Abend veröffentlichen & starten (Stand 2026-06-09)
 
-Alles hier sind Schritte, die **nur du** machen kannst (Login/Tokens/Secrets/Käufe).
-Technik ist geprüft & bereit: Storefront optimiert, Checkout funktioniert, Pixel feuern,
-10 Klaviyo-Flows live. Einziger Engpass: **Traffic + Capture + erster Verkauf.**
+Technik ist gebaut & geprüft. Diese Schritte kannst **nur du** machen (Veröffentlichen/Login/Posten).
+Reihenfolge = Wirkung.
 
-## Umsatz-Hebel zuerst
-- [ ] **TikTok anwerfen** — Entwurf raushauen (Profil → Entwürfe → Posten) + 1 Reel aus der Reihe (Tag 1 = `LuxeStyle_NeuDamen_AdSafe.mp4`), **Trending-Sound** drüberlegen. (414 Follower = Reichweite ist da.)
-- [ ] **Warmes Netzwerk** — 20–30 Leute per WhatsApp/Story: Shop-Link + Code **WELCOME10**. Bringt fast immer die ersten Verkäufe.
-- [ ] **Klaviyo-Popup live** — Klaviyo → Sign-up Forms → Popup „10% mit WELCOME10" → Ziel-Liste „Email List" → Publish. Vorher Onsite/Shopify-Integration an. (Details: `content/KLAVIYO_CAPTURE_SETUP.md`.) Schließt den Signup-Leak (aktuell 1 Abonnent).
+## 1. EIN Theme veröffentlichen (bringt ALLES live)
+- [ ] Shopify → Onlineshop → **Themes** → **„Horizon · LuxeStyle + Email-Popup (Claude)"** → **Veröffentlichen**.
+  - Enthält alles: PDP-Reihenfolge + prominenter Preis + Swatch-Schalter + kleineres Mobile-Menü (war schon live) **+ NEU das E-Mail-Popup**.
+  - Vorschau vorher: `https://luxestyle.ch/?preview_theme_id=187533001089` (7 s warten → Popup).
+- [ ] Danach **1 Test-Anmeldung** im Popup → prüfen, dass die Mail in Klaviyo „Email List" auftaucht + Welcome-/Bestätigungsmail kommt.
 
-## Wenn noch Zeit (Infrastruktur)
-- [ ] **FB-Secret setzen** — `FB_PAGE_ACCESS_TOKEN` (+ `META_ACCESS_TOKEN`) im Repo `luxestyle-dashboard` (Settings → Secrets and variables → Actions). Token-Helfer: `content/tools/fb-token-helper.html`. Dann postet FB automatisch mit.
-- [ ] **PR #31 → `main` mergen** — damit der geplante Auto-Poster (`luxestyle-social.yml`, 2×/Tag) läuft (geplante Workflows laufen nur auf `main`).
-- [ ] **aban-news live** — `abannews.com` via **Netlify** (gratis, Repo bleibt privat) statt GitHub-Pages-Upgrade. ODER: neue Cloud-Session auf `aban-news-landing` starten → dann richtet Claude Netlify + DNS Schritt für Schritt ein.
+## 2. Bios auf die neue Landing setzen
+- [ ] In **TikTok / Instagram / Facebook / Threads** den Bio-Link auf **`luxestyle.ch/pages/links`** ändern (statt nur luxestyle.ch). Dort: WELCOME10 + Schnellwege zu Shop/Bestseller/Neu.
 
-## Reels (liegen auf dem Handy + in `content/ads/`)
-Tag 1 NeuDamen · 2 Sommer · 3 FürSie · 4 Tech · 5 Wellness · 6 Reise · 7 GeschenkeIhn.
-Captions je Reel in `content/tools/captions.json`. 7-Tage-Plan: `content/POSTING_PLAN_7TAGE.md`.
+## 3. Posten (Reichweite)
+- [ ] TikTok: hängenden **Entwurf** raushauen + Tag-1-Reel (`LuxeStyle_NeuDamen_AdSafe.mp4`), **Trending-Sound** drüber. Dann 1 Reel/Tag.
+- Reels liegen auf dem Handy + in `content/ads/`. Captions: `content/tools/captions.json`. Plan: `content/POSTING_PLAN_7TAGE.md`.
 
-## NICHT diese Woche
-- Keine bezahlten Ads (erst wenn organisch + Capture laufen).
-- Kein Auto-Follow / gekaufte Follower (Sperr-Risiko).
-- Nicht weiter an Flows/Technik polieren — die ist fertig.
+## 4. Warmes Netzwerk (erste Verkäufe)
+- [ ] 20–30 Leute per WhatsApp/Story: Shop-Link + **WELCOME10**.
+
+## 5. Auto-Poster scharf schalten (optional, Infra)
+- [ ] `FB_PAGE_ACCESS_TOKEN` (+ `META_ACCESS_TOKEN`) als GitHub-Secret setzen (Tool: `content/tools/fb-token-helper.html`).
+- [ ] PR **#31** nach `main` mergen → geplanter Workflow `luxestyle-social.yml` (2×/Tag) postet FB/IG/Threads via CDN.
+
+## 6. aban-news (separates Projekt)
+- [ ] `abannews.com` live: **Netlify** (gratis, Repo bleibt privat) — oder neue Cloud-Session auf `aban-news-landing`, dann richtet Claude es ein.
+
+---
+### Verifiziert & bereit (nichts mehr zu tun)
+- Checkout funktioniert · Meta/TikTok/Google-Pixel feuern · WELCOME10 ACTIVE (10%, bis 31.08.) ·
+  10 Klaviyo-Flows live · Storefront/PDP optimiert · Auto-Poster CDN-fähig · Popup gebaut.
+### NICHT diese Woche
+- Keine bezahlten Ads (erst wenn organisch + Capture laufen) · kein Auto-Follow/gekaufte Follower ·
+  KEIN zweites natives Klaviyo-Popup (sonst doppelt zum eingebauten) · nicht weiter an Technik polieren.
