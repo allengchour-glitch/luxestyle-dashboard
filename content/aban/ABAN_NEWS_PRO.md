@@ -97,6 +97,23 @@ Im Workflow läuft er automatisch **sonntags**.
 
 Wert für Pro: voller Digest (alle Stories), Markt-Tiefe, wöchentlicher Deep-Dive, Archiv.
 
+## Anmeldung & Onboarding (Double-Opt-in, serverlos)
+
+Drei Teile, die zusammenspielen — kein eigener Server nötig (Cloudflare):
+
+1. **`signup-widget.html`** — Drop-in-Formular fürs Landing. POSTet die E-Mail an `data-endpoint`.
+2. **`aban-cloudflare-worker.js`** — das Backend: `/subscribe` (speichert + sendet Bestätigung),
+   `/confirm` (Double-Opt-in + Welcome-Mail), `/abmelden`, `/export` (CSV der Aktiven für `aban_send.py`).
+   KV-Namespace `ABAN_SUBS`; ENV `UNSUB_SECRET` (gleich wie in den Python-Tools), `RESEND_API_KEY`/`MAIL_FROM`, `ADMIN_KEY`.
+3. **`aban_welcome.py`** — gebrandete Confirm-/Welcome-Mail-Templates (`out/email-confirm.html`, `out/email-welcome.html`)
+   mit Platzhaltern `{{CONFIRM_URL}}`/`{{UNSUB_URL}}`. `--email du@x.de` rendert eine konkrete Mail mit Token.
+
+**Token-Schema ist überall identisch** (`HMAC(UNSUB_SECRET, "<purpose>:<email>")`, 24 hex) → Abmelde-/Confirm-Links
+aus Worker, `aban_send.py` und `aban_welcome.py` sind gegenseitig gültig. Setze `UNSUB_SECRET` einmal gleich.
+
+Ablauf: Widget → Worker `/subscribe` → Bestätigungsmail → Klick `/confirm` → aktiv + Welcome-Mail.
+Liste per `/export?key=ADMIN_KEY` als CSV ziehen → `aban_send.py --list`.
+
 ## Wachstum / Analytics
 
 - **UTM-Tags** auf allen Links (`utm_source=abannews…`) → Klicks über die Site-Analytik (Cloudflare/GA), ohne Infra.
