@@ -88,6 +88,21 @@ deutschen Deep-Dive (mit `ANTHROPIC_API_KEY` LLM-veredelt, sonst Fallback). Pro-
 das wiederkehrende Argument, Pro zu abonnieren. ENV `ABAN_DEEPDIVE_MODEL` (Default starkes Claude-Modell).
 Im Workflow läuft er automatisch **sonntags**.
 
+## Affiliate / Partner-Anzeige (verdient ab dem ersten Leser)
+
+`partners.json` (Vorlage `partners.sample.json`, echte Datei `.gitignore`'t) füllt einen klar als
+**„Anzeige"** gekennzeichneten Block je Ausgabe. Die Engine wählt **themenpassend** (KI/Krypto) und
+**rotiert je Tag**. Trage deine echten Affiliate-Links ein (Krypto-Börse, Hardware-Wallet, KI-Tool, Kurs) —
+du verdienst pro Klick/Anmeldung/Kauf, unabhängig von der Listengröße.
+
+```bash
+cp partners.sample.json partners.json   # echte Affiliate-Links eintragen
+python aban_news_pro.py --edition both   # Anzeige erscheint automatisch
+python aban_news_pro.py --no-ads         # ohne Anzeige
+```
+Felder pro Partner: `name`, `topic` (`ki|krypto|any`), `blurb`, `cta`, `url`, `label` (z.B. „Anzeige").
+Affiliate-URL wird unverändert verlinkt (keine UTM-Anhängsel, damit dein Tracking sauber bleibt).
+
 ## Monetarisierung (Pro-Tier, ohne Backend)
 
 1. **Free-Edition** (`--edition free`) = Top-5-Teaser + CTA „aban Pro werden" (`ABAN_PRO_URL`).
