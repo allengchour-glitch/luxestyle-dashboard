@@ -38,3 +38,9 @@ __pycache__/
 # Auto-generierte Reels (Artefakte der Stunden-Automation; nicht ins Repo)
 content/ads/auto/
 *.cfg.json
+
+# Browser-Automation (Playwright/Browserbase) — Caches & Test-Artefakte, nie committen
+test-results/
+playwright-report/
+.playwright/
+*.har

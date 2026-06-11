@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LuxeStyle · Facebook Page-Token Helfer</title>
+<style>
+  :root{--bg:#faf7f2;--card:#fff;--ink:#2c2c2c;--mut:#6b6b6b;--acc:#8b7355;--ok:#1d9e75;--err:#d85a30;--line:#e6ddd0}
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);margin:0;padding:24px;line-height:1.5}
+  .wrap{max-width:680px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--mut);font-size:13px;margin-bottom:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:14px}
+  label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+  .hint{font-size:12px;color:var(--mut);margin:2px 0 0}
+  input,textarea{width:100%;padding:10px 12px;border:1px solid #d4b896aa;border-radius:8px;font-size:13px;font-family:ui-monospace,Menlo,Consolas,monospace}
+  textarea{height:80px}
+  button{appearance:none;border:none;border-radius:8px;padding:12px 16px;font-size:15px;font-weight:600;cursor:pointer}
+  .go{background:var(--acc);color:#fff;width:100%;margin-top:14px}
+  .go:hover{background:#6e5b43}
+  .copy{background:#2c2c2c;color:#fff;margin-top:10px}
+  .status{font-size:14px;font-weight:600;margin:8px 0;white-space:pre-wrap}
+  .ok{color:var(--ok)} .err{color:var(--err)}
+  .steps{font-size:13px;color:var(--mut)}
+  .note{background:#fff8ee;border:1px solid #f0e0c0;border-radius:10px;padding:12px;font-size:12.5px;color:#6b5a3a;margin-bottom:14px}
+  a{color:var(--acc)}
+  code{background:#f1ece3;padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Facebook Page-Token Helfer</h1>
+  <div class="sub">Zieht das <b>nie ablaufende Page-Token</b> für „LuxeStyle CH“ aus deinem langlebigen User-Token. Läuft komplett lokal in deinem Browser — direkt zu Facebook, nichts an Dritte.</div>
+
+  <div class="note">
+    <b>Was du brauchst:</b> dein <b>langlebiges</b> User-Token — das, das im Access Token Debugger nach
+    „Zugriffstoken verlängern“ als <b>„verfällt nie“</b> angezeigt wird (beginnt mit <code>EAA…</code>).<br>
+    Nur ein kurzlebiges? → erst im <a href="https://developers.facebook.com/tools/debug/accesstoken/" target="_blank">Debugger</a>
+    „Zugriffstoken verlängern“ klicken, dann das verlängerte hier einfügen.
+  </div>
+
+  <div class="card">
+    <label>Langlebiges User-Token (EAA…, „verfällt nie“)</label>
+    <textarea id="userToken" placeholder="hier das verlängerte User-Token einfügen"></textarea>
+    <p class="hint">Bleibt in deinem Browser. Wird nur direkt an facebook.com gesendet.</p>
+
+    <label>Page-ID</label>
+    <input id="pageId" value="1049840534888592">
+
+    <button class="go" id="run">Page-Token holen &amp; prüfen</button>
+  </div>
+
+  <div class="card" id="outCard" style="display:none">
+    <div class="status" id="status"></div>
+    <label>Page-Token (in GitHub-Secret <code>FB_PAGE_ACCESS_TOKEN</code>):</label>
+    <textarea id="pageToken" readonly></textarea>
+    <button class="copy" id="copy">Token kopieren</button>
+    <div class="steps" id="next"></div>
+    <div class="steps" id="fallback" style="margin-top:10px"></div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const GRAPH = "https://graph.facebook.com/v21.0";
+
+// JSONP -> funktioniert auch als lokale Datei (file://) ohne CORS-Probleme.
+function jsonp(path, params){
+  return new Promise((resolve, reject)=>{
+    const cb = "cb_" + Math.random().toString(36).slice(2);
+    const q = new URLSearchParams(params); q.set("callback", cb);
+    const s = document.createElement("script");
+    let done=false;
+    window[cb] = d => { done=true; cleanup(); resolve(d); };
+    function cleanup(){ delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+    s.onerror = ()=>{ if(!done){ cleanup(); reject(new Error("Netzwerkfehler bei "+path)); } };
+    s.src = GRAPH + path + "?" + q.toString();
+    document.body.appendChild(s);
+    setTimeout(()=>{ if(!done){ cleanup(); reject(new Error("Zeitüberschreitung bei "+path)); } }, 20000);
+  });
+}
+function setStatus(m, ok){ const el=$("status"); el.textContent=m; el.className="status "+(ok?"ok":"err"); }
+
+$("run").onclick = async ()=>{
+  const tok=$("userToken").value.trim(), pageId=$("pageId").value.trim();
+  $("outCard").style.display="block"; $("pageToken").value=""; $("next").textContent=""; $("fallback").innerHTML="";
+  if(!tok){ setStatus("Bitte das langlebige User-Token einfügen.", false); return; }
+  if(/^[0-9a-fA-F]{32}$/.test(tok)){ setStatus("Das sieht aus wie dein App-Secret (32 Hex) — hier gehört das lange EAA…-User-Token rein.", false); return; }
+
+  // Fallback-Link immer anbieten (falls JSONP blockiert)
+  $("fallback").innerHTML = "Falls oben ein Netzwerkfehler kommt: "
+    + "<a target='_blank' href='"+GRAPH+"/me/accounts?fields=id,name,access_token&limit=200&access_token="
+    + encodeURIComponent(tok) + "'>diese Abfrage im neuen Tab öffnen</a> → beim Eintrag „LuxeStyle CH“ das <code>access_token</code> kopieren.";
+
+  try{
+    setStatus("Hole Page-Token aus /me/accounts …", true);
+    const acc = await jsonp("/me/accounts", {access_token:tok, limit:200, fields:"id,name,access_token"});
+    if(acc.error) throw new Error("/me/accounts: "+acc.error.message);
+    const pages = acc.data||[];
+    if(!pages.length) throw new Error("Keine Seiten zurückgegeben. Token hat evtl. nicht den Scope „pages_show_list“ oder ist kein User-Token.");
+    let page = pages.find(p=>p.id===pageId) || pages.find(p=>/luxestyle/i.test(p.name||""));
+    if(!page){
+      throw new Error("Seite "+pageId+" nicht gefunden. Verfügbar:\n" + pages.map(p=>"• "+p.id+" — "+p.name).join("\n"));
+    }
+    const pageToken = page.access_token;
+    if(!pageToken) throw new Error("Seite „"+page.name+"“ gefunden, aber kein Token — fehlt „pages_manage_posts“/Admin-Recht?");
+
+    // Prüfen (Type=PAGE, Expires=Never) — Inspektor = dasselbe User-Token (kein App-Secret nötig)
+    let typeStr="?", never=false, scopes=[];
+    try{
+      const dbg = await jsonp("/debug_token", {input_token:pageToken, access_token:tok});
+      const d=(dbg&&dbg.data)||{}; typeStr=d.type||"?"; never=(d.expires_at===0); scopes=d.scopes||[];
+    }catch(e){}
+
+    $("pageToken").value = pageToken;
+    const okAll = (typeStr==="PAGE" && never);
+    setStatus((okAll?"✓ FERTIG · ":"⚠ geprüft · ") + "Type: "+typeStr+" · Expires: "+(never?"Never":"(nicht Never – aus langlebigem User-Token ableiten!)")
+      + (scopes.length && scopes.indexOf("pages_manage_posts")<0 ? "\n⚠ Scope pages_manage_posts fehlt!" : ""), okAll || typeStr==="PAGE");
+    $("next").innerHTML = "Seite: <b>"+page.name+"</b> ("+page.id+")<br>Als GitHub-Secrets (Repo → Settings → Secrets and variables → Actions):<br>"
+      + "• <code>FB_PAGE_ACCESS_TOKEN</code> = dieses Token<br>"
+      + "• <code>META_ACCESS_TOKEN</code> = dasselbe<br>"
+      + "• optional <code>IG_ACCESS_TOKEN</code> = dasselbe · <code>IG_USER_ID</code> = <b>17841480560863361</b> · <code>FB_PAGE_ID</code> = <b>1049840534888592</b>";
+  }catch(err){
+    setStatus("✗ " + err.message, false);
+  }
+};
+
+$("copy").onclick = ()=>{ const t=$("pageToken"); t.select(); document.execCommand("copy");
+  $("copy").textContent="Kopiert ✓"; setTimeout(()=>$("copy").textContent="Token kopieren",1500); };
+</script>
+</body>
+</html>

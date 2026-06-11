@@ -10,6 +10,7 @@ name: LuxeStyle Social (TikTok + Instagram + Telegram)
 #   TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID         (Telegram, Video)
 #   TIKTOK_OPEN_ACCESS_TOKEN                       (TikTok-Entwurf; via get_open_token.py tiktok)
 #   IG_USER_ID + IG_ACCESS_TOKEN                   (Instagram-Reel; via get_open_token.py meta)
+#   FB_PAGE_ACCESS_TOKEN (| META_ACCESS_TOKEN)     (Facebook-Seite; via facebook_token.py, nie ablaufend)
 #
 # TikTok = Entwurf (du tippst in der App 1x „Posten"), bis die App den TikTok-Audit hat.
 # Instagram = direkt veröffentlicht (Business-Konto + FB-Seite nötig).
@@ -45,5 +46,7 @@ jobs:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN || secrets.IG_ACCESS_TOKEN }}
           THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN || secrets.META_ACCESS_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           REEL_INDEX: ${{ github.event.inputs.index }}
         run: python content/tools/post_next_reel.py
