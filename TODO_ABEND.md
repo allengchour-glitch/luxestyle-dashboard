@@ -7,9 +7,10 @@ Reihenfolge = Wirkung.
 - [x] „Horizon · LuxeStyle + Email-Popup (Claude)" (`187533001089`) ist live → PDP-Optik + Preis + Swatch-Schalter + kleineres Mobile-Menü + E-Mail-Popup aktiv.
 - [ ] Falls noch nicht: 1 Test-Anmeldung im Popup → prüfen, dass die Mail in Klaviyo „Email List" auftaucht.
 
-## 2. Bios auf die neue Landing setzen — Link IST live, nur eintragen
-- Seite `luxestyle.ch/pages/links` ist live (HTTP 200, WELCOME10 vorhanden). Fertige Bio-Texte siehe Chat.
-- [ ] In TikTok / Instagram / Facebook / Threads den Bio-Link auf **`luxestyle.ch/pages/links`** setzen.
+## 2. Bios auf die neue Landing setzen — ERLEDIGT (2026-06-11, Bio-Link klickbar)
+- Seite `luxestyle.ch/pages/links` live + voll geprüft: **41 interne Links alle 200** (Shop/Collections/Produkte/Policies), 4 Social-Buttons (TikTok/IG/FB/Threads) korrekt. WELCOME10 vorhanden.
+- LEHRE: URL gehört ins **Link-/Website-Feld** des Profils mit vollem `https://` — als Fließtext ist sie nicht klickbar (wirkt „tot").
+- [x] Bio-Link gesetzt (klickbar bestätigt).
 
 ## 3. Posten (Reichweite)
 - [ ] TikTok: Tag-1-Reel `LuxeStyle_NeuDamen_AdSafe.mp4` (Trending-Sound), dann 1 Reel/Tag.
