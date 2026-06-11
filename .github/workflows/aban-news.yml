@@ -1,0 +1,102 @@
+name: aban news — Daily Digest
+
+# Baut taeglich den aban-news KI/Krypto-Digest (Pro + Free), aktualisiert das
+# Archiv und versendet ihn per SMTP, sobald die Secrets gesetzt sind.
+#
+# WICHTIG: Geplante Workflows (cron) laufen nur auf dem Default-Branch (main).
+# -> Der Tages-Takt startet erst nach Merge nach main. Vorher/jederzeit manuell
+#    ueber "Run workflow" (workflow_dispatch).
+#
+# Secrets (Repo -> Settings -> Secrets and variables -> Actions) — ALLE optional:
+#   ANTHROPIC_API_KEY   LLM-Veredelung (unique DE-Summaries/Einordnung/Insight)
+#   SMTP_HOST/PORT/USER/PASS, MAIL_FROM, MAIL_FROM_NAME   Versand (sonst nur generieren)
+#   UNSUB_SECRET, UNSUB_URL, ABAN_PRO_URL                 Abmeldung + Pro-CTA
+# Ohne SMTP-Secrets wird NUR generiert + Archiv committet (kein Versand, sauberer Skip).
+# Die echte Abonnentenliste (content/aban/subscribers.csv) ist .gitignore't —
+# in der Action via Secret ABAN_SUBSCRIBERS (CSV-Inhalt) bereitstellen (optional).
+
+on:
+  schedule:
+    - cron: "0 5 * * *"     # 05:00 UTC = 07:00 CH
+  workflow_dispatch:
+    inputs:
+      max:
+        description: "Stories gesamt"
+        required: false
+        default: "8"
+      hours:
+        description: "Zeitfenster (Stunden)"
+        required: false
+        default: "30"
+      send:
+        description: "Wirklich versenden? (true/false)"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aban-news
+  cancel-in-progress: false
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Engine-Extras (optional, mit Fallback)
+        run: |
+          export SETUPTOOLS_USE_DISTUTILS=stdlib
+          pip install --quiet feedparser trafilatura langdetect || \
+            echo "Extras nicht installiert — Engine laeuft im stdlib-Fallback."
+
+      - name: Digest bauen (Pro + Free)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ABAN_PRO_URL: ${{ secrets.ABAN_PRO_URL }}
+        run: |
+          cd content/aban
+          python aban_news_pro.py \
+            --edition both \
+            --max "${{ github.event.inputs.max || '8' }}" \
+            --hours "${{ github.event.inputs.hours || '30' }}"
+          python aban_archive.py
+
+      - name: Abonnentenliste aus Secret (optional)
+        if: ${{ secrets.ABAN_SUBSCRIBERS != '' }}
+        run: printf '%s' "${{ secrets.ABAN_SUBSCRIBERS }}" > content/aban/subscribers.csv
+
+      - name: Versenden (nur wenn SMTP gesetzt UND send=true)
+        if: ${{ github.event.inputs.send == 'true' && secrets.SMTP_HOST != '' }}
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_FROM_NAME: ${{ secrets.MAIL_FROM_NAME }}
+          UNSUB_SECRET: ${{ secrets.UNSUB_SECRET }}
+          UNSUB_URL: ${{ secrets.UNSUB_URL }}
+        run: |
+          cd content/aban
+          python aban_send.py --edition free --send   # Free-Edition an Free-Liste
+          python aban_send.py --edition pro  --send --file out/aban-$(date -u +%F).html
+
+      - name: Archiv + Ausgabe committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm -f content/aban/subscribers.csv
+          git add content/aban/out/ 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "aban: Tages-Digest + Archiv [skip ci]"
+            git push || echo "Push uebersprungen (Branch-Schutz)."
+          else
+            echo "Keine Aenderung."
+          fi

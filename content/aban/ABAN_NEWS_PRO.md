@@ -1,0 +1,108 @@
+# 📰 aban news Pro — KI/Krypto-Newsletter-System
+
+Eigenständiges, portierbares Toolset für den täglichen DACH-Newsletter **aban news**
+(`abannews.com`). Holt KI- & Krypto-News, baut eine versandfertige Ausgabe, verschickt
+sie und pflegt ein öffentliches Archiv. **Reine Standardbibliothek** + optionale Extras
+(läuft auch ohne). Keine Secrets im Code — alles über ENV.
+
+## Bausteine
+
+| Tool | Zweck |
+|---|---|
+| `aban_news_pro.py` | **Engine:** Feeds → Digest (HTML/MD/TXT/JSON), Markt-Snapshot, Insight, Pick, Editionen |
+| `aban_send.py` | **Versand:** SMTP, multipart, List-Unsubscribe, Editionen, Dry-Run-Default |
+| `aban_archive.py` | **Archiv:** Übersichtsseite (`out/index.html`) aus allen Ausgaben = SEO-Motor |
+| `.github/workflows/aban-news.yml` | **Automation:** täglich 07:00 CH bauen + (optional) versenden + Archiv committen |
+
+## Schnellstart
+
+```bash
+# Extras (optional, empfohlen) — Debian/Ubuntu-Workaround:
+SETUPTOOLS_USE_DISTUTILS=stdlib pip install -r requirements.txt
+
+cd content/aban
+python aban_news_pro.py --check-feeds          # Quellen-Gesundheit
+python aban_news_pro.py --edition both          # Pro + Free bauen -> out/
+python aban_archive.py                          # Archiv-Index bauen
+python aban_send.py --list subscribers.sample.csv   # Dry-Run (sendet nichts)
+```
+
+## Engine (`aban_news_pro.py`)
+
+Macht automatisch: 12 kuratierte DACH-Feeds (KI+Krypto) ziehen → dedupe → ranken →
+**Volltext** der Top-Artikel holen → deutsch zusammenfassen → **Markt-Snapshot** (BTC/ETH
+live) → **aban Insight** (Tages-Synthese) → **aban Pick** → pro Story **„Was es bedeutet"**.
+
+```
+--topics ki,krypto     Themen (Default beide)
+--max 8                Stories gesamt
+--hours 30             Zeitfenster
+--edition pro|free|both  pro=voll, free=Teaser Top-N + Pro-CTA
+--free-count 5         Stories in der Free-Edition
+--currency chf         Markt-Snapshot-Währung
+--no-fulltext / --no-llm / --no-market   Stufen abschalten
+--check-feeds          nur Quellen prüfen
+```
+
+**Was es einzigartig macht:** deutscher DACH-Fokus, KI **und** Krypto in einer 5-Min-Mail,
+Markt-Snapshot + handlungsorientierte Einordnung pro Story + Tages-Insight — so gebündelt
+gibt es das sonst nicht.
+
+### ENV
+| Variable | Wirkung |
+|---|---|
+| `ANTHROPIC_API_KEY` | LLM-Veredelung: unique DE-Summary + Einordnung + Insight (sonst Heuristik) |
+| `ABAN_LLM_MODEL` | Modell-Override (Default: schnelles, günstiges Claude-Modell) |
+| `ABAN_PRO_URL` | Ziel des Free-Editions-CTA (Stripe-Payment-Link) |
+
+## Versand (`aban_send.py`)
+
+Verschickt die generierte Ausgabe per SMTP (provider-agnostisch). **Dry-Run ist Default.**
+
+```
+python aban_send.py                         # Dry-Run, neueste Ausgabe
+python aban_send.py --edition pro           # nur Pro-Liste (Dry-Run)
+python aban_send.py --send --test you@x.de  # echter Test an EINE Adresse
+python aban_send.py --send                  # echter Versand an alle Aktiven
+```
+
+| ENV | Wert |
+|---|---|
+| `SMTP_HOST/PORT/USER/PASS` | z.B. Brevo/Mailjet/Gmail (Port 587 STARTTLS oder 465 SSL) |
+| `MAIL_FROM` / `MAIL_FROM_NAME` | Absender (z.B. `news@abannews.com`) |
+| `UNSUB_SECRET` | Geheimnis für faelschungssichere Abmelde-Tokens |
+| `UNSUB_URL` | Basis-URL der Abmelde-Seite (Default `https://abannews.com/abmelden`) |
+
+Abonnenten-CSV (`subscribers.csv`, **.gitignore't**), Header `email,edition,status,joined`.
+Vorlage: `subscribers.sample.csv`. Pflicht: `List-Unsubscribe` + One-Click + sichtbarer Link.
+
+## Monetarisierung (Pro-Tier, ohne Backend)
+
+1. **Free-Edition** (`--edition free`) = Top-5-Teaser + CTA „aban Pro werden" (`ABAN_PRO_URL`).
+2. **Stripe Payment Link** anlegen (kein Server nötig): Stripe → Produkt „aban Pro" → Payment Link → URL als `ABAN_PRO_URL`.
+3. **Pro-Liste pflegen:** zahlende Kund:innen aus dem Stripe-Export in `subscribers.csv` mit `edition=pro` übernehmen.
+4. Workflow versendet Free an Free-Liste und Pro an Pro-Liste.
+
+Wert für Pro: voller Digest (alle Stories), Markt-Tiefe, wöchentlicher Deep-Dive, Archiv.
+
+## Wachstum / Analytics
+
+- **UTM-Tags** auf allen Links (`utm_source=abannews…`) → Klicks über die Site-Analytik (Cloudflare/GA), ohne Infra.
+- **Archiv** (`aban_archive.py` → `out/index.html`) als `/archiv/` veröffentlichen → Google-Traffic → neue Abonnenten.
+
+## Automation (`.github/workflows/aban-news.yml`)
+
+Täglich 05:00 UTC (07:00 CH) oder manuell („Run workflow"). Baut Pro+Free, aktualisiert das
+Archiv, committet die Ausgabe; **versendet nur**, wenn SMTP-Secrets gesetzt sind **und** der
+Dispatch-Input `send=true` ist. Cron greift **erst auf `main`** (geplante Workflows nur auf Default-Branch).
+Optional: ganze Abonnentenliste als Secret `ABAN_SUBSCRIBERS` (CSV-Inhalt) bereitstellen.
+
+## ⚠️ Bleibt User-Hand (nicht committbar)
+- Secrets setzen: `ANTHROPIC_API_KEY`, SMTP-Zugang, `UNSUB_SECRET`, `ABAN_PRO_URL`, ggf. `ABAN_SUBSCRIBERS`.
+- Stripe-Konto + Payment Link; zahlende Kund:innen in die Pro-Liste übernehmen.
+- Tools ins private Repo `aban-news-landing` kopieren bzw. dort den Signup an die Liste anbinden.
+- Mails real versenden / Zahlungen verarbeiten (gated auf Secrets).
+
+## Abhängigkeiten
+`requirements.txt` (alle optional): `feedparser`, `trafilatura`, `langdetect`. Ohne sie greift
+ein stdlib-Fallback (eigener XML-Parser, Feed-Snippet statt Volltext).

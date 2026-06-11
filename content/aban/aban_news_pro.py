@@ -463,7 +463,7 @@ def _datestr():
     return datetime.now(timezone.utc).astimezone().strftime("%d.%m.%Y")
 
 
-def render_md(items, pick, insight, market, mins):
+def render_md(items, pick, insight, market, mins, cta=None):
     L = ["# aban news — KI & Krypto Daily", "", "_%s · in %d Minuten auf dem Laufenden_" % (_datestr(), mins), ""]
     if market:
         L += ["**Markt:** Bitcoin %s · Ethereum %s" % (market["btc_str"], market["eth_str"]), ""]
@@ -480,11 +480,13 @@ def render_md(items, pick, insight, market, mins):
         L += ["### [%s](%s)" % (it["title"], utm(it["link"])), "*%s*" % it["source"], "",
               it.get("summary") or extractive_summary(it), "",
               "**Was es bedeutet:** %s" % it.get("meaning", ""), ""]
+    if cta:
+        L += ["---", "**%s** — [%s](%s)" % (cta["title"], cta["button"], cta["url"]), cta.get("sub", ""), ""]
     L += ["---", "Taeglich von **aban news** · [abonnieren](%s)" % BRAND["url"]]
     return "\n".join(L)
 
 
-def render_txt(items, pick, insight, market, mins):
+def render_txt(items, pick, insight, market, mins, cta=None):
     L = ["aban news — KI & Krypto Daily", "%s · in %d Minuten" % (_datestr(), mins), ""]
     if market:
         L += ["Markt: BTC %s | ETH %s" % (market["btc_str"], market["eth_str"]), ""]
@@ -497,11 +499,13 @@ def render_txt(items, pick, insight, market, mins):
               "   Quelle: %s | %s" % (it["source"], utm(it["link"])),
               "   %s" % (it.get("summary") or extractive_summary(it)),
               "   Was es bedeutet: %s" % it.get("meaning", ""), ""]
+    if cta:
+        L += ["--", "%s: %s  %s" % (cta["title"], cta["button"], cta["url"]), ""]
     L += ["--", "Taeglich von aban news · %s" % BRAND["url"]]
     return "\n".join(L)
 
 
-def render_html(items, pick, insight, market, mins):
+def render_html(items, pick, insight, market, mins, cta=None):
     a, dark = BRAND["accent"], BRAND["dark"]
     esc = lambda s: html.escape(s or "")
     market_html = ""
@@ -539,6 +543,13 @@ def render_html(items, pick, insight, market, mins):
                      '<a href="%s" style="display:block;font:700 17px/1.3 Georgia,serif;color:#fff;text-decoration:none;margin:8px 0 6px">%s</a>'
                      '<div style="font:400 13px/1.5 -apple-system,Segoe UI,sans-serif;color:#dff7e8">%s</div></div></td></tr>'
                      % (dark, esc(pick["label"]), esc(pick["link"]), esc(pick["title"]), esc(pick["why"])))
+    cta_html = ""
+    if cta:
+        cta_html = ('<tr><td style="padding:18px 28px"><div style="border:2px solid %s;border-radius:12px;padding:18px 20px;text-align:center">'
+                    '<div style="font:700 16px Georgia,serif;color:%s;margin-bottom:4px">%s</div>'
+                    '<div style="font:400 13px/1.5 -apple-system,Segoe UI,sans-serif;color:#3a4150;margin-bottom:12px">%s</div>'
+                    '<a href="%s" style="display:inline-block;background:%s;color:#fff;font:700 14px -apple-system,Segoe UI,sans-serif;text-decoration:none;padding:11px 22px;border-radius:8px">%s</a>'
+                    '</div></td></tr>' % (a, dark, esc(cta["title"]), esc(cta.get("sub", "")), esc(cta["url"]), a, esc(cta["button"])))
     return (
         '<!doctype html><html lang="de"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
@@ -549,12 +560,12 @@ def render_html(items, pick, insight, market, mins):
         '<tr><td style="background:%s;padding:24px 28px">'
         '<div style="font:800 22px/1 -apple-system,Segoe UI,sans-serif;color:#fff">aban<span style="color:%s">news</span></div>'
         '<div style="font:400 13px/1 -apple-system,Segoe UI,sans-serif;color:#aeb6c4;margin-top:6px">KI & Krypto · %s · in %d Minuten auf dem Laufenden</div>'
-        '</td></tr>%s%s%s%s'
+        '</td></tr>%s%s%s%s%s'
         '<tr><td style="padding:24px 28px;background:#fafbfc;text-align:center">'
         '<div style="font:400 13px/1.5 -apple-system,Segoe UI,sans-serif;color:#8a93a3">Taeglich kuratiert von <b>aban news</b>.</div>'
         '<a href="%s" style="display:inline-block;margin-top:12px;background:%s;color:#fff;font:700 14px -apple-system,Segoe UI,sans-serif;text-decoration:none;padding:11px 22px;border-radius:8px">Jetzt abonnieren</a>'
         '</td></tr></table></td></tr></table></body></html>'
-    ) % (dark, a, _datestr(), mins, market_html, insight_html, pick_html, "".join(rows), utm(BRAND["url"], "footer"), a)
+    ) % (dark, a, _datestr(), mins, market_html, insight_html, pick_html, "".join(rows), cta_html, utm(BRAND["url"], "footer"), a)
 
 
 # ----------------------------------------------------------------------------- Feeds-Check
@@ -586,6 +597,9 @@ def main():
     ap.add_argument("--no-llm", action="store_true", help="LLM-Veredelung aus (auch wenn Key gesetzt)")
     ap.add_argument("--no-market", action="store_true", help="Markt-Snapshot aus")
     ap.add_argument("--check-feeds", action="store_true", help="nur Quellen pruefen, nichts bauen")
+    ap.add_argument("--edition", default="pro", choices=["pro", "free", "both"],
+                    help="pro=voller Digest (Default), free=Teaser Top-N + Pro-CTA, both=beide")
+    ap.add_argument("--free-count", type=int, default=5, help="Stories in der Free-Edition (Default 5)")
     ap.add_argument("--model", default=os.environ.get("ABAN_LLM_MODEL", "claude-haiku-4-5-20251001"),
                     help="LLM-Modell fuer die Veredelung (ENV ABAN_LLM_MODEL)")
     args = ap.parse_args()
@@ -652,20 +666,40 @@ def main():
 
     os.makedirs(args.out, exist_ok=True)
     stamp = now.astimezone().strftime("%Y-%m-%d")
-    base = os.path.join(args.out, "aban-%s" % stamp)
-    open(base + ".html", "w", encoding="utf-8").write(render_html(selected, pick, insight, market, mins))
-    open(base + ".md", "w", encoding="utf-8").write(render_md(selected, pick, insight, market, mins))
-    open(base + ".txt", "w", encoding="utf-8").write(render_txt(selected, pick, insight, market, mins))
-    json.dump({"date": stamp, "generated": now.isoformat(), "llm": used_llm, "minutes": mins,
-               "insight": insight, "market": market, "pick": pick,
-               "items": [{k: (v.isoformat() if isinstance(v, datetime) else v)
-                          for k, v in it.items() if not k.startswith("_")} for it in selected]},
-              open(base + ".json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    pro_url = os.environ.get("ABAN_PRO_URL", "https://abannews.com/pro")
 
-    print("\n✓ %d Stories · %d Min · LLM:%s · Volltext:%s · Markt:%s" % (
+    def write_edition(its, suffix, cta):
+        base = os.path.join(args.out, "aban-%s%s" % (stamp, suffix))
+        open(base + ".html", "w", encoding="utf-8").write(render_html(its, pick, insight, market, mins, cta))
+        open(base + ".md", "w", encoding="utf-8").write(render_md(its, pick, insight, market, mins, cta))
+        open(base + ".txt", "w", encoding="utf-8").write(render_txt(its, pick, insight, market, mins, cta))
+        json.dump({"date": stamp, "edition": "free" if suffix else "pro", "generated": now.isoformat(),
+                   "llm": used_llm, "minutes": mins, "insight": insight, "market": market, "pick": pick,
+                   "items": [{k: (v.isoformat() if isinstance(v, datetime) else v)
+                              for k, v in it.items() if not k.startswith("_")} for it in its]},
+                  open(base + ".json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+        return base
+
+    written = []
+    if args.edition in ("pro", "both"):
+        written.append(write_edition(selected, "", None))
+    if args.edition in ("free", "both"):
+        # Teaser: Top-N, gekuerzte Summaries, CTA zur Pro-Edition (Stripe-Payment-Link via ABAN_PRO_URL)
+        free_items = []
+        for it in selected[:max(1, args.free_count)]:
+            c = dict(it); c["summary"] = first_sentences(it.get("summary") or "", 1, 130); free_items.append(c)
+        hidden = len(selected) - len(free_items)
+        cta = {"title": "Mehr im aban Pro-Digest",
+               "sub": ("Heute %d weitere Stories, volle Einordnung, Markt-Tiefe & Archiv." % hidden) if hidden > 0
+                      else "Volle Einordnung, Markt-Tiefe & Archiv — werde aban Pro.",
+               "button": "aban Pro werden", "url": utm(pro_url, "cta")}
+        written.append(write_edition(free_items, "-free", cta))
+
+    print("\n✓ %d Stories · %d Min · LLM:%s · Volltext:%s · Markt:%s · Edition:%s" % (
         len(selected), mins, "an" if used_llm else "aus", "an" if (trafilatura and not args.no_fulltext) else "aus",
-        "an" if market else "aus"))
-    print("  %s.html / .md / .txt / .json" % base)
+        "an" if market else "aus", args.edition))
+    for b in written:
+        print("  %s.html / .md / .txt / .json" % b)
     print("  Insight: %s" % insight)
     if pick:
         print("  aban Pick: %s" % pick["title"])
