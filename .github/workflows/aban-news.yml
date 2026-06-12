@@ -78,9 +78,21 @@ jobs:
       - name: Archiv aktualisieren
         run: cd content/aban && python aban_archive.py
 
-      - name: Abonnentenliste aus Secret (optional)
-        if: ${{ secrets.ABAN_SUBSCRIBERS != '' }}
-        run: printf '%s' "${{ secrets.ABAN_SUBSCRIBERS }}" > content/aban/subscribers.csv
+      - name: Abonnentenliste laden (LIVE vom Worker, sonst Secret)
+        env:
+          ADMIN_KEY: ${{ secrets.ADMIN_KEY }}
+          ABAN_SUBSCRIBERS: ${{ secrets.ABAN_SUBSCRIBERS }}
+        run: |
+          cd content/aban
+          # 1) Live-Liste der bestaetigten Abonnenten direkt vom Worker ziehen
+          if [ -n "$ADMIN_KEY" ]; then
+            curl -fsS "https://api.abannews.com/export?key=$ADMIN_KEY" -o subscribers.csv || true
+          fi
+          # 2) Fallback: statische Secret-Liste, falls kein Worker-Export verfuegbar
+          if [ ! -s subscribers.csv ] && [ -n "$ABAN_SUBSCRIBERS" ]; then
+            printf '%s' "$ABAN_SUBSCRIBERS" > subscribers.csv
+          fi
+          [ -s subscribers.csv ] && echo "Abonnenten: $(( $(wc -l < subscribers.csv) - 1 ))" || echo "Keine Liste (Versand wird leer/uebersprungen)."
 
       - name: Versenden (nur wenn SMTP gesetzt UND send=true)
         if: ${{ github.event.inputs.send == 'true' && secrets.SMTP_HOST != '' }}
