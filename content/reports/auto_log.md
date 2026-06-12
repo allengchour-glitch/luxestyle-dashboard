@@ -13,3 +13,4 @@
 - 20260609_2208 · offset 494734 · upbeat · Bart-Pflegeset Premium · Damen Portemonnaie XL Leder · XL Strandtuch Bio-Baumwolle · 3-in-1 Wireless Charger 15W · LuxeStyle_auto_20260609_2208.mp4
 - 20260610_1242 · offset 494748 · upbeat · Bluetooth Kopfhörer ANC · Damen Ohrring-Set 925 · Crossbody-Bag Vegan · Flame Diffuser Premium · LuxeStyle_auto_20260610_1242.mp4
 - 20260610_1835 · offset 494754 · upbeat · Bluetooth Speaker 360° · Bart-Pflegeset Premium · Damen Portemonnaie XL Leder · XL Strandtuch Bio-Baumwolle · LuxeStyle_auto_20260610_1835.mp4
+- 20260612_1148 · offset 494795 · calm · Galaxy Aurora LED-Projektor · Bluetooth Speaker 360° · Bart-Pflegeset Premium · Damen Portemonnaie XL Leder · LuxeStyle_auto_20260612_1148.mp4
