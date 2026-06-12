@@ -1,0 +1,103 @@
+{
+  "date": "2026-06-12",
+  "edition": "pro",
+  "generated": "2026-06-12T09:04:51.940156+00:00",
+  "llm": false,
+  "minutes": 2,
+  "insight": "Heute: 3 KI-Themen und 3 Krypto-Themen. BTC bei CHF 50430 ▲ (+0.4%). Top-Thema: AGE statt AGI: Was Jeff Bezos mit seinem KI-Startup erreichen will",
+  "market": {
+    "btc": 50430,
+    "eth": 1329.44,
+    "btc_str": "CHF 50430 ▲ (+0.4%)",
+    "eth_str": "CHF 1329 ▲ (+0.4%)",
+    "btc_ch": 0.39347855856866776,
+    "eth_ch": 0.3508516203542016,
+    "cur": "CHF"
+  },
+  "pick": {
+    "label": "Krypto-Thema des Tages",
+    "title": "SpaceX IPO: Was der größte Börsengang aller Zeiten für Bitcoin bedeutet",
+    "link": "https://www.btc-echo.de/news/spacex-ipo-was-der-groesste-boersengang-aller-zeiten-fuer-bitcoin-bedeutet-232290/?utm_source=abannews&utm_medium=email&utm_campaign=2026-06-12",
+    "why": "Bitcoin gibt den Takt vor — beobachte, ob Altcoins mitziehen."
+  },
+  "items": [
+    {
+      "title": "AGE statt AGI: Was Jeff Bezos mit seinem KI-Startup erreichen will",
+      "link": "https://t3n.de/news/age-statt-agi-was-jeff-bezos-mit-seinem-ki-startup-erreichen-will-1747309/?utm_source=rss&utm_medium=newsFeed&utm_campaign=newsFeed",
+      "summary_raw": "Mit Project Prometheus verfolgt der Amazon-Gründer Jeff Bezos ambitionierte Ziele. Das Startup soll eine Künstliche Intelligenz entwickeln, die es zuvor noch nie gab. Was er jetzt zu seinem Unternehmen verraten hat. weiterlesen auf t3n.de",
+      "published": "2026-06-12T08:47:26+02:00",
+      "source": "t3n",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "Die Ankündigung im November 2025 kam für viele überraschend. Jeff Bezos, der Gründer und ehemalige CEO von Amazon, hat ein neues Startup ins Leben gerufen. Nachdem er sich jahrelang nach der Gründung seines Raumfahrtunternehmens Blue Origin eher im Hintergrund gehalten hat, nimmt er bei Prometheus wieder die CEO-Rolle ein. Jetzt spricht Bezos zum ersten Mal ausführlicher darüber, was er mit seinem KI-Unternehmen erreichen will. Prometheus baut neue AGI-Tools Wie die New York Times in einem Interview mit dem Amazon-Gründer erfahren hat, arbeitet Prometheus an einer neuen Form der AGI, der Artificial General Intelligence, die auf dem Intelligenzlevel von Menschen agieren soll. Statt aber eine allgemeinere Intelligenz auf diesem Niveau bereitzustellen, soll Prometheus an einem „Artificial General Engineer“ arbeiten. Bezos sagt dazu: „Jeder gesellschaftliche Reichtum wird durch Erfindungen vorangetrieben. Vor sechstausend Jahren hat jemand den Pflug erfunden und alle wurden reicher. Viel später hat jemand die Dampfmaschine erfunden, und alle wurden reicher. Was Prometheus versucht, ist, eine Auswahl an Werkzeugen bereitzustellen, die die Geschwindigkeit von neuen Erfindungen dramatisch",
+      "summary": "Die Ankündigung im November 2025 kam für viele überraschend. Jeff Bezos, der Gründer und ehemalige CEO von Amazon, hat ein neues Startup ins Leben gerufen.",
+      "meaning": "Regulierung entscheidet, welche KI in der EU/DACH erlaubt ist — heute mitdenken.",
+      "lang": "de"
+    },
+    {
+      "title": "KI-Preiskampf: OpenAI soll ChatGPT-Preise drastisch senken wollen – Anthropic könnte folgen",
+      "link": "https://t3n.de/news/openai-chatgpt-preise-anthropic-1747290/?utm_source=rss&utm_medium=newsFeed&utm_campaign=newsFeed",
+      "summary_raw": "Im Vorfeld der geplanten Börsengänge sollen die KI-Rivalen OpenAI und Anthropic versuchen, sich über Preissenkungen gegenseitig Kund:innen abzuluchsen. Davon könnten sowohl private Nutzer:innen als auch Firmenkund:innen profitieren. weiterlesen auf t3n.de",
+      "published": "2026-06-11T19:28:24+02:00",
+      "source": "t3n",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "KI-Preiskampf: OpenAI soll ChatGPT-Preise drastisch senken wollen – Anthropic könnte folgen Sowohl ChatGPT-Erfinder OpenAI als auch Claude-Anbieter Anthropic streben an die Börse. Beide KI-Firmen haben entsprechende Unterlagen bei der zuständigen US-Börsenaufsicht SEC eingereicht – Details sind aber nicht bekannt. Anthropic hat gegenüber OpenAI aufgeholt Klar ist nur, dass Anthropic gegenüber OpenAI zuletzt mächtig aufgeholt hat. Sowohl bei der Bewertung als auch beim Umsatz liegt Anthropic mittlerweile vorn. Internen Zahlen des Fintechs Ramp zufolge soll Anthropic OpenAI auch in puncto Einsatz der KI-Tools in US-Unternehmen hinter sich gelassen haben. Um vor dem Börsengang wieder Boden gut zu machen, beziehungsweise nicht noch weiter an Boden zu verlieren, soll OpenAI jetzt drastische Preissenkungen planen, wie das Wall Street Journal (WSJ) schreibt. Dabei sollen vor allem die Kosten für die KI-Token reduziert werden. Preissenkungen der Konkurrenz OpenAI geht laut vom WSJ zitierten Insider:innen davon aus, dass Anthropic in absehbarer Zeit ebenfalls die entsprechenden Preise senken könnte. Darüber hinaus hatten zuletzt sowohl der chinesische Anbieter Deepseek als auch Google ihre ",
+      "summary": "KI-Preiskampf: OpenAI soll ChatGPT-Preise drastisch senken wollen – Anthropic könnte folgen Sowohl ChatGPT-Erfinder OpenAI als auch Claude-Anbieter Anthropic streben an die Börse. Beide KI-Firmen haben entsprechende Unterlagen bei der zuständigen…",
+      "meaning": "Rechtlicher Rahmen fuer KI verschiebt sich — betrifft Einsatz im Unternehmen.",
+      "lang": "de"
+    },
+    {
+      "title": "Rekord trotz roter Zahlen: SpaceX glückt Börsengang – Musk wird erster Billionär",
+      "link": "https://t3n.de/news/spacex-boersengang-rekord-musk-billionaer-1747307/?utm_source=rss&utm_medium=newsFeed&utm_campaign=newsFeed",
+      "summary_raw": "SpaceX macht nicht besonders viel Umsatz und steckt tief in den roten Zahlen. Dennoch legt das Unternehmen den bisher größten Börsengang hin – und macht CEO Elon Musk damit zum ersten Billionär. weiterlesen auf t3n.de",
+      "published": "2026-06-12T07:21:46+02:00",
+      "source": "t3n",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "Rekord trotz roter Zahlen: SpaceX glückt Börsengang – Musk wird erster Billionär Der Rekord-Börsengang von Elon Musks Weltraumfirma SpaceX ist unter Dach und Fach. SpaceX bestätigte den Verkauf von rund 555,6 Millionen Aktien zum Ausgabepreis von 135 US-Dollar – und nimmt damit rund 75 Milliarden Dollar (64,8 Milliarden Euro) ein. Beim zuvor größten Börsengang hatte die saudi-arabische Ölfirma Aramco im Jahr 2019 gut 29 Milliarden Dollar eingenommen. SpaceX debütiert damit an der Börse wie geplant mit einer Bewertung von 1,77 Billionen Dollar – und ist aus dem Stand mehr wert als etwa der Facebook-Konzern Meta. Musk wird mit dem Börsengang zum ersten Menschen mit einem Vermögen von mehr als einer Billion Dollar – zumindest auf dem Papier, gemessen am Wert seiner Aktien von SpaceX und des ebenfalls von ihm geführten Elektroautobauers Tesla. Milliardenverluste in SpaceX-Bilanz Die reinen Geschäftszahlen von SpaceX stehen in einem krassen Kontrast zu dem Börsenwert – die Anleger zahlen eher für die Hoffnung auf künftige Erfolge. So gab es im vergangenen Jahr rote Zahlen von rund 4,94 Milliarden Dollar bei einem Umsatz von 18,67 Milliarden Dollar (gut 16 Milliarden Euro). Ein Grund für",
+      "summary": "Rekord trotz roter Zahlen: SpaceX glückt Börsengang – Musk wird erster Billionär Der Rekord-Börsengang von Elon Musks Weltraumfirma SpaceX ist unter Dach und Fach. SpaceX bestätigte den Verkauf von rund 555,6 Millionen Aktien zum Ausgabepreis von 135…",
+      "meaning": "Ein Signal, wohin sich KI bewegt — gut, das auf dem Schirm zu haben.",
+      "lang": "de"
+    },
+    {
+      "title": "SpaceX IPO: Was der größte Börsengang aller Zeiten für Bitcoin bedeutet",
+      "link": "https://www.btc-echo.de/news/spacex-ipo-was-der-groesste-boersengang-aller-zeiten-fuer-bitcoin-bedeutet-232290/",
+      "summary_raw": "Nur noch wenige Stunden bis zum womöglich größten Börsengang aller Zeiten. Doch wie wirkt sich der SpaceX-IPO auf Bitcoin aus? Das sagen Experten. Source: BTC-ECHO BTC-ECHO",
+      "published": "2026-06-12T09:00:00+00:00",
+      "source": "BTC-ECHO",
+      "topic": "krypto",
+      "weight": 3,
+      "fulltext": "In diesem Artikel erfährst du: - Wie Experten den SpaceX-IPO bewerten - Welche Auswirkungen der Börsengang auf Bitcoin hat - Warum der IPO sogar eine Chance für eine Bitcoin-Rallye sein kann Die Spannung steigt. Nur noch wenige Stunden trennen Anleger vom wohl größten Börsengang aller Zeiten. Der SpaceX-IPO könnte das Raumfahrtunternehmen von Elon Musk auf Anhieb zu einer der teuersten Firmen der Welt machen – und Bitcoin in die Bredouille bringen. Worauf sich Anleger jetzt gefasst machen sollten.",
+      "summary": "In diesem Artikel erfährst du: - Wie Experten den SpaceX-IPO bewerten - Welche Auswirkungen der Börsengang auf Bitcoin hat - Warum der IPO sogar eine Chance für eine Bitcoin-Rallye sein kann Die Spannung steigt. Nur noch wenige Stunden trennen Anleger vom…",
+      "meaning": "Bitcoin gibt den Takt vor — beobachte, ob Altcoins mitziehen.",
+      "lang": "de"
+    },
+    {
+      "title": "Bitcoin ETFs verlieren 2,1 Milliarden US-Dollar allein im laufenden Juni",
+      "link": "https://www.btc-echo.de/schlagzeilen/bitcoin-etfs-verlieren-21-milliarden-us-dollar-232314/",
+      "summary_raw": "Bitcoin-ETFs steuern auf den zweiten Monat in Folge mit hohen Abflüssen zu. Die Daten zeigen eine deutliche Zurückhaltung institutioneller Investoren. Source: BTC-ECHO BTC-ECHO",
+      "published": "2026-06-11T15:45:00+00:00",
+      "source": "BTC-ECHO",
+      "topic": "krypto",
+      "weight": 3,
+      "fulltext": "Die Stimmung institutioneller Anleger bleibt angespannt. Seit dem Ausbruch des Iran-Krieges Ende Februar ziehen Investoren kontinuierlich Kapital aus den Spot-ETFs für Bitcoin und Ethereum ab. Bitcoin konnte in dieser Zeit zwar zeitweise über die Marke von 80.000 US-Dollar steigen, notiert inzwischen jedoch wieder bei rund 63.000 US-Dollar. Bereits der Mai endete bei den Bitcoin ETFs mit Nettoabflüssen von 2,43 Milliarden US-Dollar. Auch im laufenden Juni setzt sich der Trend fort. Seit Monatsbeginn wurden weitere 2,1 Milliarden US-Dollar aus den Anlageprodukten abgezogen. Die ETF-Daten zeigen damit seit mehreren Wochen eine klare Richtung. Bitcoin wartet auf Trendwende Allein am gestrigen Handelstag verzeichneten die Bitcoin ETFs Nettoabflüsse in Höhe von 213,85 Millionen US-Dollar. Die anhaltenden Mittelabzüge deuten darauf hin, dass institutionelle Investoren dem Markt weiterhin Kapital entziehen. Auch bei den Ethereum ETFs bleibt die Entwicklung schwach. Am vergangenen Handelstag wurden 35,59 Millionen US-Dollar abgezogen. Auf Monatssicht summieren sich die Abflüsse inzwischen auf 167,12 Millionen US-Dollar. Eine Ausnahme bilden die XRP ETFs. Sie konnten als einzige der großen ",
+      "summary": "Die Stimmung institutioneller Anleger bleibt angespannt. Seit dem Ausbruch des Iran-Krieges Ende Februar ziehen Investoren kontinuierlich Kapital aus den Spot-ETFs für Bitcoin und Ethereum ab.",
+      "meaning": "Regulatorik bewegt den Markt — wichtig fuer alle, die in Krypto investiert sind.",
+      "lang": "de"
+    },
+    {
+      "title": "Europol und Eurojust zerschlagen Krypto-Geldwäschenetzwerk",
+      "link": "https://www.btc-echo.de/schlagzeilen/europol-und-eurojust-zerschlagen-krypto-geldwaeschenetzwerk-232354/",
+      "summary_raw": "Ermittler haben den Geldwäschedienst AudiA6 abgeschaltet. Über die Plattform wurden Hunderte Millionen Euro in Kryptowährungen gewaschen. Source: BTC-ECHO BTC-ECHO",
+      "published": "2026-06-12T08:52:50+00:00",
+      "source": "BTC-ECHO",
+      "topic": "krypto",
+      "weight": 3,
+      "fulltext": "Ermittlungsbehörden aus elf Ländern haben den mutmaßlichen Krypto-Geldwäschedienst AudiA6 zerschlagen. Wie Eurojust mitteilt, wurden bei einer koordinierten Aktion zwei mutmaßliche Administratoren in Georgien festgenommen. Zudem beschlagnahmten die Behörden 25 Domains, mehr als 30 Server sowie Vermögenswerte, darunter Kryptowährungen und Fahrzeuge. Nach Angaben der europäischen Justizbehörde soll die Plattform zwischen 2022 und 2025 Kryptowährungen im Wert von mehr als 336 Millionen Euro gewaschen haben. Der Dienst richtete sich laut Ermittlern insbesondere an Cyberkriminelle, die Erlöse aus Ransomware-Angriffen und anderen Straftaten verschleiern wollten. Kryptowährungen innerhalb einer Stunde “gereinigt” Laut Eurojust überwiesen Kunden gestohlene Kryptowährungen an Wallets der Betreiber und erhielten innerhalb von rund einer Stunde vermeintlich “gereinigte” Gelder zurück. Die Herkunft der Vermögenswerte sei dabei durch eine Vielzahl von Transaktionen verschleiert worden. Für den Service seien Gebühren zwischen drei und zehn Prozent verlangt worden. Die Ermittler werfen den Betreibern zudem vor, hinter dem Cybercrime-Forum “Dark2Web” zu stehen. Der Marktplatz soll weltweit zur Ver",
+      "summary": "Ermittlungsbehörden aus elf Ländern haben den mutmaßlichen Krypto-Geldwäschedienst AudiA6 zerschlagen. Wie Eurojust mitteilt, wurden bei einer koordinierten Aktion zwei mutmaßliche Administratoren in Georgien festgenommen.",
+      "meaning": "BTC-Bewegung faerbt meist auf den Gesamtmarkt ab — Richtung im Blick behalten.",
+      "lang": "de"
+    }
+  ]
+}

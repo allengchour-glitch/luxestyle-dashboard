@@ -26,4 +26,7 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npx --yes wrangler@3 pages deploy landing --project-name aban-news --commit-dirty=true
+        run: |
+          # Projekt anlegen (idempotent: existiert es schon, ignorieren) -> dann deployen
+          npx --yes wrangler@3 pages project create aban-news --production-branch main 2>/dev/null || true
+          npx --yes wrangler@3 pages deploy landing --project-name aban-news --branch main --commit-dirty=true
