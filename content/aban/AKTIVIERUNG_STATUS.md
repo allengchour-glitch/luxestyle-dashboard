@@ -1,28 +1,25 @@
 # aban news Pro — Aktivierungs-Status (Stand 2026-06-12)
 
-## LIVE & getestet
-- **Worker `api.abannews.com` ist deployt und laeuft** (via GitHub Action `aban-worker-deploy.yml`, Repo public).
-- Endpunkte live geprueft: `/` (200), `/subscribe` (Validierung 400 bei Murks), `/export` (403 ohne Key),
-  `/confirm` (lehnt falschen Token ab). KV, Secrets, Custom Domain + Zertifikat aktiv.
-- Test-Anmeldung `allengchour@gmail.com` -> `{"ok":true,"status":"pending"}` (Bestaetigungsmail ausgeloest).
+## LIVE & END-TO-END BEWIESEN
+- **Worker `api.abannews.com` deployt und laeuft** (GitHub Action `aban-worker-deploy.yml`, Repo public).
+- **Resend-Domain `abannews.com` verifiziert** -> Mailversand aktiv (`/subscribe` liefert `mail:{ok:true}`).
+- **Voller Double-Opt-in getestet:** Anmeldung -> Bestaetigungsmail -> Klick -> aktiv -> Welcome-Mail mit Referral-Link.
+- **Erster aktiver Abonnent bestaetigt** (Export: `allengchour@gmail.com,free,active`).
+- Endpunkte geprueft: `/subscribe`, `/confirm`, `/status`, `/export`, KV + Custom Domain + Zertifikat.
 
-## OFFEN — beim naechsten Mal testen/erledigen
-1. **Bestaetigungsmail pruefen** (Gmail allengchour@gmail.com, auch Spam):
-   - kommt an -> „Anmeldung bestaetigen" tippen -> aktiv + Welcome-Mail mit Referral-Link = **voll live**.
-   - kommt NICHT an -> **Resend-Domain verifizieren**: resend.com/domains -> abannews.com -> die 3 DNS-Eintraege
-     (SPF/DKIM) bei Cloudflare DNS eintragen -> „Verify". Erst danach liefert Resend an beliebige Adressen.
-2. **Landing online stellen** (damit Besucher das Formular sehen): `content/aban/landing/index.html` als
-   Cloudflare Pages deployen; Endpoint zeigt schon auf `https://api.abannews.com/subscribe`.
-3. **Taegliche Newsletter-Automatik** (`aban-news.yml`) scharf schalten — braucht GitHub-Actions-Secrets:
+## OFFEN — naechste Schritte (optional, fuer vollen Betrieb)
+1. **Landing online stellen** (damit echte Besucher anmelden koennen): `content/aban/landing/index.html`
+   als Cloudflare Pages deployen. Endpoint zeigt schon auf `https://api.abannews.com/subscribe`.
+2. **Taegliche Newsletter-Automatik** (`aban-news.yml`) scharf schalten — GitHub-Actions-Secrets:
    `SMTP_HOST=smtp.resend.com`, `SMTP_PORT=465`, `SMTP_USER=resend`, `SMTP_PASS=<Resend-Key>`,
-   `MAIL_FROM`, `UNSUB_SECRET` (gleich wie im Worker), optional `ANTHROPIC_API_KEY` (Redaktionsqualitaet),
-   `ABAN_PRO_URL` (Stripe).
-4. **Stripe Payment Link** „aban Pro" -> `ABAN_PRO_URL` (Pro-Einnahmen).
-5. **Affiliate-Links** in `partners.json` (Vorlage `partners.sample.json`) -> verdient ab dem ersten Leser.
+   `MAIL_FROM`, `UNSUB_SECRET` (gleich wie Worker), optional `ANTHROPIC_API_KEY`, `ABAN_PRO_URL`.
+3. **Stripe Payment Link** „aban Pro" -> `ABAN_PRO_URL` (Pro-Einnahmen).
+4. **Affiliate-Links** in `partners.json` (Vorlage `partners.sample.json`).
 
 ## Erledigt
-- Repo public (Actions laufen). Secret `RESEND_API_KEY` + die Cloudflare-/Worker-Secrets gesetzt -> Deploy erfolgreich.
+- Repo public (Actions laufen). Worker-Secrets (CF-Token/Account, UNSUB_SECRET, ADMIN_KEY, RESEND_API_KEY, MAIL_FROM) gesetzt.
+- KV-Deploy robust (erst Namespace suchen, dann anlegen). sendMail mit Status-Rueckgabe (Debug).
 - Token-Schema einheitlich (`UNSUB_SECRET` ueberall gleich).
 
-## Re-Deploy bei Aenderungen
-Actions -> „aban — Worker deploy" -> Run workflow. Laeuft automatisch durch (KV/Secrets/Deploy).
+## Re-Deploy
+Actions -> „aban — Worker deploy" -> Run workflow (laeuft automatisch durch).
