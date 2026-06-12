@@ -72,7 +72,7 @@ def confirm_template():
 
 
 def welcome_template():
-    pro = os.environ.get("ABAN_PRO_URL", "https://abannews.com/pro")
+    pro = os.environ.get("ABAN_PRO_URL", "https://buy.stripe.com/6oUdRbfKKcfq03ZbaR5wI05")
     inner = (
         '<tr><td style="padding:28px">'
         '<h1 style="font:700 24px Georgia,serif;color:#10131a;margin:0 0 10px">Willkommen bei aban news</h1>'
