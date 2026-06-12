@@ -15,8 +15,8 @@ Platzhalter, die der Versender / Cloudflare-Worker je Empfaenger ersetzt:
 Auch direkt nutzbar zum Rendern einer konkreten Mail (mit Token):
     python aban_welcome.py --email du@example.com   # gibt fertige Confirm-Mail aus
 
-ENV: UNSUB_SECRET (Token), CONFIRM_BASE (Default https://abannews.com/confirm),
-     UNSUB_URL (Default https://abannews.com/abmelden), ABAN_PRO_URL.
+ENV: UNSUB_SECRET (Token), CONFIRM_BASE (Default https://api.abannews.com/confirm),
+     UNSUB_URL (Default https://api.abannews.com/abmelden), ABAN_PRO_URL.
 """
 import os, sys, html, hmac, hashlib, argparse, urllib.parse
 
@@ -29,13 +29,13 @@ def token(email, purpose="confirm"):
 
 
 def confirm_url(email):
-    base = os.environ.get("CONFIRM_BASE", "https://abannews.com/confirm")
+    base = os.environ.get("CONFIRM_BASE", "https://api.abannews.com/confirm")
     q = urllib.parse.urlencode({"e": email, "t": token(email, "confirm")})
     return base + ("&" if "?" in base else "?") + q
 
 
 def unsub_url(email):
-    base = os.environ.get("UNSUB_URL", "https://abannews.com/abmelden")
+    base = os.environ.get("UNSUB_URL", "https://api.abannews.com/abmelden")
     q = urllib.parse.urlencode({"e": email, "t": token(email, "unsub")})
     return base + ("&" if "?" in base else "?") + q
 

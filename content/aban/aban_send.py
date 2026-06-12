@@ -20,7 +20,7 @@ ENV (NIE im Code/Git — als Secret/ENV setzen):
     MAIL_FROM   Absender-Adresse (z.B. news@abannews.com)   [Pflicht zum Senden]
     MAIL_FROM_NAME  Anzeigename (Default "aban news")
     UNSUB_SECRET    Geheimnis fuer den Abmelde-Token (Default = unsicher, bitte setzen)
-    UNSUB_URL       Basis-URL der Abmelde-Seite (Default https://abannews.com/abmelden)
+    UNSUB_URL       Basis-URL der Abmelde-Seite (Default https://api.abannews.com/abmelden, = Worker-Route)
 
 Abonnentenliste (CSV, Header: email,edition,status,joined):
     --list content/aban/subscribers.csv   (Default; echte Liste ist .gitignore't)
@@ -108,7 +108,7 @@ def unsub_token(email):
 
 
 def unsub_link(email):
-    base = os.environ.get("UNSUB_URL", "https://abannews.com/abmelden")
+    base = os.environ.get("UNSUB_URL", "https://api.abannews.com/abmelden")
     q = urllib.parse.urlencode({"e": email, "t": unsub_token(email)})
     return base + ("&" if "?" in base else "?") + q
 

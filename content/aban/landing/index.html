@@ -61,6 +61,8 @@
       kompakt eingeordnet — mit Markt-Snapshot und sonntags einer Tiefenanalyse.</p>
     <div id="abo" class="card signup" style="padding:24px;color:#10131a">
       <form id="aban-f" novalidate>
+        <input id="aban-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+          style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <input id="aban-email" type="email" required placeholder="Deine E-Mail-Adresse" autocomplete="email">
         <button id="aban-go" type="submit">Kostenlos abonnieren</button>
       </form>
@@ -124,7 +126,8 @@
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ show("Bitte eine gültige E-Mail eingeben.",false); return; }
     btn.disabled=true; btn.textContent="…";
     var ref=new URLSearchParams(location.search).get("ref")||"";
-    fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,source:"landing",ref:ref})})
+    var hp=(document.getElementById("aban-hp").value||"");
+    fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,source:"landing",ref:ref,hp:hp})})
       .then(function(r){ if(!r.ok) throw 0; f.style.display="none";
         show("Fast geschafft! Bitte bestätige die Anmeldung in der E-Mail, die wir dir gerade geschickt haben.",true); })
       .catch(function(){ show("Hat nicht geklappt — bitte später erneut.",false); btn.disabled=false; btn.textContent="Kostenlos abonnieren"; });
