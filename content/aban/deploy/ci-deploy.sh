@@ -10,13 +10,15 @@ cd "$(dirname "$0")"
 WR="npx --yes wrangler"
 
 echo "== 1) KV-Namespace ABAN_SUBS sicherstellen =="
-create_out="$($WR kv namespace create ABAN_SUBS 2>&1 || true)"
-kv_id="$(printf '%s' "$create_out" | grep -oE '[a-f0-9]{32}' | head -1 || true)"
+# Robust: ERST bestehenden Namespace finden (echte ID), nur anlegen wenn keiner existiert.
+find_kv() { $WR kv namespace list 2>/dev/null | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const a=JSON.parse(s);const m=a.find(x=>String(x.title).endsWith("ABAN_SUBS"));process.stdout.write(m?m.id:"")}catch(e){}})'; }
+kv_id="$(find_kv)"
 if [ -z "$kv_id" ]; then
-  echo "   (existiert evtl. schon) -> in Liste suchen"
-  kv_id="$($WR kv namespace list | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const a=JSON.parse(s);const m=a.find(x=>String(x.title).endsWith("ABAN_SUBS"));process.stdout.write(m?m.id:"")}catch(e){}})')"
+  echo "   keiner vorhanden -> anlegen"
+  $WR kv namespace create ABAN_SUBS >/dev/null 2>&1 || true
+  kv_id="$(find_kv)"
 fi
-[ -n "$kv_id" ] || { echo "FEHLER: KV-ID nicht ermittelbar"; exit 1; }
+echo "$kv_id" | grep -qE '^[a-f0-9]{32}$' || { echo "FEHLER: KV-ID ungueltig/leer: '$kv_id'"; exit 1; }
 echo "   KV-ID: $kv_id"
 sed -i.bak "s/REPLACE_WITH_KV_ID/$kv_id/" wrangler.toml && rm -f wrangler.toml.bak
 
