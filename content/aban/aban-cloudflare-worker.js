@@ -112,6 +112,9 @@ async function subscribe(req, env) {
   const e = email.toLowerCase();
   const existing = await env.ABAN_SUBS.get(e, "json");
   if (existing && existing.status === "active") return json({ ok: true, status: "already" });
+  // Anti-Bombing: dieselbe Adresse nicht oefter als 1x/60s erneut anmailen
+  if (existing && existing.status === "pending" && existing.ts && (Date.now() - existing.ts) < 60000)
+    return json({ ok: true, status: "pending", mailed: false });
   const t = await token(env.UNSUB_SECRET, "confirm", e);
   await env.ABAN_SUBS.put(e, JSON.stringify({ status: "pending", referred_by: (ref ? String(ref).slice(0, 16) : null), ts: Date.now() }));
   const link = `${api(env)}/confirm?e=${encodeURIComponent(e)}&t=${t}`;
