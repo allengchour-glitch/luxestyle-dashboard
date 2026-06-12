@@ -70,12 +70,17 @@ async function refCode(secret, email) { return (await hmac(secret, `refcode:${em
 
 // ----------------------------------------------------------------- Mail (Resend default)
 async function sendMail(env, to, subject, html) {
-  if (!env.RESEND_API_KEY) return;
-  await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { "Authorization": `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: env.MAIL_FROM || "aban news <onboarding@resend.dev>", to, subject, html }),
-  });
+  if (!env.RESEND_API_KEY) return { ok: false, reason: "no_resend_key" };
+  try {
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ from: env.MAIL_FROM || "aban news <onboarding@resend.dev>", to, subject, html }),
+    });
+    if (r.ok) return { ok: true };
+    let detail = ""; try { detail = (await r.text()).slice(0, 200); } catch (e) {}
+    return { ok: false, reason: "http_" + r.status, detail };
+  } catch (e) { return { ok: false, reason: "exception", detail: String(e).slice(0, 160) }; }
 }
 
 function confirmMail(link) {
@@ -108,8 +113,8 @@ async function subscribe(req, env) {
   const t = await token(env.UNSUB_SECRET, "confirm", e);
   await env.ABAN_SUBS.put(e, JSON.stringify({ status: "pending", referred_by: ref || null, ts: Date.now() }));
   const link = `${api(env)}/confirm?e=${encodeURIComponent(e)}&t=${t}`;
-  await sendMail(env, e, "Bitte bestaetige deine aban-news-Anmeldung", confirmMail(link));
-  return json({ ok: true, status: "pending" });
+  const mail = await sendMail(env, e, "Bitte bestaetige deine aban-news-Anmeldung", confirmMail(link));
+  return json({ ok: true, status: "pending", mail });
 }
 
 async function confirm(url, env) {
