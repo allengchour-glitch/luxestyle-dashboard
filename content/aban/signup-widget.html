@@ -15,6 +15,8 @@
     <p style="font:400 14px/1.5 -apple-system,Segoe UI,sans-serif;color:#5a6470;margin:0 0 16px">
       Jeden Morgen das Wichtigste auf Deutsch — kostenlos, taeglich, jederzeit abbestellbar.</p>
     <form id="aban-f" novalidate>
+      <input id="aban-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+        style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <input id="aban-email" type="email" required placeholder="Deine E-Mail-Adresse" autocomplete="email"
         style="width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #d4dae2;border-radius:8px;font-size:15px;margin-bottom:10px">
       <button id="aban-go" type="submit"
@@ -39,9 +41,10 @@
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ show("Bitte eine gueltige E-Mail eingeben.",false); return; }
     btn.disabled=true; btn.textContent="…";
     var ref=new URLSearchParams(location.search).get("ref")||"";
+    var hp=(document.getElementById("aban-hp").value||"");
     fetch(box.getAttribute("data-endpoint"),{
       method:"POST", headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({email:email, source:"website", ref:ref})
+      body:JSON.stringify({email:email, source:"website", ref:ref, hp:hp})
     }).then(function(r){ return r.ok? r.json().catch(function(){return {};}) : Promise.reject(r); })
       .then(function(){
         f.style.display="none";

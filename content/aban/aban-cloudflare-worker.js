@@ -105,16 +105,19 @@ function welcomeMail(shareLink, statusLink, unsub) {
 
 // ----------------------------------------------------------------- Routes
 async function subscribe(req, env) {
-  const { email, ref } = await req.json().catch(() => ({}));
-  if (!isEmail(email)) return json({ ok: false, error: "invalid email" }, 400);
+  const body = await req.json().catch(() => ({}));
+  const { email, ref, hp } = body;
+  if (hp) return json({ ok: true, status: "pending" });             // Honeypot: Bot ausgefuellt -> still ignorieren
+  if (!isEmail(email) || String(email).length > 254) return json({ ok: false, error: "invalid email" }, 400);
   const e = email.toLowerCase();
   const existing = await env.ABAN_SUBS.get(e, "json");
   if (existing && existing.status === "active") return json({ ok: true, status: "already" });
   const t = await token(env.UNSUB_SECRET, "confirm", e);
-  await env.ABAN_SUBS.put(e, JSON.stringify({ status: "pending", referred_by: ref || null, ts: Date.now() }));
+  await env.ABAN_SUBS.put(e, JSON.stringify({ status: "pending", referred_by: (ref ? String(ref).slice(0, 16) : null), ts: Date.now() }));
   const link = `${api(env)}/confirm?e=${encodeURIComponent(e)}&t=${t}`;
   const mail = await sendMail(env, e, "Bitte bestaetige deine aban-news-Anmeldung", confirmMail(link));
-  return json({ ok: true, status: "pending", mail });
+  if (!mail.ok) console.log("mail-fail", mail.reason, mail.detail || "");  // Detail nur im Log, nicht in der Antwort
+  return json({ ok: true, status: "pending", mailed: mail.ok });
 }
 
 async function confirm(url, env) {
@@ -124,6 +127,10 @@ async function confirm(url, env) {
     return pageHtml("Link ungueltig", `<p style="color:#3a4150">Dieser Bestaetigungslink ist ungueltig oder abgelaufen.</p>`);
 
   const prev = (await env.ABAN_SUBS.get(e, "json")) || {};
+  if (prev.status === "active") {                                  // idempotent: nicht erneut Welcome senden
+    return pageHtml("Schon bestaetigt", `<h2 style="color:#10131a;font-family:Georgia,serif">Schon angemeldet</h2>
+      <p style="color:#3a4150">Du bist bereits bestaetigt — danke!</p><p><a href="${site(env)}" style="color:#0b5">Zur Startseite</a></p>`);
+  }
   const code = await refCode(env.UNSUB_SECRET, e);
   const rec = { status: "active", edition: prev.edition || "free", referrals: prev.referrals || 0,
                 ref_code: code, referred_by: prev.referred_by || null, ts: Date.now() };
