@@ -703,7 +703,7 @@ def main():
 
     os.makedirs(args.out, exist_ok=True)
     stamp = now.astimezone().strftime("%Y-%m-%d")
-    pro_url = os.environ.get("ABAN_PRO_URL", "https://abannews.com/pro")
+    pro_url = os.environ.get("ABAN_PRO_URL", "https://buy.stripe.com/6oUdRbfKKcfq03ZbaR5wI05")
 
     ad = None
     if not args.no_ads:
