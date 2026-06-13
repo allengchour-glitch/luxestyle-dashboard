@@ -3,16 +3,31 @@
   "theme": "Bitcoin",
   "terms": [
     "bitcoin",
-    "openai",
     "anthropic",
-    "milliarden",
-    "dollar",
-    "preiskampf"
+    "openai",
+    "eu",
+    "spacex",
+    "fable"
   ],
   "llm": false,
-  "based_on": 8,
-  "generated": "2026-06-11T21:42:00.595356+00:00",
+  "based_on": 20,
+  "generated": "2026-06-13T10:53:11.132224+00:00",
   "sources": [
+    {
+      "title": "SpaceX IPO: Was der größte Börsengang aller Zeiten für Bitcoin bedeutet",
+      "link": "https://www.btc-echo.de/news/spacex-ipo-was-der-groesste-boersengang-aller-zeiten-fuer-bitcoin-bedeutet-232290/",
+      "source": "BTC-ECHO"
+    },
+    {
+      "title": "Kimi K2.7 Code: Neues offenes Modell will mit Kampfpreisen gegen OpenAI und Anthropic punkten",
+      "link": "https://the-decoder.de/kimi-k2-7-code-neues-offenes-modell-will-mit-kampfpreisen-gegen-openai-und-anthropic-punkten/",
+      "source": "The Decoder"
+    },
+    {
+      "title": "Anthropic setzt mit Fable 5 neue Bestmarke im Mathematik-Benchmark FrontierMath",
+      "link": "https://the-decoder.de/anthropic-setzt-mit-fable-5-neue-bestmarke-im-mathematik-benchmark-frontiermath/",
+      "source": "The Decoder"
+    },
     {
       "title": "KI-Preiskampf: OpenAI soll ChatGPT-Preise drastisch senken wollen – Anthropic könnte folgen",
       "link": "https://t3n.de/news/openai-chatgpt-preise-anthropic-1747290/?utm_source=rss&utm_medium=newsFeed&utm_campaign=newsFeed",
@@ -29,23 +44,13 @@
       "source": "BTC-ECHO"
     },
     {
-      "title": "Jeff Bezos' KI-Startup Prometheus sammelt 12 Milliarden Dollar ein",
-      "link": "https://the-decoder.de/jeff-bezos-ki-startup-prometheus-sammelt-12-milliarden-dollar-ein/",
+      "title": "Auf Anweisung der US-Regierung: Anthropic sperrt Fable 5 und Mythos 5 weltweit",
+      "link": "https://the-decoder.de/auf-anweisung-der-us-regierung-anthropic-sperrt-fable-5-und-mythos-5-weltweit/",
       "source": "The Decoder"
     },
     {
-      "title": "Liquidierung? Nakamoto verkauft 600 Bitcoin, um Schulden zu tilgen",
-      "link": "https://www.blocktrainer.de/blog/nakamoto-verkauft-600-bitcoin",
-      "source": "Blocktrainer"
-    },
-    {
-      "title": "Bitcoin-Analyse: Steht die finale Kapitulation noch bevor?",
-      "link": "https://www.btc-echo.de/news/bitcoin-analyse-steht-die-finale-kapitulation-noch-bevor-232267/",
-      "source": "BTC-ECHO"
-    },
-    {
-      "title": "Wie Riot seinen Wandel mit Bitcoin finanziert",
-      "link": "https://www.btc-echo.de/news/wie-riot-seinen-wandel-mit-bitcoin-finanziert-232194/",
+      "title": "Bitcoin legt nach SpaceX-IPO zu – ist das jetzt der Wendepunkt?",
+      "link": "https://www.btc-echo.de/schlagzeilen/bitcoin-legt-nach-spacex-ipo-zu-ist-das-jetzt-der-wendepunkt-232435/",
       "source": "BTC-ECHO"
     }
   ]

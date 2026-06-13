@@ -1,0 +1,129 @@
+{
+  "date": "2026-06-13",
+  "edition": "pro",
+  "generated": "2026-06-13T10:52:49.449334+00:00",
+  "llm": false,
+  "minutes": 2,
+  "insight": "Heute: 4 KI-Themen und 4 Krypto-Themen. BTC bei CHF 50884 ▲ (+0.5%). Top-Thema: Kimi K2.7 Code: Neues offenes Modell will mit Kampfpreisen gegen OpenAI und Anthropic punk…",
+  "market": {
+    "btc": 50884,
+    "eth": 1334.22,
+    "btc_str": "CHF 50884 ▲ (+0.5%)",
+    "eth_str": "CHF 1334 ▲ (+0.2%)",
+    "btc_ch": 0.4752699086179231,
+    "eth_ch": 0.17469399717207967,
+    "cur": "CHF"
+  },
+  "pick": {
+    "label": "KI-Tool des Tages",
+    "title": "Kimi K2.7 Code: Neues offenes Modell will mit Kampfpreisen gegen OpenAI und Anthropic punkten",
+    "link": "https://the-decoder.de/kimi-k2-7-code-neues-offenes-modell-will-mit-kampfpreisen-gegen-openai-und-anthropic-punkten/?utm_source=abannews&utm_medium=email&utm_campaign=2026-06-13",
+    "why": "Regulierung entscheidet, welche KI in der EU/DACH erlaubt ist — heute mitdenken."
+  },
+  "items": [
+    {
+      "title": "Kimi K2.7 Code: Neues offenes Modell will mit Kampfpreisen gegen OpenAI und Anthropic punkten",
+      "link": "https://the-decoder.de/kimi-k2-7-code-neues-offenes-modell-will-mit-kampfpreisen-gegen-openai-und-anthropic-punkten/",
+      "summary_raw": "Moonshot AI veröffentlicht Kimi K2.7 Code, ein auf Programmierung spezialisiertes Open-Source-Modell mit einer Billion Parametern. In Coding-Benchmarks liegt es noch hinter GPT-5.5 und Claude Opus 4.8, kostet aber nur einen Bruchteil: 0,95 statt 5,00 Dollar pro Million Input-Tokens. Die entscheidende Frage ist damit nicht, ob es das beste Modell ist, sondern ob es gut genug ist.",
+      "published": "2026-06-13T08:20:41+00:00",
+      "source": "The Decoder",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "Kimi K2.7 Code: Neues offenes Modell will mit Kampfpreisen gegen OpenAI und Anthropic punkten Kurz & Knapp - Moonshot AI hat das Open-Source-Modell Kimi K2.7 Code veröffentlicht, das speziell für komplexe Programmieraufgaben und agentenbasierte Workflows entwickelt wurde. - In reinen Programmier-Benchmarks liegt das Modell meist hinter westlichen Konkurrenten wie GPT-5.5 und Claude Opus 4.8 zurück, zeigt jedoch Stärken in praxisnahen Agenten-Tests. - Mit API-Kosten von 0,95 US-Dollar pro Million Input-Tokens und 4,00 US-Dollar pro Million Output-Tokens ist K2.7 Code jedoch deutlich günstiger als die Konkurrenz, was es für den massenhaften Einsatz attraktiv macht. Moonshot AI hat mit Kimi K2.7-Code ein neues KI-Modell veröffentlicht, das speziell auf Programmieraufgaben und agentenbasierte Coding-Workflows ausgerichtet ist. Das Modell baut auf dem Vorgänger Kimi K2.6 auf und ist als Open-Source-Version auf Hugging Face verfügbar. Laut Moonshot AI soll K2.7-Code primär bei langfristigen, komplexen Software-Engineering-Aufgaben besser abschneiden als sein Vorgänger. Für allgemeine Aufgaben jenseits der Programmierung empfiehlt das Unternehmen weiterhin K2.6. Kimi ist auch das Modell, ",
+      "summary": "Kimi K2.7 Code: Neues offenes Modell will mit Kampfpreisen gegen OpenAI und Anthropic punkten Kurz & Knapp - Moonshot AI hat das Open-Source-Modell Kimi K2.7 Code veröffentlicht, das speziell für komplexe Programmieraufgaben und agentenbasierte Workflows…",
+      "meaning": "Regulierung entscheidet, welche KI in der EU/DACH erlaubt ist — heute mitdenken.",
+      "lang": "de"
+    },
+    {
+      "title": "Anthropic setzt mit Fable 5 neue Bestmarke im Mathematik-Benchmark FrontierMath",
+      "link": "https://the-decoder.de/anthropic-setzt-mit-fable-5-neue-bestmarke-im-mathematik-benchmark-frontiermath/",
+      "summary_raw": "Anthropics Claude Fable 5 erreicht 88 % Genauigkeit auf der schwierigsten Stufe des FrontierMath-Benchmarks, ein massiver Sprung gegenüber dem Vorgänger Opus 4.5, der Anfang 2026 noch unter 10 % lag. OpenAIs GPT-5.5 kommt auf derselben Stufe auf rund 75 %. Das Tempo, mit dem sich die mathematischen Fähigkeiten der Modelle verbessern, bleibt bemerkenswert.",
+      "published": "2026-06-13T10:10:26+00:00",
+      "source": "The Decoder",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "Anthropic setzt mit Fable 5 neue Bestmarke im Mathematik-Benchmark FrontierMath Anthropics neues KI-Modell Claude Fable 5 erzielt herausragende Ergebnisse im Mathematik-Benchmark FrontierMath. Laut Epoch AI erreicht Fable 5 eine Genauigkeit von 87 % auf den Stufen 1 bis 3 und 88 % auf der schwierigsten Stufe 4 (v2). Damit setzt Anthropic einen Trend fort: Die Mathematik-Leistung seiner Modelle verbessert sich in kurzer Zeit stark. Noch Anfang 2026 lag das Vorgängermodell Opus 4.5 auf Tier 4 bei unter 10 %. OpenAIs GPT-5.5 erreicht auf derselben Stufe etwa 75 % und liegt damit klar hinter Fable 5. Die Modelle wurden auf dem Standard-Testgerüst von Epoch AI mit maximaler Reasoning-Leistung getestet. FrontierMath gilt als anspruchsvoller Benchmark für mathematisches Schlussfolgern von KI-Modellen. Dass diese mathematischen Leistungen auch im Alltag ankommen, zeigen mittlerweile zahlreiche Beispiele, zuletzt das von einem OpenAI-Modell gelöste Erdős-Problem. KI-News ohne Hype – von Menschen kuratiert Mit dem THE‑DECODER‑Abo liest du werbefrei und wirst Teil unserer Community: Diskutiere im Kommentarsystem, erhalte unseren wöchentlichen KI‑Newsletter, 6× im Jahr den \"KI Radar\"‑Frontier‑",
+      "summary": "Anthropic setzt mit Fable 5 neue Bestmarke im Mathematik-Benchmark FrontierMath Anthropics neues KI-Modell Claude Fable 5 erzielt herausragende Ergebnisse im Mathematik-Benchmark FrontierMath. Laut Epoch AI erreicht Fable 5 eine Genauigkeit von 87 % auf…",
+      "meaning": "Rechtlicher Rahmen fuer KI verschiebt sich — betrifft Einsatz im Unternehmen.",
+      "lang": "de"
+    },
+    {
+      "title": "Auf Anweisung der US-Regierung: Anthropic sperrt Fable 5 und Mythos 5 weltweit",
+      "link": "https://the-decoder.de/auf-anweisung-der-us-regierung-anthropic-sperrt-fable-5-und-mythos-5-weltweit/",
+      "summary_raw": "Die US-Regierung hat Anthropic angewiesen, den weltweiten Zugang zu Fable 5 und Mythos 5 wegen angeblicher Jailbreak-Risiken zu sperren. Anthropic befolgt die Anordnung, widerspricht aber öffentlich: Die gefundenen Schwachstellen seien geringfügig und auch bei Konkurrenzmodellen wie GPT-5.5 vorhanden. Das Unternehmen warnt vor einem Präzedenzfall, der alle Frontier-Deployments stoppen könnte; ausgerechnet nachdem es selbst monatelang die Cybersecurity-Risiken seiner Mythos-Klasse betont hatte.",
+      "published": "2026-06-13T07:18:44+00:00",
+      "source": "The Decoder",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "Auf Anweisung der US-Regierung: Anthropic sperrt Fable 5 und Mythos 5 weltweit Kurz & Knapp - Die US-Regierung hat Anthropic aus Gründen der nationalen Sicherheit angewiesen, den weltweiten Zugang zu seinen KI-Modellen Fable 5 und Mythos 5 abzuschalten. - Das Exportverbot betrifft alle ausländischen Staatsangehörigen, einschließlich der eigenen Mitarbeiter des Unternehmens. - Hintergrund der Sperre ist ein von der Regierung vermuteter \"Jailbreak\", mit dem sich die Sicherheitsvorkehrungen von Fable 5 umgehen lassen sollen. Anthropic widerspricht dieser Einschätzung. Die US-Regierung hat Anthropic unter Berufung auf nationale Sicherheitsinteressen angewiesen, den Zugang zu seinen leistungsstärksten KI-Modellen Fable 5 und Mythos 5 weltweit abzuschalten. Anthropic befolgt die Anordnung, widerspricht ihr aber öffentlich. Die Exportkontrolldirektive verbietet jeglichen Zugang zu Fable 5 und Mythos 5 durch ausländische Staatsangehörige, unabhängig davon, ob diese sich innerhalb oder außerhalb der USA befinden. Auch ausländische Mitarbeitende von Anthropic selbst sind betroffen. In der Konsequenz muss Anthropic den Zugang für sämtliche Kunden weltweit abschalten, um die Vorgabe einzuhalte",
+      "summary": "Auf Anweisung der US-Regierung: Anthropic sperrt Fable 5 und Mythos 5 weltweit Kurz & Knapp - Die US-Regierung hat Anthropic aus Gründen der nationalen Sicherheit angewiesen, den weltweiten Zugang zu seinen KI-Modellen Fable 5 und Mythos 5 abzuschalten. -…",
+      "meaning": "Gericht/Gesetzgeber setzen Grenzen — wer KI nutzt, sollte das verfolgen.",
+      "lang": "de"
+    },
+    {
+      "title": "AI Poisoning: Wie Betrüger ChatGPT manipulieren, um dich auf Fakeshops zu locken",
+      "link": "https://t3n.de/news/ai-poisoning-betrueger-chatgpt-fakeshops-1746423/?utm_source=rss&utm_medium=newsFeed&utm_campaign=newsFeed",
+      "summary_raw": "Die Zukunft des Shoppings ist dialogbasiert. Statt Suchmaschinen zu nutzen, fragen wir KI-Assistenten nach den besten Produkten für unsere Bedürfnisse. Doch mit dem Aufstieg von Agentic Commerce entsteht zugleich eine neue Angriffsfläche für Betrüger, wie jetzt ein Fall in Großbritannien zeigt. weiterlesen auf t3n.de",
+      "published": "2026-06-13T09:10:00+02:00",
+      "source": "t3n",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "AI Poisoning: Wie Betrüger ChatGPT manipulieren, um dich auf Fakeshops zu locken Es war nur eine Frage der Zeit, bis Betrüger:innen das Potenzial von Agentic Commerce und LLMs im Onlinehandel entdecken würden. Jetzt gibt es einen ersten Fall, in dem Kund:innen getäuscht werden sollen – doch dabei wird es nicht bleiben. Verbraucherschützer in Großbritannien warnen jetzt vor einer neuen Betrugsmasche, bei der Kriminelle offenbar KI-gestützte Such- und Empfehlungssysteme ausnutzen, um bestimmte Fakeshops zu bewerben. Wie die britische Zeitung The Guardian berichtet, tauchen in den Suchergebnissen bei ChatGPT gefälschte Online-Shops auf, die bekannten Einzelhändlern täuschend ähnlich sehen. So werden laut dem britischen Betrugserkennungsdienst Ask Silver potenzielle Kund:innen unter anderem auf nachgeahmte Websites der britischen Schuh- und Taschenmarke Russell & Bromley sowie des Einrichtungshändlers Dunelm geleitet. Diese Fakeshops erfüllen die üblichen Kriterien, über die wir auch im Bezug auf hiesige Shops immer wieder berichten – sie wirken auf den ersten Blick seriös, bieten Produkte mit (verdächtig) hohen Rabatten an und imitieren das Erscheinungsbild der Originalunternehmen dan",
+      "summary": "AI Poisoning: Wie Betrüger ChatGPT manipulieren, um dich auf Fakeshops zu locken Es war nur eine Frage der Zeit, bis Betrüger:innen das Potenzial von Agentic Commerce und LLMs im Onlinehandel entdecken würden. Jetzt gibt es einen ersten Fall, in dem…",
+      "meaning": "Regulierung entscheidet, welche KI in der EU/DACH erlaubt ist — heute mitdenken.",
+      "lang": "de"
+    },
+    {
+      "title": "Strategys Bitcoin-Verkauf: Hier spricht Michael Saylor die Unwahrheit",
+      "link": "https://www.btc-echo.de/schlagzeilen/strategys-bitcoin-verkauf-hier-spricht-michael-saylor-die-unwahrheit-232438/",
+      "summary_raw": "Nach dem Bitcoin-Verkauf von Strategy wehrt sich Michael Saylor. Er habe keine Versprechen gebrochen. Doch nun holen ihn alte Aussagen wieder ein. Source: BTC-ECHO BTC-ECHO",
+      "published": "2026-06-13T10:17:36+00:00",
+      "source": "BTC-ECHO",
+      "topic": "krypto",
+      "weight": 3,
+      "fulltext": "Die Zeiten waren für Michael Saylor schon mal leichter. Der Strategy-Gründer hat an Vertrauen eingebüßt, seit die größte Bitcoin-Treasury der Welt 32 BTC veräußerte. Die Kritik war groß, der Vorwurf des Wortbruchs stand im Raum. Nun holte der 61-Jährige zum Gegenschlag aus – und dürfte damit für reichlich Irritationen gesorgt haben. “Ich habe euch gesagt, niemals eure Bitcoin zu verkaufen. Ich habe nie gesagt, dass die Firma ihre Bitcoin nicht verkauft.” Dieses Zitat von Michael Saylor geht gerade auf X viral. Auf der BTC-Prague rechtfertigte er damit den jüngsten Verkauf von Strategy. Er sagte: “Jeder der unsere Earnings Calls verfolgt oder unsere Mitteilungen gelesen hat oder überhaupt nur einen Funken Verstand besitzt, weiß, dass wir in den letzten fünf Jahren sehr deutlich gemacht haben, dass wir Bitcoin verkaufen, wenn wir müssen.” Saylor vergangene Aussagen sorgen für Irritation Das Problem: Seine Aussage entspricht nicht der Wahrheit. Michael Saylor hat in der Vergangenheit sehr wohl des Öfteren öffentlich versprochen, seine Firma werde niemals Bitcoin verkaufen. So zum Beispiel im Januar 2022. Als er die Frage mit „nein, niemals. Wir sind keine Verkäufer”, beantwortete. Im ",
+      "summary": "Die Zeiten waren für Michael Saylor schon mal leichter. Der Strategy-Gründer hat an Vertrauen eingebüßt, seit die größte Bitcoin-Treasury der Welt 32 BTC veräußerte.",
+      "meaning": "Bitcoin gibt den Takt vor — beobachte, ob Altcoins mitziehen.",
+      "lang": "de"
+    },
+    {
+      "title": "Der Inflationsschock ist da: Warum steigt Bitcoin nicht?",
+      "link": "https://www.btc-echo.de/news/der-inflationsschock-ist-da-warum-steigt-bitcoin-nicht-232353/",
+      "summary_raw": "Die US-Inflation hat mit 4,2 Prozent den höchsten Stand seit mehr als drei Jahren erreicht. Bitcoin reagiert dennoch kaum. Genau das wirft zurzeit eine entscheidende Frage auf. Source: BTC-ECHO BTC-ECHO",
+      "published": "2026-06-13T09:00:00+00:00",
+      "source": "BTC-ECHO",
+      "topic": "krypto",
+      "weight": 3,
+      "fulltext": "Lange hat an den Finanzmärkten eine einfache Logik gegolten: Wenn die Kaufkraft von Währungen sinkt, steigt die Nachfrage nach knappen Vermögenswerten. Gold hat von diesem Zusammenhang über Jahrzehnte profitiert. Mit dem Aufstieg von Bitcoin hat sich dieselbe Argumentation auch auf den Krypto-Markt übertragen. Die jüngsten Inflationsdaten aus den USA stellen diese Spieltheorie erneut auf die Probe. Die Verbraucherpreise haben im Mai mit 4,2 Prozent den höchsten Stand seit mehr als drei Jahren erreicht. Noch vor wenigen Jahren hätten solche Zahlen vermutlich eine deutlich stärkere Reaktion bei Gold und Bitcoin ausgelöst. Die neuesten Inflationsdaten liefern eigentlich starke Argumente für steigende Bitcoin-Kurse. Trotzdem bleibt die Käuferschaft aus. Deshalb ergibt sich die Frage: Welcher Faktor wiegt derzeit schwerer als die Inflation? Warum Bitcoin vom Preisschock nicht profitiert Die jüngsten Daten aus den USA haben viele Marktteilnehmer schockiert. Mit 4,2 Prozent liegt die US-Inflation auf dem höchsten Niveau seit dem Frühjahr 2023. Grund hierfür ist vor allem der höhere Energiepreis. Die Kerninflation hat mit 2,9 Prozent deutlich niedriger gelegen. Für Anleger entsteht daraus ",
+      "summary": "Lange hat an den Finanzmärkten eine einfache Logik gegolten: Wenn die Kaufkraft von Währungen sinkt, steigt die Nachfrage nach knappen Vermögenswerten. Gold hat von diesem Zusammenhang über Jahrzehnte profitiert.",
+      "meaning": "BTC-Bewegung faerbt meist auf den Gesamtmarkt ab — Richtung im Blick behalten.",
+      "lang": "de"
+    },
+    {
+      "title": "Bitcoin legt nach SpaceX-IPO zu – ist das jetzt der Wendepunkt?",
+      "link": "https://www.btc-echo.de/schlagzeilen/bitcoin-legt-nach-spacex-ipo-zu-ist-das-jetzt-der-wendepunkt-232435/",
+      "summary_raw": "Ein gelungener Börsengang von SpaceX und die Hoffnung auf Frieden im Irankrieg beflügeln Bitcoin. Ist das jetzt der Wendepunkt? Source: BTC-ECHO BTC-ECHO",
+      "published": "2026-06-13T08:24:11+00:00",
+      "source": "BTC-ECHO",
+      "topic": "krypto",
+      "weight": 3,
+      "fulltext": "Es wurde das erwartete Börsenspektakel. Ihr Debüt an der Nasdaq beendete SpaceX gestern mit einem ordentlichen Kursplus. Vom Ausgabepreis in Höhe von 135 US-Dollar stieg die Aktie um 23,75 Prozent auf 166,84 US-Dollar. Das zeigen Daten von Tradingview. Vom Handelsstart profitierte aber nicht nur das Raumfahrtunternehmen. Auch Bitcoin zog in Folge des Börsengangs an. So konnte die wertvollste Kryptowährung in den letzten 24 Stunden um knapp 1,3 Prozent zulegen. Zum Zeitpunkt des Schreibens handelt BTC bei 63.800 US-Dollar und beendet damit eine der schlimmsten Handelswochen doch noch mit einem deutlichen Kursplus von 4,5 Prozent. Der gelungene SpaceX-IPO dürfte die Risk-on-Mentalität einiger Anleger an der Wall Street gestärkt haben. So konnten die Bitcoin Spot ETFs in den USA einen fünftägigen Abwärtstrend durchbrechen und verzeichneten am Freitag 85 Millionen US-Dollar an Inflows. Hauptverantwortlich für den Kursanstieg dürften jedoch eher nicht gewesen sein. Möglicher Frieden im Irankrieg als Haupttreiber? Bitcoin zur Rettung eilte gestern ausgerechnet Donald Trump. Der US-Präsident hatte einen Angriff auf den Iran in letzter Minute abgeblasen. Grund dafür sei ein Verhandlungserf",
+      "summary": "Es wurde das erwartete Börsenspektakel. Ihr Debüt an der Nasdaq beendete SpaceX gestern mit einem ordentlichen Kursplus.",
+      "meaning": "Was bei Bitcoin passiert, zieht oft die ganze Branche nach.",
+      "lang": "de"
+    },
+    {
+      "title": "Bitcoin-Treasury-Unternehmen vor Turnaround? Metaplanet übernimmt Broker",
+      "link": "https://www.btc-echo.de/schlagzeilen/bitcoin-treasury-metaplanet-uebernimmt-broker-232406/",
+      "summary_raw": "Metaplanet kauft Siiibo Securities für rund 2,1 Milliarden Yen. Die Übernahme soll den Aufbau eines Bitcoin-basierten Finanzökosystems in Japan beschleunigen. Source: BTC-ECHO BTC-ECHO",
+      "published": "2026-06-12T13:55:06+00:00",
+      "source": "BTC-ECHO",
+      "topic": "krypto",
+      "weight": 3,
+      "fulltext": "Metaplanet treibt seine Bitcoin-Strategie voran. Das japanische BTC-Treasury-Unternehmen hat den regulierten Broker Siiibo Securities übernommen. Der Deal hat ein Volumen von rund 2,1 Milliarden Yen, umgerechnet etwa 13,1 Millionen US-Dollar. Nach Abschluss der Transaktion soll Siiibo Securities eine hundertprozentige Tochtergesellschaft von Metaplanet werden und künftig unter dem Namen Metaplanet Securities firmieren. “Project Nova” nimmt Form an Die Übernahme gilt als erster größerer Schritt im Rahmen von “Project Nova”. Mit der langfristig angelegten Strategie will Metaplanet ein Bitcoin-fokussiertes Finanzökosystem aufbauen. Das Unternehmen hält nach eigenen Angaben per 31. Mai insgesamt 40.177 BTC im Wert von rund 2,6 Milliarden US-Dollar. Die Krypto-Leitwährung sieht Metaplanet dabei nicht nur als Treasury-Asset, sondern als Grundlage für neue Finanzprodukte und Dienstleistungen. Broker-Lizenz soll Bitcoin-Produkte ermöglichen Siiibo Securities ist auf die Ausgabe und den Vertrieb von Unternehmensanleihen über eine Online-Plattform spezialisiert. Nach Unternehmensangaben hat die Firma bereits mehr als 100 Anleiheemissionen für über 40 Unternehmen begleitet. Metaplanet will di",
+      "summary": "Metaplanet treibt seine Bitcoin-Strategie voran. Das japanische BTC-Treasury-Unternehmen hat den regulierten Broker Siiibo Securities übernommen.",
+      "meaning": "Regulatorik bewegt den Markt — wichtig fuer alle, die in Krypto investiert sind.",
+      "lang": "de"
+    }
+  ]
+}
