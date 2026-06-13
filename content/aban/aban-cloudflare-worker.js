@@ -38,10 +38,15 @@ export default {
       if (url.pathname === "/status") return status(url, env);
       if (url.pathname === "/abmelden") return unsubscribe(url, env);
       if (url.pathname === "/export") return exportCsv(url, env);
+      if (url.pathname === "/digest-test") return digestTest(url, env);   // manueller Test mit ?key=ADMIN_KEY[&to=mail]
       return new Response("aban news subscribe service", { status: 200, headers: CORS });
     } catch (e) {
       return json({ ok: false, error: String(e) }, 500);
     }
+  },
+  // Taegliche Automatik (Cron-Trigger in Cloudflare einstellen, z.B. "0 5 * * *" = 07:00 CH).
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(runDigest(env));
   },
 };
 
@@ -223,4 +228,127 @@ async function exportCsv(url, env) {
     cursor = list.list_complete ? null : list.cursor;
   } while (cursor);
   return new Response(rows.join("\n"), { headers: { "Content-Type": "text/csv", ...CORS } });
+}
+
+// ============================================================================
+// Taegliche Newsletter-Automatik (Cron) — generiert + versendet auf Cloudflare,
+// ganz ohne GitHub/GitLab. Quellen = deutsche KI/Krypto-Feeds (gute Beschreibungen).
+// ============================================================================
+const DIGEST_FEEDS = [
+  { name: "The Decoder", url: "https://the-decoder.de/feed/", topic: "KI" },
+  { name: "t3n", url: "https://t3n.de/rss.xml", topic: "KI" },
+  { name: "heise", url: "https://www.heise.de/rss/heise-atom.xml", topic: "KI" },
+  { name: "BTC-ECHO", url: "https://www.btc-echo.de/feed/", topic: "Krypto" },
+  { name: "Blocktrainer", url: "https://www.blocktrainer.de/feed/", topic: "Krypto" },
+  { name: "Cointelegraph", url: "https://cointelegraph.com/rss", topic: "Krypto" },
+];
+
+function deEntities(s) {
+  return (s || "")
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&#0?39;|&apos;/g, "'").replace(/&nbsp;/g, " ")
+    .replace(/&#8211;|&#8212;/g, "–").replace(/&[a-z0-9#]+;/gi, " ")
+    .replace(/\s+/g, " ").trim();
+}
+function pick(block, name) {
+  const m = block.match(new RegExp(`<${name}[^>]*>([\\s\\S]*?)<\\/${name}>`, "i"));
+  return m ? deEntities(m[1]) : "";
+}
+function pickLink(block) {
+  let m = block.match(/<link[^>]*href="([^"]+)"/i);   // Atom
+  if (m) return m[1];
+  m = block.match(/<link[^>]*>([\s\S]*?)<\/link>/i);   // RSS
+  return m ? deEntities(m[1]) : "";
+}
+async function fetchFeed(f) {
+  try {
+    const r = await fetch(f.url, { headers: { "User-Agent": "aban-news-worker/1.0" }, cf: { cacheTtl: 300 } });
+    if (!r.ok) return [];
+    const xml = await r.text();
+    const blocks = xml.match(/<item[\s\S]*?<\/item>/gi) || xml.match(/<entry[\s\S]*?<\/entry>/gi) || [];
+    return blocks.slice(0, 4).map(b => {
+      let sum = pick(b, "description") || pick(b, "summary") || pick(b, "content");
+      sum = sum.replace(/Der (Artikel|Beitrag)[\s\S]*$/i, "").replace(/The post[\s\S]*appeared first[\s\S]*$/i, "").trim();
+      if (sum.length > 230) sum = sum.slice(0, 227).replace(/\s\S*$/, "") + "…";
+      return { title: pick(b, "title"), link: pickLink(b), summary: sum, source: f.name, topic: f.topic };
+    }).filter(x => x.title && x.link);
+  } catch (e) { return []; }
+}
+async function marketSnapshot() {
+  try {
+    const r = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=chf&include_24hr_change=true");
+    const d = await r.json();
+    const f = (c) => { const p = d[c].chf, ch = d[c].chf_24h_change || 0; return `CHF ${p >= 100 ? Math.round(p) : p.toFixed(2)} ${ch >= 0 ? "▲" : "▼"} (${ch >= 0 ? "+" : ""}${ch.toFixed(1)}%)`; };
+    return { btc: f("bitcoin"), eth: f("ethereum") };
+  } catch (e) { return null; }
+}
+function digestHtml(items, market, dateStr) {
+  const a = "#0b5", dark = "#10131a";
+  const esc = (s) => (s || "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  let cur = "", rows = "";
+  for (const it of items) {
+    if (it.topic !== cur) { cur = it.topic; rows += `<tr><td style="padding:22px 28px 4px"><div style="font:700 12px -apple-system,Segoe UI,sans-serif;letter-spacing:2px;text-transform:uppercase;color:${a}">${esc(cur)}</div></td></tr>`; }
+    rows += `<tr><td style="padding:12px 28px;border-bottom:1px solid #e9ecf1">
+      <a href="${esc(it.link)}" style="font:700 17px/1.3 Georgia,serif;color:${dark};text-decoration:none">${esc(it.title)}</a>
+      <div style="font:600 11px -apple-system,Segoe UI,sans-serif;color:#8a93a3;margin:5px 0 7px;text-transform:uppercase">${esc(it.source)}</div>
+      <div style="font:400 14px/1.55 -apple-system,Segoe UI,sans-serif;color:#3a4150">${esc(it.summary)}</div></td></tr>`;
+  }
+  const mk = market ? `<tr><td style="padding:0 28px 12px"><span style="font:600 12px -apple-system,Segoe UI,sans-serif;color:#8a93a3">Markt:</span> <span style="font:700 13px -apple-system,Segoe UI,sans-serif;color:${dark}">BTC ${esc(market.btc)} · ETH ${esc(market.eth)}</span></td></tr>` : "";
+  return `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+  <body style="margin:0;background:#eef1f5;padding:24px 0">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 30px rgba(16,19,26,.08)">
+  <tr><td style="background:${dark};padding:24px 28px"><div style="font:800 22px -apple-system,Segoe UI,sans-serif;color:#fff">aban<span style="color:${a}">news</span></div>
+  <div style="font:400 13px -apple-system,Segoe UI,sans-serif;color:#aeb6c4;margin-top:6px">KI &amp; Krypto · ${dateStr} · in 5 Minuten auf dem Laufenden</div></td></tr>
+  ${mk}${rows}
+  <tr><td style="padding:20px 28px;background:#fafbfc;text-align:center">
+  <a href="https://buy.stripe.com/6oUdRbfKKcfq03ZbaR5wI05" style="display:inline-block;background:${a};color:#fff;font:700 14px -apple-system,Segoe UI,sans-serif;text-decoration:none;padding:11px 22px;border-radius:8px">aban Pro werden</a>
+  <div style="font:400 11px -apple-system,Segoe UI,sans-serif;color:#9aa3b2;margin-top:12px">{{UNSUB}}</div></td></tr>
+  </table></td></tr></table></body></html>`;
+}
+async function buildDigest() {
+  const all = (await Promise.all(DIGEST_FEEDS.map(fetchFeed))).flat();
+  const seen = new Set(), items = [];
+  for (const it of all) { const k = it.link.split("?")[0]; if (!seen.has(k)) { seen.add(k); items.push(it); } }
+  const ki = items.filter(i => i.topic === "KI").slice(0, 4);
+  const kr = items.filter(i => i.topic === "Krypto").slice(0, 4);
+  const sel = [...ki, ...kr];
+  const market = await marketSnapshot();
+  const dateStr = new Date().toLocaleDateString("de-CH", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return { html: digestHtml(sel, market, dateStr), count: sel.length, date: dateStr };
+}
+async function runDigest(env, onlyTo) {
+  const { html, count, date } = await buildDigest();
+  if (!count) return { ok: false, reason: "no_items" };
+  const subject = `aban news · KI & Krypto — ${date}`;
+  const recipients = [];
+  if (onlyTo) recipients.push(onlyTo);
+  else {
+    let cursor;
+    do {
+      const list = await env.ABAN_SUBS.list({ cursor });
+      for (const k of list.keys) {
+        if (k.name.startsWith("ref:")) continue;
+        const v = await env.ABAN_SUBS.get(k.name, "json");
+        if (v && v.status === "active") recipients.push(k.name);
+      }
+      cursor = list.list_complete ? null : list.cursor;
+    } while (cursor);
+  }
+  let sent = 0;
+  for (const e of recipients) {
+    const ut = await token(env.UNSUB_SECRET, "unsub", e);
+    const unsub = `<a href="${api(env)}/abmelden?e=${encodeURIComponent(e)}&t=${ut}" style="color:#9aa3b2">Abmelden</a>`;
+    const r = await sendMail(env, e, subject, html.replace("{{UNSUB}}", unsub));
+    if (r.ok) sent++;
+  }
+  return { ok: true, recipients: recipients.length, sent, items: count };
+}
+async function digestTest(url, env) {
+  if ((url.searchParams.get("key") || "") !== env.ADMIN_KEY) return new Response("forbidden", { status: 403 });
+  const to = url.searchParams.get("to") || null;   // ?to=mail = nur an diese Adresse (Test), sonst ganze Liste
+  const res = await runDigest(env, to);
+  return json(res);
 }

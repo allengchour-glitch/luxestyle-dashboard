@@ -22,3 +22,7 @@ routes = [
 [vars]
 SITE = "https://abannews.com"
 API_BASE = "https://api.abannews.com"
+
+# Taegliche Newsletter-Automatik (Cron). 05:00 UTC = 07:00 CH.
+[triggers]
+crons = ["0 5 * * *"]
