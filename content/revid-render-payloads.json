@@ -1,0 +1,658 @@
+[
+  {
+    "product": "Signet-Ring Edelstahl matt",
+    "video_file_prefix": "signet_ring_edelstahl_matt",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "Der Ring-Trend 2026 fuer Maenner. Dieser Siegelring aus matt gebuerstetem 316L-Edelstahl ist DAS Statement-Piece - kratzfest, anlauffrei, unisex. Vom Buero bis zum Wochenende. Sichere dir 10% mit Code WELCOME10. Link in Bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "de"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "de",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Herren-Siegelring schwarz-silber",
+    "video_file_prefix": "herren_siegelring_schwarz_si",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "Maskulin und alltagstauglich: der schwarz-silberne Siegelring aus 316L Edelstahl. Markant, kratzfest, ein echtes Statement am Finger. Perfektes Geschenk fuer ihn. 10% mit WELCOME10. Link in Bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "de"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "de",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Plain Band Ring gebuerstet",
+    "video_file_prefix": "plain_band_ring_gebuerstet",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "Der minimalistische Klassiker: 6mm Comfort-Fit, gebuerstet, anlauffrei. Schlicht, robust, zeitlos - fuer jeden Tag und perfekt zum Stacken. 10% mit WELCOME10. Link in Bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "de"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "de",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Leder-Schluesselanhaenger Gravur",
+    "video_file_prefix": "leder_schluesselanhaenger_gr",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "Das Geschenk das mit den Jahren schoener wird: echter Vollnarbenleder-Schluesselanhaenger mit deiner persoenlichen Gravur, in der Geschenkbox. 10% mit WELCOME10. Link in Bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "de"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "de",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Smart Ring Titan",
+    "video_file_prefix": "smart_ring_titan",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "A smartwatch on your finger. This titanium smart ring tracks sleep, heart-rate and activity. No screen, no wrist gadget, days of battery. Health insights in the app. 10% off with WELCOME10. Link in bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "en"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "en",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Ultraschall-Reinigungsgeraet",
+    "video_file_prefix": "ultraschall_reinigungsgeraet",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "So sauber war deine Brille noch nie. Das Ultraschallgeraet reinigt Brillen, Schmuck und Uhren porentief in 5 Minuten - ohne Schrubben, schonend, kein Kratzen. 10% mit WELCOME10. Link in Bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "de"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "de",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Ringlicht 26cm mit Stativ",
+    "video_file_prefix": "ringlicht_26cm_mit_stativ",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "Dein Content-Setup-Upgrade: 26cm Ringlicht mit Stativ, 3 Lichtfarben, stufenlos dimmbar. Perfektes Licht fuer Selfies, Reels und Calls. 10% mit WELCOME10. Link in Bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "de"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "de",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Waterproof Gold Jewelry Set",
+    "video_file_prefix": "waterproof_gold_jewelry_set",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "Jewelry that survives the pool. 18K gold-plated stainless steel - waterproof, tarnish-free, hypoallergenic. The summer layering look that never turns green. 10% off with WELCOME10. Link in bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "en"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "en",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Stacking-Ring Mix-Metall",
+    "video_file_prefix": "stacking_ring_mix_metall",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "How to stack gold and silver the right way. These mixed-metal stacking rings layer endlessly for that effortless trend look. 10% off with WELCOME10. Link in bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "en"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "en",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Initialen-Ring A-Z",
+    "video_file_prefix": "initialen_ring_a_z",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "Your initial, your ring. Adjustable 316L in gold or silver - the perfect dainty personalized gift. Pick your letter. 10% off with WELCOME10. Link in bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "en"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "en",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Rain Cloud Aroma Diffuser",
+    "video_file_prefix": "rain_cloud_aroma_diffuser",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "This cloud actually rains. A fine aroma mist with soft glowing raindrops in 7 colors - turn any room into a spa. Quiet, USB-powered. 10% off with WELCOME10. Link in bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "en"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "en",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Sunset Projection Lamp",
+    "video_file_prefix": "sunset_projection_lamp",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "Golden hour, any time of day. Project a warm sunset glow on your wall - the secret behind those cozy aesthetic reels. 16 colors, adjustable. 10% off with WELCOME10. Link in bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "en"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "en",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "LED Mirror Clock",
+    "video_file_prefix": "led_mirror_clock",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "The desk detail everyone asks about. A sleek LED mirror clock - time, date, temperature, alarm. Minimal, premium, USB-powered. 10% off with WELCOME10. Link in bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "en"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "en",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Phone Makeover Set",
+    "video_file_prefix": "phone_makeover_set",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "Phone glow-up in 10 seconds. Trendy charms, a secure grip and a MagSafe holder - mix and match for a fresh look daily. 10% off with WELCOME10. Link in bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "en"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "en",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Straw Beach Tote",
+    "video_file_prefix": "straw_beach_tote",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "The only bag you need this summer. A handwoven straw tote - roomy, lightweight, that Mediterranean it-bag look for beach, city or holiday. 10% off with WELCOME10. Link in bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "en"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "en",
+        "outputCount": 1
+      }
+    }
+  },
+  {
+    "product": "Akupressur-Ringe Set",
+    "video_file_prefix": "akupressur_ringe_set",
+    "payload": {
+      "workflow": "script-to-video",
+      "aspectRatio": "9:16",
+      "source": {
+        "text": "60 Sekunden Entspannung fuer zwischendurch. Die Akupressur-Ringe aktivieren deine Fingerpunkte - Energie und Stress-Reset in Sekunden. 5er-Set. 10% mit WELCOME10. Link in Bio.",
+        "durationSeconds": 20,
+        "stylePrompt": "Premium minimalist lifestyle look, clean neutral or cozy modern background, soft natural lighting, sharp focus on the product, high-end e-commerce aesthetic. Avoid cheap generic stock, avoid unrelated model footage (no random shoes/glasses/dresses), no low-quality dropshipping vibe."
+      },
+      "media": {
+        "type": "stock-video",
+        "animation": "dynamic",
+        "density": "medium",
+        "quality": "ultra",
+        "imageModel": "ultra",
+        "videoModel": "pro"
+      },
+      "voice": {
+        "enabled": true,
+        "language": "de"
+      },
+      "captions": {
+        "enabled": true,
+        "position": "bottom"
+      },
+      "music": {
+        "enabled": true
+      },
+      "render": {
+        "resolution": "1080p",
+        "frameRate": 30
+      },
+      "options": {
+        "promptTargetDuration": 20,
+        "language": "de",
+        "outputCount": 1
+      }
+    }
+  }
+]

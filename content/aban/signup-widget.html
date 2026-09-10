@@ -1,0 +1,56 @@
+<!--
+  aban news — Signup-Widget (Drop-in fuer abannews.com).
+  Einbau: diesen Block dort einfuegen, wo das Anmeldeformular stehen soll.
+  Das Formular POSTet die E-Mail an deinen Endpoint (data-endpoint) -> Double-Opt-in.
+  Endpoint-Optionen (siehe aban-cloudflare-worker.js + ABAN_NEWS_PRO.md):
+    - Cloudflare Worker (empfohlen, Seite laeuft eh auf Cloudflare)
+    - Formspree / andere Form-Backends (dann action-URL anpassen)
+  Markenfarben Taupe/Cream wie LuxeStyle-Style; standalone, kein Framework.
+-->
+<div id="aban-signup" data-endpoint="https://api.abannews.com/subscribe"
+     style="max-width:440px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <div style="background:#fff;border:1px solid #e9ecf1;border-radius:16px;padding:26px 24px;box-shadow:0 8px 30px rgba(16,19,26,.06);text-align:center">
+    <div style="font:700 11px/1 -apple-system,Segoe UI,sans-serif;letter-spacing:2px;text-transform:uppercase;color:#0b5;margin-bottom:8px">aban news</div>
+    <h2 style="font:700 24px Georgia,serif;color:#10131a;margin:0 0 6px">KI &amp; Krypto in 5 Minuten</h2>
+    <p style="font:400 14px/1.5 -apple-system,Segoe UI,sans-serif;color:#5a6470;margin:0 0 16px">
+      Jeden Morgen das Wichtigste auf Deutsch — kostenlos, taeglich, jederzeit abbestellbar.</p>
+    <form id="aban-f" novalidate>
+      <input id="aban-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+        style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <input id="aban-email" type="email" required placeholder="Deine E-Mail-Adresse" autocomplete="email"
+        style="width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #d4dae2;border-radius:8px;font-size:15px;margin-bottom:10px">
+      <button id="aban-go" type="submit"
+        style="width:100%;padding:14px;border:none;border-radius:8px;background:#10131a;color:#fff;font-size:15px;font-weight:700;cursor:pointer">
+        Kostenlos abonnieren</button>
+    </form>
+    <p id="aban-msg" style="display:none;font:400 13px/1.5 -apple-system,Segoe UI,sans-serif;margin:12px 0 0"></p>
+    <p style="font:400 11px/1.45 -apple-system,Segoe UI,sans-serif;color:#9aa3b2;margin:12px 0 0">
+      Mit der Anmeldung stimmst du dem Erhalt des Newsletters zu (Double-Opt-in).
+      <a href="/datenschutz" style="color:#9aa3b2">Datenschutz</a>.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var box=document.getElementById("aban-signup");
+  var f=document.getElementById("aban-f"), inp=document.getElementById("aban-email");
+  var msg=document.getElementById("aban-msg"), btn=document.getElementById("aban-go");
+  function show(t,ok){ msg.textContent=t; msg.style.color=ok?"#0b5":"#d6452b"; msg.style.display="block"; }
+  f.addEventListener("submit",function(e){
+    e.preventDefault();
+    var email=(inp.value||"").trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ show("Bitte eine gueltige E-Mail eingeben.",false); return; }
+    btn.disabled=true; btn.textContent="…";
+    var ref=new URLSearchParams(location.search).get("ref")||"";
+    var hp=(document.getElementById("aban-hp").value||"");
+    fetch(box.getAttribute("data-endpoint"),{
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({email:email, source:"website", ref:ref, hp:hp})
+    }).then(function(r){ return r.ok? r.json().catch(function(){return {};}) : Promise.reject(r); })
+      .then(function(){
+        f.style.display="none";
+        show("Fast geschafft! Bitte bestaetige die Anmeldung in der E-Mail, die wir dir gerade geschickt haben.",true);
+      })
+      .catch(function(){ show("Hat nicht geklappt — bitte spaeter erneut.",false); btn.disabled=false; btn.textContent="Kostenlos abonnieren"; });
+  });
+})();
+</script>

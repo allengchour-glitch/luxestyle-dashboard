@@ -1,0 +1,57 @@
+{
+  "week": "2026-W24",
+  "theme": "Bitcoin",
+  "terms": [
+    "bitcoin",
+    "anthropic",
+    "openai",
+    "eu",
+    "spacex",
+    "fable"
+  ],
+  "llm": false,
+  "based_on": 20,
+  "generated": "2026-06-13T10:53:11.132224+00:00",
+  "sources": [
+    {
+      "title": "SpaceX IPO: Was der größte Börsengang aller Zeiten für Bitcoin bedeutet",
+      "link": "https://www.btc-echo.de/news/spacex-ipo-was-der-groesste-boersengang-aller-zeiten-fuer-bitcoin-bedeutet-232290/",
+      "source": "BTC-ECHO"
+    },
+    {
+      "title": "Kimi K2.7 Code: Neues offenes Modell will mit Kampfpreisen gegen OpenAI und Anthropic punkten",
+      "link": "https://the-decoder.de/kimi-k2-7-code-neues-offenes-modell-will-mit-kampfpreisen-gegen-openai-und-anthropic-punkten/",
+      "source": "The Decoder"
+    },
+    {
+      "title": "Anthropic setzt mit Fable 5 neue Bestmarke im Mathematik-Benchmark FrontierMath",
+      "link": "https://the-decoder.de/anthropic-setzt-mit-fable-5-neue-bestmarke-im-mathematik-benchmark-frontiermath/",
+      "source": "The Decoder"
+    },
+    {
+      "title": "KI-Preiskampf: OpenAI soll ChatGPT-Preise drastisch senken wollen – Anthropic könnte folgen",
+      "link": "https://t3n.de/news/openai-chatgpt-preise-anthropic-1747290/?utm_source=rss&utm_medium=newsFeed&utm_campaign=newsFeed",
+      "source": "t3n"
+    },
+    {
+      "title": "Preiskampf zwischen OpenAI und Anthropic: Tokens könnten günstiger werden",
+      "link": "https://the-decoder.de/preiskampf-zwischen-openai-und-anthropic-tokens-koennten-guenstiger-werden/",
+      "source": "The Decoder"
+    },
+    {
+      "title": "Bitcoin ETFs verlieren 2,1 Milliarden US-Dollar allein im laufenden Juni",
+      "link": "https://www.btc-echo.de/schlagzeilen/bitcoin-etfs-verlieren-21-milliarden-us-dollar-232314/",
+      "source": "BTC-ECHO"
+    },
+    {
+      "title": "Auf Anweisung der US-Regierung: Anthropic sperrt Fable 5 und Mythos 5 weltweit",
+      "link": "https://the-decoder.de/auf-anweisung-der-us-regierung-anthropic-sperrt-fable-5-und-mythos-5-weltweit/",
+      "source": "The Decoder"
+    },
+    {
+      "title": "Bitcoin legt nach SpaceX-IPO zu – ist das jetzt der Wendepunkt?",
+      "link": "https://www.btc-echo.de/schlagzeilen/bitcoin-legt-nach-spacex-ipo-zu-ist-das-jetzt-der-wendepunkt-232435/",
+      "source": "BTC-ECHO"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "aban-subscribe-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloudflare Worker fuer aban news (Anmeldung/Double-Opt-in/Referral)",
+  "scripts": {
+    "kv:create": "wrangler kv namespace create ABAN_SUBS",
+    "secrets": "echo 'wrangler secret put UNSUB_SECRET; wrangler secret put RESEND_API_KEY; wrangler secret put MAIL_FROM; wrangler secret put ADMIN_KEY'",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}

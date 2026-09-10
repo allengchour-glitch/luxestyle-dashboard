@@ -1,0 +1,108 @@
+{
+ "_note": "Alle Videodateien im luxestyle.ch Shopify-Store (Stand 2026-06-02). Per Admin-API gefunden (files query media_type:Video). 480p/720p-Renditionen je nach id durch Aendern des -SD-/-HD- Suffix; m3u8 ebenfalls verfuegbar.",
+ "count": 17,
+ "videos": [
+  {
+   "product": "Klassische Herrenuhr Edelstahl",
+   "type": "product-demo",
+   "orientation": "9:16 (606x1080)",
+   "best": "https://cdn.shopify.com/videos/c/vp/c29410efbe544a2ba003957e1eb74546/c29410efbe544a2ba003957e1eb74546.HD-1080p-2.5Mbps-85001005.mp4"
+  },
+  {
+   "product": "Diver Pro Automatic 200M",
+   "type": "product-demo",
+   "orientation": "landscape (1280x720)",
+   "best": "https://cdn.shopify.com/videos/c/vp/5193ba717774443e93cbc48150cf3814/5193ba717774443e93cbc48150cf3814.HD-720p-1.6Mbps-85005179.mp4"
+  },
+  {
+   "product": "Smart Diffuser XXL 200m2 Bluetooth",
+   "type": "product-demo",
+   "orientation": "landscape (1280x720)",
+   "best": "https://cdn.shopify.com/videos/c/vp/9f4522096dea48808131eac2cb86ee09/9f4522096dea48808131eac2cb86ee09.HD-720p-1.6Mbps-84998430.mp4"
+  },
+  {
+   "product": "Flame Diffuser Premium (Kamin-Effekt)",
+   "type": "product-demo",
+   "orientation": "landscape (1252x720)",
+   "best": "https://cdn.shopify.com/videos/c/vp/5e1a3ce7b7e1446ba2267d98dbb3eba0/5e1a3ce7b7e1446ba2267d98dbb3eba0.HD-720p-1.6Mbps-84996852.mp4"
+  },
+  {
+   "product": "Flame Diffuser Premium (Kamin-Effekt) alt",
+   "type": "product-demo",
+   "orientation": "landscape (1252x720)",
+   "best": "https://cdn.shopify.com/videos/c/vp/fa4499fd10064b81b5f218a5a9fb654e/fa4499fd10064b81b5f218a5a9fb654e.HD-720p-1.6Mbps-84997071.mp4"
+  },
+  {
+   "product": "Aroma Diffuser Bambus 500ml",
+   "type": "product-demo",
+   "orientation": "square (480x480)",
+   "best": "https://cdn.shopify.com/videos/c/vp/cc9fb0a2eb8144d0b611e41258cea017/cc9fb0a2eb8144d0b611e41258cea017.SD-480p-0.9Mbps-84998987.mp4"
+  },
+  {
+   "product": "Premium Notebook & Pen Set",
+   "type": "product-demo",
+   "orientation": "square (720x720) - eingebrannte Lieferantentexte!",
+   "best": "https://cdn.shopify.com/videos/c/vp/401c5cb0310547dbb0e773d016931f92/401c5cb0310547dbb0e773d016931f92.HD-720p-1.6Mbps-84998106.mp4"
+  },
+  {
+   "product": "Pillow Spray Lavendel (South Moon Fremdmarke)",
+   "type": "product-demo",
+   "orientation": "landscape (1280x720) - wirkt billig",
+   "best": "https://cdn.shopify.com/videos/c/vp/275725f1548b4bcaaac541a6158d730e/275725f1548b4bcaaac541a6158d730e.HD-720p-1.6Mbps-84998274.mp4"
+  },
+  {
+   "product": "Bluetooth Kopfhoerer ANC",
+   "type": "product-demo",
+   "orientation": "square (720x720)",
+   "best": "https://cdn.shopify.com/videos/c/vp/7021f78eee5c44b0b97087243deecace/7021f78eee5c44b0b97087243deecace.HD-720p-1.6Mbps-84999650.mp4"
+  },
+  {
+   "product": "HEPA Luftreiniger Smart",
+   "type": "product-demo",
+   "orientation": "landscape (1280x720)",
+   "best": "https://cdn.shopify.com/videos/c/vp/03a840d324674aa6b95ecd59426d64f5/03a840d324674aa6b95ecd59426d64f5.HD-720p-1.6Mbps-85000006.mp4"
+  },
+  {
+   "product": "3-in-1 Wireless Charger",
+   "type": "product-demo",
+   "orientation": "landscape (1280x720)",
+   "best": "https://cdn.shopify.com/videos/c/vp/ec85f6c4732f46ba9bf69001c6287265/ec85f6c4732f46ba9bf69001c6287265.HD-720p-1.6Mbps-85000588.mp4"
+  },
+  {
+   "product": "Solar Powerbank 20000mAh",
+   "type": "product-demo",
+   "orientation": "portrait (540x720)",
+   "best": "https://cdn.shopify.com/videos/c/vp/df3ba3fa42854d039c8b2057161d6c35/df3ba3fa42854d039c8b2057161d6c35.HD-720p-1.6Mbps-85001962.mp4"
+  },
+  {
+   "product": "Faszienrolle Premium 3er-Set",
+   "type": "product-demo",
+   "orientation": "portrait (540x720)",
+   "best": "https://cdn.shopify.com/videos/c/vp/1cecb3f560b94e8eb03df66944e4a015/1cecb3f560b94e8eb03df66944e4a015.HD-720p-1.6Mbps-84997892.mp4"
+  },
+  {
+   "product": "LuxeStyle Top-10-Bestseller Ad",
+   "type": "fertige-ad-9:16",
+   "orientation": "9:16 (606x1080)",
+   "best": "https://cdn.shopify.com/videos/c/vp/5637452c09574c2e8b296f40c5155fbf/5637452c09574c2e8b296f40c5155fbf.HD-1080p-2.5Mbps-85361886.mp4"
+  },
+  {
+   "product": "LuxeStyle Website-Tour Ad",
+   "type": "fertige-ad-9:16",
+   "orientation": "9:16 (606x1080)",
+   "best": "https://cdn.shopify.com/videos/c/vp/284fe922e443486da17bf1797d1867dc/284fe922e443486da17bf1797d1867dc.HD-1080p-2.5Mbps-85361887.mp4"
+  },
+  {
+   "product": "LuxeStyle Sommer-Mode / Kleider Ad (10 Kleider inkl. Savanna rot, Brise gruen)",
+   "type": "fertige-ad-9:16",
+   "orientation": "9:16 (606x1080)",
+   "best": "https://cdn.shopify.com/videos/c/vp/230be726672a4e2d948dfa72ef839227/230be726672a4e2d948dfa72ef839227.HD-1080p-2.5Mbps-85362235.mp4"
+  },
+  {
+   "product": "LuxeStyle Best-of-Mix Highlights Ad",
+   "type": "fertige-ad-9:16",
+   "orientation": "9:16 (606x1080)",
+   "best": "https://cdn.shopify.com/videos/c/vp/9ba0c3f017ad486a902be4fc5ff3f215/9ba0c3f017ad486a902be4fc5ff3f215.HD-1080p-2.5Mbps-85362926.mp4"
+  }
+ ]
+}

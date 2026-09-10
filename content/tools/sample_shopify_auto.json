@@ -1,0 +1,23 @@
+{
+  "brand": "LuxeStyle", "code": "WELCOME10", "domain": "luxestyle.ch",
+  "accent": "#C9A24B", "music": "upbeat", "price_badge": true, "progress_bar": true,
+  "out": "sommer_auto.mp4",
+  "_env": "Braucht ENV: SHOPIFY_STORE=xxxx.myshopify.com  und  SHOPIFY_ADMIN_TOKEN=shpat_...  (Token NICHT committen!)",
+  "shopify": {
+    "query": "tag:sommer-2026 AND status:active",
+    "limit": 6,
+    "sort": "created", "reverse": true,
+    "only_published": true,
+    "img": 0,
+    "price_format": "{cur} {price}",
+    "default_dur": 1.7,
+    "exclude": ["handle-das-nicht-soll"],
+    "_alt": "Statt 'query' kann man auch feste 'handles': [..] angeben (Reihenfolge bleibt erhalten)."
+  },
+  "hooks": [
+    { "title": "SOMMER-SALE", "sub": "-10% mit Code WELCOME10" },
+    { "title": "NEU: SOMMER-DROP", "sub": "ab CHF 22.90" },
+    { "title": "★ KUNDENLIEBLINGE", "sub": "Versand aus der Schweiz" }
+  ],
+  "socialproof": { "stars": 5, "title": "Über 50 Bewertungen", "sub": "Versand aus der Schweiz", "foot": "wasserfest · anlauffrei · hypoallergen", "dur": 1.8 }
+}

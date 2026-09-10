@@ -1,0 +1,32 @@
+name: aban — Landing deploy
+
+# Deployt die Newsletter-Landingpage (content/aban/landing) nach Cloudflare Pages.
+# Voraussetzung: GitHub-Secrets CLOUDFLARE_API_TOKEN (mit "Cloudflare Pages: Edit") + CLOUDFLARE_ACCOUNT_ID.
+# Danach: Actions -> "aban — Landing deploy" -> Run workflow. Ergebnis-URL steht im Log (*.pages.dev).
+# Eigene Domain (z.B. abannews.com) spaeter im Pages-Projekt zuweisen.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: content/aban
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Landing nach Cloudflare Pages deployen
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # Projekt anlegen (idempotent: existiert es schon, ignorieren) -> dann deployen
+          npx --yes wrangler@3 pages project create aban-news --production-branch main 2>/dev/null || true
+          npx --yes wrangler@3 pages deploy landing --project-name aban-news --branch main --commit-dirty=true

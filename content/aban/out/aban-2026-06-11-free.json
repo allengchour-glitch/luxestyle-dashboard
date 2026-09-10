@@ -1,0 +1,90 @@
+{
+  "date": "2026-06-11",
+  "edition": "free",
+  "generated": "2026-06-11T21:30:47.181042+00:00",
+  "llm": false,
+  "minutes": 2,
+  "insight": "Heute: 4 KI-Themen und 4 Krypto-Themen. BTC bei CHF 50410 ▲ (+2.3%). Top-Thema: KI-Preiskampf: OpenAI soll ChatGPT-Preise drastisch senken wollen – Anthropic könnte folge…",
+  "market": {
+    "btc": 50410,
+    "eth": 1333.23,
+    "btc_str": "CHF 50410 ▲ (+2.3%)",
+    "eth_str": "CHF 1333 ▲ (+2.8%)",
+    "btc_ch": 2.2906703388616387,
+    "eth_ch": 2.8161995462447553,
+    "cur": "CHF"
+  },
+  "pick": {
+    "label": "Krypto-Thema des Tages",
+    "title": "Bitcoin ETFs verlieren 2,1 Milliarden US-Dollar allein im laufenden Juni",
+    "link": "https://www.btc-echo.de/schlagzeilen/bitcoin-etfs-verlieren-21-milliarden-us-dollar-232314/?utm_source=abannews&utm_medium=email&utm_campaign=2026-06-11",
+    "why": "Regulatorik bewegt den Markt — wichtig fuer alle, die in Krypto investiert sind."
+  },
+  "items": [
+    {
+      "title": "KI-Preiskampf: OpenAI soll ChatGPT-Preise drastisch senken wollen – Anthropic könnte folgen",
+      "link": "https://t3n.de/news/openai-chatgpt-preise-anthropic-1747290/?utm_source=rss&utm_medium=newsFeed&utm_campaign=newsFeed",
+      "summary_raw": "Im Vorfeld der geplanten Börsengänge sollen die KI-Rivalen OpenAI und Anthropic versuchen, sich über Preissenkungen gegenseitig Kund:innen abzuluchsen. Davon könnten sowohl private Nutzer:innen als auch Firmenkund:innen profitieren. weiterlesen auf t3n.de",
+      "published": "2026-06-11T19:28:24+02:00",
+      "source": "t3n",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "KI-Preiskampf: OpenAI soll ChatGPT-Preise drastisch senken wollen – Anthropic könnte folgen Sowohl ChatGPT-Erfinder OpenAI als auch Claude-Anbieter Anthropic streben an die Börse. Beide KI-Firmen haben entsprechende Unterlagen bei der zuständigen US-Börsenaufsicht SEC eingereicht – Details sind aber nicht bekannt. Anthropic hat gegenüber OpenAI aufgeholt Klar ist nur, dass Anthropic gegenüber OpenAI zuletzt mächtig aufgeholt hat. Sowohl bei der Bewertung als auch beim Umsatz liegt Anthropic mittlerweile vorn. Internen Zahlen des Fintechs Ramp zufolge soll Anthropic OpenAI auch in puncto Einsatz der KI-Tools in US-Unternehmen hinter sich gelassen haben. Um vor dem Börsengang wieder Boden gut zu machen, beziehungsweise nicht noch weiter an Boden zu verlieren, soll OpenAI jetzt drastische Preissenkungen planen, wie das Wall Street Journal (WSJ) schreibt. Dabei sollen vor allem die Kosten für die KI-Token reduziert werden. Preissenkungen der Konkurrenz OpenAI geht laut vom WSJ zitierten Insider:innen davon aus, dass Anthropic in absehbarer Zeit ebenfalls die entsprechenden Preise senken könnte. Darüber hinaus hatten zuletzt sowohl der chinesische Anbieter Deepseek als auch Google ihre ",
+      "summary": "KI-Preiskampf: OpenAI soll ChatGPT-Preise drastisch senken wollen – Anthropic könnte folgen Sowohl ChatGPT-Erfinder OpenAI als…",
+      "meaning": "Regulierung entscheidet, welche KI in der EU/DACH erlaubt ist — heute mitdenken.",
+      "lang": "de"
+    },
+    {
+      "title": "Jeff Bezos' KI-Startup Prometheus sammelt 12 Milliarden Dollar ein",
+      "link": "https://the-decoder.de/jeff-bezos-ki-startup-prometheus-sammelt-12-milliarden-dollar-ein/",
+      "summary_raw": "Jeff Bezos' KI-Startup Prometheus schließt eine Finanzierungsrunde über 12 Milliarden Dollar ab bei einer Bewertung von 41 Milliarden Dollar. Erst im November war das Unternehmen mit 6,2 Milliarden Startkapital gegründet worden. Konkrete Produkte gibt es noch nicht: Bezos nennt es \"noch zu früh\" für Details.",
+      "published": "2026-06-11T16:24:20+00:00",
+      "source": "The Decoder",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "Jeff Bezos' KI-Startup Prometheus sammelt 12 Milliarden Dollar ein Jeff Bezos’ KI-Startup Prometheus hat eine Finanzierungsrunde über 12 Milliarden Dollar abgeschlossen. Das Unternehmen wird dabei mit 41 Milliarden Dollar bewertet, wie CNBC berichtet. Prometheus war im November mit 6,2 Milliarden Dollar Startkapital gegründet worden. Bezos, der 2021 als Amazon-CEO zurücktrat, leitet das Unternehmen gemeinsam mit Vik Bajaj, Stanford-Professor und Mitgründer von Alphabets Forschungslabor Verily. Das Startup hat zudem Mitarbeiter von OpenAI, Google Deepmind und Nvidia abgeworben. Ein Großteil der Mittel fließe in Rechenleistung, da die Arbeit \"sehr rechenintensiv\" sei, speziell die Datengenerierung. Konkrete Produkte hat das Startup bisher nicht vorgestellt. Für Details zu Produkten sei es \"noch zu früh\". Laut Bezos könnte Prometheus auch mit Amazon oder anderen Hyperscalern zusammenarbeiten. Bekannt ist, dass Prometheus KI-Modelle für physische Aufgaben entwickelt: Engineering, Fertigung und Medikamentendesign. Die Werkzeuge sollen Ingenieuren helfen, Produkte schneller zu entwerfen und herzustellen. Laut der ursprünglichen Ankündigung liegt der Fokus auf Ingenieursarbeiten in der Te",
+      "summary": "Jeff Bezos' KI-Startup Prometheus sammelt 12 Milliarden Dollar ein Jeff Bezos’ KI-Startup Prometheus hat eine…",
+      "meaning": "Rechtlicher Rahmen fuer KI verschiebt sich — betrifft Einsatz im Unternehmen.",
+      "lang": "de"
+    },
+    {
+      "title": "KI als kognitive Krücke: Wie Chatbots die Fähigkeit schwächen, Falschmeldungen zu erkennen",
+      "link": "https://t3n.de/news/ki-als-kognitive-kruecke-wie-chatbots-die-faehigkeit-schwaechen-falschmeldungen-zu-erkennen-1747176/?utm_source=rss&utm_medium=newsFeed&utm_campaign=newsFeed",
+      "summary_raw": "ChatGPT und Co. werden inzwischen auch zum Checken der Nachrichten genutzt. Eine aktuelle MIT-Studie warnt vor den Folgen: Proband:innen wurden mit KI deutlich schlechter darin, Fake News zu identifizieren. weiterlesen auf t3n.de",
+      "published": "2026-06-11T16:30:20+02:00",
+      "source": "t3n",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "KI als kognitive Krücke: Wie Chatbots die Fähigkeit schwächen, Falschmeldungen zu erkennen Eine aktuelle Studie des MIT Media Lab zeigt: Wer sich einen Monat lang auf KI-Systeme zur Faktenprüfung verlässt, wird anschließend schlechter darin, Falschinformationen selbst zu erkennen, sobald der Chatbot nicht mehr zur Verfügung steht. Dieses Phänomen erinnert an das sogenannte „Deskilling“: So wie Taschenrechner die mathematischen Fähigkeiten oder Navigationssysteme den Orientierungssinn schwächen können, scheint KI das kritische Denken zu beeinträchtigen. Chatbots würden als kognitive Krücke genutzt Beim Wiedergeben von Nachrichten sind Chatbots oft unzuverlässig. Eines der zentralen Probleme bestehe darin, dass sie Fakten kaum von Meinungen trennen können. Zu diesem Ergebnis kam eine Studie, in der ChatGPT, Microsoft Copilot, Google Gemini und Perplexity AI von 22 internationalen öffentlich-rechtlichen Rundfunkanstalten untersucht wurden. Fast die Hälfte aller KI-Antworten wies demnach mindestens ein erhebliches Problem auf: 31 Prozent hatten schwerwiegende Mängel bei den Quellenangaben und 20 Prozent enthielten schwere Sachfehler. Laut MIT-Studie scheinen aber auch Nutzer:innen selb",
+      "summary": "KI als kognitive Krücke: Wie Chatbots die Fähigkeit schwächen, Falschmeldungen zu erkennen Eine aktuelle Studie des MIT Media…",
+      "meaning": "Gericht/Gesetzgeber setzen Grenzen — wer KI nutzt, sollte das verfolgen.",
+      "lang": "de"
+    },
+    {
+      "title": "Preiskampf zwischen OpenAI und Anthropic: Tokens könnten günstiger werden",
+      "link": "https://the-decoder.de/preiskampf-zwischen-openai-und-anthropic-tokens-koennten-guenstiger-werden/",
+      "summary_raw": "OpenAI erwägt drastische Preissenkungen im API-Segment, um im Wettbewerb mit Anthropic Kunden zu gewinnen, berichtet das Wall Street Journal.",
+      "published": "2026-06-11T14:17:50+00:00",
+      "source": "The Decoder",
+      "topic": "ki",
+      "weight": 3,
+      "fulltext": "Preiskampf zwischen OpenAI und Anthropic: Tokens könnten günstiger werden OpenAI erwägt drastische Preissenkungen im API-Segment, um im Wettbewerb mit Anthropic Kunden zu gewinnen, berichtet das Wall Street Journal. OpenAI rechne damit, dass Anthropic ähnliche Schritte plane. CEO Sam Altman sagte bei einer Veranstaltung, die Kosten seien für Unternehmen \"ein riesiges Problem\" geworden. Anthropics Coding-Tool Claude Code war zuletzt unter Entwicklern viral gegangen, das Startup überholte OpenAI erstmals bei der Bewertung. Mit dem breiteren Einsatz von KI-Agenten in solchen Tools sind auch die Verbrauchskosten gestiegen, die lange vor allem über Flatrates gedeckt wurden. Mittlerweile haben die meisten Anbieter ihr Angebot angepasst und rechnen für Unternehmenskunden nach Verbrauch ab. In der Praxis kann das schnell dazu führen, dass der gleiche KI-Einsatz von vorher 200 US-Dollar im Monat auf mehrere tausend oder sogar zehntausend Dollar steigt. In dieser entstehenden Tokenökonomie drosseln daher bereits einige Firmenkunden ihre KI-Ausgaben. Ein Preiskampf könnte die ohnehin milliardenschweren Verluste beider Firmen verschärfen. OpenAI hat diese Woche vertraulich IPO-Unterlagen einge",
+      "summary": "Preiskampf zwischen OpenAI und Anthropic: Tokens könnten günstiger werden OpenAI erwägt drastische Preissenkungen im…",
+      "meaning": "Regulierung entscheidet, welche KI in der EU/DACH erlaubt ist — heute mitdenken.",
+      "lang": "de"
+    },
+    {
+      "title": "Bitcoin ETFs verlieren 2,1 Milliarden US-Dollar allein im laufenden Juni",
+      "link": "https://www.btc-echo.de/schlagzeilen/bitcoin-etfs-verlieren-21-milliarden-us-dollar-232314/",
+      "summary_raw": "Bitcoin-ETFs steuern auf den zweiten Monat in Folge mit hohen Abflüssen zu. Die Daten zeigen eine deutliche Zurückhaltung institutioneller Investoren. Source: BTC-ECHO BTC-ECHO",
+      "published": "2026-06-11T15:45:00+00:00",
+      "source": "BTC-ECHO",
+      "topic": "krypto",
+      "weight": 3,
+      "fulltext": "Die Stimmung institutioneller Anleger bleibt angespannt. Seit dem Ausbruch des Iran-Krieges Ende Februar ziehen Investoren kontinuierlich Kapital aus den Spot-ETFs für Bitcoin und Ethereum ab. Bitcoin konnte in dieser Zeit zwar zeitweise über die Marke von 80.000 US-Dollar steigen, notiert inzwischen jedoch wieder bei rund 63.000 US-Dollar. Bereits der Mai endete bei den Bitcoin ETFs mit Nettoabflüssen von 2,43 Milliarden US-Dollar. Auch im laufenden Juni setzt sich der Trend fort. Seit Monatsbeginn wurden weitere 2,1 Milliarden US-Dollar aus den Anlageprodukten abgezogen. Die ETF-Daten zeigen damit seit mehreren Wochen eine klare Richtung. Bitcoin wartet auf Trendwende Allein am gestrigen Handelstag verzeichneten die Bitcoin ETFs Nettoabflüsse in Höhe von 213,85 Millionen US-Dollar. Die anhaltenden Mittelabzüge deuten darauf hin, dass institutionelle Investoren dem Markt weiterhin Kapital entziehen. Auch bei den Ethereum ETFs bleibt die Entwicklung schwach. Am vergangenen Handelstag wurden 35,59 Millionen US-Dollar abgezogen. Auf Monatssicht summieren sich die Abflüsse inzwischen auf 167,12 Millionen US-Dollar. Eine Ausnahme bilden die XRP ETFs. Sie konnten als einzige der großen ",
+      "summary": "Die Stimmung institutioneller Anleger bleibt angespannt.",
+      "meaning": "Regulatorik bewegt den Markt — wichtig fuer alle, die in Krypto investiert sind.",
+      "lang": "de"
+    }
+  ]
+}

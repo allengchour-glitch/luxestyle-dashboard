@@ -1,0 +1,27 @@
+{
+  "_hinweis": "Kuratierter Pool echter, aktiver, published LuxeStyle-Produkte (Live-Stand aus Shopify-Admin-API, CHF). Quelle für auto_cycle.py -> rotiert je Lauf einen anderen Mix -> Reel. Bilder = Shopify-CDN. Preise vor Werbung gegenchecken. Bundles mit DRAFT-Tag bewusst ausgelassen.",
+  "products": [
+    {"title": "Slim Wallet Echtleder", "sub": "CHF 49.90", "cat": "herren", "fgw": 1600, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sf1206e470524423cb1e5b8c3ccabfd31L.webp?v=1779792422"},
+    {"title": "Herrenuhr Edelstahl", "sub": "CHF 129.90", "cat": "herren", "fgw": 1620, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S3fd1754a28234ac4b0838d54ea43c29cx.webp?v=1779811748"},
+    {"title": "Retro Sonnenbrille Polarisiert", "sub": "CHF 39.90", "cat": "sommer", "fgw": 1640, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/27x27_png_960x960_7__png_ea2e4cea-e551-4bf7-b2d9-b2d7f767c611.jpg?v=1780065807"},
+    {"title": "Jade Roller & Gua Sha Set", "sub": "CHF 24.90", "cat": "beauty", "fgw": 1640, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Scecede96e85b4435acf6c2d3d6ac49ccG.webp?v=1779792433"},
+    {"title": "Seiden-Kissenbezug 100% Seide", "sub": "CHF 39.90", "cat": "wellness", "fgw": 1660, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S58c9ef36bec74931b97d5da4844d976cZ_8a071ec9-c4d1-4788-8eba-6af367a09012.webp?v=1779792430"},
+    {"title": "Herren Lederarmband Anker", "sub": "CHF 29.90", "cat": "herren", "fgw": 1560, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/H1b0608fab31f43baa32903b1c6683334i.webp?v=1779793496"},
+    {"title": "Aroma Diffuser Bambus 500ml", "sub": "CHF 44.90", "cat": "wellness", "fgw": 1620, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S462e1cfb669347c6af32b30abaecd3abg.webp?v=1779811545"},
+    {"title": "Damen-Armband Edelstahl", "sub": "CHF 24.90", "cat": "schmuck", "fgw": 1520, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sbaff6e207f914877b9a45917be35ae7fw.webp?v=1779793096"},
+    {"title": "Smartwatch Pro AMOLED", "sub": "CHF 79.90", "cat": "tech", "fgw": 1620, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S999a7c4138b642d682163261eb9f6b91m.webp?v=1780080350"},
+    {"title": "Bluetooth Kopfhörer ANC", "sub": "CHF 69.90", "cat": "tech", "fgw": 1620, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S71b957870b544a1db0a260fb261ddd05b.webp?v=1779792740"},
+    {"title": "Damen Ohrring-Set 925", "sub": "CHF 22.90", "cat": "schmuck", "fgw": 1520, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sdc42c7bcbcc948cfb8136f0bd65e6940K.webp?v=1779812948"},
+    {"title": "Crossbody-Bag Vegan", "sub": "CHF 34.90", "cat": "sommer", "fgw": 1560, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sa1ffd92efaa04c978c234541873ea883z.webp?v=1779792749"},
+    {"title": "Flame Diffuser Premium", "sub": "CHF 49.90", "cat": "wellness", "fgw": 1560, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sbd431bbf68334bfabaa5a8009e26fbb4f.webp?v=1779477253"},
+    {"title": "Himalaya Salzkristall-Lampe", "sub": "CHF 24.90", "cat": "wohnen", "fgw": 1600, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S4919929a15b04165917fab39293023ecm.webp?v=1779715168"},
+    {"title": "Galaxy Aurora LED-Projektor", "sub": "CHF 19.90", "cat": "tech", "fgw": 1620, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sfcf2c90de585492eb95bfc6dfb730791i.webp?v=1779784945"},
+    {"title": "Anti-Aging Serum Hyaluron", "sub": "CHF 29.90", "cat": "beauty", "fgw": 1560, "ad_restricted": true, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S652d2cc4e7a441b993e6ab255b9768d6N.webp?v=1779793507"},
+    {"title": "Bluetooth Speaker 360°", "sub": "CHF 54.90", "cat": "tech", "fgw": 1560, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S43a77d5986554643b58c64a60f0bfcbfM.webp?v=1779793511"},
+    {"title": "Bart-Pflegeset Premium", "sub": "CHF 34.90", "cat": "herren", "fgw": 1620, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S356394a2448944b6a86255c298f4a813S.webp?v=1779792752"},
+    {"title": "Damen Portemonnaie XL Leder", "sub": "CHF 54.90", "cat": "accessoires", "fgw": 1600, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sd44bb0d0a5f349f6afe8e84b80ab8430Y.webp?v=1780072126"},
+    {"title": "XL Strandtuch Bio-Baumwolle", "sub": "CHF 29.90", "cat": "sommer", "fgw": 1640, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/Sd0485b47200a4d1283fdeccaa47fcbc49.webp?v=1779792941"},
+    {"title": "3-in-1 Wireless Charger 15W", "sub": "CHF 39.90", "cat": "tech", "fgw": 1600, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S828d587d21e346209ec7410daaae97e1r.webp?v=1779705440"},
+    {"title": "Smart Diffuser XXL Bluetooth", "sub": "CHF 119.90", "cat": "wellness", "fgw": 1600, "src": "https://cdn.shopify.com/s/files/1/0943/6856/3585/files/S66c88c4ec7584decaf4eddf36c16d41dV.webp?v=1779814270"}
+  ]
+}

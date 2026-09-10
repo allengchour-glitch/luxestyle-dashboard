@@ -30,3 +30,27 @@ desktop.ini
 # Build
 dist/
 build/
+
+# Python
+__pycache__/
+*.pyc
+
+# Auto-generierte Reels (Artefakte der Stunden-Automation; nicht ins Repo)
+content/ads/auto/
+*.cfg.json
+
+# Browser-Automation (Playwright/Browserbase) — Caches & Test-Artefakte, nie committen
+test-results/
+playwright-report/
+.playwright/
+*.har
+
+# aban news Pro — echte Abonnentenliste & Secrets/Previews NIE committen
+content/aban/subscribers.csv
+content/aban/out/preview.png
+content/aban/__pycache__/
+.env.aban
+content/aban/out/*_preview.png
+content/aban/partners.json
+content/aban/deploy/node_modules/
+content/aban/deploy/.wrangler/

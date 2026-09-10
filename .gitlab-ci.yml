@@ -1,0 +1,36 @@
+# GitLab CI/CD — Deploy aban news Worker + Landing nach Cloudflare.
+# ALTERNATIVE zu GitHub Actions (falls GitHub Actions gesperrt ist).
+#
+# Setup (einmalig):
+#   1) Repo zu GitLab spiegeln/pushen (gitlab.com -> New project -> Import / oder push).
+#   2) GitLab -> Settings -> CI/CD -> Variables (als "Masked"/"Protected"):
+#        CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID,
+#        UNSUB_SECRET, RESEND_API_KEY, MAIL_FROM, ADMIN_KEY
+#   3) GitLab -> Build -> Pipelines -> "Run pipeline" -> den jeweiligen manuellen Job starten.
+#
+# Die Jobs sind MANUELL (when: manual) -> laufen nur, wenn du sie startest (kein Auto-Deploy bei jedem Push).
+# ci-deploy.sh liest UNSUB_SECRET/RESEND_API_KEY/MAIL_FROM/ADMIN_KEY direkt aus den CI-Variablen.
+
+image: node:20
+
+stages:
+  - deploy
+
+worker:
+  stage: deploy
+  when: manual
+  script:
+    - cd content/aban/deploy
+    - npm install
+    - bash ci-deploy.sh
+  # Erwartet CI-Variablen: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID,
+  #                        UNSUB_SECRET, RESEND_API_KEY, MAIL_FROM, ADMIN_KEY
+
+landing:
+  stage: deploy
+  when: manual
+  script:
+    - cd content/aban
+    - npx --yes wrangler@3 pages project create aban-news --production-branch main 2>/dev/null || true
+    - npx --yes wrangler@3 pages deploy landing --project-name aban-news --branch main --commit-dirty=true
+  # Erwartet CI-Variablen: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID

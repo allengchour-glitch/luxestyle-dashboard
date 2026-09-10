@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de"><head>
+<script>(function(){try{var t=localStorage.getItem('luxe_theme_v1');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LuxeStyle CH — Dashboard v9.1</title>
@@ -23,6 +24,24 @@
   --radius: 12px;
   --radius-sm: 8px;
 }
+html[data-theme="dark"] {
+  --bg-page: #1a1714;
+  --bg-card: #241f1b;
+  --bg-soft: #2c2620;
+  --text-primary: #f4efe8;
+  --text-secondary: #c3b9ab;
+  --text-tertiary: #8f8576;
+  --accent: #c8a980;
+  --accent-dark: #b0916c;
+  --border: rgba(200, 169, 128, 0.18);
+  --border-strong: rgba(200, 169, 128, 0.34);
+  --success: #34c08c;
+  --danger: #f0764a;
+  --warning: #f2b54a;
+  --info: #5aa6e8;
+}
+html[data-theme="dark"] body { color: var(--text-primary); }
+html[data-theme="dark"] img { filter: brightness(0.92); }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-page); color: var(--text-primary); line-height: 1.5; font-size: 14px; -webkit-font-smoothing: antialiased; }
 .container { max-width: 1400px; margin: 0 auto; padding: 16px; }
@@ -236,6 +255,80 @@ body { font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-se
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(139, 115, 85, 0.2); border-radius: 3px; }
 code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-family: 'Monaco', monospace; font-size: 11px; color: var(--accent-dark); }
+
+/* ============================================================
+   UI-POLITUR (2026-06-09) — rein additive Verfeinerungen.
+   Keine Struktur-/Klassen-/JS-Aenderung; nur Optik:
+   Tiefe, Atemraum, Typo-Feinschliff, Hover/Focus, Konsistenz.
+   ============================================================ */
+:root {
+  --shadow-sm: 0 1px 2px rgba(26,22,18,0.04), 0 1px 3px rgba(26,22,18,0.06);
+  --shadow-md: 0 6px 18px rgba(139,115,85,0.12);
+  --ring: 0 0 0 3px rgba(139,115,85,0.20);
+}
+html[data-theme="dark"] {
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.30), 0 2px 6px rgba(0,0,0,0.34);
+  --shadow-md: 0 8px 22px rgba(0,0,0,0.46);
+  --ring: 0 0 0 3px rgba(200,169,128,0.26);
+}
+
+/* Mehr Atemraum + dezente Tiefe auf Sektionen */
+.container { padding: 20px; }
+.section { padding: 18px 20px; box-shadow: var(--shadow-sm); transition: box-shadow .2s ease, border-color .2s ease; }
+.section:hover { box-shadow: var(--shadow-md); border-color: var(--border-strong); }
+.section-title { letter-spacing: 0.2px; }
+.section-subtitle { color: var(--accent); opacity: 0.85; }
+
+/* KPI-Karten: Tiefe, sanfter Hover, tabellarische Ziffern */
+.kpi { box-shadow: var(--shadow-sm); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--border-strong); }
+.kpi-label { font-weight: 600; }
+.kpi-value { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+
+/* Header etwas praesenter */
+.header { padding-bottom: 22px; }
+.logo-mark { font-size: 30px; line-height: 1; }
+
+/* Tabs: weichere aktive Markierung + Hover-Flaeche */
+.tab { border-radius: 8px 8px 0 0; transition: color .2s ease, background .2s ease; }
+.tab:hover { background: var(--bg-soft); }
+.tab.active::after { border-radius: 2px; }
+
+/* Buttons: feiner Schliff + Tiefe auf Primary */
+.btn { transition: all .18s ease; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { box-shadow: 0 2px 8px rgba(139,115,85,0.25); }
+.btn-primary:hover { box-shadow: 0 5px 16px rgba(139,115,85,0.32); }
+
+/* Einheitliche, sichtbare Fokus-Ringe (Accessibility) */
+.btn:focus-visible, .tab:focus-visible, .input:focus-visible,
+.action-btn:focus-visible, .close-btn:focus-visible {
+  outline: none; box-shadow: var(--ring);
+}
+
+/* Tabellen: Zeilen-Hover fuer bessere Lesbarkeit */
+.table tbody tr { transition: background .15s ease; }
+.table tbody tr:hover { background: var(--bg-soft); }
+
+/* Alerts: konsistenter Radius + zarte Tiefe */
+.alert { border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+
+/* Status-Pill: zarte Kontur */
+.status-pill { border: 0.5px solid rgba(29,158,117,0.25); }
+
+/* Produktkarten-Hover minimal weicher/tiefer */
+.product-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.product-card:hover { box-shadow: var(--shadow-md); }
+
+/* Pipeline-Steps + Profit-Card: gleiche dezente Tiefe wie KPIs */
+.pipe-step { box-shadow: var(--shadow-sm); }
+.profit-card { box-shadow: var(--shadow-sm); }
+
+@media (max-width: 700px) {
+  .container { padding: 12px; }
+  .section { padding: 14px 14px; }
+}
 </style>
 </head>
 <body>
@@ -252,6 +345,7 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
     </div>
     <div class="header-actions">
       <span class="status-pill">Live</span>
+      <button class="btn btn-sm" id="theme-toggle" title="Hell/Dunkel umschalten" onclick="toggleTheme()">🌙</button>
       <button class="btn btn-sm" onclick="window.open('https://luxestyle.com.co', '_blank')">🌐 Shop</button>
     </div>
   </div>
@@ -295,12 +389,25 @@ code { background: var(--bg-soft); padding: 1px 6px; border-radius: 3px; font-fa
         <div class="kpi"><div class="kpi-label">Automation-Mails</div><div class="kpi-value" id="ck-mail-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
         <div class="kpi"><div class="kpi-label">TikTok-Antworten</div><div class="kpi-value" id="ck-reply-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
         <div class="kpi"><div class="kpi-label">Mode-Creatives</div><div class="kpi-value" id="ck-creative-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
+        <div class="kpi"><div class="kpi-label">Service-Antworten</div><div class="kpi-value" id="ck-service-count">–</div><div class="kpi-sub">DE/EN bereit</div></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
         <button class="btn btn-sm" onclick="showTab(null,'affiliate')">🤝 Affiliate</button>
         <button class="btn btn-sm" onclick="showTab(null,'marketing')">🎯 Kampagne &amp; E-Mail</button>
         <button class="btn btn-sm" onclick="showTab(null,'content')">💬 Antworten &amp; Creatives</button>
       </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">In-Admin · Browser/DSers</span><h2 class="section-title">🌐 Offene Live-Aufgaben</h2></div></div>
+      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Diese Schritte laufen nur im Admin/Browser (keine API). Haken bleiben gespeichert.</p>
+      <div class="alert alert-success" style="margin-bottom:10px;"><span style="font-size:16px;">🌍</span><div class="alert-content"><h4>International live</h4><p>8 Märkte aktiv (CH·DACH·US·UK·FR·IT·EU·Global) · 4 Sprachen · Versand „Rest of World" (CHF 15) · Bundle-Rabatt 2+ −10 % aktiv.</p></div></div>
+      <label class="aff-step"><input type="checkbox" data-bro="tax" onchange="broToggleStep('tax', this.checked)"> <strong>Steuern/VAT:</strong> EU-IOSS + UK-VAT konfigurieren (Einstellungen → Steuern und Zölle) — rechtliche Pflicht</label>
+      <label class="aff-step"><input type="checkbox" data-bro="currency" onchange="broToggleStep('currency', this.checked)"> <strong>Währungen:</strong> Multi-Currency (GBP/EUR/USD) via Shopify Payments prüfen + .99-Rundung</label>
+      <label class="aff-step"><input type="checkbox" data-bro="tiktok" onchange="broToggleStep('tiktok', this.checked)"> <strong>TikTok-Anzeige:</strong> Optimierungsereignis „Complete Payment" + 4 Creatives → veröffentlichen</label>
+      <label class="aff-step"><input type="checkbox" data-bro="klaviyo" onchange="broToggleStep('klaviyo', this.checked)"> <strong>Klaviyo-Flows:</strong> 18 Templates den Automationen zuweisen (Cart/Welcome/Post-Purchase/Win-Back) + dynamischer Warenkorb-Block → aktivieren</label>
+      <label class="aff-step"><input type="checkbox" data-bro="dsers" onchange="broToggleStep('dsers', this.checked)"> <strong>DSers-Mapping:</strong> Supplier-Optimizer für die 5 Produkte (Versandzeit USA → Rating → Preis)</label>
+      <label class="aff-step"><input type="checkbox" data-bro="cj" onchange="broToggleStep('cj', this.checked)"> <strong>CJ-Import (optional):</strong> echte Lieferantenfotos statt Platzhalter; Straw Bag bei Bedarf neu importieren</label>
     </div>
 
     <!-- Image-Polish-Pipeline Status (NEW 24.05.2026 22:00) -->
@@ -591,6 +698,19 @@ var e=ttq._i[t]||[],n=0;n&lt;ttq.methods.length;n++)ttq.setAndDefer(e,ttq.method
 
       <p style="font-size:12px;color:var(--text-secondary);margin:14px 0 10px;"><strong>Automation-Mails</strong> (Warenkorb · Willkommen · Nach-Kauf) · editierbar, 📋 kopiert Betreff oder Text. Platzhalter <code>{VORNAME}</code>, <code>{PRODUKT}</code>, <code>{CODE}</code> ersetzen.</p>
       <div class="grid-2" id="mail-grid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div><span class="section-subtitle">Support · E-Mail</span><h2 class="section-title">📨 Kundenservice-Antworten</h2></div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="ttf-btn ttf-active" data-svlang="de" onclick="serviceSetLang('de')">🇩🇪 DE</button>
+          <button class="ttf-btn" data-svlang="en" onclick="serviceSetLang('en')">🇬🇧 EN</button>
+          <button class="btn btn-sm" onclick="serviceReset()">↺ <span id="service-reset-label">Standard</span></button>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">Vorgefertigte Antworten auf typische Kundenfragen (Versand, Rückgabe, Bestellstatus …). 📋 kopiert Betreff oder Text. Editierbar &amp; lokal gespeichert.</p>
+      <div class="grid-2" id="service-grid"></div>
     </div>
 
     <div class="section">
@@ -902,6 +1022,32 @@ Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
     </div>
 
     <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">Kalkulation</span><h2 class="section-title">🧮 Profit-Rechner</h2></div></div>
+      <div class="grid-2">
+        <div>
+          <label class="pc-lbl">Verkaufspreis (CHF)</label>
+          <input id="pc-price" class="aff-input" type="number" min="0" step="0.01" value="29.90" oninput="pcalc()">
+          <label class="pc-lbl">Einkauf / Produktkosten (CHF)</label>
+          <input id="pc-cost" class="aff-input" type="number" min="0" step="0.01" value="8.00" oninput="pcalc()">
+          <label class="pc-lbl">Versandkosten (CHF)</label>
+          <input id="pc-shipping" class="aff-input" type="number" min="0" step="0.01" value="2.50" oninput="pcalc()">
+          <label class="pc-lbl">Ad-CPA pro Sale (CHF)</label>
+          <input id="pc-cpa" class="aff-input" type="number" min="0" step="0.01" value="12.00" oninput="pcalc()">
+          <label class="pc-lbl">Ziel: Sales / Monat</label>
+          <input id="pc-target" class="aff-input" type="number" min="0" step="1" value="100" oninput="pcalc()">
+        </div>
+        <div class="profit-card">
+          <p style="font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Ergebnis (live)</p>
+          <div class="profit-row"><span>Bruttomarge / Sale</span><span id="pc-margin">—</span></div>
+          <div class="profit-row"><span>Marge %</span><span id="pc-marginpct">—</span></div>
+          <div class="profit-row total"><span>Gewinn / Sale (nach Ads)</span><span id="pc-profit">—</span></div>
+          <div class="profit-row total"><span>Monats-Gewinn</span><span id="pc-monthly">—</span></div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--text-secondary);margin-top:8px;">Gewinn/Sale = Verkaufspreis − Einkauf − Versand − Ad-CPA. Eingaben bleiben lokal gespeichert.</p>
+    </div>
+
+    <div class="section">
       <div class="section-header"><div><span class="section-subtitle">Heute</span><h2 class="section-title">To-Do List</h2></div></div>
       <div style="display: flex; flex-direction: column; gap: 6px;">
         <label style="display: flex; gap: 10px; padding: 8px 12px; background: var(--bg-soft); border-radius: 6px; cursor: pointer; align-items: center;">
@@ -935,7 +1081,7 @@ Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
           <tr><td>Replicate</td><td><span style="color: var(--success);">● Active</span></td><td>Flux Schnell</td></tr>
           <tr><td>Discord</td><td><span style="color: var(--success);">● OK</span></td><td>Make Modul 18 (Python deakt.)</td></tr>
           <tr><td><strong>DSers</strong></td><td><span style="color: var(--success);">● Connected · Basic</span></td><td>AliExpress verlinkt · NEU 24.05</td></tr>
-          <tr><td><strong>Klaviyo</strong></td><td><span style="color: var(--warning);">⚠ Wrong Shop</span></td><td>aban-192 ≠ LuxeStyle</td></tr>
+          <tr><td><strong>Klaviyo</strong></td><td><span style="color: var(--success);">● Connected · LuxeStyle CH</span></td><td>18 Templates (DE/EN) · Flows in UI bauen</td></tr>
           <tr><td>Apify (AliExpress)</td><td><span style="color: var(--warning);">○ FREE exhausted</span></td><td>Reset 1. Juni</td></tr>
           <tr><td>AdCreative.ai</td><td><span style="color: var(--warning);">⏳ API-Doku pending</span></td><td>phase7 skeleton ready</td></tr>
           <tr><td>flair.ai</td><td><span style="color: var(--warning);">⏳ API verify pending</span></td><td>phase6 skeleton ready</td></tr>
@@ -943,6 +1089,30 @@ Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
           <tr><td><strong>Meta Ads</strong></td><td><span style="color: var(--success);">● Pixel Active</span></td><td>Pixel 1049840534888592 · Account 203129197</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><div><span class="section-subtitle">Shopify Markets · luxestyle.ch</span><h2 class="section-title">🌍 Märkte & International</h2></div></div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Aktive Märkte</div><div class="kpi-value">8</div><div class="kpi-sub">weltweit</div></div>
+        <div class="kpi"><div class="kpi-label">Sprachen</div><div class="kpi-value">4</div><div class="kpi-sub">DE·EN·FR·IT</div></div>
+        <div class="kpi"><div class="kpi-label">Versand</div><div class="kpi-value">🌐</div><div class="kpi-sub">Rest of World · CHF 15</div></div>
+        <div class="kpi"><div class="kpi-label">Gratis ab</div><div class="kpi-value">CHF 49</div><div class="kpi-sub">FREESHIP49</div></div>
+      </div>
+      <table class="table">
+        <thead><tr><th>Markt</th><th>Status</th><th>Hinweis</th></tr></thead>
+        <tbody>
+          <tr><td>🇨🇭 Schweiz (primär)</td><td><span style="color:var(--success);">● aktiv</span></td><td>CHF · CHF 7 / gratis ab 49</td></tr>
+          <tr><td>🇩🇪🇦🇹 DACH</td><td><span style="color:var(--success);">● aktiv</span></td><td>EUR</td></tr>
+          <tr><td>🇺🇸 USA</td><td><span style="color:var(--success);">● aktiv</span></td><td>USD</td></tr>
+          <tr><td>🇬🇧 UK</td><td><span style="color:var(--success);">● aktiv</span></td><td>GBP · ⚠ UK-VAT prüfen</td></tr>
+          <tr><td>🇫🇷 Frankreich</td><td><span style="color:var(--success);">● aktiv</span></td><td>EUR · FR lokalisiert</td></tr>
+          <tr><td>🇮🇹 Italien</td><td><span style="color:var(--success);">● aktiv</span></td><td>EUR · IT lokalisiert</td></tr>
+          <tr><td>🇪🇺 Rest of EU</td><td><span style="color:var(--success);">● aktiv</span></td><td>EUR · ⚠ IOSS prüfen</td></tr>
+          <tr><td>🌍 Global (English)</td><td><span style="color:var(--success);">● aktiv</span></td><td>Rest of World</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px;color:var(--text-secondary);margin-top:8px;">Rabattcodes live: <code>WELCOME10</code> · <code>TIKTOK15</code> · <code>USA15</code> · Auto-Bundle 2+ −10 %. ⚠️ Offen (Admin): EU-IOSS/UK-VAT &amp; Multi-Currency-Anzeige (Shopify Payments).</p>
     </div>
   </div>
 
@@ -1028,6 +1198,8 @@ Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
   .aff-step:last-child { border-bottom: none; }
   .aff-step input { margin-top: 2px; accent-color: var(--accent); }
   .aff-bonus { font-size: 10px; padding: 2px 8px; border-radius: 100px; background: rgba(239, 159, 39, 0.12); color: var(--warning); white-space: nowrap; }
+  .pc-lbl { display: block; font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 1px; margin: 8px 0 4px; }
+  #stats .aff-input { width: 100%; }
   .tt-reply { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px; display: flex; flex-direction: column; gap: 8px; }
   .tt-reply-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .tt-reply-label { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
@@ -1064,7 +1236,6 @@ Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
       const prod     = __ttVideos.filter(v => v.status === 'in_production').length;
       const live     = __ttVideos.filter(v => v.status === 'live').length;
       const views    = __ttVideos.reduce((s, v) => s + (v.metrics && v.metrics.views || 0), 0);
-      const sv = id => { const el = document.getElementById(id); if (el) el.textContent = arguments[1] !== undefined ? arguments[1] : ''; };
       const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
       set('tt-stat-scripts', scripted);
       set('tt-stat-prod', prod);
@@ -1118,7 +1289,7 @@ Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
   })();
   </script>
 
-  <div class="footer">LuxeStyle CH · Dashboard v10.2 · 01.06.2026 · 26 Produkte · 8 Heroes · 17 Collections · 5 Klaviyo-Flows · 6 Coupons LIVE · 🤝 Affiliate-Tab · 🎬+📘 Research · 23 Produkte +Bilder-Sweep · 42 Phasen · 99% Production-Ready</div>
+  <div class="footer">LuxeStyle CH · Dashboard v10.3 · 01.06.2026 · US/Summer 2026 live · 🤝 Affiliate · 📧 8 Automation-Mails · 💬 17 TikTok-Antworten · 🎬 8 Creatives · 📨 Service-Antworten · 🌐 Live-Aufgaben · 18 Klaviyo-Templates · 99% Production-Ready</div>
 
 </div>
 
@@ -1128,6 +1299,12 @@ Bei Fragen einfach melden – wir freuen uns auf dich! 🤍</textarea>
 
 <script>
 const PRODUCTS = [
+  // === US / Summer 2026 (live, mit Varianten + Streichpreis) ===
+  {id:'15413955887489',title:'Rain Cloud Aroma Diffuser',handle:'',price:29.90,img:'https://cdn.shopify.com/s/files/1/0943/6856/3585/files/de0a71f6d459f91138f15d5da5200ef6d6536217d1406b5ce0b9047a9392d229.jpg?v=1780334911',type:'Wohnen',tags:['us','summer-2026','diffuser','tiktok'],hero:true,aliPrice:8,emoji:'☁️',tiktokQuery:'cloud humidifier aroma diffuser'},
+  {id:'15413961130369',title:'Sunset Projection Lamp',handle:'',price:24.90,img:'https://cdn.shopify.com/s/files/1/0943/6856/3585/files/a45aaa63186f9a785f255dd947c2edc395047fdb21901004293bdaaff7f22476.jpg?v=1780334978',type:'Wohnen',tags:['us','summer-2026','led','tiktok'],hero:false,aliPrice:6,emoji:'🌅',tiktokQuery:'sunset projection lamp'},
+  {id:'15413961195905',title:'Minimalist LED Mirror Clock',handle:'',price:27.90,img:'https://cdn.shopify.com/s/files/1/0943/6856/3585/files/68831bef867c54637367038e784ee2dc327d5652af6e1c7b2008458f6c771d81.jpg?v=1780334985',type:'Wohnen',tags:['us','led','minimalist'],hero:false,aliPrice:7,emoji:'⏰',tiktokQuery:'led mirror desk clock'},
+  {id:'15413956051329',title:'Phone Makeover Set',handle:'',price:19.90,img:'https://cdn.shopify.com/s/files/1/0943/6856/3585/files/942880a8796df3786ffb4002c695487582cf4350122d78a1babf8f913ff80798.jpg?v=1780335941',type:'Tech',tags:['us','phone','magsafe','tiktok'],hero:false,aliPrice:5,emoji:'📱',tiktokQuery:'phone charms magsafe accessories'},
+  {id:'15413955985793',title:'Waterproof Gold Jewelry Set',handle:'',price:24.90,img:'https://cdn.shopify.com/s/files/1/0943/6856/3585/files/6e55e36de1596a6a489236576335c21e284851ef25f1a3e93a066f797cc42230.jpg?v=1780336582',type:'Mode',tags:['us','summer-2026','jewelry','accessoires'],hero:true,aliPrice:7,emoji:'💍',tiktokQuery:'waterproof gold jewelry set'},
   {id:'15404630737281',title:'Bambus Aroma Diffuser 300ml',handle:'bambus-aroma-diffuser-300ml',price:39.90,img:'https://cdn.shopify.com/s/files/1/0943/6856/3585/files/1wwc4n.jpg?v=1779607333',type:'Wellness',tags:['neu','wellness','diffuser','tiktok-trending','bambus'],hero:false,aliPrice:8,emoji:'🌿'},
   {id:'15404400050561',title:'Wellness Bambus Tablett',handle:'wellness-bambus-tablett',price:44.90,img:'https://cdn.shopify.com/s/files/1/0943/6856/3585/files/turxcm.jpg?v=1779552655',type:'Wellness',tags:['premium','spa','bambus'],hero:false,aliPrice:12,emoji:'🛁'},
   {id:'15404297290113',title:'Aromatherapy-Starter Bundle',handle:'',price:59.90,img:null,emoji:'🌸',type:'Bundle',tags:['bundle','starter','aromatherapy'],hero:false,aliPrice:18},
@@ -1299,7 +1476,7 @@ function showProductDetail(id) {
     '<div style="display:flex;gap:4px;flex-wrap:wrap;margin:12px 0;">' + p.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>' +
     '<div class="profit-card" style="margin-bottom:16px;">' +
       '<div class="profit-row"><span>Verkaufspreis</span><span><strong>CHF ' + p.price.toFixed(2) + '</strong></span></div>' +
-      '<div class="profit-row"><span>Einkauf Ali (Ø)</span><span>CHF ' + p.aliPrice.toFixed(2) + '</span></div>' +
+      '<div class="profit-row"><span>Einkauf Ali (Ø)</span><span>CHF ' + (p.aliPrice || 0).toFixed(2) + '</span></div>' +
       '<div class="profit-row"><span>Marge</span><span style="color:var(--success);">CHF ' + margin.toFixed(2) + ' (' + marginPct + '%)</span></div>' +
       '<div class="profit-row total profit"><span>Gewinn nach Ads</span><span>CHF ' + Math.max(0, margin - 12).toFixed(2) + '</span></div>' +
     '</div>' +
@@ -1687,6 +1864,173 @@ function creativeReset() {
   creativeRender();
 }
 
+/* ===== Kundenservice-Antworten (bilingual, localStorage) ===== */
+const SERVICE_KEY = 'luxe_service_v1';
+const SERVICE_LANG_KEY = 'luxe_service_lang_v1';
+const SERVICE_UI = {
+  de: { copy: '📋 Text kopieren', reset: 'Standard', confirm: 'Alle Service-Antworten (DE) auf die Standardtexte zurücksetzen?' },
+  en: { copy: '📋 Copy text', reset: 'Reset', confirm: 'Reset all service replies (EN) to the default texts?' }
+};
+const SERVICE_DEFAULTS = [
+  { id: 'shipping', emoji: '🚚',
+    label: { de: 'Versand/Versandkosten', en: 'Shipping/cost' },
+    subj: { de: 'Re: Versandkosten', en: 'Re: Shipping fees' },
+    body: { de: 'Hallo,\n\nvielen Dank für deine Nachricht! Ab CHF 49 ist der Versand gratis (Code FREESHIP49). Unter CHF 49 fällt eine kleine Pauschale an, die transparent im Checkout angezeigt wird – keine versteckten Kosten.\n\nMelde dich gern, falls wir sonst helfen können.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nthank you for your message! Shipping is free for orders from CHF 49 (code FREESHIP49). Below CHF 49 a small flat fee applies, shown transparently at checkout – no hidden costs.\n\nLet us know if there\'s anything else we can help with.\n\nBest regards,\nThe LuxeStyle Team' } },
+  { id: 'returns', emoji: '🔁',
+    label: { de: 'Rückgabe/Umtausch', en: 'Returns/exchange' },
+    subj: { de: 'Re: Rückgabe', en: 'Re: Returns' },
+    body: { de: 'Hallo,\n\ndu kannst deine Bestellung innerhalb von 14 Tagen zurückgeben oder umtauschen – ungetragen und mit Etikett. Schreib uns einfach kurz deine Bestellnummer, dann senden wir dir die Rücksende-Infos.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nyou can return or exchange your order within 14 days – unworn and with tags attached. Just send us your order number and we\'ll share the return details.\n\nBest regards,\nThe LuxeStyle Team' } },
+  { id: 'orderstatus', emoji: '📦',
+    label: { de: 'Bestellstatus', en: 'Order status' },
+    subj: { de: 'Re: Deine Bestellung', en: 'Re: Your order' },
+    body: { de: 'Hallo,\n\ndanke für deine Geduld! Sobald deine Bestellung das Lager verlässt, erhältst du automatisch eine E-Mail mit Tracking-Nummer. Falls du mir deine Bestellnummer schickst, prüfe ich den Status gern direkt.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nthanks for your patience! As soon as your order leaves our warehouse, you\'ll automatically receive an email with a tracking number. Send me your order number and I\'m happy to check the status for you.\n\nBest regards,\nThe LuxeStyle Team' } },
+  { id: 'size', emoji: '📏',
+    label: { de: 'Größe/Passform', en: 'Size/fit' },
+    subj: { de: 'Re: Größe & Passform', en: 'Re: Size & fit' },
+    body: { de: 'Hallo,\n\nauf jeder Produktseite findest du eine Größentabelle. In der Regel passt die normale Konfektionsgröße. Wenn du mir sagst, welches Produkt und welche Maße, helfe ich dir gern bei der Wahl.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nyou\'ll find a size chart on each product page. It generally fits true to size. If you tell me which product and your measurements, I\'m happy to help you choose.\n\nBest regards,\nThe LuxeStyle Team' } },
+  { id: 'payment', emoji: '💳',
+    label: { de: 'Zahlungsarten', en: 'Payment methods' },
+    subj: { de: 'Re: Zahlungsmöglichkeiten', en: 'Re: Payment options' },
+    body: { de: 'Hallo,\n\nbei uns kannst du sicher und bequem bezahlen – u. a. mit Kreditkarte, TWINT und PayPal. Alle Optionen siehst du im Checkout. Deine Daten werden verschlüsselt übertragen.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nyou can pay securely and conveniently – including credit card, TWINT and PayPal. You\'ll see all options at checkout, and your data is transmitted encrypted.\n\nBest regards,\nThe LuxeStyle Team' } },
+  { id: 'thanks', emoji: '🤍',
+    label: { de: 'Dank / Allgemein', en: 'Thanks / general' },
+    subj: { de: 'Re: Deine Nachricht', en: 'Re: Your message' },
+    body: { de: 'Hallo,\n\nvielen Dank für deine Nachricht – wir freuen uns, von dir zu hören! 🤍 Wir melden uns so schnell wie möglich mit allen Infos.\n\nLiebe Grüsse\nDein LuxeStyle-Team',
+            en: 'Hello,\n\nthank you for your message – we\'re glad to hear from you! 🤍 We\'ll get back to you as soon as possible with all the details.\n\nBest regards,\nThe LuxeStyle Team' } }
+];
+function serviceGetLang() {
+  try { const l = localStorage.getItem(SERVICE_LANG_KEY); if (l === 'de' || l === 'en') return l; } catch (e) {}
+  return 'de';
+}
+function serviceLoad() {
+  try { const r = localStorage.getItem(SERVICE_KEY); if (r) { const m = JSON.parse(r) || {}; m.de = m.de || {}; m.en = m.en || {}; return m; } }
+  catch (e) { console.warn('Service-Antworten konnten nicht geladen werden:', e); }
+  return { de: {}, en: {} };
+}
+function serviceSave(map) {
+  try { localStorage.setItem(SERVICE_KEY, JSON.stringify(map)); }
+  catch (e) { console.warn('Service-Antworten konnten nicht gespeichert werden:', e); }
+}
+function serviceRender() {
+  const grid = document.getElementById('service-grid');
+  if (!grid) return;
+  const lang = serviceGetLang();
+  const ui = SERVICE_UI[lang];
+  const saved = serviceLoad()[lang] || {};
+  grid.innerHTML = SERVICE_DEFAULTS.map(s => {
+    const ov = saved[s.id] || {};
+    const subj = ov.subj != null ? ov.subj : s.subj[lang];
+    const body = ov.body != null ? ov.body : s.body[lang];
+    return '<div class="tt-reply">' +
+      '<div class="tt-reply-head"><span class="tt-reply-label">' + s.emoji + ' ' + s.label[lang] + '</span></div>' +
+      '<div style="display:flex;gap:6px;align-items:center;">' +
+        '<input class="aff-input" style="flex:1;" data-svsubj="' + s.id + '" value="' + affEsc(subj) + '" onchange="serviceEdit(\'' + s.id + '\',\'subj\',this.value)">' +
+        '<button class="btn btn-sm" title="Betreff kopieren" onclick="serviceCopy(\'' + s.id + '\',\'subj\')">📋</button>' +
+      '</div>' +
+      '<textarea rows="6" data-svbody="' + s.id + '" onchange="serviceEdit(\'' + s.id + '\',\'body\',this.value)">' + affEsc(body) + '</textarea>' +
+      '<button class="btn btn-sm btn-primary" onclick="serviceCopy(\'' + s.id + '\',\'body\')">' + ui.copy + '</button>' +
+    '</div>';
+  }).join('');
+  const lbl = document.getElementById('service-reset-label'); if (lbl) lbl.textContent = ui.reset;
+  document.querySelectorAll('[data-svlang]').forEach(b => b.classList.toggle('ttf-active', b.getAttribute('data-svlang') === lang));
+}
+function serviceCopy(id, field) {
+  const sel = field === 'subj' ? 'input[data-svsubj="' : 'textarea[data-svbody="';
+  const el = document.querySelector('#service-grid ' + sel + id + '"]');
+  if (el) copyCode(el.value);
+}
+function serviceEdit(id, field, value) {
+  const lang = serviceGetLang();
+  const map = serviceLoad();
+  map[lang][id] = map[lang][id] || {};
+  map[lang][id][field] = value;
+  serviceSave(map);
+}
+function serviceSetLang(lang) {
+  try { localStorage.setItem(SERVICE_LANG_KEY, lang); } catch (e) {}
+  serviceRender();
+}
+function serviceReset() {
+  const lang = serviceGetLang();
+  if (!confirm(SERVICE_UI[lang].confirm)) return;
+  const map = serviceLoad();
+  map[lang] = {};
+  serviceSave(map);
+  serviceRender();
+}
+
+/* ===== Dark-/Light-Mode (localStorage) ===== */
+const THEME_KEY = 'luxe_theme_v1';
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const b = document.getElementById('theme-toggle');
+  if (b) b.textContent = (t === 'dark') ? '☀️' : '🌙';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  applyTheme(next);
+}
+function themeInit() {
+  let t = 'light';
+  try { const s = localStorage.getItem(THEME_KEY); if (s === 'dark' || s === 'light') t = s; } catch (e) {}
+  applyTheme(t);
+}
+
+/* ===== Offene Live-Aufgaben (Browser/Admin, localStorage) ===== */
+const BRO_KEY = 'luxe_browser_v1';
+function broLoad() {
+  try { const r = localStorage.getItem(BRO_KEY); if (r) return JSON.parse(r) || {}; }
+  catch (e) { console.warn('Live-Aufgaben konnten nicht geladen werden:', e); }
+  return {};
+}
+function broToggleStep(key, checked) {
+  const s = broLoad();
+  s[key] = !!checked;
+  try { localStorage.setItem(BRO_KEY, JSON.stringify(s)); }
+  catch (e) { console.warn('Live-Aufgaben konnten nicht gespeichert werden:', e); }
+}
+function broInit() {
+  const s = broLoad();
+  document.querySelectorAll('#overview input[data-bro]').forEach(box => {
+    box.checked = !!s[box.getAttribute('data-bro')];
+  });
+}
+
+/* ===== Profit-Rechner (localStorage) ===== */
+const PCALC_KEY = 'luxe_pcalc_v1';
+const PCALC_FIELDS = ['price', 'cost', 'shipping', 'cpa', 'target'];
+function pcalc() {
+  const num = id => { const e = document.getElementById('pc-' + id); return e ? (parseFloat(e.value) || 0) : 0; };
+  const price = num('price'), cost = num('cost'), shipping = num('shipping'), cpa = num('cpa'), target = num('target');
+  const margin = price - cost - shipping;
+  const profit = margin - cpa;
+  const pct = price > 0 ? (margin / price * 100) : 0;
+  const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+  set('pc-margin', 'CHF ' + margin.toFixed(2));
+  set('pc-marginpct', pct.toFixed(0) + '%');
+  set('pc-profit', 'CHF ' + profit.toFixed(2));
+  set('pc-monthly', 'CHF ' + (profit * target).toFixed(0));
+  const pe = document.getElementById('pc-profit'); if (pe) pe.style.color = profit >= 0 ? 'var(--success)' : 'var(--danger)';
+  const me = document.getElementById('pc-monthly'); if (me) me.style.color = profit >= 0 ? 'var(--success)' : 'var(--danger)';
+  const state = {};
+  PCALC_FIELDS.forEach(f => { const e = document.getElementById('pc-' + f); if (e) state[f] = e.value; });
+  try { localStorage.setItem(PCALC_KEY, JSON.stringify(state)); } catch (e) {}
+}
+function pcalcInit() {
+  try {
+    const r = localStorage.getItem(PCALC_KEY);
+    if (r) { const s = JSON.parse(r) || {}; PCALC_FIELDS.forEach(f => { const e = document.getElementById('pc-' + f); if (e && s[f] != null) e.value = s[f]; }); }
+  } catch (e) { console.warn('Profit-Rechner-Eingaben konnten nicht geladen werden:', e); }
+  pcalc();
+}
+
 /* ===== Cockpit-Übersicht (aggregiert die Module live) ===== */
 function cockpitRender() {
   const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
@@ -1702,6 +2046,7 @@ function cockpitRender() {
   set('ck-mail-count', MAIL_DEFAULTS.length);
   set('ck-reply-count', TT_REPLY_DEFAULTS.length);
   set('ck-creative-count', CREATIVE_DEFAULTS.length);
+  set('ck-service-count', SERVICE_DEFAULTS.length);
 }
 
 /* ===== TikTok Kommentar-Antworten / Comment replies (bilingual, localStorage) ===== */
@@ -1870,6 +2215,10 @@ emailInit();
 mailRender();
 creativeRender();
 ttReplyRender();
+serviceRender();
+broInit();
+themeInit();
+pcalcInit();
 cockpitRender();
 </script>
 

@@ -1,0 +1,33 @@
+{
+  "_hinweis": "Captions je Reel. 'reels' = lokale Dateien (Telegram/TikTok). 'cdn_reels' = oeffentliche Shopify-CDN-URLs (FB/IG/Threads, noetig weil Repo privat = GitHub-Raw geht nicht). Ad-safe, WELCOME10 aktiv. Reihenfolge = Rotation.",
+  "reels": [
+    {"file": "LuxeStyle_NeuDamen_AdSafe.mp4", "theme": "Neu · Damen-Sommer",
+     "caption": "✨ NEU: Damen-Sommer 2026 🌴 Kleid «Riva», Echtleder-Tasche «Lussa» & mehr – aus der Schweiz 🇨🇭 10% mit Code WELCOME10 🛍️ #luxestyle #swissmade #sommer2026 #damenmode #fyp #foryou"},
+    {"file": "LuxeStyle_Sommer_AdSafe.mp4", "theme": "Sommer-Mix",
+     "caption": "✨ Sommer 2026 bei LuxeStyle – Accessoires aus der Schweiz 🇨🇭 10% mit Code WELCOME10 🛍️ #luxestyle #swissmade #sommer2026 #accessoires #fyp #foryou"},
+    {"file": "LuxeStyle_FuerSie_AdSafe.mp4", "theme": "Für Sie",
+     "caption": "Für sie ✨ Schmuck & Accessoires aus der Schweiz 🇨🇭 10% mit Code WELCOME10 #luxestyle #schmuck #swissmade #geschenkidee #fyp"},
+    {"file": "LuxeStyle_Tech_AdSafe.mp4", "theme": "Tech & Gadgets",
+     "caption": "Tech & Gadgets von LuxeStyle ⚡ aus der Schweiz 🇨🇭 10% mit Code WELCOME10 #luxestyle #gadgets #tech #swissmade #fyp"},
+    {"file": "LuxeStyle_Wellness_AdSafe.mp4", "theme": "Wellness & Zuhause",
+     "caption": "Zuhause wohlfühlen 🕯️ Diffuser, Lampen & mehr – LuxeStyle CH 🇨🇭 10% mit Code WELCOME10 #luxestyle #wellness #homedecor #swissmade #fyp"},
+    {"file": "LuxeStyle_Reise_AdSafe.mp4", "theme": "Sommer & Reise",
+     "caption": "Bereit für den Sommer ☀️ Reise & Strand – LuxeStyle CH 🇨🇭 10% mit Code WELCOME10 #luxestyle #sommer #reise #swissmade #fyp"},
+    {"file": "LuxeStyle_Geschenke_Ihn_AdSafe.mp4", "theme": "Geschenke für ihn",
+     "caption": "Geschenke für ihn 🎁 Echtleder & Edelstahl – LuxeStyle CH 🇨🇭 10% mit Code WELCOME10 #luxestyle #geschenkidee #fürihn #swissmade #fyp"}
+  ],
+  "cdn_reels": [
+    {"cdn_url": "https://cdn.shopify.com/videos/c/vp/5637452c09574c2e8b296f40c5155fbf/5637452c09574c2e8b296f40c5155fbf.HD-1080p-2.5Mbps-85361886.mp4",
+     "theme": "Top-10-Bestseller",
+     "caption": "Unsere Top 10 Bestseller bei LuxeStyle 🇨🇭 Sommer 2026 🛍️ 10% mit Code WELCOME10 · luxestyle.ch #luxestyle #bestseller #swissmade #sommer2026 #fyp #foryou"},
+    {"cdn_url": "https://cdn.shopify.com/videos/c/vp/230be726672a4e2d948dfa72ef839227/230be726672a4e2d948dfa72ef839227.HD-1080p-2.5Mbps-85362235.mp4",
+     "theme": "Sommer-Mode / Kleider",
+     "caption": "Sommerkleider 2026 ☀️ bei LuxeStyle 🇨🇭 10% mit Code WELCOME10 · luxestyle.ch #luxestyle #sommerkleid #fashion #swissmade #fyp #foryou"},
+    {"cdn_url": "https://cdn.shopify.com/videos/c/vp/9ba0c3f017ad486a902be4fc5ff3f215/9ba0c3f017ad486a902be4fc5ff3f215.HD-1080p-2.5Mbps-85362926.mp4",
+     "theme": "Best-of-Mix Highlights",
+     "caption": "Best of LuxeStyle ✨ Highlights aus dem Shop 🇨🇭 10% mit Code WELCOME10 · luxestyle.ch #luxestyle #highlights #swissmade #fyp #foryou"},
+    {"cdn_url": "https://cdn.shopify.com/videos/c/vp/284fe922e443486da17bf1797d1867dc/284fe922e443486da17bf1797d1867dc.HD-1080p-2.5Mbps-85361887.mp4",
+     "theme": "Website-Tour",
+     "caption": "Kurzer Rundgang durch luxestyle.ch 🛍️ Premium aus der Schweiz 🇨🇭 10% mit Code WELCOME10 #luxestyle #onlineshopping #swissmade #fyp"}
+  ]
+}

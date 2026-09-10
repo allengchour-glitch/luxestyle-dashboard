@@ -1,0 +1,17 @@
+{
+  "_hinweis": "Affiliate-/Partner-Slots. Kopiere nach partners.json (gitignore't) und trage deine ECHTEN Affiliate-Links ein. 'topic' = ki|krypto|any (themenpassende Auswahl). Engine rotiert je Tag. Pflicht: als Anzeige gekennzeichnet (label).",
+  "partners": [
+    {"name": "Krypto-Boerse XY", "topic": "krypto", "label": "Anzeige",
+     "blurb": "Bitcoin & Co. einfach kaufen — reguliert, mit Schweizer Support.",
+     "cta": "Jetzt 0-Gebuehren-Aktion sichern", "url": "https://PARTNER.example/aff?id=DEIN_CODE"},
+    {"name": "KI-Tool ABC", "topic": "ki", "label": "Anzeige",
+     "blurb": "Spar dir Stunden: KI-Assistent fuer Texte, Recherche & Code.",
+     "cta": "14 Tage gratis testen", "url": "https://PARTNER.example/aff?id=DEIN_CODE"},
+    {"name": "Hardware-Wallet Z", "topic": "krypto", "label": "Anzeige",
+     "blurb": "Deine Coins offline sichern — der Standard fuer Selbstverwahrung.",
+     "cta": "Wallet ansehen", "url": "https://PARTNER.example/aff?id=DEIN_CODE"},
+    {"name": "Online-Kurs KI fuer Einsteiger", "topic": "ki", "label": "Anzeige · Partner",
+     "blurb": "In 4 Wochen von 0 auf produktiv mit KI — auf Deutsch.",
+     "cta": "Zum Kurs", "url": "https://PARTNER.example/aff?id=DEIN_CODE"}
+  ]
+}

@@ -1,0 +1,28 @@
+#:schema node_modules/wrangler/config-schema.json
+# Wrangler-Config fuer den aban-news Worker (Anmeldung/Double-Opt-in/Referral).
+# Deploy: siehe deploy/README.md  ->  npm run deploy
+name = "aban-subscribe"
+main = "../aban-cloudflare-worker.js"
+compatibility_date = "2024-11-01"
+workers_dev = true
+
+# KV: ID wird beim Deploy automatisch eingesetzt (ci-deploy.sh ersetzt REPLACE_WITH_KV_ID).
+kv_namespaces = [
+  { binding = "ABAN_SUBS", id = "REPLACE_WITH_KV_ID" }
+]
+
+# Eigene API-Subdomain als CUSTOM DOMAIN -> Cloudflare legt DNS + Zertifikat automatisch an
+# (kein manueller DNS-Eintrag noetig, kein Routing-Konflikt mit der Hauptseite).
+routes = [
+  { pattern = "api.abannews.com", custom_domain = true },
+]
+
+# Oeffentliche Variablen (keine Secrets!). Secrets via `wrangler secret put` (siehe README).
+# MUSS am Ende stehen: alles nach einem [table]-Header gehoert zu dieser Tabelle.
+[vars]
+SITE = "https://abannews.com"
+API_BASE = "https://api.abannews.com"
+
+# Taegliche Newsletter-Automatik (Cron). 05:00 UTC = 07:00 CH.
+[triggers]
+crons = ["0 5 * * *"]
