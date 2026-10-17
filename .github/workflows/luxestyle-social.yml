@@ -25,6 +25,9 @@ on:
         required: false
         default: ""
 
+permissions:
+  contents: read
+
 concurrency:
   group: luxestyle-social
   cancel-in-progress: false
