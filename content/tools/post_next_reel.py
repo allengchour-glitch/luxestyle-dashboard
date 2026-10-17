@@ -25,11 +25,25 @@ DOMAIN = "https://luxestyle.ch"
 
 with open(os.path.join(HERE, "captions.json"), encoding="utf-8") as f:
     DATA = json.load(f)
-REELS = DATA["reels"]
+REELS = DATA.get("reels", [])
 CDN = DATA.get("cdn_reels", [])
 
+if not isinstance(REELS, list) or not REELS:
+    sys.exit("FEHLER: captions.json muss mindestens ein lokales Reel enthalten")
+if not isinstance(CDN, list):
+    sys.exit("FEHLER: cdn_reels muss eine Liste sein")
+for i, reel in enumerate(REELS):
+    if not isinstance(reel, dict) or not all(isinstance(reel.get(k), str) and reel[k].strip() for k in ("file", "caption")):
+        sys.exit(f"FEHLER: Ungueltiger reels-Eintrag #{i}")
+for i, reel in enumerate(CDN):
+    if not isinstance(reel, dict) or not all(isinstance(reel.get(k), str) and reel[k].strip() for k in ("cdn_url", "caption")):
+        sys.exit(f"FEHLER: Ungueltiger cdn_reels-Eintrag #{i}")
+
 env_idx = os.environ.get("REEL_INDEX")
-hour = int(env_idx) if env_idx not in (None, "") else datetime.now(timezone.utc).hour
+try:
+    hour = int(env_idx) if env_idx not in (None, "") else datetime.now(timezone.utc).hour
+except ValueError:
+    sys.exit("FEHLER: REEL_INDEX muss eine ganze Zahl sein")
 
 local = REELS[hour % len(REELS)]
 fname, caption = local["file"], local["caption"]
