@@ -101,7 +101,7 @@ else:
 
 print("✓ gepostet:", ", ".join(done) or "—", "| übersprungen:", ", ".join(skipped) or "—")
 # Missing credentials are expected skips; failed API uploads must fail the workflow.
-failures = [item for item in skipped if item in ("telegram", "tiktok-draft", "instagram", "threads", "facebook")]
+failures = [item for item in skipped if item in ("telegram", "tiktok", "instagram", "threads", "facebook") or item.endswith("(reel fehlt)") or item.endswith("(keine CDN-URL)")]
 if failures:
     print("FEHLER: Plattform-Upload fehlgeschlagen:", ", ".join(failures), file=sys.stderr)
     sys.exit(1)
